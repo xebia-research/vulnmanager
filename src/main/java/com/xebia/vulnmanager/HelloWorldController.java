@@ -1,14 +1,14 @@
 package com.xebia.vulnmanager;
 
-import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
 
 @Controller
 @EnableAutoConfiguration
@@ -30,9 +30,8 @@ public class HelloWorldController {
     @ResponseBody
     // With PathVariable you can get a specific variable in this case id
     String test(@PathVariable("id") int id) throws IOException {
-        return "The chosen id is:"+id;
+        return "The chosen id is:" + id;
     }
-
 
 
     public static void main(String[] args) throws Exception {
