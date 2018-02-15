@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
+    <suppress>
+        <notes><![CDATA[
+      file name: mysql-connector-java-8.0.8-dmr.jar
+      ]]></notes>
+        <gav regex="true">^mysql:mysql-connector-java:.*$</gav>
+        <cve>CVE-2012-5627</cve>
+    </suppress>
+</suppressions>
