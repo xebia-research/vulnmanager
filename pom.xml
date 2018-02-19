@@ -111,6 +111,43 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <outputDirectory>globalReports</outputDirectory>
+                    <suppressionFiles>
+                        <suppressionFile>ruleSets/dependency-check-suppresion.xml</suppressionFile>
+                    </suppressionFiles>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>1.14</version>
+                <configuration>
+                    <licensesOutputDirectory>globalReports</licensesOutputDirectory>
+                    <outputDirectory>globalReports</outputDirectory>
+                    <thirdPartyFilename>Third-Party-Licenses</thirdPartyFilename>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>download-licenses</id>
+                        <goals>
+                            <goal>add-third-party</goal>
+                            <goal>third-party-report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
