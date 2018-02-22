@@ -10,3 +10,6 @@ notifications:
 
 install:
   - mvn install
+
+aggregate:
+  - mvn dependency-check:aggregate
