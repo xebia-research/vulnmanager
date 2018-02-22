@@ -30,4 +30,11 @@ public class HelloWorldControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("This is the home screen. You can go to an id, and you can also go to ping.")));
     }
+
+    @Test
+    public void getID() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("The chosen id is:1")));
+    }
 }
