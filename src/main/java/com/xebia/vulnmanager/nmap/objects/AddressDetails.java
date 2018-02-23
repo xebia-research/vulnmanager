@@ -1,4 +1,4 @@
-package com.xebia.vulnmanager.NMapReport.Objects;
+package com.xebia.vulnmanager.nmap.objects;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ public class AddressDetails implements Serializable {
     private String address;
     private String addressType;
 
-    public AddressDetails(String address, String addressType) {
+    public AddressDetails(final String address, final String addressType) {
         this.address = address;
         this.addressType = addressType;
     }

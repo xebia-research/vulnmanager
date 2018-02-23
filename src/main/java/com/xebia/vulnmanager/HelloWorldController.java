@@ -1,6 +1,6 @@
 package com.xebia.vulnmanager;
 
-import com.xebia.vulnmanager.NMapReport.NMapParser;
+import com.xebia.vulnmanager.nmap.NMapParser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -15,10 +15,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
 @EnableAutoConfiguration
 public class HelloWorldController {
+    private static final Logger LOGGER = Logger.getLogger("HelloWorldController");
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     String home() {
@@ -52,11 +56,11 @@ public class HelloWorldController {
             // Parse the file to a Document
             doc = factory.newDocumentBuilder().parse(parseFile);
         } catch (SAXException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.FINE, e.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.FINE, e.toString());
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.FINE, e.toString());
         }
         return doc;
     }

@@ -1,8 +1,8 @@
-package com.xebia.vulnmanager.NMapReport;
+package com.xebia.vulnmanager.nmap;
 
-import com.xebia.vulnmanager.NMapReport.Objects.AddressDetails;
-import com.xebia.vulnmanager.NMapReport.Objects.HostDetails;
-import com.xebia.vulnmanager.NMapReport.Objects.StatusDetails;
+import com.xebia.vulnmanager.nmap.objects.AddressDetails;
+import com.xebia.vulnmanager.nmap.objects.HostDetails;
+import com.xebia.vulnmanager.nmap.objects.StatusDetails;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -24,7 +24,6 @@ public class NMapParser {
         // Todo: Change the for loops to streams
         for (int i = 0; i < hostList.getLength(); i++) {
             NodeList childrenHostList = hostList.item(i).getChildNodes();
-            System.out.println();
             HostDetails hostDetails = new HostDetails();
 
             for (int x = 0; x < childrenHostList.getLength(); x++) {
@@ -56,17 +55,15 @@ public class NMapParser {
             hostDetails = updateAddressDetails(hostDetails, currentChildAttributes);
         }
 
-        if (currentNodeName.equals("hostnames")) {
-            hostDetails = updateHostNamesDetails(hostDetails, currentChildAttributes);
-        }
+        // TODO: Add function to add times to hostDetails
+//        if (currentNodeName.equals("ports")) {
+//
+//        }
 
-        if (currentNodeName.equals("ports")) {
-
-        }
-
-        if (currentNodeName.equals("times")) {
-
-        }
+        // TODO: Add function to add times to hostDetails
+//        if (currentNodeName.equals("times")) {
+//
+//        }
         return hostDetails;
     }
 
@@ -100,19 +97,6 @@ public class NMapParser {
 
         AddressDetails addressDetails = new AddressDetails(address, addressType);
         hostDetails.setAddressDetails(addressDetails);
-        return hostDetails;
-    }
-
-    /**
-     * Add the host names to a hostDetails object
-     *
-     * @param hostDetails         Host detail where host names are added.
-     * @param HostNamesAttributes The details of the host names of a host.
-     * @return The updated hostDetails are returned.
-     */
-
-    private static HostDetails updateHostNamesDetails(HostDetails hostDetails, NamedNodeMap HostNamesAttributes) {
-        // TODO: Search and add, what child's hostNames has
         return hostDetails;
     }
 }

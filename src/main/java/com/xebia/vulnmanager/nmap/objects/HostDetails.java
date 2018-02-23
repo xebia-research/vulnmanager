@@ -1,4 +1,4 @@
-package com.xebia.vulnmanager.NMapReport.Objects;
+package com.xebia.vulnmanager.nmap.objects;
 
 import java.io.Serializable;
 

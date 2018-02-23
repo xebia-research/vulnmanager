@@ -1,4 +1,4 @@
-package com.xebia.vulnmanager.NMapReport.Objects;
+package com.xebia.vulnmanager.nmap.objects;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ public class StatusDetails implements Serializable {
     private String reason;
     private String reasonTtl;
 
-    public StatusDetails(String state, String reason, String reasonTtl) {
+    public StatusDetails(final String state, final String reason, final String reasonTtl) {
         this.state = state;
         this.reason = reason;
         this.reasonTtl = reasonTtl;
