@@ -8,6 +8,7 @@ public class OvResult implements Serializable {
     private String description;
     private String threat;
     private String severity;
+    private NetworkVulnerabilityTest nvt;
 
     public String getName() {
         return name;
@@ -49,6 +50,14 @@ public class OvResult implements Serializable {
         this.severity = severity;
     }
 
+    public NetworkVulnerabilityTest getNvt() {
+        return nvt;
+    }
+
+    public void setNvt(NetworkVulnerabilityTest nvt) {
+        this.nvt = nvt;
+    }
+
     @Override
     public String toString() {
         return "OvResult{"
@@ -59,6 +68,7 @@ public class OvResult implements Serializable {
                 + name
                 + '\''
                 + "description= " + description
+                + "NetworkVulnerabilityTest= " + nvt.toString()
                 + '}';
     }
 }

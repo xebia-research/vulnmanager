@@ -43,10 +43,10 @@ public class OpenvasReport implements Serializable {
 
     @Override
     public String toString() {
-        String resultsInfo = "";
+        StringBuffer resultsInfo = new StringBuffer();
         for (int i = 0; i < results.size(); i++) {
             OvResult res = results.get(i);
-            resultsInfo += res.toString();
+            resultsInfo.append(res.toString());
         }
 
         return "OpenvasReport{"

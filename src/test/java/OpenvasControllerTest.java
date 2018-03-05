@@ -25,9 +25,23 @@ public class OpenvasControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void getReport() throws Exception {
+    public void testMainEndpoint() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/openvas/"))
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void testResultIndex() throws Exception {
+        // Succes
+        mvc.perform(MockMvcRequestBuilders.get("/openvas/result/1"))
+                .andExpect(status().isOk());
+
+        // To low
+        mvc.perform(MockMvcRequestBuilders.get("/openvas/result/-1"))
+                .andExpect(status().isNotFound());
+
+        // To high
+        mvc.perform(MockMvcRequestBuilders.get("/openvas/result/99999"))
+                .andExpect(status().isNotFound());
+    }
 }

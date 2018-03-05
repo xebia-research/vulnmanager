@@ -3,12 +3,26 @@ package com.xebia.vulnmanager.util;
 import com.xebia.vulnmanager.openvas.OpenvasParser;
 import com.xebia.vulnmanager.openvas.objects.OpenvasReport;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,6 +65,54 @@ public class ReportUtil {
             return parser.getOpenvasReport(testReportDoc);
         }
         return null;
+    }
+
+    /**
+     * Turn a node into a string
+     * @param node Node to set to a string
+     * @param omitXmlDeclaration if the xml declartion needs to be omitted
+     * @param prettyPrint if the string should use indentation
+     * @return returns a string with xml representation of the node
+     */
+    public static String toString(Node node, boolean omitXmlDeclaration, boolean prettyPrint) {
+        if (node == null) {
+            throw new IllegalArgumentException("node is null.");
+        }
+
+        try {
+            // Remove unwanted whitespaces
+            node.normalize();
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            XPathExpression expr = xpath.compile("//text()[normalize-space()='']");
+            NodeList nodeList = (NodeList) expr.evaluate(node, XPathConstants.NODESET);
+
+            for (int i = 0; i < nodeList.getLength(); ++i) {
+                Node nd = nodeList.item(i);
+                nd.getParentNode().removeChild(nd);
+            }
+
+            // Create and setup transformer
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+            if (omitXmlDeclaration) {
+                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            }
+
+            if (prettyPrint) {
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            }
+
+            // Turn the node into a string
+            StringWriter writer = new StringWriter();
+            transformer.transform(new DOMSource(node), new StreamResult(writer));
+            return writer.toString();
+        } catch (TransformerException e) {
+            throw new RuntimeException(e);
+        } catch (XPathExpressionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

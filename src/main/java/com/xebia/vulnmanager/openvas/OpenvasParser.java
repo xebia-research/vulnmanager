@@ -1,25 +1,12 @@
 package com.xebia.vulnmanager.openvas;
 
+import com.xebia.vulnmanager.openvas.objects.NetworkVulnerabilityTest;
 import com.xebia.vulnmanager.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.openvas.objects.OvResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import java.io.StringWriter;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 /**
  * The class NMapParser has functions for parsing a given document
@@ -71,6 +58,10 @@ public class OpenvasParser {
         String severity = resultNode.getElementsByTagName("severity").item(0).getTextContent();
         String threat = resultNode.getElementsByTagName("threat").item(0).getTextContent();
 
+        // Get a report
+        Element nvtNode = (Element) resultNode.getElementsByTagName("nvt").item(0);
+        NetworkVulnerabilityTest nvt = getNvtFromNode(nvtNode);
+
         // Set all the results in an object
         OvResult result = new OvResult();
         result.setPort(port);
@@ -78,6 +69,7 @@ public class OpenvasParser {
         result.setDescription(description);
         result.setSeverity(severity);
         result.setThreat(threat);
+        result.setNvt(nvt);
 
         // Add result to the report.
         report.addResult(result);
@@ -85,50 +77,26 @@ public class OpenvasParser {
     }
 
     /**
-     * Turn a node into a string
-     * @param node Node to set to a string
-     * @param omitXmlDeclaration if the xml declartion needs to be omitted
-     * @param prettyPrint if the string should use indentation
-     * @return returns a string with xml representation of the node
+     * Get a Network Vulnerability test from a nvt node <nvt></nvt>
+     * @param nvtNode The xml Element containing <nvt></nvt>
+     * @return A Network Vulnerability Test from a xml node to represent it in code
      */
-    public String toString(Node node, boolean omitXmlDeclaration, boolean prettyPrint) {
-        if (node == null) {
-            throw new IllegalArgumentException("node is null.");
-        }
+    private NetworkVulnerabilityTest getNvtFromNode(Element nvtNode) {
+        NetworkVulnerabilityTest retNvt = new NetworkVulnerabilityTest();
+        String type = nvtNode.getElementsByTagName("type").item(0).getTextContent();
+        String name = nvtNode.getElementsByTagName("name").item(0).getTextContent();
+        String family = nvtNode.getElementsByTagName("family").item(0).getTextContent();
+        String cvssBase = nvtNode.getElementsByTagName("cvss_base").item(0).getTextContent();
+        String cve = nvtNode.getElementsByTagName("cve").item(0).getTextContent();
+        String tags = nvtNode.getElementsByTagName("tags").item(0).getTextContent();
 
-        try {
-            // Remove unwanted whitespaces
-            node.normalize();
-            XPath xpath = XPathFactory.newInstance().newXPath();
-            XPathExpression expr = xpath.compile("//text()[normalize-space()='']");
-            NodeList nodeList = (NodeList) expr.evaluate(node, XPathConstants.NODESET);
+        retNvt.setType(type);
+        retNvt.setCve(cve);
+        retNvt.setCvssBase(cvssBase);
+        retNvt.setFamily(family);
+        retNvt.setName(name);
+        retNvt.setTags(tags);
 
-            for (int i = 0; i < nodeList.getLength(); ++i) {
-                Node nd = nodeList.item(i);
-                nd.getParentNode().removeChild(nd);
-            }
-
-            // Create and setup transformer
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-
-            if (omitXmlDeclaration) {
-                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-            }
-
-            if (prettyPrint) {
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            }
-
-            // Turn the node into a string
-            StringWriter writer = new StringWriter();
-            transformer.transform(new DOMSource(node), new StreamResult(writer));
-            return writer.toString();
-        } catch (TransformerException e) {
-            throw new RuntimeException(e);
-        } catch (XPathExpressionException e) {
-            throw new RuntimeException(e);
-        }
+        return retNvt;
     }
 }
