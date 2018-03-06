@@ -2,6 +2,7 @@ package com.xebia.vulnmanager.util;
 
 import com.xebia.vulnmanager.openvas.OpenvasParser;
 import com.xebia.vulnmanager.openvas.objects.OpenvasReport;
+import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -23,11 +24,19 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ReportUtil {
     private static final Logger LOGGER = Logger.getLogger("ReportUtil");
+    private static final String UPLOAD_FOLDER = "/tmp/reports/";
+
     /**
      * This function parses a File to a Document, the document could be parsed
      *
@@ -113,6 +122,41 @@ public class ReportUtil {
         } catch (XPathExpressionException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Upload a file to a certain directory
+     * @param files The files uploaded as multipartfile
+     * @param reportType The report type e.g. openvas, nmpa
+     * @return Returns true if the whole save is succesfull
+     */
+    public static boolean saveUploadedFiles(List<MultipartFile> files, String reportType) {
+        try {
+            String basePath = UPLOAD_FOLDER + reportType;
+            File dirCheck = new File(basePath);
+            if (!dirCheck.exists()) {
+                System.out.print("No " + reportType + " Folder");
+                dirCheck.mkdir();
+                System.out.print("Folder " + reportType + " created");
+            }
+
+            for (MultipartFile file : files) {
+
+                if (file.isEmpty()) {
+                    continue; //next pls
+                }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(UPLOAD_FOLDER + reportType + "/" + LocalDateTime.now().format(formatter) + " " + file.getOriginalFilename());
+                Files.write(path, bytes);
+
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, ex.toString());
+            return false;
+        }
+
+        return true;
     }
 
 }
