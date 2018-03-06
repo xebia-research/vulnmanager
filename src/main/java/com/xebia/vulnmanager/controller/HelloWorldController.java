@@ -1,6 +1,5 @@
-package com.xebia.vulnmanager;
+package com.xebia.vulnmanager.controller;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,11 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
+import java.util.logging.Logger;
 
 @Controller
 @EnableAutoConfiguration
+@RequestMapping(value = {""})
 public class HelloWorldController {
+    private static final Logger LOGGER = Logger.getLogger("HelloWorldController");
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     String home() {
@@ -26,15 +28,10 @@ public class HelloWorldController {
     }
 
     // {} is to get a integer as an id in this case
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     @ResponseBody
     // With PathVariable you can get a specific variable in this case id
-    String test(@PathVariable("id") int id) throws IOException {
+    String test(@PathVariable("id") int id) {
         return "The chosen id is:" + id;
-    }
-
-
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(HelloWorldController.class, args);
     }
 }
