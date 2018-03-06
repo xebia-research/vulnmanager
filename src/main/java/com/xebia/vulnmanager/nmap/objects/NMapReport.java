@@ -1,16 +1,17 @@
 package com.xebia.vulnmanager.nmap.objects;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class NMapReport implements Serializable {
     private NMapReportData reportData;
-    private HostDetails hostDetails;
+    private List<HostDetails> hostDetails;
 
     public NMapReportData getReportData() {
         return reportData;
     }
 
-    public HostDetails getHostDetails() {
+    public List<HostDetails> getHostDetails() {
         return hostDetails;
     }
 
@@ -18,7 +19,7 @@ public class NMapReport implements Serializable {
         this.reportData = reportData;
     }
 
-    public void setHostDetails(HostDetails hostDetails) {
+    public void setHostDetails(List<HostDetails> hostDetails) {
         this.hostDetails = hostDetails;
     }
 }

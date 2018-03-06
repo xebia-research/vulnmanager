@@ -3,14 +3,14 @@ package com.xebia.vulnmanager.nmap.objects;
 import java.io.Serializable;
 
 /**
- * StatusDetails Serializable.
+ * StateDetails Serializable.
  */
-public class StatusDetails implements Serializable {
+public class StateDetails implements Serializable {
     private String state;
     private String reason;
     private String reasonTtl;
 
-    public StatusDetails(final String state, final String reason, final String reasonTtl) {
+    public StateDetails(final String state, final String reason, final String reasonTtl) {
         this.state = state;
         this.reason = reason;
         this.reasonTtl = reasonTtl;

@@ -1,0 +1,39 @@
+package com.xebia.vulnmanager.nmap.objects;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * AddressDetails Serializable.
+ */
+
+public class HostNamesDetails implements Serializable {
+    private List<HostNameDetails> hostNameDetails = new ArrayList<HostNameDetails>();
+
+    public HostNamesDetails(final List<HostNameDetails> hostNameDetails) {
+        this.hostNameDetails = hostNameDetails;
+    }
+
+    public List<HostNameDetails> getHostNameDetails() {
+        return hostNameDetails;
+    }
+
+    public static class HostNameDetails implements Serializable {
+        private String hostName;
+        private String hostType;
+
+        public HostNameDetails(final String hostName, final String hostType) {
+            this.hostName = hostName;
+            this.hostType = hostType;
+        }
+
+        public String getHostName() {
+            return hostName;
+        }
+
+        public String getHostType() {
+            return hostType;
+        }
+    }
+}
