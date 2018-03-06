@@ -76,7 +76,7 @@ public class HelloWorldController {
 
         if (currentTypeOfScan.equals("nmaprun")) {
             // This function parses the given Document
-            NMapParser.getHostsOfDocument(testReportDoc);
+            NMapParser.parseNMapDocument(testReportDoc);
         }
     }
 

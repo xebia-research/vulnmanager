@@ -2,25 +2,42 @@ package com.xebia.vulnmanager.nmap;
 
 import com.xebia.vulnmanager.nmap.objects.AddressDetails;
 import com.xebia.vulnmanager.nmap.objects.HostDetails;
+import com.xebia.vulnmanager.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.nmap.objects.StatusDetails;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The class NMapParser has functions for parsing a given document
  */
 
 public class NMapParser {
+
+    public static void parseNMapDocument(Document nMapDoc) {
+//        NMapReport nMapReport = new NMapReport();
+
+        getReportData(nMapDoc);
+        getHostsOfDocument(nMapDoc);
+    }
+
+    private static void getReportData(Document nMapDoc) {
+
+    }
+
     /**
      * All the hosts are extracted from the NMap report and saved in a list of hosts
      *
      * @param nMapDoc Document of NMap report
      */
-    public static void getHostsOfDocument(Document nMapDoc) {
+    private static void getHostsOfDocument(Document nMapDoc) {
         NodeList hostList = nMapDoc.getElementsByTagName("host");
 
+        List<HostDetails> allHostDetails = new ArrayList<HostDetails>();
         // Todo: Change the for loops to streams
         for (int i = 0; i < hostList.getLength(); i++) {
             NodeList childrenHostList = hostList.item(i).getChildNodes();
@@ -30,6 +47,7 @@ public class NMapParser {
                 Node currentHostDetail = childrenHostList.item(x);
                 hostDetails = updateHostDetails(hostDetails, currentHostDetail);
             }
+            allHostDetails.add(hostDetails);
         }
     }
 
@@ -55,7 +73,7 @@ public class NMapParser {
             hostDetails = updateAddressDetails(hostDetails, currentChildAttributes);
         }
 
-        // TODO: Add function to add times to hostDetails
+        // TODO: Add function to add ports to hostDetails
 //        if (currentNodeName.equals("ports")) {
 //
 //        }
