@@ -1,0 +1,48 @@
+package com.xebia.vulnmanager.nmap;
+
+public class NMapConstants {
+    public static final String PARSER_LITERAL_NMAP_RUN = "nmaprun";
+    public static final String PARSER_LITERAL_NMAP_SCAN_INFO = "scaninfo";
+    public static final String PARSER_LITERAL_NMAP_EXTRA_INFO = "extrainfo";
+    public static final String PARSER_LITERAL_NMAP_RUNSTATS = "runstats";
+    public static final String PARSER_LITERAL_NMAP_FINISHED = "finished";
+    public static final String PARSER_LITERAL_NMAP_ELAPSED = "elapsed";
+    public static final String PARSER_LITERAL_NMAP_HOSTS = "hosts";
+    public static final String PARSER_LITERAL_NMAP_TOTAL = "total";
+    public static final String PARSER_LITERAL_NMAP_UP = "up";
+    public static final String PARSER_LITERAL_NMAP_DOWN = "down";
+    public static final String PARSER_LITERAL_NMAP_TASK = "task";
+    public static final String PARSER_LITERAL_NMAP_TASK_END = "taskend";
+    public static final String PARSER_LITERAL_ARGS = "args";
+    public static final String PARSER_LITERAL_SERVICES = "services";
+    public static final String PARSER_LITERAL_NUM_SERVICES = "numservices";
+    public static final String PARSER_LITERAL_VERSION = "version";
+    public static final String PARSER_LITERAL_START_TIMEDATE_STR = "startstr";
+    public static final String PARSER_LITERAL_STATE = "state";
+    public static final String PARSER_LITERAL_HOST = "host";
+    public static final String PARSER_LITERAL_START_TIME = "starttime";
+    public static final String PARSER_LITERAL_STATUS = "status";
+    public static final String PARSER_LITERAL_ADDRESS = "address";
+    public static final String PARSER_LITERAL_HOST_NAMES = "hostnames";
+    public static final String PARSER_LITERAL_PORTS = "ports";
+    public static final String PARSER_LITERAL_TIMES = "times";
+    public static final String PARSER_LITERAL_REASON = "reason";
+    public static final String PARSER_LITERAL_REASON_TTL = "reason_ttl";
+    public static final String PARSER_LITERAL_NAME = "name";
+    public static final String PARSER_LITERAL_ADDR = "addr";
+    public static final String PARSER_LITERAL_ADDR_TYPE = "addrtype";
+    public static final String PARSER_LITERAL_HOST_NAME = "hostname";
+    public static final String PARSER_LITERAL_TYPE = "type";
+    public static final String PARSER_LITERAL_PORT = "port";
+    public static final String PARSER_LITERAL_EXTRA_PORTS = "extraports";
+    public static final String PARSER_LITERAL_PROTOCOL = "protocol";
+    public static final String PARSER_LITERAL_PORTID = "portid";
+    public static final String PARSER_LITERAL_SERVICE = "service";
+    public static final String PARSER_LITERAL_METHOD = "method";
+    public static final String PARSER_LITERAL_CONF = "conf";
+    public static final String PARSER_LITERAL_COUNT = "count";
+    public static final String PARSER_LITERAL_EXTRA_REASONS = "extrareasons";
+    public static final String PARSER_LITERAL_SRTT = "srtt";
+    public static final String PARSER_LITERAL_RTTVAR = "rttvar";
+    public static final String PARSER_LITERAL_TO = "to";
+}

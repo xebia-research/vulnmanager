@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.List;
 
 public class NMapReport implements Serializable {
-    private NMapReportData reportData;
+    private NMapGeneralInformation scanData;
     private List<HostDetails> hostDetails;
 
-    public NMapReport(final NMapReportData reportData, final List<HostDetails> hostDetails) {
-        this.reportData = reportData;
+    public NMapReport(final NMapGeneralInformation scanData, final List<HostDetails> hostDetails) {
+        this.scanData = scanData;
         this.hostDetails = hostDetails;
     }
 
-    public NMapReportData getReportData() {
-        return reportData;
+    public NMapGeneralInformation getScanData() {
+        return scanData;
     }
 
     public List<HostDetails> getHostDetails() {
