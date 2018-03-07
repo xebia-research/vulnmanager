@@ -12,43 +12,32 @@ public class HostDetails implements Serializable {
     private HostPorts hostPorts;
     private TimingData timingData;
 
-    public StateDetails getStateDetails() {
-        return stateDetails;
+    public HostDetails(final StateDetails stateDetails, final AddressDetails addressDetails, final HostNamesDetails hostNamesDetails,
+                       final HostPorts hostPorts, final TimingData timingData) {
+        this.stateDetails = stateDetails;
+        this.addressDetails = addressDetails;
+        this.hostNamesDetails = hostNamesDetails;
+        this.hostPorts = hostPorts;
+        this.timingData = timingData;
     }
 
-    public void setStateDetails(StateDetails stateDetails) {
-        this.stateDetails = stateDetails;
+    public StateDetails getStateDetails() {
+        return stateDetails;
     }
 
     public AddressDetails getAddressDetails() {
         return addressDetails;
     }
 
-    public void setAddressDetails(AddressDetails addressDetails) {
-        this.addressDetails = addressDetails;
-    }
-
     public HostNamesDetails getHostNamesDetails() {
         return hostNamesDetails;
-    }
-
-    public void setHostNamesDetails(HostNamesDetails hostNamesDetails) {
-        this.hostNamesDetails = hostNamesDetails;
     }
 
     public HostPorts getHostPorts() {
         return hostPorts;
     }
 
-    public void setHostPorts(HostPorts hostPorts) {
-        this.hostPorts = hostPorts;
-    }
-
     public TimingData getTimingData() {
         return timingData;
-    }
-
-    public void setTimingData(TimingData timingData) {
-        this.timingData = timingData;
     }
 }

@@ -17,23 +17,11 @@ public class TimingData implements Serializable {
         return smoothedRoundTripTime;
     }
 
-    public void setSmoothedRoundTripTime(String smoothedRoundTripTime) {
-        this.smoothedRoundTripTime = smoothedRoundTripTime;
-    }
-
     public String getRoundTripTimeVariance() {
         return roundTripTimeVariance;
     }
 
-    public void setRoundTripTimeVariance(String roundTripTimeVariance) {
-        this.roundTripTimeVariance = roundTripTimeVariance;
-    }
-
     public String getProbeTimeout() {
         return probeTimeout;
-    }
-
-    public void setProbeTimeout(String probeTimeout) {
-        this.probeTimeout = probeTimeout;
     }
 }

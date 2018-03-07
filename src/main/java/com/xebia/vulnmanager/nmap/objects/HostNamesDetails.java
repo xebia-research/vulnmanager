@@ -1,7 +1,6 @@
 package com.xebia.vulnmanager.nmap.objects;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +8,7 @@ import java.util.List;
  */
 
 public class HostNamesDetails implements Serializable {
-    private List<HostNameDetails> hostNameDetails = new ArrayList<HostNameDetails>();
+    private List<HostNameDetails> hostNameDetails;
 
     public HostNamesDetails(final List<HostNameDetails> hostNameDetails) {
         this.hostNameDetails = hostNameDetails;

@@ -50,12 +50,10 @@ public class NMapParser {
     private static final String PARSER_LITERAL_TO = "to";
 
     public static void parseNMapDocument(Document nMapDoc) {
+//        getReportData(nMapDoc);
+//        List<HostDetails> hosts = getHostsFromDocument(nMapDoc);
 //        NMapReport nMapReport = new NMapReport();
 
-//        nMapReport.setReportData(getReportData(nMapDoc));
-//        nMapReport.setHostDetails(getHostsFromDocument(nMapDoc));
-        getReportData(nMapDoc);
-        getHostsFromDocument(nMapDoc);
     }
 
     private static void getReportData(Document nMapDoc) {
@@ -76,89 +74,65 @@ public class NMapParser {
             Node hostNode = hostList.item(i);
             if (hostNode.getAttributes().getNamedItem(PARSER_LITERAL_START_TIME) != null) {
                 NodeList hostDataList = hostNode.getChildNodes();
-                HostDetails hostDetails = new HostDetails();
+
+                StateDetails stateDetails = null;
+                AddressDetails addressDetails = null;
+                HostNamesDetails hostNamesDetails = null;
+                HostPorts hostPorts = null;
+                TimingData timingData = null;
 
                 for (int x = 0; x < hostDataList.getLength(); x++) {
                     Node currentHostDetail = hostDataList.item(x);
-                    hostDetails = updateHostDetails(hostDetails, currentHostDetail);
+
+                    NamedNodeMap currentChildAttributes = currentHostDetail.getAttributes();
+                    String currentNodeName = currentHostDetail.getNodeName();
+
+                    if (currentNodeName.equals(PARSER_LITERAL_STATUS)) {
+                        stateDetails = getStatusDetails(currentChildAttributes);
+                    } else if (currentNodeName.equals(PARSER_LITERAL_ADDRESS)) {
+                        addressDetails = getAddressDetails(currentChildAttributes);
+                    } else if (currentNodeName.equals(PARSER_LITERAL_HOST_NAMES)) {
+                        hostNamesDetails = getHostNamesDetails(currentHostDetail.getChildNodes());
+                    } else if (currentNodeName.equals(PARSER_LITERAL_PORTS)) {
+                        hostPorts = getPortDetails(currentHostDetail.getChildNodes());
+                    } else if (currentNodeName.equals(PARSER_LITERAL_TIMES)) {
+                        timingData = getTimingData(currentChildAttributes);
+                    }
                 }
-                allHostDetails.add(hostDetails);
+                allHostDetails.add(new HostDetails(stateDetails, addressDetails, hostNamesDetails, hostPorts, timingData));
             }
         }
         return allHostDetails;
     }
 
     /**
-     * The current Host is updated with details from the currentHostDetail.
-     * There could be a different details in a current host detail,
-     * so in this function also the current detail is filtered.
-     *
-     * @param hostDetails       The details of one host, that are updated
-     * @param currentHostDetail The current host detail is one detail of one host.
-     *                          With this data the current HostDetails are updated.
-     * @return The updated hostDetails are returned
-     */
-    private static HostDetails updateHostDetails(HostDetails hostDetails, Node currentHostDetail) {
-        NamedNodeMap currentChildAttributes = currentHostDetail.getAttributes();
-        String currentNodeName = currentHostDetail.getNodeName();
-
-        if (currentNodeName.equals(PARSER_LITERAL_STATUS)) {
-            hostDetails = updateStatusDetails(hostDetails, currentChildAttributes);
-        }
-
-        if (currentNodeName.equals(PARSER_LITERAL_ADDRESS)) {
-            hostDetails = updateAddressDetails(hostDetails, currentChildAttributes);
-        }
-
-        if (currentNodeName.equals(PARSER_LITERAL_HOST_NAMES)) {
-            hostDetails = updateHostNamesDetails(hostDetails, currentHostDetail.getChildNodes());
-        }
-
-        if (currentNodeName.equals(PARSER_LITERAL_PORTS)) {
-            hostDetails = updatePortDetails(hostDetails, currentHostDetail.getChildNodes());
-        }
-
-        if (currentNodeName.equals(PARSER_LITERAL_TIMES)) {
-            hostDetails = updateTimingData(hostDetails, currentChildAttributes);
-        }
-        return hostDetails;
-    }
-
-    /**
      * Add the status details of a hostDetails object
      *
-     * @param hostDetails      Host detail where status details are added.
      * @param statusAttributes The details of the status of a host.
      * @return The updated hostDetails are returned.
      */
-    private static HostDetails updateStatusDetails(HostDetails hostDetails, NamedNodeMap statusAttributes) {
+    private static StateDetails getStatusDetails(NamedNodeMap statusAttributes) {
         String state = statusAttributes.getNamedItem(PARSER_LITERAL_STATE).getNodeValue();
         String reason = statusAttributes.getNamedItem(PARSER_LITERAL_REASON).getNodeValue();
         String reasonTtl = statusAttributes.getNamedItem(PARSER_LITERAL_REASON_TTL).getNodeValue();
 
-        StateDetails stateDetails = new StateDetails(state, reason, reasonTtl);
-        hostDetails.setStateDetails(stateDetails);
-        return hostDetails;
+        return new StateDetails(state, reason, reasonTtl);
     }
 
     /**
      * Add the address details of a hostDetails object
      *
-     * @param hostDetails       Host detail where address details are added.
      * @param addressAttributes The details of the address of a host.
      * @return The updated hostDetails are returned.
      */
-    private static HostDetails updateAddressDetails(HostDetails hostDetails, NamedNodeMap addressAttributes) {
+    private static AddressDetails getAddressDetails(NamedNodeMap addressAttributes) {
         String address = addressAttributes.getNamedItem(PARSER_LITERAL_ADDR).getNodeValue();
         String addressType = addressAttributes.getNamedItem(PARSER_LITERAL_ADDR_TYPE).getNodeValue();
 
-        AddressDetails addressDetails = new AddressDetails(address, addressType);
-        hostDetails.setAddressDetails(addressDetails);
-
-        return hostDetails;
+        return new AddressDetails(address, addressType);
     }
 
-    private static HostDetails updateHostNamesDetails(HostDetails hostDetails, NodeList hostNamesList) {
+    private static HostNamesDetails getHostNamesDetails(NodeList hostNamesList) {
         List<HostNamesDetails.HostNameDetails> hostNameDetailsList = new ArrayList<HostNamesDetails.HostNameDetails>();
 
         for (int x = 0; x < hostNamesList.getLength(); x++) {
@@ -171,12 +145,10 @@ public class NMapParser {
             }
         }
 
-        HostNamesDetails hostNamesDetails = new HostNamesDetails(hostNameDetailsList);
-        hostDetails.setHostNamesDetails(hostNamesDetails);
-        return hostDetails;
+        return new HostNamesDetails(hostNameDetailsList);
     }
 
-    private static HostDetails updatePortDetails(HostDetails hostDetails, NodeList portsAttributes) {
+    private static HostPorts getPortDetails(NodeList portsAttributes) {
         List<HostPorts.Port> hostPortsDetailsList = new ArrayList<HostPorts.Port>();
         List<HostPorts.ExtraPort> extraPortsDetailsList = new ArrayList<HostPorts.ExtraPort>();
 
@@ -192,24 +164,18 @@ public class NMapParser {
                 extraPortsDetailsList.add(extraPort);
             }
         }
-        HostPorts hostPorts = new HostPorts();
-        hostPorts.setPorts(hostPortsDetailsList);
-        hostPorts.setExtraPorts(extraPortsDetailsList);
 
-        hostDetails.setHostPorts(hostPorts);
-
-        return hostDetails;
+        return new HostPorts(hostPortsDetailsList, extraPortsDetailsList);
     }
 
     private static HostPorts.Port getPort(Node currentNode) {
-        HostPorts.Port currentPort = new HostPorts.Port();
-
         NamedNodeMap portAttributesNode = currentNode.getAttributes();
+
         String protocol = portAttributesNode.getNamedItem(PARSER_LITERAL_PROTOCOL).getNodeValue();
         String portId = portAttributesNode.getNamedItem(PARSER_LITERAL_PORTID).getNodeValue();
 
-        currentPort.setProtocol(protocol);
-        currentPort.setPortId(portId);
+        StateDetails stateDetails = null;
+        ServiceDetails serviceDetails = null;
 
         NodeList portChildNodes = currentNode.getChildNodes();
         for (int i = 0; i < portChildNodes.getLength(); i++) {
@@ -217,14 +183,13 @@ public class NMapParser {
 
             NamedNodeMap portAttributes = currentChildNode.getAttributes();
             if (currentChildNode.getNodeName().equals(PARSER_LITERAL_STATE)) {
-                StateDetails stateDetails = getStateDetails(portAttributes);
-                currentPort.setState(stateDetails);
+                stateDetails = getStateDetails(portAttributes);
             } else if (currentChildNode.getNodeName().equals(PARSER_LITERAL_SERVICE)) {
-                ServiceDetails serviceDetails = getServiceDetails(portAttributes);
-                currentPort.setServiceDetails(serviceDetails);
+                serviceDetails = getServiceDetails(portAttributes);
             }
         }
-        return currentPort;
+
+        return new HostPorts.Port(protocol, portId, stateDetails, serviceDetails);
     }
 
     private static StateDetails getStateDetails(NamedNodeMap stateDetails) {
@@ -247,25 +212,24 @@ public class NMapParser {
         String state = extraPortAttributes.getNamedItem(PARSER_LITERAL_STATE).getNodeValue();
         String count = extraPortAttributes.getNamedItem(PARSER_LITERAL_COUNT).getNodeValue();
 
-        ExtraReason extraReason = new ExtraReason();
+        ExtraReason extraReason = null;
         NodeList extraPortNodes = currentNode.getChildNodes();
         for (int i = 0; i < extraPortNodes.getLength(); i++) {
             Node extraReasonNode = extraPortNodes.item(i);
             if (extraReasonNode != null && extraReasonNode.getNodeName().equals(PARSER_LITERAL_EXTRA_REASONS)) {
-                extraReason.setReason(extraReasonNode.getAttributes().getNamedItem(PARSER_LITERAL_REASON).getNodeValue());
-                extraReason.setCount(extraReasonNode.getAttributes().getNamedItem(PARSER_LITERAL_COUNT).getNodeValue());
+                String reason = extraReasonNode.getAttributes().getNamedItem(PARSER_LITERAL_REASON).getNodeValue();
+                String extraCount = extraReasonNode.getAttributes().getNamedItem(PARSER_LITERAL_COUNT).getNodeValue();
+                extraReason = new ExtraReason(reason, extraCount);
             }
         }
         return new HostPorts.ExtraPort(state, count, extraReason);
     }
 
-    private static HostDetails updateTimingData(HostDetails hostDetails, NamedNodeMap timesDetails) {
+    private static TimingData getTimingData(NamedNodeMap timesDetails) {
         String smoothedRoundTripTime = timesDetails.getNamedItem(PARSER_LITERAL_SRTT).getNodeValue();
         String roundTripTimeVariance = timesDetails.getNamedItem(PARSER_LITERAL_RTTVAR).getNodeValue();
         String probeTimeout = timesDetails.getNamedItem(PARSER_LITERAL_TO).getNodeValue();
 
-        hostDetails.setTimingData(new TimingData(smoothedRoundTripTime, roundTripTimeVariance, probeTimeout));
-
-        return hostDetails;
+        return new TimingData(smoothedRoundTripTime, roundTripTimeVariance, probeTimeout);
     }
 }

@@ -7,11 +7,8 @@ public class HostPorts implements Serializable {
     private List<Port> ports;
     private List<ExtraPort> extraPorts;
 
-    public void setPorts(List<Port> ports) {
+    public HostPorts(final List<Port> ports, final List<ExtraPort> extraPorts) {
         this.ports = ports;
-    }
-
-    public void setExtraPorts(List<ExtraPort> extraPorts) {
         this.extraPorts = extraPorts;
     }
 
@@ -26,22 +23,13 @@ public class HostPorts implements Serializable {
     public static class Port implements Serializable {
         private String protocol;
         private String portId;
-        private StateDetails state;
+        private StateDetails stateDetails;
         private ServiceDetails serviceDetails;
 
-        public void setProtocol(String protocol) {
+        public Port(final String protocol, final String portId, final StateDetails stateDetails, final ServiceDetails serviceDetails) {
             this.protocol = protocol;
-        }
-
-        public void setPortId(String portId) {
             this.portId = portId;
-        }
-
-        public void setState(StateDetails state) {
-            this.state = state;
-        }
-
-        public void setServiceDetails(ServiceDetails serviceDetails) {
+            this.stateDetails = stateDetails;
             this.serviceDetails = serviceDetails;
         }
 
@@ -53,12 +41,12 @@ public class HostPorts implements Serializable {
             return portId;
         }
 
-        public ServiceDetails getServiceDetails() {
-            return serviceDetails;
+        public StateDetails getStateDetails() {
+            return stateDetails;
         }
 
-        public StateDetails getState() {
-            return state;
+        public ServiceDetails getServiceDetails() {
+            return serviceDetails;
         }
     }
 
@@ -70,18 +58,6 @@ public class HostPorts implements Serializable {
         public ExtraPort(final String state, final String count, final ExtraReason extraReason) {
             this.state = state;
             this.count = count;
-            this.extraReason = extraReason;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
-        public void setCount(String count) {
-            this.count = count;
-        }
-
-        public void setExtraReason(ExtraReason extraReason) {
             this.extraReason = extraReason;
         }
 
