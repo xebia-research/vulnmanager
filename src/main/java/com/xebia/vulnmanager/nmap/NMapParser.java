@@ -8,11 +8,14 @@ import com.xebia.vulnmanager.nmap.objects.ServiceDetails;
 import com.xebia.vulnmanager.nmap.objects.TimingData;
 import com.xebia.vulnmanager.nmap.objects.ExtraReason;
 import com.xebia.vulnmanager.nmap.objects.HostNamesDetails;
+import com.xebia.vulnmanager.nmap.objects.NMapReportData;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,10 @@ import java.util.List;
  */
 
 public class NMapParser {
+    private static final String PARSER_LITERAL_NMAP_RUN = "nmaprun";
+    private static final String PARSER_LITERAL_ARGS = "args";
+    private static final String PARSER_LITERAL_VERSION = "version";
+    private static final String PARSER_LITERAL_START_TIMEDATE_STR = "startstr";
     private static final String PARSER_LITERAL_STATE = "state";
     private static final String PARSER_LITERAL_HOST = "host";
     private static final String PARSER_LITERAL_START_TIME = "starttime";
@@ -56,8 +63,16 @@ public class NMapParser {
 
     }
 
-    private static void getReportData(Document nMapDoc) {
+    private static NMapReportData getReportData(Document nMapDoc) {
+        NamedNodeMap reportData = nMapDoc.getElementsByTagName(PARSER_LITERAL_NMAP_RUN).item(0).getAttributes();
+        String startDate = reportData.getNamedItem(PARSER_LITERAL_START_TIMEDATE_STR).getNodeValue();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("eee MMM dd HH:mm:ss yyyy");
+        LocalDateTime scanDateTime = LocalDateTime.parse(startDate, formatter);
 
+        String runArguments = reportData.getNamedItem(PARSER_LITERAL_ARGS).getNodeValue();
+        String nMapVersion = reportData.getNamedItem(PARSER_LITERAL_VERSION).getNodeValue();
+
+        return new NMapReportData(nMapVersion, runArguments, scanDateTime);
     }
 
     /**
