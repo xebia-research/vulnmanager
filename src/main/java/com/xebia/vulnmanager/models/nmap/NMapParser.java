@@ -1,8 +1,8 @@
-package com.xebia.vulnmanager.nmap;
+package com.xebia.vulnmanager.models.nmap;
 
-import com.xebia.vulnmanager.nmap.objects.Host;
-import com.xebia.vulnmanager.nmap.objects.NMapGeneralInformation;
-import com.xebia.vulnmanager.nmap.objects.NMapReport;
+import com.xebia.vulnmanager.models.nmap.objects.Host;
+import com.xebia.vulnmanager.models.nmap.objects.NMapGeneralInformation;
+import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import org.w3c.dom.Document;
 
 import java.util.List;

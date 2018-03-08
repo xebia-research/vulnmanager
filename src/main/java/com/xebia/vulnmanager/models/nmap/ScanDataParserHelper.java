@@ -1,10 +1,10 @@
-package com.xebia.vulnmanager.nmap;
+package com.xebia.vulnmanager.models.nmap;
 
-import com.xebia.vulnmanager.nmap.objects.NMapScanTask;
-import com.xebia.vulnmanager.nmap.objects.NMapInfo;
-import com.xebia.vulnmanager.nmap.objects.NMapScanInfo;
-import com.xebia.vulnmanager.nmap.objects.GeneralScanResult;
-import com.xebia.vulnmanager.nmap.objects.NMapGeneralInformation;
+import com.xebia.vulnmanager.models.nmap.objects.NMapScanTask;
+import com.xebia.vulnmanager.models.nmap.objects.NMapInfo;
+import com.xebia.vulnmanager.models.nmap.objects.NMapScanInfo;
+import com.xebia.vulnmanager.models.nmap.objects.GeneralScanResult;
+import com.xebia.vulnmanager.models.nmap.objects.NMapGeneralInformation;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ScanDataParserHelper {
-    public NMapGeneralInformation getReportData(Document nMapDoc) {
+class ScanDataParserHelper {
+    NMapGeneralInformation getReportData(Document nMapDoc) {
         NamedNodeMap reportData = nMapDoc.getElementsByTagName(NMapConstants.PARSER_LITERAL_NMAP_RUN).item(0).getAttributes();
         NMapInfo nMapInfo = getNMapInfo(reportData);
 

@@ -1,4 +1,4 @@
-package com.xebia.vulnmanager.nmap.objects;
+package com.xebia.vulnmanager.models.nmap.objects;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;

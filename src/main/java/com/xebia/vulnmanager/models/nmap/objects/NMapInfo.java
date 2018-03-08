@@ -1,4 +1,4 @@
-package com.xebia.vulnmanager.nmap.objects;
+package com.xebia.vulnmanager.models.nmap.objects;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

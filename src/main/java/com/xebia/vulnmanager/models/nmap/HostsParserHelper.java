@@ -1,13 +1,13 @@
-package com.xebia.vulnmanager.nmap;
+package com.xebia.vulnmanager.models.nmap;
 
-import com.xebia.vulnmanager.nmap.objects.AddressDetails;
-import com.xebia.vulnmanager.nmap.objects.StateDetails;
-import com.xebia.vulnmanager.nmap.objects.HostPorts;
-import com.xebia.vulnmanager.nmap.objects.ServiceDetails;
-import com.xebia.vulnmanager.nmap.objects.TimingData;
-import com.xebia.vulnmanager.nmap.objects.ExtraReason;
-import com.xebia.vulnmanager.nmap.objects.HostNamesDetails;
-import com.xebia.vulnmanager.nmap.objects.Host;
+import com.xebia.vulnmanager.models.nmap.objects.AddressDetails;
+import com.xebia.vulnmanager.models.nmap.objects.StateDetails;
+import com.xebia.vulnmanager.models.nmap.objects.HostPorts;
+import com.xebia.vulnmanager.models.nmap.objects.ServiceDetails;
+import com.xebia.vulnmanager.models.nmap.objects.TimingData;
+import com.xebia.vulnmanager.models.nmap.objects.ExtraReason;
+import com.xebia.vulnmanager.models.nmap.objects.HostNamesDetails;
+import com.xebia.vulnmanager.models.nmap.objects.Host;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -16,13 +16,13 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HostsParserHelper {
+class HostsParserHelper {
     /**
      * All the hosts are extracted from the NMap report and saved in a list of hosts
      *
      * @param nMapDoc Document of NMap report
      */
-    public List<Host> getHostsFromDocument(Document nMapDoc) {
+    List<Host> getHostsFromDocument(Document nMapDoc) {
         NodeList hostList = nMapDoc.getElementsByTagName(NMapConstants.PARSER_LITERAL_HOST);
 
         List<Host> listConnectedHosts = new ArrayList<>();

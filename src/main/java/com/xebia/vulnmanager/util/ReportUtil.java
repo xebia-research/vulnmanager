@@ -1,7 +1,7 @@
 package com.xebia.vulnmanager.util;
 
 import com.xebia.vulnmanager.models.openvas.OpenvasParser;
-import com.xebia.vulnmanager.nmap.NMapParser;
+import com.xebia.vulnmanager.models.nmap.NMapParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -80,6 +80,8 @@ public class ReportUtil {
 
         if (currentTypeOfScan.equals("report")) {
             return ReportType.OPENVAS;
+        } else if (currentTypeOfScan.equals("nmaprun")) {
+            return ReportType.NMAP;
         }
         return ReportType.UNKNOWN;
     }
