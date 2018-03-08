@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Company implements Serializable {
     // transient means don't serialize so it won't show in json respons
-    private transient String authKey = "testauth";
+    private String authKey = "testauth";
     private String name;
     private ArrayList<Team> teams;
 
@@ -24,6 +24,8 @@ public class Company implements Serializable {
         return authKey;
     }
 
+    @JsonIgnore
+    @XmlTransient
     public void setAuthKey(String authKey) {
         this.authKey = authKey;
     }
