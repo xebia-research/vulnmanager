@@ -1,5 +1,7 @@
 package com.xebia.vulnmanager.util;
 
+import com.xebia.vulnmanager.models.company.Company;
+import com.xebia.vulnmanager.models.company.Team;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -16,7 +18,7 @@ import java.util.logging.Logger;
 
 public class IOUtil {
     private static final String UPLOAD_FOLDER = "/tmp/reports/";
-    private static final String PERSISTENT_FOLDER = "/tmp/finalreports";
+    private static final String PERSISTENT_FOLDER = "/tmp/finalreports/";
     private static final Logger LOGGER = Logger.getLogger("IO Util");
 
     /**
@@ -49,17 +51,20 @@ public class IOUtil {
      * @param type The report type to get the right directory
      * @return The new name of the file.
      */
-    public static String moveFileToFolder(File file, ReportType type) throws IOException {
+    public static String moveFileToFolder(File file, Company company, Team team, ReportType type) throws IOException {
         createDirIfNotExist(PERSISTENT_FOLDER);
-        createDirIfNotExist(PERSISTENT_FOLDER + type.name());
+        createDirIfNotExist(PERSISTENT_FOLDER + company.getName());
+        createDirIfNotExist(PERSISTENT_FOLDER + company.getName() + "/" + team.getName());
+        createDirIfNotExist(PERSISTENT_FOLDER + company.getName() + "/" + team.getName() + "/" + type.name());
+        String finalDir = PERSISTENT_FOLDER + company.getName() + "/" + team.getName() + "/" + type.name();
 
         // Get an id for the file
         int id = 0;
-        File destination = new File(Paths.get(PERSISTENT_FOLDER + type.name() + "/report_" + id + ".xml").toUri());
+        File destination = new File(Paths.get(finalDir + "/report_" + id + ".xml").toUri());
 
         while (destination.exists()) {
             id++;
-            destination = new File(Paths.get(PERSISTENT_FOLDER + type.name() + "/report_" + id + ".xml").toUri());
+            destination = new File(Paths.get(finalDir + "/report_" + id + ".xml").toUri());
         }
 
         // Save the file

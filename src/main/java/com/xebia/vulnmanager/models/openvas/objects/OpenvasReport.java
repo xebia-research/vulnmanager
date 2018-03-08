@@ -1,4 +1,4 @@
-package com.xebia.vulnmanager.openvas.objects;
+package com.xebia.vulnmanager.models.openvas.objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;

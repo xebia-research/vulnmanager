@@ -1,7 +1,7 @@
 package com.xebia.vulnmanager.util;
 
-import com.xebia.vulnmanager.openvas.OpenvasParser;
-import com.xebia.vulnmanager.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.models.openvas.OpenvasParser;
+import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
