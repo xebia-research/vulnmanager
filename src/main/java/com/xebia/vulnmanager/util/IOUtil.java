@@ -83,7 +83,7 @@ public class IOUtil {
         File[] listOfFiles = folder.listFiles();
 
         List<String> filesInDir = new ArrayList<>();
-
+        
         if (listOfFiles != null) {
             for (int i = 0; i < listOfFiles.length; i++) {
                 if (listOfFiles[i].isFile()) {
