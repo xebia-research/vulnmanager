@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ScanDataParserHelper {
-    public static NMapGeneralInformation getReportData(Document nMapDoc) {
+    public NMapGeneralInformation getReportData(Document nMapDoc) {
         NamedNodeMap reportData = nMapDoc.getElementsByTagName(NMapConstants.PARSER_LITERAL_NMAP_RUN).item(0).getAttributes();
         NMapInfo nMapInfo = getNMapInfo(reportData);
 
@@ -32,7 +32,7 @@ public class ScanDataParserHelper {
         return new NMapGeneralInformation(nMapInfo, nMapScanInfo, generalScanResult);
     }
 
-    private static NMapInfo getNMapInfo(NamedNodeMap reportData) {
+    private NMapInfo getNMapInfo(NamedNodeMap reportData) {
         String startDate = reportData.getNamedItem(NMapConstants.PARSER_LITERAL_START_TIMEDATE_STR).getNodeValue();
         LocalDateTime startScanDateTime = getLocalDateTimeFromString(startDate);
 
@@ -41,7 +41,7 @@ public class ScanDataParserHelper {
         return new NMapInfo(startScanDateTime, nMapVersion, runArguments);
     }
 
-    private static LocalDateTime getLocalDateTimeFromString(String dateTimeString) {
+    private LocalDateTime getLocalDateTimeFromString(String dateTimeString) {
         DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
                 // Case insensitive to parse JAN and FEB
                 .parseCaseInsensitive()
@@ -53,7 +53,7 @@ public class ScanDataParserHelper {
         return LocalDateTime.parse(dateTimeString, dateTimeFormatter);
     }
 
-    private static NMapScanInfo getNMapScanInfo(NamedNodeMap scanInfo, NodeList tasksList) {
+    private NMapScanInfo getNMapScanInfo(NamedNodeMap scanInfo, NodeList tasksList) {
         String scanType = scanInfo.getNamedItem(NMapConstants.PARSER_LITERAL_TYPE).getNodeValue();
         String scanProtocol = scanInfo.getNamedItem(NMapConstants.PARSER_LITERAL_PROTOCOL).getNodeValue();
         String scanNumberOfServices = scanInfo.getNamedItem(NMapConstants.PARSER_LITERAL_NUM_SERVICES).getNodeValue();
@@ -64,7 +64,7 @@ public class ScanDataParserHelper {
         return new NMapScanInfo(scanType, scanProtocol, scanNumberOfServices, scanServices, scanTasks);
     }
 
-    private static List<NMapScanTask> getScanTaskList(NodeList tasksList) {
+    private List<NMapScanTask> getScanTaskList(NodeList tasksList) {
         List<NMapScanTask> scanTasks = new ArrayList<>();
 
         for (int x = 0; x < tasksList.getLength(); x++) {
@@ -81,7 +81,7 @@ public class ScanDataParserHelper {
         return scanTasks;
     }
 
-    private static GeneralScanResult getGeneralScanResults(NodeList runStatistics) {
+    private GeneralScanResult getGeneralScanResults(NodeList runStatistics) {
         String numberOfScannedHosts = null, numberOfHostUp = null, numberOfHostDown = null, timeElapsed = null;
 
         for (int x = 0; x < runStatistics.getLength(); x++) {

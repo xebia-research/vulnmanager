@@ -22,7 +22,7 @@ public class HostsParserHelper {
      *
      * @param nMapDoc Document of NMap report
      */
-    public static List<Host> getHostsFromDocument(Document nMapDoc) {
+    public List<Host> getHostsFromDocument(Document nMapDoc) {
         NodeList hostList = nMapDoc.getElementsByTagName(NMapConstants.PARSER_LITERAL_HOST);
 
         List<Host> listConnectedHosts = new ArrayList<>();
@@ -38,7 +38,7 @@ public class HostsParserHelper {
         return listConnectedHosts;
     }
 
-    private static Host parseHostDataFromNodeList(NodeList hostDataList) {
+    private Host parseHostDataFromNodeList(NodeList hostDataList) {
         StateDetails stateDetails = null;
         AddressDetails addressDetails = null;
         HostNamesDetails hostNamesDetails = null;
@@ -80,7 +80,7 @@ public class HostsParserHelper {
      * @param statusAttributes The details of the status of a host.
      * @return The updated hostDetails are returned.
      */
-    private static StateDetails getStatusDetails(NamedNodeMap statusAttributes) {
+    private StateDetails getStatusDetails(NamedNodeMap statusAttributes) {
         String state = statusAttributes.getNamedItem(NMapConstants.PARSER_LITERAL_STATE).getNodeValue();
         String reason = statusAttributes.getNamedItem(NMapConstants.PARSER_LITERAL_REASON).getNodeValue();
         String reasonTtl = statusAttributes.getNamedItem(NMapConstants.PARSER_LITERAL_REASON_TTL).getNodeValue();
@@ -94,14 +94,14 @@ public class HostsParserHelper {
      * @param addressAttributes The details of the address of a host.
      * @return The updated hostDetails are returned.
      */
-    private static AddressDetails getAddressDetails(NamedNodeMap addressAttributes) {
+    private AddressDetails getAddressDetails(NamedNodeMap addressAttributes) {
         String address = addressAttributes.getNamedItem(NMapConstants.PARSER_LITERAL_ADDR).getNodeValue();
         String addressType = addressAttributes.getNamedItem(NMapConstants.PARSER_LITERAL_ADDR_TYPE).getNodeValue();
 
         return new AddressDetails(address, addressType);
     }
 
-    private static HostNamesDetails getHostNamesDetails(NodeList hostNamesList) {
+    private HostNamesDetails getHostNamesDetails(NodeList hostNamesList) {
         List<HostNamesDetails.HostNameDetails> hostNameDetailsList = new ArrayList<>();
 
         for (int x = 0; x < hostNamesList.getLength(); x++) {
@@ -117,7 +117,7 @@ public class HostsParserHelper {
         return new HostNamesDetails(hostNameDetailsList);
     }
 
-    private static HostPorts getPortDetails(NodeList portsAttributes) {
+    private HostPorts getPortDetails(NodeList portsAttributes) {
         List<HostPorts.Port> hostPortsDetailsList = new ArrayList<>();
         List<HostPorts.ExtraPort> extraPortsDetailsList = new ArrayList<>();
 
@@ -137,7 +137,7 @@ public class HostsParserHelper {
         return new HostPorts(hostPortsDetailsList, extraPortsDetailsList);
     }
 
-    private static HostPorts.Port getPort(Node currentNode) {
+    private HostPorts.Port getPort(Node currentNode) {
         NamedNodeMap portAttributesNode = currentNode.getAttributes();
 
         String protocol = portAttributesNode.getNamedItem(NMapConstants.PARSER_LITERAL_PROTOCOL).getNodeValue();
@@ -161,21 +161,21 @@ public class HostsParserHelper {
         return new HostPorts.Port(protocol, portId, stateDetails, serviceDetails);
     }
 
-    private static StateDetails getStateDetails(NamedNodeMap stateDetails) {
+    private StateDetails getStateDetails(NamedNodeMap stateDetails) {
         String state = stateDetails.getNamedItem(NMapConstants.PARSER_LITERAL_STATE).getNodeValue();
         String reason = stateDetails.getNamedItem(NMapConstants.PARSER_LITERAL_REASON).getNodeValue();
         String reasonTtl = stateDetails.getNamedItem(NMapConstants.PARSER_LITERAL_REASON_TTL).getNodeValue();
         return new StateDetails(state, reason, reasonTtl);
     }
 
-    private static ServiceDetails getServiceDetails(NamedNodeMap serviceDetails) {
+    private ServiceDetails getServiceDetails(NamedNodeMap serviceDetails) {
         String serviceName = serviceDetails.getNamedItem(NMapConstants.PARSER_LITERAL_NAME).getNodeValue();
         String serviceMethod = serviceDetails.getNamedItem(NMapConstants.PARSER_LITERAL_METHOD).getNodeValue();
         String serviceConf = serviceDetails.getNamedItem(NMapConstants.PARSER_LITERAL_CONF).getNodeValue();
         return new ServiceDetails(serviceName, serviceMethod, serviceConf);
     }
 
-    private static HostPorts.ExtraPort getExtraPorts(Node currentNode) {
+    private HostPorts.ExtraPort getExtraPorts(Node currentNode) {
         NamedNodeMap extraPortAttributes = currentNode.getAttributes();
 
         String state = extraPortAttributes.getNamedItem(NMapConstants.PARSER_LITERAL_STATE).getNodeValue();
@@ -194,7 +194,7 @@ public class HostsParserHelper {
         return new HostPorts.ExtraPort(state, count, extraReason);
     }
 
-    private static TimingData getTimingData(NamedNodeMap timesDetails) {
+    private TimingData getTimingData(NamedNodeMap timesDetails) {
         String smoothedRoundTripTime = timesDetails.getNamedItem(NMapConstants.PARSER_LITERAL_SRTT).getNodeValue();
         String roundTripTimeVariance = timesDetails.getNamedItem(NMapConstants.PARSER_LITERAL_RTTVAR).getNodeValue();
         String probeTimeout = timesDetails.getNamedItem(NMapConstants.PARSER_LITERAL_TO).getNodeValue();

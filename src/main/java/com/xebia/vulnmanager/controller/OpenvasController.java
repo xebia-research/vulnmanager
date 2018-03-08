@@ -6,7 +6,6 @@ import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
-import com.xebia.vulnmanager.models.openvas.objects.OvResult;
 import com.xebia.vulnmanager.util.IOUtil;
 import com.xebia.vulnmanager.util.ReportType;
 import com.xebia.vulnmanager.util.ReportUtil;
@@ -27,8 +26,16 @@ public class OpenvasController {
 
     private final Logger logger = Logger.getLogger("OpenvasController");
 
+    private OpenvasReport getOpenvasReportFromObject(Object parsedDocument) {
+        if (!(parsedDocument instanceof OpenvasReport)) {
+            throw new ClassCastException("Object was not of type OpenvasReport");
+        }
+        return (OpenvasReport) parsedDocument;
+    }
+
     /**
      * Get a parsed test report of openvas
+     *
      * @return A response with correct http header
      * @throws IOException An exception if the example log isn't found
      */
@@ -41,11 +48,16 @@ public class OpenvasController {
         if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<OpenvasReport>(ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml"))), HttpStatus.OK);
+
+        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
+        OpenvasReport report = getOpenvasReportFromObject(parsedDocument);
+
+        return new ResponseEntity<>(report, HttpStatus.OK);
     }
 
     /**
      * Get a certain result from a report.
+     *
      * @param id The index id in the OpenvasReport.
      * @return A response with correct http header
      * @throws IOException Exception when example log isn't found or couldn't be opened
@@ -61,17 +73,19 @@ public class OpenvasController {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
-        OpenvasReport report = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
+        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
+        OpenvasReport report = getOpenvasReportFromObject(parsedDocument);
 
-        if (report != null && id >= report.getResults().size() || id < 0) {
-            return new ResponseEntity<ErrorMsg>(new ErrorMsg("Result not found"), HttpStatus.NOT_FOUND);
+        if (id >= report.getResults().size() || id < 0) {
+            return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<OvResult>(report.getResults().get(id), HttpStatus.OK);
+            return new ResponseEntity<>(report.getResults().get(id), HttpStatus.OK);
         }
     }
 
     /**
      * Upload a report to the server.
+     *
      * @param uploadfile The file that will be uploaded
      * @return A response with correct http header
      */

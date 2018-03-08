@@ -1,7 +1,7 @@
 package com.xebia.vulnmanager.util;
 
 import com.xebia.vulnmanager.models.openvas.OpenvasParser;
-import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.nmap.NMapParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -23,6 +23,7 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,13 +54,17 @@ public class ReportUtil {
      *
      * @param testReportDoc The Test document that has to be parsed.
      */
-    public static OpenvasReport parseDocument(Document testReportDoc) {
+    public static Object parseDocument(Document testReportDoc) {
         String currentTypeOfScan = testReportDoc.getDocumentElement().getTagName();
 
         if (currentTypeOfScan.equals("report")) {
             // This function parses the given Document
             OpenvasParser parser = new OpenvasParser();
             return parser.getOpenvasReport(testReportDoc);
+        } else if (currentTypeOfScan.equals("nmaprun")) {
+            // This function parses the given Document
+            NMapParser nMapParser = new NMapParser();
+            return nMapParser.getNMapReport(testReportDoc);
         }
         return null;
     }
@@ -81,9 +86,10 @@ public class ReportUtil {
 
     /**
      * Turn a node into a string
-     * @param node Node to set to a string
+     *
+     * @param node               Node to set to a string
      * @param omitXmlDeclaration if the xml declartion needs to be omitted
-     * @param prettyPrint if the string should use indentation
+     * @param prettyPrint        if the string should use indentation
      * @return returns a string with xml representation of the node
      */
     public static String toString(Node node, boolean omitXmlDeclaration, boolean prettyPrint) {

@@ -13,9 +13,12 @@ import java.util.List;
  */
 
 public class NMapParser {
-    public static NMapReport parseNMapDocument(Document nMapDoc) {
-        NMapGeneralInformation nMapScanData = ScanDataParserHelper.getReportData(nMapDoc);
-        List<Host> hosts = HostsParserHelper.getHostsFromDocument(nMapDoc);
+    public NMapReport getNMapReport(Document nMapDoc) {
+        ScanDataParserHelper scanDataParserHelper = new ScanDataParserHelper();
+        HostsParserHelper hostsParserHelper = new HostsParserHelper();
+
+        NMapGeneralInformation nMapScanData = scanDataParserHelper.getReportData(nMapDoc);
+        List<Host> hosts = hostsParserHelper.getHostsFromDocument(nMapDoc);
         return new NMapReport(nMapScanData, hosts);
     }
 }
