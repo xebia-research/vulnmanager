@@ -1,7 +1,7 @@
 package com.xebia.vulnmanager.util;
 
-import com.xebia.vulnmanager.openvas.OpenvasParser;
-import com.xebia.vulnmanager.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.models.openvas.OpenvasParser;
+import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 
 public class ReportUtil {
     private static final Logger LOGGER = Logger.getLogger("ReportUtil");
+
     /**
      * This function parses a File to a Document, the document could be parsed
      *
@@ -65,6 +66,21 @@ public class ReportUtil {
             return parser.getOpenvasReport(testReportDoc);
         }
         return null;
+    }
+
+    /**
+     * This function parses the given Document. The function checks by the document element, what kind of scan this is.
+     * It could be a Nmap-, Openvas-, Clair and Owasp Zap scan.
+     *
+     * @param testReportDoc The Test document that has to be parsed.
+     */
+    public static ReportType checkDocumentType(Document testReportDoc) {
+        String currentTypeOfScan = testReportDoc.getDocumentElement().getTagName();
+
+        if (currentTypeOfScan.equals("report")) {
+            return ReportType.OPENVAS;
+        }
+        return ReportType.UNKNOWN;
     }
 
     /**

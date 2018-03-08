@@ -1,8 +1,8 @@
-package com.xebia.vulnmanager.openvas;
+package com.xebia.vulnmanager.models.openvas;
 
-import com.xebia.vulnmanager.openvas.objects.NetworkVulnerabilityTest;
-import com.xebia.vulnmanager.openvas.objects.OpenvasReport;
-import com.xebia.vulnmanager.openvas.objects.OvResult;
+import com.xebia.vulnmanager.models.openvas.objects.NetworkVulnerabilityTest;
+import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.models.openvas.objects.OvResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
