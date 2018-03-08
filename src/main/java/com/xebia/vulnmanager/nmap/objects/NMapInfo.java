@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 
 public class NMapInfo implements Serializable {
     private LocalDateTime scanDateTime;
-    private String nMapCalledArgument;
+    private String calledArgument;
     private String nMapVersion;
 
     public NMapInfo(final LocalDateTime scanDateTime, final String nMapVersion, final String nMapCalledArgument) {
         this.scanDateTime = scanDateTime;
-        this.nMapCalledArgument = nMapCalledArgument;
+        this.calledArgument = nMapCalledArgument;
         this.nMapVersion = nMapVersion;
     }
 
@@ -18,8 +18,8 @@ public class NMapInfo implements Serializable {
         return scanDateTime;
     }
 
-    public String getnMapCalledArgument() {
-        return nMapCalledArgument;
+    public String getcalledArgument() {
+        return calledArgument;
     }
 
     public String getnMapVersion() {

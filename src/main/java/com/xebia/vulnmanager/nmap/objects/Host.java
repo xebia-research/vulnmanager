@@ -5,15 +5,15 @@ import java.io.Serializable;
 /**
  * HostDetails Serializable.
  */
-public class HostDetails implements Serializable {
+public class Host implements Serializable {
     private StateDetails stateDetails;
     private AddressDetails addressDetails;
     private HostNamesDetails hostNamesDetails;
     private HostPorts hostPorts;
     private TimingData timingData;
 
-    public HostDetails(final StateDetails stateDetails, final AddressDetails addressDetails, final HostNamesDetails hostNamesDetails,
-                       final HostPorts hostPorts, final TimingData timingData) {
+    public Host(final StateDetails stateDetails, final AddressDetails addressDetails, final HostNamesDetails hostNamesDetails,
+                final HostPorts hostPorts, final TimingData timingData) {
         this.stateDetails = stateDetails;
         this.addressDetails = addressDetails;
         this.hostNamesDetails = hostNamesDetails;

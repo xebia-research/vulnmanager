@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Controller
 @EnableAutoConfiguration
 public class HelloWorldController {
-    private static final Logger LOGGER = Logger.getLogger("HelloWorldController");
+    private static final Logger LOGGER = LoggerFactory.getLogger("HelloWorldController");
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
@@ -55,12 +55,8 @@ public class HelloWorldController {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             // Parse the file to a Document
             doc = factory.newDocumentBuilder().parse(parseFile);
-        } catch (SAXException e) {
-            LOGGER.log(Level.FINE, e.toString());
-        } catch (IOException e) {
-            LOGGER.log(Level.FINE, e.toString());
-        } catch (ParserConfigurationException e) {
-            LOGGER.log(Level.FINE, e.toString());
+        } catch (SAXException | IOException | ParserConfigurationException e) {
+            LOGGER.error(e.toString());
         }
         return doc;
     }

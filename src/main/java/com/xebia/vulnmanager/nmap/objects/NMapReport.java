@@ -1,22 +1,28 @@
 package com.xebia.vulnmanager.nmap.objects;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class NMapReport implements Serializable {
     private NMapGeneralInformation scanData;
-    private List<HostDetails> hostDetails;
 
-    public NMapReport(final NMapGeneralInformation scanData, final List<HostDetails> hostDetails) {
+    private List<Host> hosts;
+
+    public NMapReport(final NMapGeneralInformation scanData, final List<Host> hosts) {
         this.scanData = scanData;
-        this.hostDetails = hostDetails;
+        this.hosts = hosts;
     }
 
     public NMapGeneralInformation getScanData() {
         return scanData;
     }
 
-    public List<HostDetails> getHostDetails() {
-        return hostDetails;
+    @JacksonXmlElementWrapper(localName = "hosts")
+    @JacksonXmlProperty(localName = "host")
+    public List<Host> getHosts() {
+        return hosts;
     }
 }

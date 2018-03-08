@@ -30,6 +30,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -49,12 +53,13 @@
     <build>
         <defaultGoal>run</defaultGoal>
         <plugins>
-          <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.8</version>
                 <configuration>
-                    <failOnViolation>true</failOnViolation> <!-- this is actually true by default, but can be disabled -->
+                    <failOnViolation>true
+                    </failOnViolation> <!-- this is actually true by default, but can be disabled -->
                     <printFailingErrors>true</printFailingErrors>
                     <rulesets>
                         <ruleset>/ruleSets/pmd-ruleset_xml.xml</ruleset>

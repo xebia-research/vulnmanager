@@ -7,7 +7,7 @@ import com.xebia.vulnmanager.nmap.objects.ServiceDetails;
 import com.xebia.vulnmanager.nmap.objects.TimingData;
 import com.xebia.vulnmanager.nmap.objects.ExtraReason;
 import com.xebia.vulnmanager.nmap.objects.HostNamesDetails;
-import com.xebia.vulnmanager.nmap.objects.HostDetails;
+import com.xebia.vulnmanager.nmap.objects.Host;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -22,23 +22,23 @@ public class HostsParserHelper {
      *
      * @param nMapDoc Document of NMap report
      */
-    public static List<HostDetails> getHostsFromDocument(Document nMapDoc) {
+    public static List<Host> getHostsFromDocument(Document nMapDoc) {
         NodeList hostList = nMapDoc.getElementsByTagName(NMapConstants.PARSER_LITERAL_HOST);
 
-        List<HostDetails> allHostDetails = new ArrayList<>();
+        List<Host> listConnectedHosts = new ArrayList<>();
         // Todo: Change the for loops to streams
         for (int i = 0; i < hostList.getLength(); i++) {
             Node hostNode = hostList.item(i);
             if (hostNode.getAttributes().getNamedItem(NMapConstants.PARSER_LITERAL_START_TIME) != null) {
                 NodeList hostDataList = hostNode.getChildNodes();
 
-                allHostDetails.add(parseHostDataFromNodeList(hostDataList));
+                listConnectedHosts.add(parseHostDataFromNodeList(hostDataList));
             }
         }
-        return allHostDetails;
+        return listConnectedHosts;
     }
 
-    private static HostDetails parseHostDataFromNodeList(NodeList hostDataList) {
+    private static Host parseHostDataFromNodeList(NodeList hostDataList) {
         StateDetails stateDetails = null;
         AddressDetails addressDetails = null;
         HostNamesDetails hostNamesDetails = null;
@@ -71,7 +71,7 @@ public class HostsParserHelper {
                     break;
             }
         }
-        return new HostDetails(stateDetails, addressDetails, hostNamesDetails, hostPorts, timingData);
+        return new Host(stateDetails, addressDetails, hostNamesDetails, hostPorts, timingData);
     }
 
     /**
