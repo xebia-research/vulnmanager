@@ -1,5 +1,8 @@
 package com.xebia.vulnmanager.nmap.objects;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -35,6 +38,8 @@ public class NMapScanInfo implements Serializable {
         return scanServices;
     }
 
+    @JacksonXmlElementWrapper(localName = "scanTaskList")
+    @JacksonXmlProperty(localName = "task")
     public List<NMapScanTask> getScanTaskList() {
         return scanTaskList;
     }

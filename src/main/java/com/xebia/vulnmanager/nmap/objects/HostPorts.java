@@ -1,5 +1,8 @@
 package com.xebia.vulnmanager.nmap.objects;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,10 +15,14 @@ public class HostPorts implements Serializable {
         this.extraPorts = extraPorts;
     }
 
+    @JacksonXmlElementWrapper(localName = "portList")
+    @JacksonXmlProperty(localName = "port")
     public List<Port> getPorts() {
         return ports;
     }
 
+    @JacksonXmlElementWrapper(localName = "extraPortsList")
+    @JacksonXmlProperty(localName = "extraPort")
     public List<ExtraPort> getExtraPorts() {
         return extraPorts;
     }

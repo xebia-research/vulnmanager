@@ -1,5 +1,8 @@
 package com.xebia.vulnmanager.nmap.objects;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,6 +17,8 @@ public class HostNamesDetails implements Serializable {
         this.hostNameDetails = hostNameDetails;
     }
 
+    @JacksonXmlElementWrapper(localName = "hostNameList")
+    @JacksonXmlProperty(localName = "hostName")
     public List<HostNameDetails> getHostNameDetails() {
         return hostNameDetails;
     }
