@@ -84,9 +84,11 @@ public class IOUtil {
 
         List<String> filesInDir = new ArrayList<>();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                filesInDir.add(listOfFiles[i].getName());
+        if(listOfFiles != null) {
+            for (int i = 0; i < listOfFiles.length; i++) {
+                if (listOfFiles[i].isFile()) {
+                    filesInDir.add(listOfFiles[i].getName());
+                }
             }
         }
         return filesInDir;
