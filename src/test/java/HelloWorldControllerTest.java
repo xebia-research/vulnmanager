@@ -1,4 +1,4 @@
-import com.xebia.vulnmanager.HelloWorldController;
+import com.xebia.vulnmanager.Main;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Uses HelloWorldController.class because it has the startup of the application
  */
-@SpringBootTest(classes = HelloWorldController.class)
+@SpringBootTest(classes = Main.class)
 @AutoConfigureMockMvc
 public class HelloWorldControllerTest {
 
@@ -33,7 +33,7 @@ public class HelloWorldControllerTest {
 
     @Test
     public void getID() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/1").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/id/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("The chosen id is:1")));
     }

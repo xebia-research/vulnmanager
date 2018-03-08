@@ -1,4 +1,4 @@
-package com.xebia.vulnmanager;
+package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.nmap.NMapParser;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +12,6 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -20,6 +19,7 @@ import java.io.IOException;
 
 @Controller
 @EnableAutoConfiguration
+@RequestMapping(value = {""})
 public class HelloWorldController {
     private static final Logger LOGGER = LoggerFactory.getLogger("HelloWorldController");
 
@@ -36,10 +36,10 @@ public class HelloWorldController {
     }
 
     // {} is to get a integer as an id in this case
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     @ResponseBody
     // With PathVariable you can get a specific variable in this case id
-    String test(@PathVariable("id") int id) throws IOException {
+    String test(@PathVariable("id") int id) {
         return "The chosen id is:" + id;
     }
 
