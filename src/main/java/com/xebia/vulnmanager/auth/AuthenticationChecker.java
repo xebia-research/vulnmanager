@@ -17,10 +17,8 @@ public class AuthenticationChecker {
     public boolean checkCompanyAuthKey(String companyName, String authKey) {
         Company getComp = companies.findCompanyByName(companyName);
 
-        if (getComp != null) {
-            if (getComp.getName().equals(companyName) && getComp.getAuthKey().equals(authKey)) {
+        if (getComp != null && getComp.getName().equals(companyName) && getComp.getAuthKey().equals(authKey)) {
                return true;
-            }
         }
         return false;
     }
