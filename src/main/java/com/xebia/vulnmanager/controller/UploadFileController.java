@@ -63,7 +63,7 @@ public class UploadFileController {
 
             // Success check uploaded file
             ReportType reportType = ReportUtil.checkDocumentType(ReportUtil.getDocumentFromFile(new File(filePath)));
-            if (reportType != ReportType.UNKNOWN && Objects.equals(reportType.toString().toLowerCase(), scannerType.toLowerCase())) {
+            if (reportType != ReportType.UNKNOWN && reportType.toString().toLowerCase().equals(scannerType.toLowerCase())) {
                 newFileName = IOUtil.moveFileToFolder(new File(filePath), comp, team, reportType);
             }
 

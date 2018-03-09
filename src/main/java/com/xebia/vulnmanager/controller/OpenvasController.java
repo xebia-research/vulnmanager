@@ -19,9 +19,9 @@ import org.slf4j.LoggerFactory;
 @RequestMapping(value = "/{company}/{team}/openvas")
 public class OpenvasController {
 
-    private final Logger logger = LoggerFactory.getLogger("OpenvasController");
+    private final Logger LOGGER = LoggerFactory.getLogger("OpenvasController");
 
-    private OpenvasReport getOpenvasReportFromObject(Object parsedDocument) {
+    private OpenvasReport getOpenvasReportFromObject(Object parsedDocument) throws ClassCastException {
         if (!(parsedDocument instanceof OpenvasReport)) {
             throw new ClassCastException("Object was not of type OpenvasReport");
         }
@@ -45,7 +45,13 @@ public class OpenvasController {
         }
 
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
-        OpenvasReport report = getOpenvasReportFromObject(parsedDocument);
+        OpenvasReport report;
+        try {
+            report = getOpenvasReportFromObject(parsedDocument);
+        } catch (ClassCastException exception) {
+            LOGGER.error(exception.getMessage());
+            return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(report, HttpStatus.OK);
     }
@@ -69,7 +75,13 @@ public class OpenvasController {
         }
 
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
-        OpenvasReport report = getOpenvasReportFromObject(parsedDocument);
+        OpenvasReport report;
+        try {
+            report = getOpenvasReportFromObject(parsedDocument);
+        } catch (ClassCastException exception) {
+            LOGGER.error(exception.getMessage());
+            return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
+        }
 
         if (id >= report.getResults().size() || id < 0) {
             return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.NOT_FOUND);
