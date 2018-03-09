@@ -17,32 +17,39 @@ import java.io.File;
 @Controller
 @RequestMapping(value = "/{company}/{team}/nmap")
 public class NMapController {
-    private final Logger LOGGER = LoggerFactory.getLogger("NMapController");
+    private final Logger logger = LoggerFactory.getLogger("NMapController");
+
+    @ModelAttribute("isAuthenticated")
+    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
+                                   @PathVariable("company") String companyName,
+                                   @PathVariable("team") String teamName) {
+        AuthenticationChecker authenticationChecker = new AuthenticationChecker();
+        return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
+    }
 
     private NMapReport getNMapReportFromObject(Object parsedDocument) throws ClassCastException {
-        if (!(parsedDocument instanceof NMapReport)) {
-            throw new ClassCastException("Object was not of type NMapReport");
+        try {
+            if (!(parsedDocument instanceof NMapReport)) {
+                throw new ClassCastException("Object was not of type NMapReport");
+            }
+        } catch (ClassCastException exception) {
+            logger.error(exception.getMessage());
+            return null;
         }
         return (NMapReport) parsedDocument;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getNMapReport(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
-                                    @PathVariable("company") String companyName,
-                                    @PathVariable("team") String teamName) {
-        AuthenticationChecker authenticationChecker = new AuthenticationChecker();
-        if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
+    ResponseEntity<?> getNMapReport(@ModelAttribute("isAuthenticated") boolean isAuthenticated) {
+        if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap.xml")));
-        NMapReport report;
-        try {
-            report = getNMapReportFromObject(parsedDocument);
-        } catch (ClassCastException exception) {
-            LOGGER.error(exception.getMessage());
-            return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
+        NMapReport report = getNMapReportFromObject(parsedDocument);
+        if (report == null) {
+            return new ResponseEntity<>(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(report, HttpStatus.OK);

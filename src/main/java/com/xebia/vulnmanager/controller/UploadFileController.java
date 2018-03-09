@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 @Controller
 public class UploadFileController {
@@ -63,7 +62,7 @@ public class UploadFileController {
 
             // Success check uploaded file
             ReportType reportType = ReportUtil.checkDocumentType(ReportUtil.getDocumentFromFile(new File(filePath)));
-            if (reportType != ReportType.UNKNOWN && reportType.toString().toLowerCase().equals(scannerType.toLowerCase())) {
+            if (reportType != ReportType.UNKNOWN && reportType.toString().equalsIgnoreCase(scannerType)) {
                 newFileName = IOUtil.moveFileToFolder(new File(filePath), comp, team, reportType);
             }
 

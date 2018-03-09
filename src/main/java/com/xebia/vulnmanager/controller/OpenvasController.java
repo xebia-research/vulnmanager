@@ -19,12 +19,27 @@ import org.slf4j.LoggerFactory;
 @RequestMapping(value = "/{company}/{team}/openvas")
 public class OpenvasController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger("OpenvasController");
+    private final Logger logger = LoggerFactory.getLogger("OpenvasController");
+
+    // This function is called before other functions, so if for example getReport is called it first runs the init function
+    @ModelAttribute("isAuthenticated")
+    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
+                                   @PathVariable("company") String companyName,
+                                   @PathVariable("team") String teamName) {
+        AuthenticationChecker authenticationChecker = new AuthenticationChecker();
+        return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
+    }
 
     private OpenvasReport getOpenvasReportFromObject(Object parsedDocument) throws ClassCastException {
-        if (!(parsedDocument instanceof OpenvasReport)) {
-            throw new ClassCastException("Object was not of type OpenvasReport");
+        try {
+            if (!(parsedDocument instanceof OpenvasReport)) {
+                throw new ClassCastException("Object was not of type OpenvasReport");
+            }
+        } catch (ClassCastException exception) {
+            logger.error(exception.getMessage());
+            return null;
         }
+
         return (OpenvasReport) parsedDocument;
     }
 
@@ -36,20 +51,15 @@ public class OpenvasController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReport(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
-                                @PathVariable("company") String companyName,
-                                @PathVariable("team") String teamName) throws IOException {
-        AuthenticationChecker authenticationChecker = new AuthenticationChecker();
-        if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
+    ResponseEntity<?> getReport(@ModelAttribute("isAuthenticated") boolean isAuthenticated) throws IOException {
+        if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
-        OpenvasReport report;
-        try {
-            report = getOpenvasReportFromObject(parsedDocument);
-        } catch (ClassCastException exception) {
-            LOGGER.error(exception.getMessage());
+        OpenvasReport report = getOpenvasReportFromObject(parsedDocument);
+
+        if (report == null) {
             return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
         }
 
@@ -66,24 +76,17 @@ public class OpenvasController {
     @RequestMapping(value = "/result/{id}", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getResult(@PathVariable("id") int id,
-                                @RequestHeader(value = "auth", defaultValue = "nope") String authKey,
-                                @PathVariable("company") String companyName,
-                                @PathVariable("team") String teamName) throws IOException {
-        AuthenticationChecker authenticationChecker = new AuthenticationChecker();
-        if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
+                                @ModelAttribute("isAuthenticated") boolean isAuthenticated) throws IOException {
+        if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
-        OpenvasReport report;
-        try {
-            report = getOpenvasReportFromObject(parsedDocument);
-        } catch (ClassCastException exception) {
-            LOGGER.error(exception.getMessage());
-            return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
-        }
+        OpenvasReport report = getOpenvasReportFromObject(parsedDocument);
 
-        if (id >= report.getResults().size() || id < 0) {
+        if (report == null) {
+            return new ResponseEntity<>(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
+        } else if (id >= report.getResults().size() || id < 0) {
             return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(report.getResults().get(id), HttpStatus.OK);
