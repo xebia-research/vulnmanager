@@ -17,9 +17,9 @@ import java.io.File;
 @Controller
 @RequestMapping(value = "/{company}/{team}/nmap")
 public class NMapController {
-    private final Logger logger = LoggerFactory.getLogger("NMapController");
+    private final Logger LOGGER = LoggerFactory.getLogger("NMapController");
 
-    private NMapReport getNMapReportFromObject(Object parsedDocument) {
+    private NMapReport getNMapReportFromObject(Object parsedDocument) throws ClassCastException {
         if (!(parsedDocument instanceof NMapReport)) {
             throw new ClassCastException("Object was not of type NMapReport");
         }
@@ -37,7 +37,13 @@ public class NMapController {
         }
 
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap.xml")));
-        NMapReport report = getNMapReportFromObject(parsedDocument);
+        NMapReport report;
+        try {
+            report = getNMapReportFromObject(parsedDocument);
+        } catch (ClassCastException exception) {
+            LOGGER.error(exception.getMessage());
+            return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(report, HttpStatus.OK);
     }
