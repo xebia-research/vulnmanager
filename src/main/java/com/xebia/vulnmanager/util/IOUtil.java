@@ -14,12 +14,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IOUtil {
     private static final String UPLOAD_FOLDER = "/tmp/reports/";
     private static final String PERSISTENT_FOLDER = "/tmp/finalreports/";
-    private static final Logger LOGGER = Logger.getLogger("IO Util");
+    private static final Logger LOGGER = LoggerFactory.getLogger("IO Util");
 
     /**
      * Upload a file to the reports tmp directory
