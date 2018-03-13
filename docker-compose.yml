@@ -1,0 +1,18 @@
+version: '3'
+services:
+  vulnmanager:
+    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+        - 8080:8080
+    container_name: "vulnmanager_docker"
+  db:
+    image: postgres
+    ports:
+      - 3306:3306
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+    container_name: "vulnmanager_postgres_docker"
