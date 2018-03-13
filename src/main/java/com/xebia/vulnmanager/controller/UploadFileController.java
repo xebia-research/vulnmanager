@@ -42,6 +42,11 @@ public class UploadFileController {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
+        // Check if the parser type endpoint exists.
+        if (!isValidScannerType(scannerType)) {
+            return new ResponseEntity(new ErrorMsg("Unknown parser type"), HttpStatus.BAD_REQUEST);
+        }
+
         // Shouldn't return null because the authenticationChecker als checks for null.
         MockCompanyFactory factory = new MockCompanyFactory();
         Company comp = factory.findCompanyByName(companyName);
@@ -59,11 +64,17 @@ public class UploadFileController {
 
             // Success with upload. Check file to see of it is a {scannerType} document
             logger.info("File succesfully uploaded");
+            boolean wrongEndpoint = false;
 
             // Success check uploaded file
             ReportType reportType = ReportUtil.checkDocumentType(ReportUtil.getDocumentFromFile(new File(filePath)));
-            if (reportType != ReportType.UNKNOWN && reportType.toString().equalsIgnoreCase(scannerType)) {
-                newFileName = IOUtil.moveFileToFolder(new File(filePath), comp, team, reportType);
+            if (reportType != ReportType.UNKNOWN) {
+                if (reportType.toString().equalsIgnoreCase(scannerType)) {
+                    newFileName = IOUtil.moveFileToFolder(new File(filePath), comp, team, reportType);
+                } else {
+                    // File is known but wrong endpoint
+                    wrongEndpoint = true;
+                }
             }
 
             File fileToRemove = new File(filePath);
@@ -75,6 +86,8 @@ public class UploadFileController {
             if (reportType == ReportType.UNKNOWN) {
                 // Type unknown send bad request.
                 return new ResponseEntity(new ErrorMsg("Unknown report!"), HttpStatus.BAD_REQUEST);
+            } else if (wrongEndpoint) {
+                return new ResponseEntity(new ErrorMsg("This is a " + reportType.name() + " report but this endpoint expects a " + scannerType), HttpStatus.BAD_REQUEST);
             }
 
         } catch (IOException ex) {
@@ -82,5 +95,19 @@ public class UploadFileController {
         }
 
         return new ResponseEntity(new ErrorMsg("Successfully uploaded - " + newFileName), HttpStatus.OK);
+    }
+
+    /**
+     * Check if the specified input string is a valid type.
+     * @param input Input from the url param with the name of the parser
+     * @return Will return true if the parser name is known in the ReportType enum
+     */
+    private boolean isValidScannerType(String input) {
+        for (ReportType type : ReportType.values()) {
+            if (type.name().equalsIgnoreCase(input)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
