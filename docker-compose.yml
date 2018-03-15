@@ -15,4 +15,5 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: VulnDB
     container_name: "vulnmanager_postgres_docker"
