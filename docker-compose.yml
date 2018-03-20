@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-        - 8080:8080
+        - 9090:9090
     container_name: "vulnmanager_docker"
   db:
     image: postgres
