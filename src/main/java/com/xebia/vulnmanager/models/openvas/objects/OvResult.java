@@ -1,18 +1,21 @@
 package com.xebia.vulnmanager.models.openvas.objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
 @Table(name = "OpenvasResults")
-@Embeddable
-@EntityListeners(AuditingEntityListener.class)
+@Entity
 public class OvResult implements Serializable {
+
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    @JsonBackReference
+    private OpenvasReport report;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,18 +23,18 @@ public class OvResult implements Serializable {
 
     private String port;
     private String name;
+    @Column(columnDefinition = "text")
     private String description;
     private String threat;
     private String severity;
 
+    @OneToOne(mappedBy = "result", cascade = CascadeType.ALL)
     private NetworkVulnerabilityTest nvt;
 
-    @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdAt;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updatedAt;
@@ -98,6 +101,14 @@ public class OvResult implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public OpenvasReport getReport() {
+        return report;
+    }
+
+    public void setResultId(OpenvasReport report) {
+        this.report = report;
     }
 
     @Override

@@ -98,7 +98,7 @@ public class OpenvasController {
         } else if (id >= report.getResults().size() || id < 0) {
             return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(report.getResults().get(id), HttpStatus.OK);
+            return new ResponseEntity<>(report.getResults(), HttpStatus.OK);
         }
     }
 }
