@@ -5,12 +5,12 @@
 ## This is a vulnerability manager with an authenticated API to manage vulnerability reports.
 
 __We currently plan to support the following programs:__ 
- * [x] Nmap [#16](https://github.com/xebia-research/vulnmanager/issues/16) / [GH-20]
- * [x] OpenVAS (14 / #18)
- * OWASP ZAP (#13 / #17)
- * Clair (#15 / #19)
+ * [x] Nmap [#16](https://github.com/xebia-research/vulnmanager/issues/16) / [#16](https://github.com/xebia-research/vulnmanager/issues/20)
+ * [x] OpenVAS [#14](https://github.com/xebia-research/vulnmanager/issues/14) / [#18](https://github.com/xebia-research/vulnmanager/issues/18)
+ * OWASP ZAP [#13](https://github.com/xebia-research/vulnmanager/issues/13) / [#17](https://github.com/xebia-research/vulnmanager/issues/17)
+ * Clair [#15](https://github.com/xebia-research/vulnmanager/issues/15) / [#19](https://github.com/xebia-research/vulnmanager/issues/19)
 
-Ultimately, This will have a WebGUI to manage everything, and will be written in Angular. (#23)
+Ultimately, This will have a WebGUI to manage everything, and will be written in Angular. [#23](https://github.com/xebia-research/vulnmanager/issues/23)
 
 ## Dependencies:
  * Docker
