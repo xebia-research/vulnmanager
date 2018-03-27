@@ -5,7 +5,7 @@
 ## This is a vulnerability manager with an authenticated API to manage vulnerability reports.
 
 __We currently plan to support the following programs:__ 
- * [x] Nmap (#16 / #20)
+ * [x] Nmap #16 / #20
  * [x] OpenVAS (14 / #18)
  * OWASP ZAP (#13 / #17)
  * Clair (#15 / #19)
