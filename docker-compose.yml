@@ -1,0 +1,21 @@
+version: '3'
+services:
+  vulnmanager:
+    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+        - 9090:9090
+    container_name: "vulnmanager_docker"
+  db:
+    image: postgres
+    volumes:
+      - ./sql_init/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 3306:3306
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: VulnDB
+    container_name: "vulnmanager_postgres_docker"

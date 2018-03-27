@@ -1,0 +1,818 @@
+<report id="1da99c8d-7a52-4d68-ac30-56cb8d66b42a" format_id="a994b278-1f62-11e1-96ac-406186ea4fc5" extension="xml"
+        type="scan" content_type="text/xml">
+    <owner>
+        <name>Test1</name>
+    </owner>
+    <name>2018-02-28T20:07:17Z</name>
+    <comment></comment>
+    <creation_time>2018-02-28T20:07:17Z</creation_time>
+    <modification_time></modification_time>
+    <writable>0</writable>
+    <in_use>0</in_use>
+    <task id="ec51c614-66bb-477b-bbc1-472fdcbf21be">
+        <name>test scan</name>
+    </task>
+    <report_format id="a994b278-1f62-11e1-96ac-406186ea4fc5">
+        <name>XML</name>
+    </report_format>
+    <report id="1da99c8d-7a52-4d68-ac30-56cb8d66b42a">
+        <omp>
+            <version>7.0</version>
+        </omp>
+        <sort>
+            <field>name
+                <order>ascending</order>
+            </field>
+        </sort>
+        <filters id="0">
+            <term>autofp=0 apply_overrides=1 result_hosts_only=0 min_qod=0 levels=hmlgfd notes=1 overrides=1 start=1
+                rows=1000 first=1 sort=name
+            </term>
+            <filter>High</filter>
+            <filter>Medium</filter>
+            <filter>Low</filter>
+            <filter>Log</filter>
+            <filter>Debug</filter>
+            <filter>False Positive</filter>
+            <keywords>
+                <keyword>
+                    <column>autofp</column>
+                    <relation>=</relation>
+                    <value>0</value>
+                </keyword>
+                <keyword>
+                    <column>apply_overrides</column>
+                    <relation>=</relation>
+                    <value>1</value>
+                </keyword>
+                <keyword>
+                    <column>result_hosts_only</column>
+                    <relation>=</relation>
+                    <value>0</value>
+                </keyword>
+                <keyword>
+                    <column>min_qod</column>
+                    <relation>=</relation>
+                    <value>0</value>
+                </keyword>
+                <keyword>
+                    <column>levels</column>
+                    <relation>=</relation>
+                    <value>hmlgfd</value>
+                </keyword>
+                <keyword>
+                    <column>notes</column>
+                    <relation>=</relation>
+                    <value>1</value>
+                </keyword>
+                <keyword>
+                    <column>overrides</column>
+                    <relation>=</relation>
+                    <value>1</value>
+                </keyword>
+                <keyword>
+                    <column>start</column>
+                    <relation>=</relation>
+                    <value>1</value>
+                </keyword>
+                <keyword>
+                    <column>rows</column>
+                    <relation>=</relation>
+                    <value>1000</value>
+                </keyword>
+                <keyword>
+                    <column>first</column>
+                    <relation>=</relation>
+                    <value>1</value>
+                </keyword>
+                <keyword>
+                    <column>sort</column>
+                    <relation>=</relation>
+                    <value>name</value>
+                </keyword>
+            </keywords>
+        </filters>
+        <severity_class id="d4c74cda-89e1-11e3-9c29-406186ea4fc5">
+            <name>nist</name>
+            <full_name>NVD Vulnerability Severity Ratings</full_name>
+            <severity_range>
+                <name>None</name>
+                <min>0.0</min>
+                <max>0.0</max>
+            </severity_range>
+            <severity_range>
+                <name>Low</name>
+                <min>0.1</min>
+                <max>3.9</max>
+            </severity_range>
+            <severity_range>
+                <name>Medium</name>
+                <min>4.0</min>
+                <max>6.9</max>
+            </severity_range>
+            <severity_range>
+                <name>High</name>
+                <min>7.0</min>
+                <max>10.0</max>
+            </severity_range>
+        </severity_class>
+        <user_tags>
+            <count>0</count>
+        </user_tags>
+        <scan_run_status>Running</scan_run_status>
+        <hosts>
+            <count>1</count>
+        </hosts>
+        <closed_cves>
+            <count>0</count>
+        </closed_cves>
+        <vulns>
+            <count>9</count>
+        </vulns>
+        <os>
+            <count>0</count>
+        </os>
+        <apps>
+            <count>0</count>
+        </apps>
+        <ssl_certs>
+            <count>0</count>
+        </ssl_certs>
+        <task id="ec51c614-66bb-477b-bbc1-472fdcbf21be">
+            <name>test scan</name>
+            <comment></comment>
+            <target id="39752765-2a30-44f1-bfac-6bdebf5afd37">
+                <trash>0</trash>
+            </target>
+            <progress>98</progress>
+            <user_tags>
+                <count>0</count>
+            </user_tags>
+        </task>
+        <scan>
+            <task>
+                <slave id="">
+                    <name></name>
+                    <host></host>
+                    <port>0</port>
+                </slave>
+                <preferences>
+                    <preference>
+                        <name>Network Source Interface</name>
+                        <scanner_name>source_iface</scanner_name>
+                        <value></value>
+                    </preference>
+                </preferences>
+            </task>
+        </scan>
+        <timestamp>2018-02-28T20:07:07Z</timestamp>
+        <scan_start>2018-02-28T20:07:17Z</scan_start>
+        <timezone>Coordinated Universal Time</timezone>
+        <timezone_abbrev>UTC</timezone_abbrev>
+        <ports max="-1" start="1">
+            <count>2</count>
+            <port>general/tcp
+                <host>192.168.0.100</host>
+                <severity>2.6</severity>
+                <threat>Low</threat>
+            </port>
+            <port>80/tcp
+                <host>192.168.0.100</host>
+                <severity>0.0</severity>
+                <threat>Log</threat>
+            </port>
+            <port>8080/tcp
+                <host>192.168.0.100</host>
+                <severity>0.0</severity>
+                <threat>Log</threat>
+            </port>
+        </ports>
+        <results max="-1" start="1">
+            <result id="460a5b3a-1f34-4576-8377-b147dea9b0c8">
+                <name>CGI Scanning Consolidation</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:12:08Z</creation_time>
+                <modification_time>2018-02-28T20:12:08Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>8080/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.111038">
+                    <type>nvt</type>
+                    <name>CGI Scanning Consolidation</name>
+                    <family>Web application abuses</family>
+                    <cvss_base>0.0</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>NOXREF</xref>
+                    <tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=The script consolidates various
+                        information for CGI scanning.
+
+                        This information is based on the following scripts / settings:
+
+                        - HTTP-Version Detection (OID: 1.3.6.1.4.1.25623.1.0.100034)
+
+                        - No 404 check (OID: 1.3.6.1.4.1.25623.1.0.10386)
+
+                        - Web mirroring / webmirror.nasl (OID: 1.3.6.1.4.1.25623.1.0.10662)
+
+                        - Directory Scanner / DDI_Directory_Scanner.nasl (OID: 1.3.6.1.4.1.25623.1.0.11032)
+
+                        - The configured &apos;cgi_path&apos; within the &apos;Scanner Preferences&apos; of the scan
+                        config in use
+
+                        - The configured &apos;Enable CGI scanning&apos;, &apos;Enable generic web application scanning&apos;
+                        and
+                        &apos;Add historic /scripts and /cgi-bin to directories for CGI scanning&apos; within the
+                        &apos;Global variable settings&apos; of the scan config in use
+
+                        If you think any of these are wrong please report to
+                        openvas-plugins@wald.intevation.org|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 8852 $</scan_nvt_version>
+                <threat>Log</threat>
+                <severity>0.0</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>Generic web application scanning is disabled for this host via the &quot;Enable generic web
+                    application scanning&quot; option within the &quot;Global variable settings&quot; of the scan config
+                    in use.
+
+                    Requests to this service are done via HTTP/1.1.
+
+                    This service seems to be able to host PHP scripts.
+
+                    This service seems to be able to host ASP scripts.
+
+                    Historic /scripts and /cgi-bin are not added to the directories used for CGI scanning. You can
+                    enable this again with the &quot;Add historic /scripts and /cgi-bin to directories for CGI scanning&quot;
+                    option within the &quot;Global variable settings&quot; of the scan config in use.
+
+                    The following directories were used for CGI scanning:
+
+                    http://192.168.0.100:8080/
+                    http://192.168.0.100:8080/1
+                    http://192.168.0.100:8080/10
+                    http://192.168.0.100:8080/2
+                    http://192.168.0.100:8080/3
+                    http://192.168.0.100:8080/4
+                    http://192.168.0.100:8080/5
+                    http://192.168.0.100:8080/6
+                    http://192.168.0.100:8080/7
+                    http://192.168.0.100:8080/8
+                    http://192.168.0.100:8080/9
+                    http://192.168.0.100:8080/host-manager/html
+                    http://192.168.0.100:8080/manager/html
+                    http://192.168.0.100:8080/manager/status
+
+                    While this is not, in and of itself, a bug, you should manually inspect these directories to ensure
+                    that they are in compliance with company security standards
+                </description>
+                <original_threat>Log</original_threat>
+                <original_severity>0.0</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+            <result id="d89879be-79f5-44be-b3ec-fa138d567344">
+                <name>DIRB (NASL wrapper)</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:12:29Z</creation_time>
+                <modification_time>2018-02-28T20:12:29Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>8080/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.103079">
+                    <type>nvt</type>
+                    <name>DIRB (NASL wrapper)</name>
+                    <family>Web application abuses</family>
+                    <cvss_base>0.0</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>NOXREF</xref>
+                    <tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This script uses DIRB to find directories
+                        and files on web
+                        applications via brute forcing. See the preferences section for configuration
+                        options.|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 6841 $</scan_nvt_version>
+                <threat>Log</threat>
+                <severity>0.0</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>This are the directories/files found with brute force:
+
+                    http://192.168.0.100:8080/
+                </description>
+                <original_threat>Log</original_threat>
+                <original_severity>0.0</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+            <result id="bc943287-3c18-492b-bb3d-49ffd64d1839">
+                <name>HTTP Security Headers Detection</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:11:48Z</creation_time>
+                <modification_time>2018-02-28T20:11:48Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>8080/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.112081">
+                    <type>nvt</type>
+                    <name>HTTP Security Headers Detection</name>
+                    <family>General</family>
+                    <cvss_base>0.0</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>URL:https://www.owasp.org/index.php/OWASP_Secure_Headers_Project,
+                        URL:https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#tab=Headers,
+                        URL:https://securityheaders.io/
+                    </xref>
+                    <tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=All known security headers are being
+                        checked on the host. On completion a report will hand back whether a specific security header
+                        has been implemented (including its value) or is missing on the target.|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 8141 $</scan_nvt_version>
+                <threat>Log</threat>
+                <severity>0.0</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>Missing Headers
+                    ---------------
+                    Content-Security-Policy
+                    Referrer-Policy
+                    X-Content-Type-Options
+                    X-Frame-Options
+                    X-Permitted-Cross-Domain-Policies
+                    X-XSS-Protection
+                </description>
+                <original_threat>Log</original_threat>
+                <original_severity>0.0</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+            <result id="8ba334f1-401a-4ee2-88f0-00c9c3b7f34a">
+                <name>Nikto (NASL wrapper)</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:12:24Z</creation_time>
+                <modification_time>2018-02-28T20:12:24Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>8080/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.14260">
+                    <type>nvt</type>
+                    <name>Nikto (NASL wrapper)</name>
+                    <family>Web application abuses</family>
+                    <cvss_base>0.0</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>NOXREF</xref>
+                    <tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This plugin uses nikto(1) to find weak CGI
+                        scripts and other known issues
+                        regarding web server security. See the preferences section for configuration
+                        options.|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 7155 $</scan_nvt_version>
+                <threat>Log</threat>
+                <severity>0.0</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>The target server did not return 404 on requests for non-existent pages.
+                    This scan has not been executed since Nikto is prone to reporting many false positives in this case.
+                    If you wish to force this scan, you can enable it in the Nikto preferences in your client.
+                </description>
+                <original_threat>Log</original_threat>
+                <original_severity>0.0</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+            <result id="c7369393-e8c5-4063-9ea9-9a7267334ee9">
+                <name>No 404 check</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:10:09Z</creation_time>
+                <modification_time>2018-02-28T20:10:09Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>8080/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.10386">
+                    <type>nvt</type>
+                    <name>No 404 check</name>
+                    <family>Web Servers</family>
+                    <cvss_base>0.0</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>NOXREF</xref>
+                    <tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|insight=This web server is [mis]configured in that
+                        it does not return
+                        &apos;404 Not Found&apos; error codes when a non-existent file is requested, perhaps returning a
+                        site map,
+                        search page or authentication page instead.
+
+                        OpenVAS enabled some counter measures for that, however they might be insufficient. If a great
+                        number of security holes are produced for this port, they might not all be
+                        accurate|summary=Remote web server does not reply with 404 error code.|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 7190 $</scan_nvt_version>
+                <threat>Log</threat>
+                <severity>0.0</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>Unfortunately, we were unable to find a way to recognize this page, so some CGI-related
+                    checks have been disabled.
+                </description>
+                <original_threat>Log</original_threat>
+                <original_severity>0.0</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+            <result id="6313fe54-a1ee-418f-ab23-d03df421f07e">
+                <name>OS Detection Consolidation and Reporting</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:10:53Z</creation_time>
+                <modification_time>2018-02-28T20:10:53Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>general/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.105937">
+                    <type>nvt</type>
+                    <name>OS Detection Consolidation and Reporting</name>
+                    <family>Product detection</family>
+                    <cvss_base>0.0</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>NOXREF</xref>
+                    <tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This script consolidates the OS
+                        information detected by several NVTs and tries to find the best matching OS.
+
+                        Furthermore it reports all previously collected information leading to this best matching OS. It
+                        also reports possible additional informations
+                        which might help to improve the OS detection.
+
+                        If any of this information is wrong or could be improved please consider to report these to
+                        openvas-plugins@wald.intevation.org.|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 8959 $</scan_nvt_version>
+                <threat>Log</threat>
+                <severity>0.0</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>Best matching OS:
+
+                    OS: FreeBSD
+                    CPE: cpe:/o:freebsd:freebsd
+                    Found by NVT: 1.3.6.1.4.1.25623.1.0.102002 (ICMP based OS Fingerprinting)
+                    Concluded from ICMP based OS fingerprint
+                    Setting key &quot;Host/runs_unixoide&quot; based on this information
+
+                    Other OS detections (in order of reliability):
+
+                    OS: Apple Mac OS X
+                    CPE: cpe:/o:apple:mac_os_x
+                    Found by NVT: 1.3.6.1.4.1.25623.1.0.102002 (ICMP based OS Fingerprinting)
+                    Concluded from ICMP based OS fingerprint
+                </description>
+                <original_threat>Log</original_threat>
+                <original_severity>0.0</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+            <result id="36ad6059-e69b-4359-9d2e-e5329627a61d">
+                <name>Services</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:08:59Z</creation_time>
+                <modification_time>2018-02-28T20:08:59Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>8080/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.10330">
+                    <type>nvt</type>
+                    <name>Services</name>
+                    <family>Service detection</family>
+                    <cvss_base>0.0</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>NOXREF</xref>
+                    <tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This routine attempts to guess which
+                        service is running on the
+                        remote ports. For instance, it searches for a web server which could listen on another port than
+                        80 or 443 and makes this information available for other check routines.|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 8188 $</scan_nvt_version>
+                <threat>Log</threat>
+                <severity>0.0</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>A web server is running on this port</description>
+                <original_threat>Log</original_threat>
+                <original_severity>0.0</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+            <result id="19ee96c4-43ab-485b-9ac1-8251874010ee">
+                <name>Services</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:09:36Z</creation_time>
+                <modification_time>2018-02-28T20:09:36Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>80/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.10330">
+                    <type>nvt</type>
+                    <name>Services</name>
+                    <family>Service detection</family>
+                    <cvss_base>0.0</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>NOXREF</xref>
+                    <tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This routine attempts to guess which
+                        service is running on the
+                        remote ports. For instance, it searches for a web server which could listen on another port than
+                        80 or 443 and makes this information available for other check routines.|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 8188 $</scan_nvt_version>
+                <threat>Log</threat>
+                <severity>0.0</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>An unknown service is running on this port.
+                    It is usually reserved for HTTP
+                </description>
+                <original_threat>Log</original_threat>
+                <original_severity>0.0</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+            <result id="69805e27-0f0e-4f7c-b780-68a68f138175">
+                <name>TCP timestamps</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:11:43Z</creation_time>
+                <modification_time>2018-02-28T20:11:43Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>general/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.80091">
+                    <type>nvt</type>
+                    <name>TCP timestamps</name>
+                    <family>General</family>
+                    <cvss_base>2.6</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>URL:http://www.ietf.org/rfc/rfc1323.txt</xref>
+                    <tags>cvss_base_vector=AV:N/AC:H/Au:N/C:P/I:N/A:N|summary=The remote host implements TCP timestamps
+                        and therefore allows to compute
+                        the uptime.|vuldetect=Special IP packets are forged and sent with a little delay in between to
+                        the
+                        target IP. The responses are searched for a timestamps. If found, the timestamps are
+                        reported.|solution=To disable TCP timestamps on linux add the line &apos;net.ipv4.tcp_timestamps
+                        = 0&apos; to
+                        /etc/sysctl.conf. Execute &apos;sysctl -p&apos; to apply the settings at runtime.
+
+                        To disable TCP timestamps on Windows execute &apos;netsh int tcp set global timestamps=disabled&apos;
+
+                        Starting with Windows Server 2008 and Vista, the timestamp can not be completely disabled.
+
+                        The default behavior of the TCP/IP stack on this Systems is to not use the
+                        Timestamp options when initiating TCP connections, but use them if the TCP peer
+                        that is initiating communication includes them in their synchronize (SYN) segment.
+
+                        See also: http://www.microsoft.com/en-us/download/details.aspx?id=9152|affected=TCP/IPv4
+                        implementations that implement RFC1323.|insight=The remote host implements TCP timestamps, as
+                        defined by RFC1323.|impact=A side effect of this feature is that the uptime of the remote
+                        host can sometimes be computed.|solution_type=Mitigation|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 7277 $</scan_nvt_version>
+                <threat>Low</threat>
+                <severity>2.6</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>It was detected that the host implements RFC1323.
+
+                    The following timestamps were retrieved with a delay of 1 seconds in-between:
+                    Packet 1: 754314254
+                    Packet 2: 754315272
+                </description>
+                <original_threat>Low</original_threat>
+                <original_severity>2.6</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+            <result id="dbe66d4b-78c7-4b4f-99c5-c725ae2449f3">
+                <name>Traceroute</name>
+                <owner>
+                    <name>Test1</name>
+                </owner>
+                <comment></comment>
+                <creation_time>2018-02-28T20:12:26Z</creation_time>
+                <modification_time>2018-02-28T20:12:26Z</modification_time>
+                <user_tags>
+                    <count>0</count>
+                </user_tags>
+                <host>192.168.0.100
+                    <asset asset_id=""></asset>
+                </host>
+                <port>general/tcp</port>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.51662">
+                    <type>nvt</type>
+                    <name>Traceroute</name>
+                    <family>General</family>
+                    <cvss_base>0.0</cvss_base>
+                    <cve>NOCVE</cve>
+                    <bid>NOBID</bid>
+                    <xref>NOXREF</xref>
+                    <tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|solution=Block unwanted packets from escaping your
+                        network.|summary=A traceroute from the scanning server to the target system was
+                        conducted. This traceroute is provided primarily for informational
+                        value only. In the vast majority of cases, it does not represent a
+                        vulnerability. However, if the displayed traceroute contains any
+                        private addresses that should not have been publicly visible, then you
+                        have an issue you need to correct.|qod_type=remote_banner
+                    </tags>
+                    <cert></cert>
+                </nvt>
+                <scan_nvt_version>$Revision: 8528 $</scan_nvt_version>
+                <threat>Log</threat>
+                <severity>0.0</severity>
+                <qod>
+                    <value>80</value>
+                    <type>remote_banner</type>
+                </qod>
+                <description>Here is the route from 192.168.0.107 to 192.168.0.100:
+
+                    192.168.0.107
+                    192.168.0.100
+                </description>
+                <original_threat>Log</original_threat>
+                <original_severity>0.0</original_severity>
+                <notes></notes>
+                <overrides></overrides>
+            </result>
+        </results>
+        <result_count>10
+            <full>10</full>
+            <filtered>10</filtered>
+            <debug>
+                <full>0</full>
+                <filtered>0</filtered>
+            </debug>
+            <hole>
+                <full>0</full>
+                <filtered>0</filtered>
+            </hole>
+            <info>
+                <full>1</full>
+                <filtered>1</filtered>
+            </info>
+            <log>
+                <full>9</full>
+                <filtered>9</filtered>
+            </log>
+            <warning>
+                <full>0</full>
+                <filtered>0</filtered>
+            </warning>
+            <false_positive>
+                <full>0</full>
+                <filtered>0</filtered>
+            </false_positive>
+        </result_count>
+        <severity>
+            <full>2.6</full>
+            <filtered>2.6</filtered>
+        </severity>
+        <host>
+            <ip>192.168.0.100</ip>
+            <asset asset_id=""></asset>
+            <start>2018-02-28T20:07:43Z</start>
+            <end></end>
+            <port_count>
+                <page>2</page>
+            </port_count>
+            <result_count>
+                <page>10</page>
+                <hole>
+                    <page>0</page>
+                </hole>
+                <warning>
+                    <page>0</page>
+                </warning>
+                <info>
+                    <page>1</page>
+                </info>
+                <log>
+                    <page>9</page>
+                </log>
+                <false_positive>
+                    <page>0</page>
+                </false_positive>
+            </result_count>
+        </host>
+        <host_start>2018-02-28T20:07:43Z
+            <host>192.168.0.100</host>
+        </host_start>
+        <host_end>
+            <host>192.168.0.100</host>
+        </host_end>
+        <scan_end></scan_end>
+        <errors>
+            <count>0</count>
+        </errors>
+        <report_format></report_format>
+    </report>
+</report>
