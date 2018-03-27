@@ -13,8 +13,8 @@ import java.util.Date;
 public class OvResult implements Serializable {
 
     @ManyToOne
-    @JoinColumn(name = "report_id", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "report_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     private OpenvasReport report;
 
     @Id
@@ -23,6 +23,7 @@ public class OvResult implements Serializable {
 
     private String port;
     private String name;
+    // Specifiy columnDefenition to text to store text with more then 255 chars
     @Column(columnDefinition = "text")
     private String description;
     private String threat;
@@ -109,6 +110,10 @@ public class OvResult implements Serializable {
 
     public void setResultId(OpenvasReport report) {
         this.report = report;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override
