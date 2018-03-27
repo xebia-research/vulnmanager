@@ -3,10 +3,11 @@ package com.xebia.vulnmanager.controller;
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.repositories.OpenvasRepository;
 import com.xebia.vulnmanager.util.ReportUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -15,11 +16,14 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Controller
+@RestController
 @RequestMapping(value = "/{company}/{team}/openvas")
 public class OpenvasController {
 
     private final Logger logger = LoggerFactory.getLogger("OpenvasController");
+
+    @Autowired
+    private OpenvasRepository openvasRepository;
 
     // This function is called before other functions, so if for example getReport is called it first runs the init function
     @ModelAttribute("isAuthenticated")
@@ -62,6 +66,11 @@ public class OpenvasController {
         if (report == null) {
             return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
         }
+
+        // Save the report
+        openvasRepository.save(report);
+        openvasRepository.flush();
+        System.out.println("Should be saved to db");
 
         return new ResponseEntity<>(report, HttpStatus.OK);
     }

@@ -25,7 +25,7 @@ public class OpenvasParser {
         Element mainElement = openvasDoc.getDocumentElement();
 
         retReport.setTimeDone(mainElement.getElementsByTagName("creation_time").item(0).getTextContent());
-        retReport.setId(mainElement.getAttribute("id"));
+        retReport.setFileId(mainElement.getAttribute("id"));
 
         NodeList reportList = mainElement.getElementsByTagName("report");
         Element reports = (Element) reportList.item(0);

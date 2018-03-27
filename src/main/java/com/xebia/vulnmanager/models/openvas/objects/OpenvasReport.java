@@ -1,11 +1,17 @@
 package com.xebia.vulnmanager.models.openvas.objects;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
+@Entity
 public class OpenvasReport implements Serializable {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    private String fileId;
     private String timeDone;
     private ArrayList<OvResult> results;
 
@@ -25,12 +31,12 @@ public class OpenvasReport implements Serializable {
         results.add(result);
     }
 
-    public String getId() {
-        return id;
+    public String getFileId() {
+        return fileId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 
     public String getTimeDone() {
