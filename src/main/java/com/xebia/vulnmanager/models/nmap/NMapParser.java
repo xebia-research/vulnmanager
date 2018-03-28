@@ -25,6 +25,7 @@ public class NMapParser {
         nMapReport.setScanData(nMapScanData);
         nMapReport.setHosts(hosts);
 
+        nMapScanData.setParentNMapReport(nMapReport);
         addNMapReportToHosts(hosts, nMapReport);
         return nMapReport;
     }

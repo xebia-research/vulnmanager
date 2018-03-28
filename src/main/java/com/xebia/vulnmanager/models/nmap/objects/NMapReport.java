@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.GenerationType;
 import javax.persistence.CascadeType;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class NMapReport implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @OneToOne(mappedBy = "nMapReportParent", cascade = CascadeType.ALL)
     private NMapGeneralInformation scanData;
 
     @OneToMany(mappedBy = "nMapReportParent", cascade = CascadeType.ALL)
