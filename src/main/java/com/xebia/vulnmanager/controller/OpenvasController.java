@@ -39,19 +39,6 @@ public class OpenvasController {
         return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
     }
 
-    private OpenvasReport getOpenvasReportFromObject(Object parsedDocument) throws ClassCastException {
-        try {
-            if (!(parsedDocument instanceof OpenvasReport)) {
-                throw new ClassCastException("Object was not of type OpenvasReport");
-            }
-        } catch (ClassCastException exception) {
-            logger.error(exception.getMessage());
-            return null;
-        }
-
-        return (OpenvasReport) parsedDocument;
-    }
-
     /**
      * Get all the added reports
      *
@@ -101,14 +88,14 @@ public class OpenvasController {
     @RequestMapping(value = "{reportid}/result/", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getAllResult(@PathVariable("reportid") long reportId,
-                                @ModelAttribute("isAuthenticated") boolean isAuthenticated) throws IOException {
+                                   @ModelAttribute("isAuthenticated") boolean isAuthenticated) throws IOException {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
         if (openvasRepository.findById(reportId).isPresent()) {
             OpenvasReport retReport = openvasRepository.findById(reportId).get();
-                return new ResponseEntity<>(retReport.getResults(), HttpStatus.OK);
+            return new ResponseEntity<>(retReport.getResults(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ErrorMsg("report not found"), HttpStatus.OK);
         }
@@ -123,9 +110,8 @@ public class OpenvasController {
      */
 
     /**
-     *
-     * @param id The index id in the OpenvasReport of the result.
-     * @param reportId The id of the report
+     * @param id              The index id in the OpenvasReport of the result.
+     * @param reportId        The id of the report
      * @param isAuthenticated If the user is authenticated
      * @return Return a result of a report
      * @throws IOException
@@ -168,7 +154,7 @@ public class OpenvasController {
     ResponseEntity<?> addTestReport() throws IOException {
 
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
-        OpenvasReport report = getOpenvasReportFromObject(parsedDocument);
+        OpenvasReport report = ReportUtil.getOpenvasReportFromObject(parsedDocument);
 
         if (report == null) {
             return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
