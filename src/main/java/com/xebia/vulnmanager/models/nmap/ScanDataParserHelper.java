@@ -5,6 +5,8 @@ import com.xebia.vulnmanager.models.nmap.objects.NMapInfo;
 import com.xebia.vulnmanager.models.nmap.objects.NMapScanInfo;
 import com.xebia.vulnmanager.models.nmap.objects.GeneralScanResult;
 import com.xebia.vulnmanager.models.nmap.objects.NMapGeneralInformation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

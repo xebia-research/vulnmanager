@@ -22,12 +22,12 @@ public class StateDetails implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "host_id", nullable = false) // Column that will be used to keep track of the parent
+    @JoinColumn(name = "host_id") // Column that will be used to keep track of the parent. Could be null because we have two parents
     @JsonBackReference // A backrefrence to keep json from infinite looping
     private Host hostParent;
 
     @OneToOne
-    @JoinColumn(name = "port_id", nullable = false) // Column that will be used to keep track of the parent
+    @JoinColumn(name = "port_id") // Column that will be used to keep track of the parent. Could be null because we have two parents
     @JsonBackReference // A backrefrence to keep json from infinite looping
     private HostPorts.Port portParent;
 

@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Lob;
 import javax.persistence.CascadeType;
 import javax.persistence.GenerationType;
 
@@ -33,6 +34,7 @@ public class NMapScanInfo implements Serializable {
     private String scanType;
     private String scanProtocol;
     private String scanNumberOfServices;
+    @Lob
     private String scanServices;
 
     @OneToMany(mappedBy = "nMapScanInfo", cascade = CascadeType.ALL)

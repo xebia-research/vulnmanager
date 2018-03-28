@@ -19,7 +19,7 @@ public class GeneralScanResult implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "nMapReport_id", nullable = false) // Column that will be used to keep track of the parent
+    @JoinColumn(name = "nMapReport_id") // Column that will be used to keep track of the parent
     @JsonBackReference // A back reference to keep json from infinite looping
     private NMapGeneralInformation nMapGeneralInformationParent;
 

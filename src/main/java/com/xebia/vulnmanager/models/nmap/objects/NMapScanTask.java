@@ -19,7 +19,7 @@ public class NMapScanTask implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "scan_info_id", nullable = false) // Column that will be used to keep track of the parent
+    @JoinColumn(name = "scan_info_id") // Column that will be used to keep track of the parent
     @JsonBackReference // A back reference to keep json from infinite looping
     private NMapScanInfo nMapScanInfo;
 
