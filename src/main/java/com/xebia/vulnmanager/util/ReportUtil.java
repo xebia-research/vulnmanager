@@ -1,7 +1,9 @@
 package com.xebia.vulnmanager.util;
 
+import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.OpenvasParser;
 import com.xebia.vulnmanager.models.nmap.NMapParser;
+import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -133,4 +135,28 @@ public class ReportUtil {
         }
     }
 
+    public static OpenvasReport getOpenvasReportFromObject(Object parsedDocument) throws ClassCastException {
+        try {
+            if (!(parsedDocument instanceof OpenvasReport)) {
+                throw new ClassCastException("Object was not of type OpenvasReport");
+            }
+        } catch (ClassCastException exception) {
+            LOGGER.error(exception.getMessage());
+            return null;
+        }
+
+        return (OpenvasReport) parsedDocument;
+    }
+
+    public static NMapReport getNMapReportFromObject(Object parsedDocument) throws ClassCastException {
+        try {
+            if (!(parsedDocument instanceof NMapReport)) {
+                throw new ClassCastException("Object was not of type NMapReport");
+            }
+        } catch (ClassCastException exception) {
+            LOGGER.error(exception.getMessage());
+            return null;
+        }
+        return (NMapReport) parsedDocument;
+    }
 }

@@ -38,19 +38,6 @@ public class OpenvasController {
         return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
     }
 
-    private OpenvasReport getOpenvasReportFromObject(Object parsedDocument) throws ClassCastException {
-        try {
-            if (!(parsedDocument instanceof OpenvasReport)) {
-                throw new ClassCastException("Object was not of type OpenvasReport");
-            }
-        } catch (ClassCastException exception) {
-            logger.error(exception.getMessage());
-            return null;
-        }
-
-        return (OpenvasReport) parsedDocument;
-    }
-
     /**
      * Get all the added reports
      *
@@ -100,14 +87,14 @@ public class OpenvasController {
     @RequestMapping(value = "{reportid}/result", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getAllResult(@PathVariable("reportid") long reportId,
-                                @ModelAttribute("isAuthenticated") boolean isAuthenticated) throws IOException {
+                                   @ModelAttribute("isAuthenticated") boolean isAuthenticated) throws IOException {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
         if (openvasRepository.findById(reportId).isPresent()) {
             OpenvasReport retReport = openvasRepository.findById(reportId).get();
-                return new ResponseEntity<>(retReport.getResults(), HttpStatus.OK);
+            return new ResponseEntity<>(retReport.getResults(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ErrorMsg("report not found"), HttpStatus.OK);
         }
