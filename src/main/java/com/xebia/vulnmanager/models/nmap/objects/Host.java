@@ -19,6 +19,8 @@ import java.io.Serializable;
 @Table(name = "Host")
 @Entity
 public class Host implements Serializable {
+    private static final String HOST_PARENT_STRING_LITERAL = "hostParent";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -28,19 +30,19 @@ public class Host implements Serializable {
     @JsonBackReference // A back reference to keep json from infinite looping
     private NMapReport nMapReportParent; // NMapReport for host to know
 
-    @OneToOne(mappedBy = "hostParent", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
     private StateDetails stateDetails;
 
-    @OneToOne(mappedBy = "hostParent", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
     private AddressDetails addressDetails;
 
-    @OneToOne(mappedBy = "hostParent", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
     private HostNamesDetails hostNamesDetails;
 
-    @OneToOne(mappedBy = "hostParent", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
     private HostPorts hostPorts;
 
-    @OneToOne(mappedBy = "hostParent", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
     private TimingData timingData;
 
     public Host(final StateDetails stateDetails, final AddressDetails addressDetails, final HostNamesDetails hostNamesDetails,

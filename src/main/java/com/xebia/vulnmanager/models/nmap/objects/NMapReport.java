@@ -28,6 +28,7 @@ public class NMapReport implements Serializable {
     private List<Host> hosts;
 
     public NMapReport() {
+        // Do nothing
     }
 
     public NMapReport(final NMapGeneralInformation scanData, final List<Host> hosts) {

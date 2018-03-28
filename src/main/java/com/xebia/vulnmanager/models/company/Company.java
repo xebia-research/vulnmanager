@@ -27,7 +27,7 @@ public class Company implements Serializable {
     private List<Person> employees;
 
     protected Company() {
-
+        // Do nothing
     }
 
     public Company(final String name) {

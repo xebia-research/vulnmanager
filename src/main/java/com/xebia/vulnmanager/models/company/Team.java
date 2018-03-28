@@ -34,7 +34,7 @@ public class Team implements Serializable {
     private List<OpenvasReport> reports;
 
     protected Team() {
-
+        // Do nothing
     }
 
     public Team(final String name) {
