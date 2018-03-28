@@ -13,3 +13,6 @@ install:
 
 aggregate:
   - mvn dependency-check:aggregate
+
+notifications:
+  slack: projectsecurityteam2:QKxWTArJnhIpA3OXylSNqTO2
