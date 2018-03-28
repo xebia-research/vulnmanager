@@ -1,21 +1,39 @@
 package com.xebia.vulnmanager.models.company;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Company implements Serializable {
-    // transient means don't serialize so it won't show in json respons
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String authKey = "testauth";
     private String name;
-    private ArrayList<Team> teams;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Team> teams;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Person> employees;
+
+    protected Company() {
+
+    }
 
     public Company(final String name) {
         this.name = name;
         teams = new ArrayList<>();
+        this.employees = new ArrayList<>();
     }
 
     @JsonIgnore
@@ -50,7 +68,24 @@ public class Company implements Serializable {
         this.teams.add(team);
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Person> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Person> employees) {
+        this.employees = employees;
+    }
+
     public Team findTeamByName(String name) {
+
         for (Team team : teams) {
             if (team.getName().equals(name)) {
                 return team;

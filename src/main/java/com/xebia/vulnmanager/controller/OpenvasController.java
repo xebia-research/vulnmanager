@@ -1,8 +1,10 @@
 package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
+import com.xebia.vulnmanager.data.MockCompanyFactory;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.repositories.CompanyRepository;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
 import com.xebia.vulnmanager.util.ReportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class OpenvasController {
 
     @Autowired
     private OpenvasRepository openvasRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
 
     // This function is called before other functions, so if for example getReport is called it first runs the init function
     @ModelAttribute("isAuthenticated")
@@ -170,6 +174,8 @@ public class OpenvasController {
             return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
         }
 
+        companyRepository.save(new MockCompanyFactory().getMockCompanies().get(0));
+        report.setTeam(companyRepository.findAll().get(0).findTeamByName("vulnmanager"));
         OpenvasReport retReport = openvasRepository.save(report);
 
         return new ResponseEntity<>(retReport, HttpStatus.OK);

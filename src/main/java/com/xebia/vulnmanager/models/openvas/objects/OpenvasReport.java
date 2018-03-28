@@ -1,6 +1,8 @@
 package com.xebia.vulnmanager.models.openvas.objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xebia.vulnmanager.models.company.Team;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,6 +22,11 @@ public class OpenvasReport implements Serializable {
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OvResult> results;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
+    private Team team;
 
     public OpenvasReport() {
         results = new ArrayList<>();
@@ -76,5 +83,13 @@ public class OpenvasReport implements Serializable {
                 "results=" + resultsInfo
                 +
                 '}';
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
