@@ -33,6 +33,10 @@ public class Team implements Serializable {
     @JsonManagedReference
     private List<OpenvasReport> reports;
 
+    protected Team() {
+
+    }
+
     public Team(final String name) {
         this.name = name;
         teamMembers = new ArrayList<>();

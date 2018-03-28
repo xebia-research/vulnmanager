@@ -1,18 +1,16 @@
 package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
-import com.xebia.vulnmanager.data.MockCompanyFactory;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
-import com.xebia.vulnmanager.repositories.CompanyRepository;
+import com.xebia.vulnmanager.models.openvas.objects.OvResult;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
-import com.xebia.vulnmanager.util.ReportUtil;
+import com.xebia.vulnmanager.repositories.OpenvasResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,8 +25,9 @@ public class OpenvasController {
 
     @Autowired
     private OpenvasRepository openvasRepository;
+
     @Autowired
-    private CompanyRepository companyRepository;
+    private OpenvasResultRepository openvasResultRepository;
 
     // This function is called before other functions, so if for example getReport is called it first runs the init function
     @ModelAttribute("isAuthenticated")
@@ -98,7 +97,7 @@ public class OpenvasController {
      * @return A response with correct http header
      * @throws IOException Exception when example log isn't found or couldn't be opened
      */
-    @RequestMapping(value = "{reportid}/result/", method = RequestMethod.GET)
+    @RequestMapping(value = "{reportid}/result", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getAllResult(@PathVariable("reportid") long reportId,
                                 @ModelAttribute("isAuthenticated") boolean isAuthenticated) throws IOException {
@@ -115,15 +114,7 @@ public class OpenvasController {
     }
 
     /**
-     * Get a certain result from a report.
-     *
-     * @param id The index id in the OpenvasReport.
-     * @return A response with correct http header
-     * @throws IOException Exception when example log isn't found or couldn't be opened
-     */
-
-    /**
-     *
+     * Get a certain result from a specific report
      * @param id The index id in the OpenvasReport of the result.
      * @param reportId The id of the report
      * @param isAuthenticated If the user is authenticated
@@ -156,28 +147,32 @@ public class OpenvasController {
         }
     }
 
-
     /**
-     * Add a parsed test report of openvas
      *
-     * @return A openvas report if it's added
-     * @throws IOException An exception if the example log isn't found
+     * @param id The index id in the OpenvasReport of the result.
+     * @param reportId The id of the report
+     * @param isAuthenticated If the user is authenticated
+     * @return Return a result of a report
+     * @throws IOException
      */
-    @RequestMapping(value = "/addtest", method = RequestMethod.GET)
+    @RequestMapping(value = "{reportid}/result/{id}/toggle", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> addTestReport() throws IOException {
-
-        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
-        OpenvasReport report = getOpenvasReportFromObject(parsedDocument);
-
-        if (report == null) {
-            return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
+    ResponseEntity<?> updateResult(@PathVariable("id") long id,
+                                @PathVariable("reportid") long reportId,
+                                @ModelAttribute("isAuthenticated") boolean isAuthenticated) throws IOException {
+        if (!isAuthenticated) {
+            return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
-        companyRepository.save(new MockCompanyFactory().getMockCompanies().get(0));
-        report.setTeam(companyRepository.findAll().get(0).findTeamByName("vulnmanager"));
-        OpenvasReport retReport = openvasRepository.save(report);
+        if (openvasResultRepository.findById(id).isPresent()) {
+            OvResult result = openvasResultRepository.findById(id).get();
+            result.getNvt().setFalsePositive(!result.getNvt().isFalsePositive());
+            result = openvasResultRepository.save(result);
 
-        return new ResponseEntity<>(retReport, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(new ErrorMsg("result not found"), HttpStatus.OK);
+        }
     }
 }
