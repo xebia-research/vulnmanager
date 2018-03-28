@@ -1,11 +1,36 @@
 package com.xebia.vulnmanager.models.nmap.objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 
 /**
  * StateDetails Serializable.
  */
+@Table(name = "StateDetails")
+@Entity
 public class StateDetails implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "host_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
+    private Host hostParent;
+
+    @OneToOne
+    @JoinColumn(name = "port_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
+    private HostPorts.Port portParent;
+
     private String state;
     private String reason;
     private String reasonTtl;
@@ -26,5 +51,25 @@ public class StateDetails implements Serializable {
 
     public String getReasonTtl() {
         return reasonTtl;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Host getHostParent() {
+        return hostParent;
+    }
+
+    public void setHostParent(Host hostParent) {
+        this.hostParent = hostParent;
+    }
+
+    public HostPorts.Port getPortParent() {
+        return portParent;
+    }
+
+    public void setPortParent(HostPorts.Port portParent) {
+        this.portParent = portParent;
     }
 }

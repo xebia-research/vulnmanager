@@ -71,7 +71,18 @@ class HostsParserHelper {
                     break;
             }
         }
-        return new Host(stateDetails, addressDetails, hostNamesDetails, hostPorts, timingData);
+
+        Host host = new Host(stateDetails, addressDetails, hostNamesDetails, hostPorts, timingData);
+        setHostParentToChildren(host);
+        return host;
+    }
+
+    private void setHostParentToChildren(Host host) {
+        host.getStateDetails().setHostParent(host);
+        host.getAddressDetails().setHostParent(host);
+        host.getHostNamesDetails().setHostParent(host);
+        host.getHostPorts().setHostParent(host);
+        host.getTimingData().setHostParent(host);
     }
 
     /**
@@ -113,8 +124,15 @@ class HostsParserHelper {
                 hostNameDetailsList.add(new HostNamesDetails.HostNameDetails(hostName, hostType));
             }
         }
+        HostNamesDetails hostNamesDetails = new HostNamesDetails(hostNameDetailsList);
+        setHostNamesDetailsParentToChildren(hostNamesDetails);
+        return hostNamesDetails;
+    }
 
-        return new HostNamesDetails(hostNameDetailsList);
+    private void setHostNamesDetailsParentToChildren(HostNamesDetails hostNamesDetails) {
+        for (HostNamesDetails.HostNameDetails hostNameDetails : hostNamesDetails.getHostNameDetails()) {
+            hostNameDetails.setHostNamesDetailsParent(hostNamesDetails);
+        }
     }
 
     private HostPorts getPortDetails(NodeList portsAttributes) {
@@ -134,7 +152,18 @@ class HostsParserHelper {
             }
         }
 
-        return new HostPorts(hostPortsDetailsList, extraPortsDetailsList);
+        HostPorts hostPorts = new HostPorts(hostPortsDetailsList, extraPortsDetailsList);
+        setHostPortParentToChildren(hostPorts);
+        return hostPorts;
+    }
+
+    private void setHostPortParentToChildren(HostPorts hostPorts) {
+        for (HostPorts.Port port : hostPorts.getPorts()) {
+            port.setParentHostPorts(hostPorts);
+        }
+        for (HostPorts.ExtraPort extraPort : hostPorts.getExtraPorts()) {
+            extraPort.setParentHostPorts(hostPorts);
+        }
     }
 
     private HostPorts.Port getPort(Node currentNode) {
@@ -158,7 +187,10 @@ class HostsParserHelper {
             }
         }
 
-        return new HostPorts.Port(protocol, portId, stateDetails, serviceDetails);
+        HostPorts.Port port = new HostPorts.Port(protocol, portId, stateDetails, serviceDetails);
+        port.getStateDetails().setPortParent(port);
+        port.getServiceDetails().setPortParent(port);
+        return port;
     }
 
     private StateDetails getStateDetails(NamedNodeMap stateDetails) {
@@ -191,7 +223,10 @@ class HostsParserHelper {
                 extraReason = new ExtraReason(reason, extraCount);
             }
         }
-        return new HostPorts.ExtraPort(state, count, extraReason);
+
+        HostPorts.ExtraPort extraPort = new HostPorts.ExtraPort(state, count, extraReason);
+        extraPort.getExtraReason().setExtraPortParent(extraPort);
+        return extraPort;
     }
 
     private TimingData getTimingData(NamedNodeMap timesDetails) {
