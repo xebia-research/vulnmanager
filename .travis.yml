@@ -7,7 +7,7 @@ jdk:
 
 notifications:
   email: false
-  slack: projectsecurityteam2:QKxWTArJnhIpA3OXylSNqTO2
+
 install:
   - mvn install
 
