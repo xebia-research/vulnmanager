@@ -8,6 +8,18 @@ jdk:
 notifications:
   email: false
 
+services:
+  - postgresql
+
+before_script:
+  - psql -c "CREATE USER root WITH PASSWORD 'toor';" -U postgres
+  - psql -c "create database vulnmanager;" -U postgres
+  - psql -c "ALTER DATABASE vulnmanager OWNER TO root" -U postgres
+
+env:
+  global:
+  - PGPORT=5432
+
 install:
   - mvn install
 
