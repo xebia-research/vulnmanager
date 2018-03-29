@@ -1,5 +1,6 @@
 package com.xebia.vulnmanager.models.nmap.objects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -22,9 +23,11 @@ public class NMapReport implements Serializable {
     private Long id;
 
     @OneToOne(mappedBy = "nMapReportParent", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private NMapGeneralInformation scanData;
 
     @OneToMany(mappedBy = "nMapReportParent", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Host> hosts;
 
     public NMapReport() {

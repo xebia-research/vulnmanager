@@ -26,6 +26,10 @@ public class NMapScanTask implements Serializable {
     private String taskName;
     private String taskExtraInfo;
 
+    public NMapScanTask() {
+        // Default Constructor
+    }
+
     public NMapScanTask(final String taskName, final String taskExtraInfo) {
         this.taskName = taskName;
         this.taskExtraInfo = taskExtraInfo;

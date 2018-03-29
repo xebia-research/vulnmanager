@@ -1,6 +1,7 @@
 package com.xebia.vulnmanager.models.nmap.objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.Table;
 import javax.persistence.Entity;
@@ -26,11 +27,18 @@ public class NMapGeneralInformation implements Serializable {
     private NMapReport nMapReportParent; // NMapReport for host to know
 
     @OneToOne(mappedBy = "nMapGeneralInformationParent", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private NMapInfo nMapInfo;
     @OneToOne(mappedBy = "nMapGeneralInformationParent", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private NMapScanInfo nMapScanInfo;
     @OneToOne(mappedBy = "nMapGeneralInformationParent", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private GeneralScanResult generalScanResult;
+
+    public NMapGeneralInformation() {
+        // Default Constructor
+    }
 
     public NMapGeneralInformation(final NMapInfo nMapInfo, final NMapScanInfo nMapScanInfo,
                                   final GeneralScanResult generalScanResult) {

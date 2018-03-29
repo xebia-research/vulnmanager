@@ -28,6 +28,10 @@ public class NMapInfo implements Serializable {
     private String calledArgument;
     private String nMapVersion;
 
+    public NMapInfo() {
+        // Default Constructor
+    }
+
     public NMapInfo(final LocalDateTime scanDateTime, final String nMapVersion, final String nMapCalledArgument) {
         this.scanDateTime = scanDateTime;
         this.calledArgument = nMapCalledArgument;

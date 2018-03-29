@@ -1,6 +1,7 @@
 package com.xebia.vulnmanager.models.nmap.objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -31,18 +32,23 @@ public class Host implements Serializable {
     private NMapReport nMapReportParent; // NMapReport for host to know
 
     @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private StateDetails stateDetails;
 
     @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private AddressDetails addressDetails;
 
     @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private HostNamesDetails hostNamesDetails;
 
     @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private HostPorts hostPorts;
 
     @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private TimingData timingData;
 
     public Host(final StateDetails stateDetails, final AddressDetails addressDetails, final HostNamesDetails hostNamesDetails,

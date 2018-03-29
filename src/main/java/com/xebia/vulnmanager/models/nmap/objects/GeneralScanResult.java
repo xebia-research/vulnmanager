@@ -28,6 +28,10 @@ public class GeneralScanResult implements Serializable {
     private String numberOfHostDown;
     private String timeElapsed;
 
+    public GeneralScanResult() {
+        // Default constructor
+    }
+
     public GeneralScanResult(final String numberOfScannedHosts, final String numberOfHostUp,
                              final String numberOfHostDown, final String timeElapsed) {
         this.numberOfScannedHosts = numberOfScannedHosts;

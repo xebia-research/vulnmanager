@@ -1,5 +1,6 @@
 package com.xebia.vulnmanager.models.nmap.objects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -38,7 +39,12 @@ public class NMapScanInfo implements Serializable {
     private String scanServices;
 
     @OneToMany(mappedBy = "nMapScanInfo", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<NMapScanTask> scanTaskList;
+
+    public NMapScanInfo() {
+        // Default constructor
+    }
 
     public NMapScanInfo(final String scanType, final String scanProtocol,
                         final String scanNumberOfServices, final String scanServices, final List<NMapScanTask> scanTaskList) {

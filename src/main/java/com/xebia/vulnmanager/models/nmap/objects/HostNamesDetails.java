@@ -1,6 +1,7 @@
 package com.xebia.vulnmanager.models.nmap.objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -34,6 +35,7 @@ public class HostNamesDetails implements Serializable {
     private Host hostParent;
 
     @OneToMany(mappedBy = "hostNamesDetailsParent", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<HostNameDetails> hostNameDetails;
 
     public HostNamesDetails(final List<HostNameDetails> hostNameDetails) {
