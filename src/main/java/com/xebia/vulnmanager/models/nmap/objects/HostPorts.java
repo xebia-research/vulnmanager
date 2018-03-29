@@ -37,6 +37,10 @@ public class HostPorts implements Serializable {
     @JsonManagedReference
     private List<ExtraPort> extraPorts;
 
+    protected HostPorts() {
+        // JPA constructor
+    }
+
     public HostPorts(final List<Port> ports, final List<ExtraPort> extraPorts) {
         this.ports = ports;
         this.extraPorts = extraPorts;
@@ -87,6 +91,10 @@ public class HostPorts implements Serializable {
         @OneToOne(mappedBy = "portParent", cascade = CascadeType.ALL)
         private ServiceDetails serviceDetails;
 
+        protected Port() {
+            // JPA constructor
+        }
+
         public Port(final String protocol, final String portId, final StateDetails stateDetails, final ServiceDetails serviceDetails) {
             this.protocol = protocol;
             this.portId = portId;
@@ -117,7 +125,7 @@ public class HostPorts implements Serializable {
         public void setParentHostPorts(HostPorts hostPortParent) {
             this.hostPortParent = hostPortParent;
         }
-
+        @JsonBackReference // A backrefrence to keep json from infinite looping
         public HostPorts getParentHostPorts() {
             return hostPortParent;
         }
@@ -140,6 +148,10 @@ public class HostPorts implements Serializable {
         private String count;
         @OneToOne(mappedBy = "extraPortsParent", cascade = CascadeType.ALL)
         private ExtraReason extraReason;
+
+        protected ExtraPort() {
+            // JPA constructor
+        }
 
         public ExtraPort(final String state, final String count, final ExtraReason extraReason) {
             this.state = state;
@@ -166,7 +178,7 @@ public class HostPorts implements Serializable {
         public void setParentHostPorts(HostPorts hostPorts) {
             this.hostPortParent = hostPorts;
         }
-
+        @JsonBackReference // A backrefrence to keep json from infinite looping
         public HostPorts getParentHostPorts() {
             return hostPortParent;
         }

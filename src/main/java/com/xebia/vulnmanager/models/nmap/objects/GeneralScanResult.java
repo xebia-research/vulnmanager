@@ -59,7 +59,7 @@ public class GeneralScanResult implements Serializable {
     public Long getId() {
         return id;
     }
-
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public NMapGeneralInformation getnMapGeneralInformationParent() {
         return nMapGeneralInformationParent;
     }

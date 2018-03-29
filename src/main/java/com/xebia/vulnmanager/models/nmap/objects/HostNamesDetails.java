@@ -38,6 +38,10 @@ public class HostNamesDetails implements Serializable {
     @JsonManagedReference
     private List<HostNameDetails> hostNameDetails;
 
+    protected HostNamesDetails() {
+        // JPA constructor
+    }
+
     public HostNamesDetails(final List<HostNameDetails> hostNameDetails) {
         this.hostNameDetails = hostNameDetails;
     }
@@ -52,6 +56,7 @@ public class HostNamesDetails implements Serializable {
         return id;
     }
 
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public Host getHostParent() {
         return hostParent;
     }
@@ -76,6 +81,10 @@ public class HostNamesDetails implements Serializable {
 
         private String hostName;
         private String hostType;
+
+        protected HostNameDetails() {
+            // JPA constructor
+        }
 
         public HostNameDetails(final String hostName, final String hostType) {
             this.hostName = hostName;

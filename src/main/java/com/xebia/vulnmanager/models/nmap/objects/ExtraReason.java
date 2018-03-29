@@ -20,6 +20,10 @@ public class ExtraReason implements Serializable {
     private String reason;
     private String count;
 
+    protected ExtraReason() {
+        // JPA constructor
+    }
+
     public ExtraReason(final String reason, final String count) {
         this.reason = reason;
         this.count = count;
@@ -36,7 +40,7 @@ public class ExtraReason implements Serializable {
     public Long getId() {
         return id;
     }
-
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public HostPorts.ExtraPort getExtraPortParent() {
         return extraPortsParent;
     }

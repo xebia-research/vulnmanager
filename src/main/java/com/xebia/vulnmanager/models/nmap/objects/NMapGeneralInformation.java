@@ -63,6 +63,7 @@ public class NMapGeneralInformation implements Serializable {
         return id;
     }
 
+    @JsonBackReference
     public NMapReport getParentReport() {
         return nMapReportParent;
     }

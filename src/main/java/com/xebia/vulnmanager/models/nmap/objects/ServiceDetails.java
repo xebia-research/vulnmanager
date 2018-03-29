@@ -27,6 +27,10 @@ public class ServiceDetails implements Serializable {
     private String serviceMethod;
     private String serviceConf;
 
+    protected ServiceDetails() {
+        // JPA constructor
+    }
+
     public ServiceDetails(final String serviceName, final String serviceMethod, final String serviceConf) {
         this.serviceName = serviceName;
         this.serviceMethod = serviceMethod;
@@ -49,6 +53,7 @@ public class ServiceDetails implements Serializable {
         return id;
     }
 
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public HostPorts.Port getPortParent() {
         return portParent;
     }

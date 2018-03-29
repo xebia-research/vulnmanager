@@ -27,6 +27,11 @@ public class TimingData implements Serializable {
     private String roundTripTimeVariance;
     private String probeTimeout;
 
+
+    protected TimingData() {
+        // JPA constructor
+    }
+
     public TimingData(final String smoothedRoundTripTime, final String roundTripTimeVariance, final String probeTimeout) {
         this.smoothedRoundTripTime = smoothedRoundTripTime;
         this.roundTripTimeVariance = roundTripTimeVariance;
@@ -49,6 +54,7 @@ public class TimingData implements Serializable {
         return id;
     }
 
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public Host getHostParent() {
         return hostParent;
     }

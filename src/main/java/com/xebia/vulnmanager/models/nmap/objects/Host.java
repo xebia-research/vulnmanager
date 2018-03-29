@@ -51,6 +51,10 @@ public class Host implements Serializable {
     @JsonManagedReference
     private TimingData timingData;
 
+    protected Host() {
+        // JPA constructor
+    }
+
     public Host(final StateDetails stateDetails, final AddressDetails addressDetails, final HostNamesDetails hostNamesDetails,
                 final HostPorts hostPorts, final TimingData timingData) {
         this.stateDetails = stateDetails;
@@ -84,6 +88,7 @@ public class Host implements Serializable {
         return id;
     }
 
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public NMapReport getParentReport() {
         return nMapReportParent;
     }

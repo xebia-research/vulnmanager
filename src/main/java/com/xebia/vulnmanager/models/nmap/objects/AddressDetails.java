@@ -29,6 +29,10 @@ public class AddressDetails implements Serializable {
     private String address;
     private String addressType;
 
+    protected AddressDetails() {
+        // JPA constructor
+    }
+
     public AddressDetails(final String address, final String addressType) {
         this.address = address;
         this.addressType = addressType;
@@ -45,7 +49,7 @@ public class AddressDetails implements Serializable {
     public Long getId() {
         return id;
     }
-
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public Host getHostParent() {
         return hostParent;
     }

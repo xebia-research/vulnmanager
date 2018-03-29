@@ -35,6 +35,10 @@ public class StateDetails implements Serializable {
     private String reason;
     private String reasonTtl;
 
+    protected StateDetails() {
+        // JPA constructor
+    }
+
     public StateDetails(final String state, final String reason, final String reasonTtl) {
         this.state = state;
         this.reason = reason;
@@ -57,6 +61,7 @@ public class StateDetails implements Serializable {
         return id;
     }
 
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public Host getHostParent() {
         return hostParent;
     }
@@ -65,6 +70,7 @@ public class StateDetails implements Serializable {
         this.hostParent = hostParent;
     }
 
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public HostPorts.Port getPortParent() {
         return portParent;
     }

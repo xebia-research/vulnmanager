@@ -81,6 +81,7 @@ public class NMapScanInfo implements Serializable {
         return id;
     }
 
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public NMapGeneralInformation getnMapGeneralInformationParent() {
         return nMapGeneralInformationParent;
     }

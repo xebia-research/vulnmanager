@@ -47,6 +47,7 @@ public class NMapScanTask implements Serializable {
         return id;
     }
 
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     public NMapScanInfo getnMapScanInfo() {
         return nMapScanInfo;
     }
