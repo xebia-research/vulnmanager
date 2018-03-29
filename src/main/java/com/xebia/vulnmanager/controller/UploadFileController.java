@@ -7,6 +7,7 @@ import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.repositories.CompanyRepository;
 import com.xebia.vulnmanager.repositories.NMapRepository;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
 import com.xebia.vulnmanager.util.IOUtil;
@@ -34,6 +35,9 @@ public class UploadFileController {
 
     @Autowired
     private NMapRepository nMapRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     /**
      * Upload a report to the server.
@@ -84,7 +88,16 @@ public class UploadFileController {
             if (reportType != ReportType.UNKNOWN) {
                 if (reportType.toString().equalsIgnoreCase(scannerType)) {
                     newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
-                    uploadFileToDB(tempFile, reportType);
+
+                    // Get company and team
+                    Team foundTeam = companyRepository.findByname(companyName).get(0).findTeamByName(teamName);
+                    if (foundTeam != null) {
+                        uploadFileToDB(tempFile, reportType, foundTeam);
+                    } else {
+                        wrongEndpoint = true;
+                    }
+
+
                 } else {
                     // File is known but wrong endpoint
                     wrongEndpoint = true;
@@ -125,7 +138,7 @@ public class UploadFileController {
         return false;
     }
 
-    private void uploadFileToDB(File uploadFile, ReportType reportType) {
+    private void uploadFileToDB(File uploadFile, ReportType reportType, Team team) {
         Document document = ReportUtil.getDocumentFromFile(uploadFile);
         Object parsedDocument = ReportUtil.parseDocument(document);
         if (reportType == ReportType.OPENVAS) {
@@ -135,6 +148,7 @@ public class UploadFileController {
             }
 
             // Save the report
+            openvasReport.setTeam(team);
             openvasRepository.save(openvasReport);
             openvasRepository.flush();
         } else if (reportType == ReportType.NMAP) {
