@@ -1,0 +1,27 @@
+
+<div class="jumbotron">
+
+
+  <h1>Vulnmanager results</h1>
+  <button pButton type="button" (click)="showNmapData()" icon="fa-list" label="Show Nmap results"></button>
+  <button pButton type="button" (click)="showOpenVasData()"  icon="fa-list" label="Show OpenVAS results" ></button>
+
+
+  <div *ngIf="showOpenVas">
+    <div *ngFor="let result of openVasObject.results">
+      <h5> {{result.name}}</h5>
+      <h6> {{result.description}}</h6>
+    </div>
+  </div>
+  <!--dit is een comment-->
+
+  <div *ngIf="showNmap">
+    <div *ngFor="let hosts of nMapObject.hosts">
+      <h6> {{hosts.addressDetails.address}}</h6>
+      <h6> {{hosts.stateDetails.state}}</h6>
+
+    </div>
+  </div>
+
+
+</div>

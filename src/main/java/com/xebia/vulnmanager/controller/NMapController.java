@@ -38,7 +38,7 @@ public class NMapController {
         }
         return (NMapReport) parsedDocument;
     }
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getNMapReport(@ModelAttribute("isAuthenticated") boolean isAuthenticated) {
