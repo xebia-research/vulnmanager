@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ButtonModule} from 'primeng/button';
 
 @Component({
   selector: 'app-results',
@@ -58,6 +57,7 @@ export class ResultsComponent implements OnInit {
       console.log(data) ;
       this.nMapObject = data ;
     });
+
   }
 
 
@@ -70,5 +70,5 @@ export class ResultsComponent implements OnInit {
     this.showNmap = !this.showNmap;
     this.showOpenVas = false;
   }
-}
 
+}
