@@ -1,17 +1,17 @@
-
 <div class="jumbotron">
+
   <h1>Vulnmanager results</h1>
   <button pButton type="button" (click)="showNmapData()" icon="fa-list" label="Show Nmap results"></button>
   <button pButton type="button" (click)="showOpenVasData()"  icon="fa-list" label="Show OpenVAS results" ></button>
 
   <div *ngIf="showOpenVas">
     <h3></h3>
-    <p-dataView #dv [value]="openVasObject.results" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="severity">
+    <p-dataView #dv [value]="openVasObject.results" [paginator]="true" [rows]="4" paginatorPosition="both" filterBy="severity">
       <p-header>
         <b>OpenVAS results of $scantime</b>
       </p-header>
       <ng-template let-result pTemplate="listItem">
-        <div class="ui-g" style="padding: 2em;border-bottom: 3px solid #d9d9d9">
+        <div class="ui-g" style="padding: 2em;border-bottom: 3px solid #d9d9d9" >
           <div class="ui-g-12 ui-md-8 result-details">
             <div class="ui-g">
               <div class="ui-g-3 ui-sm-6"><b>Result name: </b></div>
@@ -28,10 +28,13 @@
       </ng-template>
       <ng-template let-car pTemplate="gridItem">
         <div style="padding:.5em" class="ui-g-12 ui-md-3">
+          <p-panel [header]="car.vin" [style]="{'text-align':'center'}">
+            <button pButton type="button" icon="fa-search" (click)="selectResult($event, result)" style="margin-top:0"></button>
+          </p-panel>
         </div>
       </ng-template>
     </p-dataView>
-  </div>
+
   <!--dit is een comment-->
 
   <div *ngIf="showNmap">
@@ -76,6 +79,4 @@
     </p-table>
     -->
   </div>
-
-
 </div>
