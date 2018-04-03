@@ -11,5 +11,5 @@ notifications:
 install:
   - mvn install
 
-aggregate:
-  - mvn dependency-check:aggregate
+#aggregate:
+ # - mvn dependency-check:aggregate
