@@ -2,8 +2,10 @@ package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.data.MockCompanyFactory;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
+import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.repositories.CompanyRepository;
+import com.xebia.vulnmanager.repositories.NMapRepository;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
 import com.xebia.vulnmanager.util.ReportUtil;
 import org.slf4j.Logger;
@@ -25,19 +27,8 @@ public class TestController {
     private OpenvasRepository openvasRepository;
     @Autowired
     private CompanyRepository companyRepository;
-
-    private OpenvasReport getOpenvasReportFromObject(Object parsedDocument) throws ClassCastException {
-        try {
-            if (!(parsedDocument instanceof OpenvasReport)) {
-                throw new ClassCastException("Object was not of type OpenvasReport");
-            }
-        } catch (ClassCastException exception) {
-            logger.error(exception.getMessage());
-            return null;
-        }
-
-        return (OpenvasReport) parsedDocument;
-    }
+    @Autowired
+    private NMapRepository nMapRepository;
 
     /**
      * @return A list of teams within the team
@@ -46,8 +37,11 @@ public class TestController {
     @ResponseBody
     ResponseEntity<?> addTest()  {
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
-        OpenvasReport report = getOpenvasReportFromObject(parsedDocument);
+        OpenvasReport report = ReportUtil.getOpenvasReportFromObject(parsedDocument);
 
+        parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap.xml")));
+        NMapReport nMapReport = ReportUtil.getNMapReportFromObject(parsedDocument);
+        nMapRepository.save(nMapReport);
         if (report == null) {
             return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
         }

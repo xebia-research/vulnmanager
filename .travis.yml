@@ -12,9 +12,7 @@ services:
   - postgresql
 
 before_script:
-  - psql -c "CREATE USER root WITH PASSWORD 'toor';" -U postgres
   - psql -c "create database vulnmanager;" -U postgres
-  - psql -c "ALTER DATABASE vulnmanager OWNER TO root" -U postgres
 
 env:
   global:
@@ -23,8 +21,7 @@ env:
 install:
   - mvn install
 
-aggregate:
-  - mvn dependency-check:aggregate
-
 notifications:
   slack: projectsecurityteam2:QKxWTArJnhIpA3OXylSNqTO2
+#aggregate:
+ # - mvn dependency-check:aggregate
