@@ -28,21 +28,14 @@
       </ng-template>
       <ng-template let-car pTemplate="gridItem">
         <div style="padding:.5em" class="ui-g-12 ui-md-3">
-          <p-panel [header]="car.vin" [style]="{'text-align':'center'}">
-            <button pButton type="button" icon="fa-search" (click)="selectResult($event, result)" style="margin-top:0"></button>
-          </p-panel>
         </div>
       </ng-template>
     </p-dataView>
-
-  <!--dit is een comment-->
-
+</div>
   <div *ngIf="showNmap">
     <h3></h3>
     <p-dataView #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="5" paginatorPosition="both" filterBy="severity">
-      <p-header>
-        <b>Nmap results of $scantime</b>
-      </p-header>
+
       <ng-template let-host pTemplate="listItem">
         <div class="ui-g" style="padding: .5em;border-bottom: 1px solid #d9d9d9">
           <div class="ui-g-12 ui-md-8 result-details">
