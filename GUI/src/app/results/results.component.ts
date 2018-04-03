@@ -17,7 +17,9 @@ export class ResultsComponent implements OnInit {
   selectedNmapHost: any;
   displayDialog: boolean;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
+  }
   greetings(person: string) {
     this.title = 'Hello mr ' + person;
     this.showOpenVas = false;
@@ -53,13 +55,13 @@ export class ResultsComponent implements OnInit {
     this.httpGetOpenVas().subscribe((data) => {
       // data bestaat
       console.log(data) ;
-      this.openVasObject = data;
+      this.openVasObject = data[0];
       });
 
     this.httpGetNmap().subscribe((data) => {
       // data bestaat
       console.log(data) ;
-      this.nMapObject = data ;
+      this.nMapObject = data[0];
     });
 
   }

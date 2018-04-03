@@ -1,16 +1,59 @@
 package com.xebia.vulnmanager.models.nmap.objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 
 /**
  * HostDetails Serializable.
  */
+@Table(name = "Host")
+@Entity
 public class Host implements Serializable {
+    private static final String HOST_PARENT_STRING_LITERAL = "hostParent";
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "nMapReport_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A back reference to keep json from infinite looping
+    private NMapReport nMapReportParent; // NMapReport for host to know
+
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private StateDetails stateDetails;
+
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private AddressDetails addressDetails;
+
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private HostNamesDetails hostNamesDetails;
+
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private HostPorts hostPorts;
+
+    @OneToOne(mappedBy = HOST_PARENT_STRING_LITERAL, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private TimingData timingData;
+
+    protected Host() {
+        // JPA constructor
+    }
 
     public Host(final StateDetails stateDetails, final AddressDetails addressDetails, final HostNamesDetails hostNamesDetails,
                 final HostPorts hostPorts, final TimingData timingData) {
@@ -39,5 +82,18 @@ public class Host implements Serializable {
 
     public TimingData getTimingData() {
         return timingData;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    @JsonBackReference // A backrefrence to keep json from infinite looping
+    public NMapReport getParentReport() {
+        return nMapReportParent;
+    }
+
+    public void setParentNMapReport(NMapReport nMapReport) {
+        this.nMapReportParent = nMapReport;
     }
 }

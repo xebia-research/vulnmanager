@@ -25,8 +25,14 @@ public class MockCompanyFactory {
         t2.addTeamMember(p3);
 
         Company c1 = new Company("xebia");
+        p1.setCompany(c1);
+        p2.setCompany(c1);
+        p3.setCompany(c1);
+
         c1.addTeam(t1);
+        t1.setCompany(c1);
         c1.addTeam(t2);
+        t2.setCompany(c1);
 
         companies = Arrays.asList(c1);
     }

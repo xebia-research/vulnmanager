@@ -29,7 +29,12 @@ class ScanDataParserHelper {
         NodeList runStatistics = nMapDoc.getElementsByTagName(NMapConstants.PARSER_LITERAL_NMAP_RUNSTATS).item(0).getChildNodes();
         GeneralScanResult generalScanResult = getGeneralScanResults(runStatistics);
 
-        return new NMapGeneralInformation(nMapInfo, nMapScanInfo, generalScanResult);
+        NMapGeneralInformation nMapGeneralInformation = new NMapGeneralInformation(nMapInfo, nMapScanInfo, generalScanResult);
+        nMapGeneralInformation.getnMapInfo().setNMapGeneralInformationParent(nMapGeneralInformation);
+        nMapGeneralInformation.getnMapScanInfo().setNMapGeneralInformationParent(nMapGeneralInformation);
+        nMapGeneralInformation.getGeneralScanResult().setNMapGeneralInformationParent(nMapGeneralInformation);
+
+        return nMapGeneralInformation;
     }
 
     private NMapInfo getNMapInfo(NamedNodeMap reportData) {
@@ -61,7 +66,9 @@ class ScanDataParserHelper {
 
         List<NMapScanTask> scanTasks = getScanTaskList(tasksList);
 
-        return new NMapScanInfo(scanType, scanProtocol, scanNumberOfServices, scanServices, scanTasks);
+        NMapScanInfo nMapScanInfo = new NMapScanInfo(scanType, scanProtocol, scanNumberOfServices, scanServices, scanTasks);
+        setNMapScanInfoParentInChild(nMapScanInfo);
+        return nMapScanInfo;
     }
 
     private List<NMapScanTask> getScanTaskList(NodeList tasksList) {
@@ -79,6 +86,12 @@ class ScanDataParserHelper {
             scanTasks.add(new NMapScanTask(taskName, extraInfo));
         }
         return scanTasks;
+    }
+
+    private void setNMapScanInfoParentInChild(NMapScanInfo nMapScanInfo) {
+        for (NMapScanTask nMapScanTask : nMapScanInfo.getScanTaskList()) {
+            nMapScanTask.setNMapScanInfo(nMapScanInfo);
+        }
     }
 
     private GeneralScanResult getGeneralScanResults(NodeList runStatistics) {

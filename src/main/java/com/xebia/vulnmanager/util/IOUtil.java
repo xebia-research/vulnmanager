@@ -18,8 +18,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class IOUtil {
-    private static final String UPLOAD_FOLDER = "/tmp/reports/";
-    private static final String PERSISTENT_FOLDER = "/tmp/finalreports/";
+    private static final String CURRENT_FOLDER = String.format("%s", new File("").getPath());
+    private static final String TEMP_FOLDER = CURRENT_FOLDER + "/tmp";
+    private static final String UPLOAD_FOLDER = TEMP_FOLDER + "/reports/";
+    private static final String PERSISTENT_FOLDER = TEMP_FOLDER + "/finalreports/";
+
     private static final Logger LOGGER = LoggerFactory.getLogger("IO Util");
 
     /**
@@ -32,6 +35,7 @@ public class IOUtil {
         String fullPath =  UPLOAD_FOLDER + "/tmp/" + LocalDateTime.now().format(formatter) + " " + file.getOriginalFilename();
 
         // Create directories
+        createDirIfNotExist(TEMP_FOLDER);
         createDirIfNotExist(UPLOAD_FOLDER);
         createDirIfNotExist(UPLOAD_FOLDER + "/tmp/");
 
