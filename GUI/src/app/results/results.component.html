@@ -1,0 +1,103 @@
+<div class="jumbotron">
+
+  <h1>Vulnmanager results</h1>
+  <button pButton type="button" (click)="showNmapData()" icon="fa-list" label="Show Nmap results"></button>
+  <button pButton type="button" (click)="showOpenVasData()"  icon="fa-list" label="Show OpenVAS results" ></button>
+
+  <div *ngIf="showOpenVas">
+    <h3></h3>
+    <p-dataView #dv [value]="openVasObject.results" [paginator]="true" [rows]="4" paginatorPosition="both" filterBy="severity">
+      <p-header>
+        <b>OpenVAS results of {{openVasObject.timeDone | date :'HH:mm:ss @ dd/MM/yyyy'}}</b>
+      </p-header>
+      <ng-template let-result pTemplate="listItem">
+        <div class="ui-g" style="padding: 2em;border-bottom: 3px solid #d9d9d9" >
+          <div class="ui-g-12 ui-md-8 result-details">
+            <div class="ui-g">
+              <div class="ui-g-3 ui-sm-6"><b>Result name: </b></div>
+              <div class="ui-g-9 ui-sm-6 ">{{result.name}}</div>
+              <div class="ui-g-3 ui-sm-6"><b>Result port: </b></div>
+              <div class="ui-g-9 ui-sm-6 ">{{result.port}}</div>
+              <div class="ui-g-3 ui-sm-6"><b>Severity: </b></div>
+              <div class="ui-g-9 ui-sm-6 ">{{result.severity}}</div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-1 search-icon">
+            <button pButton type="button" icon="fa-search" (click)="selectOpenvas($event, result)"></button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-car pTemplate="gridItem">
+        <div style="padding:.5em" class="ui-g-12 ui-md-3">
+        </div>
+      </ng-template>
+    </p-dataView>
+    <p-dialog header="Openvas Detail" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+      <div class="ui-g" *ngIf="selectedOpenvas">
+        <div class="ui-g-12" >
+          <div class="ui-g-3">name: </div>
+          <div class="ui-g-9">{{selectedOpenvas.name}}</div>
+
+          <div class="ui-g-3">port: </div>
+          <div class="ui-g-9">{{selectedOpenvas.port}}</div>
+
+          <div class="ui-g-3">severity: </div>
+          <div class="ui-g-9">{{selectedOpenvas.severity}}</div>
+
+          <div class="ui-g-3" >description: </div>
+          <div class="ui-g-9" style="white-space: pre-line;">{{selectedOpenvas.description}}</div>
+        </div>
+      </div>
+    </p-dialog>
+  </div>
+  <!-- ###########NMAP########### -->
+  <div *ngIf="showNmap">
+    <h3></h3>
+    <p-dataView #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="5" paginatorPosition="both" filterBy="severity">
+      <p-header>
+        <b>Nmap results of $scanTimePlaceHolder </b>
+      </p-header>
+      <ng-template let-host pTemplate="listItem">
+        <div class="ui-g" style="padding: .5em;border-bottom: 1px solid #d9d9d9">
+          <div class="ui-g-12 ui-md-8 result-details">
+            <div class="ui-g">
+              <div class="ui-g-3 ui-sm-6"><b>Host IP: </b></div>
+              <div class="ui-g-9 ui-sm-6 ">{{host.addressDetails.address}}</div>
+              <div class="ui-g-3 ui-sm-6"><b>Host state: </b></div>
+              <div class="ui-g-9 ui-sm-6 ">{{host.stateDetails.state}}</div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-1 search-icon">
+            <button pButton type="button" icon="fa-search" (click)="selectNmapHost($event, host)"></button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-car pTemplate="gridItem">
+        <div style="padding:.5em" class="ui-g-12 ui-md-3">
+        </div>
+      </ng-template>
+    </p-dataView>
+
+    <p-dialog header="Nmap host Detail" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+      <div class="ui-g" *ngIf="selectedNmapHost">
+        <div class="ui-g-12" >
+          <div class="ui-g-3">IP Address: </div>
+          <div class="ui-g-9">{{selectedNmapHost.addressDetails.address}}</div>
+          <div class="ui-g-12" *ngIf="selectedNmapHost.hostNamesDetails.hostNameDetails[0]">
+            <div class="ui-g-3">Hostname: </div>
+            <div class="ui-g-9">{{selectedNmapHost.hostNamesDetails.hostNameDetails[0].hostName}}</div>
+          </div>
+          <div class="ui-g-3">State: </div>
+          <div class="ui-g-9">{{selectedNmapHost.stateDetails.state}}</div>
+          <div class="ui-g-3">Open ports: </div>
+          <div *ngFor="let port of selectedNmapHost.hostPorts.ports">
+            <div class="ui-g-3"></div>
+            <div class="ui-g-9"><b>{{port.protocol}}:</b>{{port.portId}}</div>
+
+          </div>
+
+        </div>
+      </div>
+    </p-dialog>
+  </div>
+</div>

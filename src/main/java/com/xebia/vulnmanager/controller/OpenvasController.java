@@ -49,6 +49,7 @@ public class OpenvasController {
      * @return A response with correct http header
      * @throws IOException An exception if the example log isn't found
      */
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getReport(@ModelAttribute("isAuthenticated") boolean isAuthenticated) throws IOException {
