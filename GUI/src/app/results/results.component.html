@@ -8,7 +8,7 @@
     <h3></h3>
     <p-dataView #dv [value]="openVasObject.results" [paginator]="true" [rows]="4" paginatorPosition="both" filterBy="severity">
       <p-header>
-        <b>OpenVAS results of $scantime</b>
+        <b>OpenVAS results of {{openVasObject.timeDone | date :'HH:mm:ss @ dd/MM/yyyy'}}</b>
       </p-header>
       <ng-template let-result pTemplate="listItem">
         <div class="ui-g" style="padding: 2em;border-bottom: 3px solid #d9d9d9" >
@@ -20,7 +20,8 @@
               <div class="ui-g-9 ui-sm-6 ">{{result.port}}</div>
 
               <div class="ui-g-3 ui-sm-6"><b>Result description: </b></div>
-              <div class="ui-g-9 ui-sm-8">{{result.description}}</div>
+              <div class="ui-g-9 ui-sm-8" style="white-space: pre-line;">{{result.description}}</div>
+
 
             </div>
           </div>
@@ -35,7 +36,9 @@
   <div *ngIf="showNmap">
     <h3></h3>
     <p-dataView #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="5" paginatorPosition="both" filterBy="severity">
-
+      <p-header>
+        <b>Nmap results of $scanTimePlaceHolder </b>
+      </p-header>
       <ng-template let-host pTemplate="listItem">
         <div class="ui-g" style="padding: .5em;border-bottom: 1px solid #d9d9d9">
           <div class="ui-g-12 ui-md-8 result-details">
@@ -44,6 +47,7 @@
               <div class="ui-g-9 ui-sm-6 ">{{host.addressDetails.address}}</div>
               <div class="ui-g-3 ui-sm-6"><b>Host state: </b></div>
               <div class="ui-g-9 ui-sm-6 ">{{host.stateDetails.state}}</div>
+
             </div>
           </div>
         </div>
@@ -53,23 +57,5 @@
         </div>
       </ng-template>
     </p-dataView>
-    <!-- DEPRECATED
-    <p-table [value]="nMapObject.hosts">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Host</th>
-          <th>Hostname</th>
-          <th>State</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-hosts>
-        <tr>
-          <td>{{hosts.addressDetails.address}}</td>
-          <td>{{hosts.hostPorts.ports.portId}}</td>
-          <td>{{hosts.stateDetails.state}}</td>
-        </tr>
-      </ng-template>
-    </p-table>
-    -->
   </div>
 </div>

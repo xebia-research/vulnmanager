@@ -12,6 +12,7 @@ export class ResultsComponent implements OnInit {
   showNmap: boolean;
   openVasObject: any ;
   nMapObject: any;
+  openVasScanTime: any;
 
   constructor(private http: HttpClient) { }
   greetings(person: string) {
@@ -59,7 +60,6 @@ export class ResultsComponent implements OnInit {
     });
 
   }
-
 
   showOpenVasData() {
     this.showOpenVas = !this.showOpenVas;
