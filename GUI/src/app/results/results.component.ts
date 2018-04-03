@@ -13,6 +13,10 @@ export class ResultsComponent implements OnInit {
   openVasObject: any ;
   nMapObject: any;
 
+  selectedOpenvas: any;
+  selectedNmapHost: any;
+  displayDialog: boolean;
+
   constructor(private http: HttpClient) { }
   greetings(person: string) {
     this.title = 'Hello mr ' + person;
@@ -68,6 +72,24 @@ export class ResultsComponent implements OnInit {
   showNmapData() {
     this.showNmap = !this.showNmap;
     this.showOpenVas = false;
+  }
+
+  selectOpenvas(event: Event, selectedOpenvas: any) {
+    this.selectedOpenvas = selectedOpenvas;
+    this.displayDialog = true;
+    event.preventDefault();
+  }
+
+  selectNmapHost(event: Event, selectedNmpaHost: any) {
+    this.selectedNmapHost = selectedNmpaHost;
+    this.displayDialog = true;
+    event.preventDefault();
+  }
+
+  onDialogHide() {
+    this.selectedOpenvas = null;
+    this.selectedNmapHost = null;
+    this.displayDialog = false;
   }
 
 }

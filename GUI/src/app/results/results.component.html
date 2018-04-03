@@ -20,9 +20,10 @@
               <div class="ui-g-9 ui-sm-6 ">{{result.port}}</div>
               <div class="ui-g-3 ui-sm-6"><b>Severity: </b></div>
               <div class="ui-g-9 ui-sm-6 ">{{result.severity}}</div>
-              <div class="ui-g-3 ui-sm-6"><b>Result description: </b></div>
-              <div class="ui-g-9 ui-sm-8" style="white-space: pre-line;">{{result.description}}</div>
             </div>
+          </div>
+          <div class="ui-g-12 ui-md-1 search-icon">
+            <button pButton type="button" icon="fa-search" (click)="selectOpenvas($event, result)"></button>
           </div>
         </div>
       </ng-template>
@@ -31,6 +32,23 @@
         </div>
       </ng-template>
     </p-dataView>
+    <p-dialog header="Openvas Detail" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+      <div class="ui-g" *ngIf="selectedOpenvas">
+        <div class="ui-g-12" >
+          <div class="ui-g-3">name: </div>
+          <div class="ui-g-9">{{selectedOpenvas.name}}</div>
+
+          <div class="ui-g-3">port: </div>
+          <div class="ui-g-9">{{selectedOpenvas.port}}</div>
+
+          <div class="ui-g-3">severity: </div>
+          <div class="ui-g-9">{{selectedOpenvas.severity}}</div>
+
+          <div class="ui-g-3" >description: </div>
+          <div class="ui-g-9" style="white-space: pre-line;">{{selectedOpenvas.description}}</div>
+        </div>
+      </div>
+    </p-dialog>
 </div>
   <div *ngIf="showNmap">
     <h3></h3>
@@ -48,6 +66,9 @@
               <div class="ui-g-9 ui-sm-6 ">{{host.stateDetails.state}}</div>
             </div>
           </div>
+          <div class="ui-g-12 ui-md-1 search-icon">
+            <button pButton type="button" icon="fa-search" (click)="selectNmapHost($event, host)"></button>
+          </div>
         </div>
       </ng-template>
       <ng-template let-car pTemplate="gridItem">
@@ -55,5 +76,16 @@
         </div>
       </ng-template>
     </p-dataView>
+    <p-dialog header="Nmap host Detail" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+      <div class="ui-g" *ngIf="selectedNmapHost">
+        <div class="ui-g-12" >
+          <div class="ui-g-3">name: </div>
+          <div class="ui-g-9">{{selectedNmapHost.addressDetails.address}}</div>
+
+          <div class="ui-g-3">port: </div>
+          <div class="ui-g-9">{{selectedNmapHost.stateDetails.state}}</div>
+        </div>
+      </div>
+    </p-dialog>
   </div>
 </div>
