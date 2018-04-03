@@ -80,8 +80,8 @@ export class ResultsComponent implements OnInit {
     event.preventDefault();
   }
 
-  selectNmapHost(event: Event, selectedNmpaHost: any) {
-    this.selectedNmapHost = selectedNmpaHost;
+  selectNmapHost(event: Event, selectedNmapHost: any) {
+    this.selectedNmapHost = selectedNmapHost;
     this.displayDialog = true;
     event.preventDefault();
   }
@@ -89,7 +89,6 @@ export class ResultsComponent implements OnInit {
   onDialogHide() {
     this.selectedOpenvas = null;
     this.selectedNmapHost = null;
-    this.displayDialog = false;
   }
 
 }
