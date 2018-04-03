@@ -12,7 +12,6 @@ export class ResultsComponent implements OnInit {
   showNmap: boolean;
   openVasObject: any ;
   nMapObject: any;
-  openVasScanTime: any;
 
   constructor(private http: HttpClient) { }
   greetings(person: string) {
