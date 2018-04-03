@@ -11,9 +11,8 @@ notifications:
 services:
   - postgresql
 
-before_script:
+before_install:
   - psql -c 'create database vulnmanager;' -U postgres
-  - echo "before-script"
 
 env:
   global:
