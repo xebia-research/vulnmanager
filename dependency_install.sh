@@ -17,7 +17,7 @@ else
 	$(lsb_release -cs) \
 	stable"
 	sudo apt update
-	sudo apt-get install docker-ce -y
+	sudo apt-get install docker-ce -y >/dev/null
 	if docker -v 2>/dev/null; then
 		printf "\n===========Docker was installed successfully!===========\n"
 		sleep 2
@@ -28,7 +28,7 @@ fi
 
 # check and install docker-compose 
 printf "\n===========Checking if docker-compose is already installed===========\n"
-if docker-compose -v 2>/dev/null; then 
+if docker-compose -v >/dev/null; then
 	printf "===========Docker-compose is already installed!===========\n\n"
 else
 	printf "\n===========Docker-compose is not yet installed, will do that now.===========\n"
@@ -49,8 +49,8 @@ if mvn -v 2>/dev/null; then
 	printf "===========Maven is already installed!============\n"
 else
 	printf "\n===========Maven is not yet installed, will do that now.===========\n"
-	sudo apt install maven -y
-	if mvn -v 2>/dev/null; then
+	sudo apt install maven -y >/dev/null
+	if mvn -v >/dev/null; then
 		printf "===========Maven installed successfully!===========\n"
 	else printf "\n===========Maven install failed, it's likely installation failed.===========\n"
 	fi
@@ -61,3 +61,21 @@ if docker -v && docker-compose -v && mvn -v; then
 	printf "\n===========All dependencies installed successfully!===========\n"
 else printf "\n\n===========Not all dependencies were installed successfully :(===========\n===========Scroll up to find out what went wrong..===========\n"
 fi
+
+# POSTGRESQL initialisation
+if sudo apt install postgresql-10 pgadmin4 -y >/dev/null; then
+	printf "===========PostgreSQL and PGadmin install successful!============\n"
+fi
+
+if sudo -u postgres createuser root; then
+	printf "===========Postgresql user creation successful!============\n"
+fi
+
+if sudo -u postgres createdb vulnmanager; then
+	printf "===========Postgresql database creation successful!============\n"
+fi
+
+if sudo -u postgres psql -X -f ~/vulnmanager/sql_init/postgres.sql; then
+	printf "===========User alteration successful!============\n"
+fi
+
