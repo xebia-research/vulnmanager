@@ -72,10 +72,9 @@ public class CompanyController {
     }
 
     private Company findCompanyByName(String companyName) {
-        for (Company c : companyRepository.findAll()) {
-            if (c.getName().equalsIgnoreCase(companyName)) {
-                return c;
-            }
+        Company foundCompany = null;
+        if (companyRepository.findByName(companyName).size() > 0) {
+            return companyRepository.findByName(companyName).get(0);
         }
         return null;
     }

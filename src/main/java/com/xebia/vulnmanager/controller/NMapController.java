@@ -26,11 +26,13 @@ public class NMapController {
     @Autowired
     private NMapRepository nMapRepository;
 
+    @Autowired
+    private AuthenticationChecker authenticationChecker;
+
     @ModelAttribute(IS_AUTHENTICATED_STRING)
     boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "testauth") String authKey,
                                    @PathVariable("company") String companyName,
                                    @PathVariable("team") String teamName) {
-        AuthenticationChecker authenticationChecker = new AuthenticationChecker();
         return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
     }
 

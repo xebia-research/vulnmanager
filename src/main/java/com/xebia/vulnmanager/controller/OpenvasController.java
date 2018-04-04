@@ -31,12 +31,14 @@ public class OpenvasController {
     @Autowired
     private OpenvasResultRepository openvasResultRepository;
 
+    @Autowired
+    private AuthenticationChecker authenticationChecker;
+
     // This function is called before other functions, so if for example getReport is called it first runs the init function
     @ModelAttribute(IS_AUTHENTICATED_STRING)
     boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
                                    @PathVariable("company") String companyName,
                                    @PathVariable("team") String teamName) {
-        AuthenticationChecker authenticationChecker = new AuthenticationChecker();
         return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
     }
 

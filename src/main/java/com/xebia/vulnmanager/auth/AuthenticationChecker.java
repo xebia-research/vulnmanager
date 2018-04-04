@@ -1,12 +1,16 @@
 package com.xebia.vulnmanager.auth;
 
-import com.xebia.vulnmanager.data.MockCompanyFactory;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
+import com.xebia.vulnmanager.repositories.CompanyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuthenticationChecker {
 
-    private MockCompanyFactory companies = new MockCompanyFactory();
+    @Autowired
+    private CompanyRepository companyRepository;
 
     /**
      * Check if a company exists and if the auth key is right
@@ -15,7 +19,10 @@ public class AuthenticationChecker {
      * @return Return false if the company doen't exists or the auth key is wrong
      */
     public boolean checkCompanyAuthKey(String companyName, String authKey) {
-        Company getComp = companies.findCompanyByName(companyName);
+        Company getComp = null;
+        if (companyRepository.findByName(companyName).size() > 0) {
+            getComp = companyRepository.findByName(companyName).get(0);
+        }
 
         if (getComp != null && getComp.getName().equals(companyName) && getComp.getAuthKey().equals(authKey)) {
                return true;
@@ -41,7 +48,7 @@ public class AuthenticationChecker {
 
     public boolean checkTeamAndCompany(String company, String auth, String teamName) {
         if (checkCompanyAuthKey(company, auth)) {
-            Company found = companies.findCompanyByName(company);
+            Company found = companyRepository.findByName(company).get(0);
             if (found.findTeamByName(teamName) != null) {
                 return true;
             }

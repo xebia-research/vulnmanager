@@ -39,6 +39,9 @@ public class UploadFileController {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private AuthenticationChecker authenticationChecker;
+
     /**
      * Upload a report to the server.
      *
@@ -53,7 +56,6 @@ public class UploadFileController {
                                  @PathVariable("team") String teamName,
                                  @PathVariable("scannerType") String scannerType) {
 
-        AuthenticationChecker authenticationChecker = new AuthenticationChecker();
         if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
@@ -90,7 +92,7 @@ public class UploadFileController {
                     newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
 
                     // Get company and team
-                    Team foundTeam = companyRepository.findByname(companyName).get(0).findTeamByName(teamName);
+                    Team foundTeam = companyRepository.findByName(companyName).get(0).findTeamByName(teamName);
                     if (foundTeam != null) {
                         uploadFileToDB(tempFile, reportType, foundTeam);
                     } else {
