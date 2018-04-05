@@ -10,12 +10,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 class ScanDataParserHelper {
     NMapGeneralInformation getReportData(Document nMapDoc) {
@@ -39,23 +35,10 @@ class ScanDataParserHelper {
 
     private NMapInfo getNMapInfo(NamedNodeMap reportData) {
         String startDate = reportData.getNamedItem(NMapConstants.PARSER_LITERAL_START_TIMEDATE_STR).getNodeValue();
-        LocalDateTime startScanDateTime = getLocalDateTimeFromString(startDate);
 
         String runArguments = reportData.getNamedItem(NMapConstants.PARSER_LITERAL_ARGS).getNodeValue();
         String nMapVersion = reportData.getNamedItem(NMapConstants.PARSER_LITERAL_VERSION).getNodeValue();
-        return new NMapInfo(startScanDateTime, nMapVersion, runArguments);
-    }
-
-    private LocalDateTime getLocalDateTimeFromString(String dateTimeString) {
-        DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
-                // Case insensitive to parse JAN and FEB
-                .parseCaseInsensitive()
-                // The pattern that is parsed
-                .appendPattern("eee MMM dd HH:mm:ss yyyy")
-                // Set Locale of formatter to English, if Locale is different from English,
-                // the formatter may not understand what for example Jan as in January is
-                .toFormatter(Locale.ENGLISH);
-        return LocalDateTime.parse(dateTimeString, dateTimeFormatter);
+        return new NMapInfo(startDate, nMapVersion, runArguments);
     }
 
     private NMapScanInfo getNMapScanInfo(NamedNodeMap scanInfo, NodeList tasksList) {
