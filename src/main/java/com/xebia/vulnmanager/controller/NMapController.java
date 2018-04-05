@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-import static java.lang.Math.toIntExact;
 
 @RestController
 @RequestMapping(value = "/{company}/{team}/nmap")
@@ -118,28 +117,22 @@ public class NMapController {
             return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
-        int hostIdInt;
-
-        try {
-            hostIdInt = toIntExact(hostId);
-            hostIdInt = hostIdInt - 1;
-        } catch (ArithmeticException arithmeticException) {
-            logger.error(arithmeticException.getMessage());
-            return new ResponseEntity<>(new ErrorMsg("The id that was filled in is to big."), HttpStatus.OK);
-        }
-
         if (nMapRepository.findById(reportId).isPresent()) {
             NMapReport nMapReport = nMapRepository.findById(reportId).get();
             List<Host> nMapHosts = nMapReport.getHosts();
-            Host host;
 
-            try {
-                host = nMapHosts.get(hostIdInt);
-            } catch (IndexOutOfBoundsException indexOutOfBounds) {
-                logger.error(indexOutOfBounds.getMessage());
-                return new ResponseEntity<>(new ErrorMsg("The host with this id is not found"), HttpStatus.OK);
+            Host chosenHost = null;
+            for (Host host : nMapHosts) {
+                if (host.getId() == hostId) {
+                    chosenHost = host;
+                }
             }
-            return new ResponseEntity<>(host, HttpStatus.OK);
+
+            if (chosenHost == null) {
+                logger.error("Host with id:" + hostId + " is not found");
+                return new ResponseEntity<>(new ErrorMsg("The host with id:" + hostId + " is not found"), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(chosenHost, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
         }
