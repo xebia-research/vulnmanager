@@ -22,15 +22,17 @@ import static java.lang.Math.toIntExact;
 @RestController
 @RequestMapping(value = "/{company}/{team}/nmap")
 public class NMapController {
-    private static final String IS_AUTHENTICATED_STRING = "isAuthenticated";
-    private static final String AUTH_NOT_CORRECT_STRING = "Auth not correct!";
+    private static final String IS_AUTHENTICATED_LITERAL = "isAuthenticated";
+    private static final String AUTH_NOT_CORRECT_LITERAL = "Auth not correct!";
+    private static final String REPORT_NOT_FOUND_LITERAL = "Nmap report not found";
+    private static final String REPORT_ID_LITERAL = "reportId";
 
     private final Logger logger = LoggerFactory.getLogger("NMapController");
 
     @Autowired
     private NMapRepository nMapRepository;
 
-    @ModelAttribute(IS_AUTHENTICATED_STRING)
+    @ModelAttribute(IS_AUTHENTICATED_LITERAL)
     boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
                                    @PathVariable("company") String companyName,
                                    @PathVariable("team") String teamName) {
@@ -46,9 +48,9 @@ public class NMapController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllNMapReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
+    ResponseEntity<?> getAllNMapReports(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated) throws IOException {
         if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
         List<NMapReport> reportList = nMapRepository.findAll();
@@ -67,16 +69,16 @@ public class NMapController {
      */
     @RequestMapping(value = "/{reportId}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getNMapReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) throws IOException {
+    ResponseEntity<?> getNMapReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) throws IOException {
         if (!isAuthenticated) {
-            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
         if (nMapRepository.findById(reportId).isPresent()) {
             NMapReport nMapReport = nMapRepository.findById(reportId).get();
             return new ResponseEntity<>(nMapReport, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg("Nmap report not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
         }
     }
 
@@ -88,9 +90,9 @@ public class NMapController {
      */
     @RequestMapping(value = "/{reportId}/hosts", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllHostsOfReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) throws IOException {
+    ResponseEntity<?> getAllHostsOfReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) throws IOException {
         if (!isAuthenticated) {
-            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
         if (nMapRepository.findById(reportId).isPresent()) {
@@ -98,7 +100,7 @@ public class NMapController {
             List<Host> nMapHosts = nMapReport.getHosts();
             return new ResponseEntity<>(nMapHosts, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg("Nmap report not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
         }
     }
 
@@ -110,10 +112,10 @@ public class NMapController {
      */
     @RequestMapping(value = "/{reportId}/hosts/{hostId}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getHostOfReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId,
+    ResponseEntity<?> getHostOfReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId,
                                       @PathVariable("hostId") long hostId) throws IOException {
         if (!isAuthenticated) {
-            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
         int hostIdInt;
@@ -139,7 +141,7 @@ public class NMapController {
             }
             return new ResponseEntity<>(host, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg("Nmap report not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
         }
     }
 
@@ -151,9 +153,9 @@ public class NMapController {
      */
     @RequestMapping(value = "/{reportId}/scanData", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getScanData(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) throws IOException {
+    ResponseEntity<?> getScanData(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) throws IOException {
         if (!isAuthenticated) {
-            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
         if (nMapRepository.findById(reportId).isPresent()) {
@@ -161,7 +163,7 @@ public class NMapController {
             NMapGeneralInformation nMapScanData = nMapReport.getScanData();
             return new ResponseEntity<>(nMapScanData, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg("Nmap report not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
         }
     }
 }
