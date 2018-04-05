@@ -2,6 +2,8 @@ package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
+import com.xebia.vulnmanager.models.nmap.objects.Host;
+import com.xebia.vulnmanager.models.nmap.objects.NMapGeneralInformation;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.repositories.NMapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
+import static java.lang.Math.toIntExact;
+
 @RestController
 @RequestMapping(value = "/{company}/{team}/nmap")
 public class NMapController {
@@ -27,7 +31,7 @@ public class NMapController {
     private NMapRepository nMapRepository;
 
     @ModelAttribute(IS_AUTHENTICATED_STRING)
-    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "testauth") String authKey,
+    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
                                    @PathVariable("company") String companyName,
                                    @PathVariable("team") String teamName) {
         AuthenticationChecker authenticationChecker = new AuthenticationChecker();
@@ -53,5 +57,111 @@ public class NMapController {
         }
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
+    }
+
+    /**
+     * Get a parsed report of nmap
+     *
+     * @return A response with correct http header
+     * @throws IOException An exception if the example log isn't found
+     */
+    @RequestMapping(value = "/{reportId}", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getNMapReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) throws IOException {
+        if (!isAuthenticated) {
+            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+        }
+
+        if (nMapRepository.findById(reportId).isPresent()) {
+            NMapReport nMapReport = nMapRepository.findById(reportId).get();
+            return new ResponseEntity<>(nMapReport, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ErrorMsg("Nmap report not found"), HttpStatus.OK);
+        }
+    }
+
+    /**
+     * Get all hosts of parsed test report
+     *
+     * @return A response with correct http header
+     * @throws IOException An exception if the example log isn't found
+     */
+    @RequestMapping(value = "/{reportId}/hosts", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getAllHostsOfReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) throws IOException {
+        if (!isAuthenticated) {
+            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+        }
+
+        if (nMapRepository.findById(reportId).isPresent()) {
+            NMapReport nMapReport = nMapRepository.findById(reportId).get();
+            List<Host> nMapHosts = nMapReport.getHosts();
+            return new ResponseEntity<>(nMapHosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ErrorMsg("Nmap report not found"), HttpStatus.OK);
+        }
+    }
+
+    /**
+     * Get a specific host of parsed nMap report
+     *
+     * @return A response with correct http header
+     * @throws IOException An exception if the example log isn't found
+     */
+    @RequestMapping(value = "/{reportId}/hosts/{hostId}", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getHostOfReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId,
+                                      @PathVariable("hostId") long hostId) throws IOException {
+        if (!isAuthenticated) {
+            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+        }
+
+        int hostIdInt;
+
+        try {
+            hostIdInt = toIntExact(hostId);
+            hostIdInt = hostIdInt - 1;
+        } catch (ArithmeticException arithmeticException) {
+            logger.error(arithmeticException.getMessage());
+            return new ResponseEntity<>(new ErrorMsg("The id that was filled in is to big."), HttpStatus.OK);
+        }
+
+        if (nMapRepository.findById(reportId).isPresent()) {
+            NMapReport nMapReport = nMapRepository.findById(reportId).get();
+            List<Host> nMapHosts = nMapReport.getHosts();
+            Host host;
+
+            try {
+                host = nMapHosts.get(hostIdInt);
+            } catch (IndexOutOfBoundsException indexOutOfBounds) {
+                logger.error(indexOutOfBounds.getMessage());
+                return new ResponseEntity<>(new ErrorMsg("The host with this id is not found"), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(host, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ErrorMsg("Nmap report not found"), HttpStatus.OK);
+        }
+    }
+
+    /**
+     * Get the general information about a parsed nMap report
+     *
+     * @return A response with correct http header
+     * @throws IOException An exception if the example log isn't found
+     */
+    @RequestMapping(value = "/{reportId}/scanData", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getScanData(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) throws IOException {
+        if (!isAuthenticated) {
+            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+        }
+
+        if (nMapRepository.findById(reportId).isPresent()) {
+            NMapReport nMapReport = nMapRepository.findById(reportId).get();
+            NMapGeneralInformation nMapScanData = nMapReport.getScanData();
+            return new ResponseEntity<>(nMapScanData, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ErrorMsg("Nmap report not found"), HttpStatus.OK);
+        }
     }
 }
