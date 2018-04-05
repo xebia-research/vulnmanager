@@ -78,7 +78,7 @@
       </ng-template>
     </p-dataView>
 
-    <p-dialog header="Nmap host Detail" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+    <p-dialog appendTo="body" header="Nmap host Detail" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
       <div class="ui-g" *ngIf="selectedNmapHost">
         <div class="ui-g-12" >
           <div class="ui-g-3">IP Address: </div>
