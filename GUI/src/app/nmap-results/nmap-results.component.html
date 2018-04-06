@@ -1,0 +1,49 @@
+<h1>Results</h1>
+<div >
+  <p-dataView class="toggle-container" #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="5" paginatorPosition="both" filterBy="severity">
+    <p-header>
+      <b>Nmap results of $scanTimePlaceHolder </b>
+    </p-header>
+    <ng-template let-host pTemplate="listItem">
+      <div class="ui-g" style="padding: .5em;border-bottom: 1px solid #d9d9d9">
+        <div class="ui-g-12 ui-md-8 result-details">
+          <div class="ui-g">
+            <div class="ui-g-3 ui-sm-6"><b>Host IP: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{host.addressDetails.address}}</div>
+            <div class="ui-g-3 ui-sm-6"><b>Host state: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{host.stateDetails.state}}</div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-1 search-icon">
+          <button pButton type="button" icon="fa-search" (click)="selectNmapHost($event, host)"></button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template let-car pTemplate="gridItem">
+      <div style="padding:.5em" class="ui-g-12 ui-md-3">
+      </div>
+    </ng-template>
+  </p-dataView>
+
+  <p-dialog appendTo="body" header="Nmap host Detail" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedNmapHost">
+      <div class="ui-g-12" >
+        <div class="ui-g-3">IP Address: </div>
+        <div class="ui-g-9">{{selectedNmapHost.addressDetails.address}}</div>
+        <div class="ui-g-12" *ngIf="selectedNmapHost.hostNamesDetails.hostNameDetails[0]">
+          <div class="ui-g-3">Hostname: </div>
+          <div class="ui-g-9">{{selectedNmapHost.hostNamesDetails.hostNameDetails[0].hostName}}</div>
+        </div>
+        <div class="ui-g-3">State: </div>
+        <div class="ui-g-9">{{selectedNmapHost.stateDetails.state}}</div>
+        <div class="ui-g-3">Open ports: </div>
+        <div *ngFor="let port of selectedNmapHost.hostPorts.ports">
+          <div class="ui-g-3"></div>
+          <div class="ui-g-9"><b>{{port.protocol}}:</b>{{port.portId}}</div>
+
+        </div>
+
+      </div>
+    </div>
+  </p-dialog>
+</div>

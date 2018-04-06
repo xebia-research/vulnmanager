@@ -1,26 +1,29 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <a class="navbar-brand" href="#">Tutosphere</a>
+  <a class="navbar-brand" href="#">Xebia Vulnmanager</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+  <!--DROPDOWN 1-->
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto flex-row">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Teachers
+          View results
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Manage Students</a>
+          <a class="dropdown-item" routerLink= "/nmap-results" routerLinkActive="active">Nmap results</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Manage Staff</a>
+          <a class="dropdown-item" routerLink= "/openvas-results" routerLinkActive="active">OpenVAS results</a>
         </div>
       </li>
+      <!-- DROPDOWN 2 -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Students
+          Manage results
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Find Teachers</a>
+          <a class="dropdown-item" href="#">PLACEHOLDER</a>
+          <a class="dropdown-item" href="#">PLACEHOLDER</a>
         </div>
       </li>
     </ul>
