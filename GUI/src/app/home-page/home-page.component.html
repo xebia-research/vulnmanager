@@ -3,4 +3,10 @@
 
 
 
-<button type="text" (click)="display = true" pButton icon="fa-external-link-square" label="Show Sidebar"></button>
+<button type="text" (click)="visibleSidebar1 = true" pButton icon="fa-external-link-square" label="Show Sidebar"></button>
+<p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000">
+  <h1 style="font-weight:normal">Test Sidebar</h1>
+  <button pButton type="button" (click)="visibleSidebar1 = false" label="Save" class="ui-button-success"></button>
+  <button pButton type="button" (click)="visibleSidebar1 = false" label="Cancel" class="ui-button-secondary"></button>
+  
+</p-sidebar>

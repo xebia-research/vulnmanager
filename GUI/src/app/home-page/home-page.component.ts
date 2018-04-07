@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
-  display:boolean;
+  visibleSidebar1:boolean;
   constructor() { }
 
   ngOnInit() {
