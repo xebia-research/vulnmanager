@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from "@angular/router";
 
 import {ButtonModule} from 'primeng/button';
+import {SplitButtonModule} from 'primeng/splitbutton';
 import {TableModule} from 'primeng/table';
 import {DataViewModule} from 'primeng/dataview';
 import {DialogModule} from 'primeng/dialog';
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     ButtonModule,
+    SplitButtonModule,
     TableModule,
     DialogModule,
     DataViewModule,

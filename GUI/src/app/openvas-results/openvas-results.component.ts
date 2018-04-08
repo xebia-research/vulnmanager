@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-openvas-results',
@@ -11,7 +12,7 @@ export class OpenvasResultsComponent implements OnInit {
   selectedOpenvas: any;
   displayDialog: boolean;
   tags:boolean;
-
+  items: MenuItem[];
   constructor(private http: HttpClient) {
     this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
   }
@@ -31,6 +32,15 @@ export class OpenvasResultsComponent implements OnInit {
       console.log(data) ;
       this.openVasObject = data[0];
     });
+    // Dropdown for option button in p-header
+    this.items = [
+      {label: 'View scan info', icon: 'fa-eye', command: () => {
+
+        }},
+      {label: 'Delete', icon: 'fa-close', command: () => {
+
+        }}
+    ];
   }
 
   selectOpenvas(event: Event, selectedOpenvas: any) {

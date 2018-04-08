@@ -4,11 +4,13 @@
   <p-dataView #dv [value]="openVasObject.results" [paginator]="true" [rows]="4" paginatorPosition="both" filterBy="severity">
     <p-header>
       <b>OpenVAS results of {{openVasObject.timeDone | date :'HH:mm:ss @ dd/MM/yyyy'}}</b>
+      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" (onClick)="options()" [model]="items" styleClass="ui-button-info"></p-splitButton>
+
     </p-header>
     <ng-template let-result pTemplate="listItem">
-      <div class="ui-g" style="padding: 2em;border-bottom: 3px solid #d9d9d9" >
+      <div class="ui-g" style="padding: 2em;border-bottom: 3px solid #d9d9d9"  >
         <div class="ui-g-12 ui-md-8 result-details">
-          <div class="ui-g">
+          <div class="ui-g" >
             <div class="ui-g-3 ui-sm-6"><b>Result name: </b></div>
             <div class="ui-g-9 ui-sm-6 ">{{result.name}}</div>
             <div class="ui-g-3 ui-sm-6"><b>Result port: </b></div>
@@ -32,11 +34,11 @@
       <div class="ui-g-12" >
 
         <!--//Button to show tags (info about result)-->
-        <button pButton icon="fa fa-question fa-2x" class="ui-button-success" (click)="tags=true"></button>
 
         <!--//Result family and name-->
         <div class="ui-g-3">Family / name: </div>
         <div class="ui-g-8">{{selectedOpenvas.nvt.family}} / {{selectedOpenvas.nvt.name}}</div>
+        <button pButton icon="fa fa-question fa-2x" class="ui-button-primary" (click)="tags=true"></button>
 
         <!--//Result port and protocol-->
         <div class="ui-g-3">Port / protocol: </div>
