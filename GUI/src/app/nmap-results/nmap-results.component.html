@@ -39,7 +39,7 @@
         <div class="ui-g-3">Open ports: </div>
         <div *ngFor="let port of selectedNmapHost.hostPorts.ports">
           <div class="ui-g-3"></div>
-          <div class="ui-g-9"><b>{{port.protocol}}:</b>{{port.portId}}</div>
+          <div class="ui-g-9"><b>{{port.protocol}}:</b>{{port.portId}} <b>| Service Name:</b> {{port.serviceDetails.serviceName}}</div>
 
         </div>
 
