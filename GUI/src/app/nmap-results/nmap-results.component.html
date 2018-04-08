@@ -2,7 +2,7 @@
 <div >
   <p-dataView class="toggle-container" #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="5" paginatorPosition="both" filterBy="severity">
     <p-header>
-      <b>Nmap results of $scanTimePlaceHolder </b>
+      <b>Nmap results of {{nMapObject.scanData.nMapInfo.scanDateTime | date:'HH:mm:ss @ dd/MM/yyyy'}} </b>
     </p-header>
     <ng-template let-host pTemplate="listItem">
       <div class="ui-g" style="padding: .5em;border-bottom: 1px solid #d9d9d9">
