@@ -10,7 +10,7 @@ export class OpenvasResultsComponent implements OnInit {
   openVasObject: any ;
   selectedOpenvas: any;
   displayDialog: boolean;
-
+  tags:boolean;
 
   constructor(private http: HttpClient) {
     this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
@@ -36,9 +36,11 @@ export class OpenvasResultsComponent implements OnInit {
   selectOpenvas(event: Event, selectedOpenvas: any) {
     this.selectedOpenvas = selectedOpenvas;
     this.displayDialog = true;
+    this.tags = false;
     event.preventDefault();
   }
   onDialogHide() {
     this.selectedOpenvas = null;
+
   }
 }
