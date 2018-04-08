@@ -63,7 +63,7 @@
 
         <!-- if help button is pressed, show info about result type.-->
         <div class="ui-g-3" *ngIf="tags==true" #tags ng><b>About this result:</b></div>
-        <div class="ui-g-9" *ngIf="tags==true" #tags ng><b>{{selectedOpenvas.nvt.tags}}</b></div>
+        <div class="ui-g-9" *ngIf="tags==true" #tags ng style="white-space: pre-line;"><b>{{selectedOpenvas.nvt.tags}}</b></div>
       </div>
     </div>
   </p-dialog>
