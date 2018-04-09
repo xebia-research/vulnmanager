@@ -11,7 +11,9 @@ import {HttpClientModule } from '@angular/common/http';
 import {PaginatorModule} from 'primeng/paginator';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SidebarModule} from 'primeng/sidebar';
-
+import {FieldsetModule} from 'primeng/fieldset';
+import { AccordionModule} from "primeng/primeng";
+import {TabViewModule} from "primeng/primeng";
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NmapResultsComponent } from './nmap-results/nmap-results.component';
@@ -45,7 +47,10 @@ const appRoutes: Routes = [
     TableModule,
     DialogModule,
     DataViewModule,
+    TabViewModule,
     PaginatorModule,
+    FieldsetModule,
+    AccordionModule,
     BrowserAnimationsModule,
     SidebarModule,
     RouterModule.forRoot(

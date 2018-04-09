@@ -30,15 +30,15 @@
   <p-dialog appendTo="body" header="Nmap host Detail" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedNmapHost">
       <div class="ui-g-12" >
-        <div class="ui-g-3">IP Address: </div>
-        <div class="ui-g-9">{{selectedNmapHost.addressDetails.address}}</div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">IP Address: </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedNmapHost.addressDetails.address}}</div>
         <div class="ui-g-12" *ngIf="selectedNmapHost.hostNamesDetails.hostNameDetails[0]">
-          <div class="ui-g-3">Hostname: </div>
-          <div class="ui-g-9">{{selectedNmapHost.hostNamesDetails.hostNameDetails[0].hostName}}</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Hostname: </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedNmapHost.hostNamesDetails.hostNameDetails[0].hostName}}</div>
         </div>
-        <div class="ui-g-3">State: </div>
-        <div class="ui-g-9">{{selectedNmapHost.stateDetails.state}}</div>
-        <div class="ui-g-3">Open ports: </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">State: </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedNmapHost.stateDetails.state}}</div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">Open ports: </div>
         <div *ngFor="let port of selectedNmapHost.hostPorts.ports">
           <div class="ui-g-3"></div>
           <div class="ui-g-9"><b>{{port.protocol}}:</b>{{port.portId}} <b>| Service Name:</b> {{port.serviceDetails.serviceName}}</div>

@@ -29,45 +29,48 @@
       </div>
     </ng-template>
   </p-dataView>
-  <p-dialog header="Openvas result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
-    <div class="ui-g" *ngIf="selectedOpenvas">
-      <div class="ui-g-12" >
 
-        <!--//Button to show tags (info about result)-->
-
-        <!--//Result family and name-->
-        <div class="ui-g-3">Family / name: </div>
-        <div class="ui-g-8">{{selectedOpenvas.nvt.family}} / {{selectedOpenvas.nvt.name}}</div>
-        <button pButton icon="fa fa-question fa-2x" class="ui-button-primary" (click)="tags=true"></button>
-
-        <!--//Result port and protocol-->
-        <div class="ui-g-3">Port / protocol: </div>
-        <div class="ui-g-9">{{selectedOpenvas.port}}</div>
-
-        <!--//Result severity-->
-        <div class="ui-g-3">Severity: </div>
-        <div class="ui-g-9">{{selectedOpenvas.severity}}</div>
-
-        <!--//CVE associated with result (if any)-->
-        <div class="ui-g-3">CVE: </div>
-        <div class="ui-g-9" *ngIf="selectedOpenvas.nvt.CVE != 'NOCVE' ;else cvedetails">No CVE associated with this result</div>
-        <ng-template #cvedetails>{{selectedOpenvas.nvt.CVE}}</ng-template>
-
-        <!--//Result false positive indicator-->
-        <div class="ui-g-3 fa fa-check " *ngIf="selectedOpenvas.nvt.falsePositive==false">False positive: </div>
-        <div class="ui-g-9" *ngIf="selectedOpenvas.nvt.falsePositive==false" >Not flagged as a false postive</div>
-        <div class="ui-g-3 fa fa-times" *ngIf="selectedOpenvas.nvt.falsePositive==true">False positive: </div>
-        <div class="ui-g-9" *ngIf="selectedOpenvas.nvt.falsePositive==true" >Previously flagged as false positive </div>
-
-        <!--//Result findings-->
-        <div class="ui-g-3" >Findings: </div>
-        <div class="ui-g-9" style="white-space: pre-line;">{{selectedOpenvas.description}}</div>
-
-        <!-- if help button is pressed, show info about result type.-->
-        <div class="ui-g-3" *ngIf="tags==true" #tags ng><b>About this result:</b></div>
-        <div class="ui-g-9" *ngIf="tags==true" #tags ng style="white-space: pre-line;"><b>{{selectedOpenvas.nvt.tags}}</b></div>
-      </div>
-    </div>
-  </p-dialog>
 </div>
 
+<p-dialog width="800" header="Openvas result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+  <div *ngIf="selectedOpenvas">
+      <p-tabView>
+        <p-tabPanel header="Summary" [selected]="true">
+        <div class="ui-g" >
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Family / name: </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.nvt.family}} / {{selectedOpenvas.nvt.name}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Port / protocol: </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.port}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Severity: </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.severity}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">CVE: </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" *ngIf="selectedOpenvas.nvt.CVE != 'NOCVE' ;else cvedetails" ngClass="divrow">No CVE associated with this result</div>
+          <ng-template #cvedetails>{{selectedOpenvas.nvt.CVE}}</ng-template>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" *ngIf="selectedOpenvas.nvt.falsePositive==false" ngClass="divrow">False positive: </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9 fa fa-check" *ngIf="selectedOpenvas.nvt.falsePositive==false" ngClass="divrow">Not flagged as a false postive</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3 " *ngIf="selectedOpenvas.nvt.falsePositive==true" ngClass="divrow">False positive: </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9 fa fa-times" *ngIf="selectedOpenvas.nvt.falsePositive==true" ngClass="divrow">Previously flagged as false positive </div>
+        </div>
+
+        </p-tabPanel>
+        <p-tabPanel header="Findings">
+          <div class="ui-g-12 ui-md-6 ui-lg-1"></div>
+          <div class="ui-g-12 ui-md-6 ui-lg-11" style="white-space: pre-line;" >{{selectedOpenvas.description}}</div>
+        </p-tabPanel>
+        <p-tabPanel header="About">
+         <div class="ui-g">
+           <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Impact:</div>
+           <div *ngIf="selectedOpenvas.nvt.tagsImpact==null" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">No impact measured or known</div>
+           <div *ngIf="selectedOpenvas.nvt.tagsImpact!=null" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.nvt.tagsImpact}}</div>
+
+           <div class="ui-g-12 ui-md-6 ui-lg-3">Description:</div>
+           <div class="ui-g-12 ui-md-6 ui-lg-9" style="white-space: pre-line;">{{selectedOpenvas.nvt.tagsSummary}}</div>
+         </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+</p-dialog>
