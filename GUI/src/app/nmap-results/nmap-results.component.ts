@@ -23,6 +23,7 @@ export class NmapResultsComponent implements OnInit {
     const httpOption = {
       headers: new HttpHeaders({
         'auth': 'testauth'
+      //  todo is to implement JWT
       })
     };
     return this.http.get('http://localhost:8080/xebia/vulnmanager/nmap', httpOption);

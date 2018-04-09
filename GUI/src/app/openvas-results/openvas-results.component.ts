@@ -21,6 +21,8 @@ export class OpenvasResultsComponent implements OnInit {
     const httpOption = {
       headers: new HttpHeaders({
         'auth': 'testauth'
+        //  todo is to implement JWT
+
       })
     };
     console.log(httpOption);
