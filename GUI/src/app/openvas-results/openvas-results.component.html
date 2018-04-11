@@ -35,7 +35,7 @@
 <p-dialog width="800" header="Openvas result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
   <div *ngIf="selectedOpenvas">
       <p-tabView>
-        <p-tabPanel header="Summary" [selected]="true">
+        <p-tabPanel header="Summary" [selected]="true" leftIcon="fa-list-ul">
         <div class="ui-g" >
           <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Family / name: </div>
           <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.nvt.family}} / {{selectedOpenvas.nvt.name}}</div>
@@ -57,11 +57,11 @@
         </div>
 
         </p-tabPanel>
-        <p-tabPanel header="Findings">
+        <p-tabPanel header="Findings" leftIcon="fa-eye">
           <div class="ui-g-12 ui-md-6 ui-lg-1"></div>
           <div class="ui-g-12 ui-md-6 ui-lg-11" style="white-space: pre-line;" >{{selectedOpenvas.description}}</div>
         </p-tabPanel>
-        <p-tabPanel header="About">
+        <p-tabPanel header="About" leftIcon="fa-info-circle">
          <div class="ui-g">
            <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Impact:</div>
            <div *ngIf="selectedOpenvas.nvt.tagsImpact==null" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">No impact measured or known</div>
