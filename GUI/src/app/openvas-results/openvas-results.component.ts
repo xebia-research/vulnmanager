@@ -13,6 +13,7 @@ export class OpenvasResultsComponent implements OnInit {
   displayDialog: boolean;
   tags:boolean;
   items: MenuItem[];
+
   constructor(private http: HttpClient) {
     this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
   }
