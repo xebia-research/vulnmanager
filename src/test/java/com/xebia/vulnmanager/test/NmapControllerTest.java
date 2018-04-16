@@ -67,6 +67,6 @@ public class NmapControllerTest {
         mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/xebia/vulnmanager/nmap/1")
                 .header("auth", "testauth"))
                 .andDo(print())
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().is4xxClientError());
     }
 }

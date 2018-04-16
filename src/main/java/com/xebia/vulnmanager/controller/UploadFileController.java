@@ -1,7 +1,6 @@
 package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
-import com.xebia.vulnmanager.data.MockCompanyFactory;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
@@ -69,6 +68,10 @@ public class UploadFileController {
         Company comp = companyService.getCompanyByName(companyName);
         Team team = companyService.getTeamOfCompany(companyName, teamName);
 
+        if (team == null || comp == null) {
+            return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
+        }
+
         logger.info("Single file upload started!");
         String newFileName = "";
         if (uploadFile.isEmpty()) {
@@ -91,11 +94,7 @@ public class UploadFileController {
                     newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
 
                     // Get company and team;
-                    if (team != null) {
-                        uploadFileToDB(tempFile, reportType, team);
-                    } else {
-                        wrongEndpoint = true;
-                    }
+                    uploadFileToDB(tempFile, reportType, team);
 
 
                 } else {

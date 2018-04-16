@@ -8,7 +8,6 @@ import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.repositories.CompanyRepository;
 import com.xebia.vulnmanager.repositories.NMapRepository;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
-import com.xebia.vulnmanager.services.CompanyService;
 import com.xebia.vulnmanager.util.ReportUtil;
 import org.junit.Before;
 import org.junit.Test;

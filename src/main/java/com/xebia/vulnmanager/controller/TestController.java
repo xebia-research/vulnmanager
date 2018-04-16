@@ -41,7 +41,7 @@ public class TestController {
 
         parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap.xml")));
         NMapReport nMapReport = ReportUtil.getNMapReportFromObject(parsedDocument);
-        //nMapRepository.save(nMapReport);
+        nMapRepository.save(nMapReport);
         if (report == null) {
             return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
         }

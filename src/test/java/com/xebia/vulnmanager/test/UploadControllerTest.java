@@ -24,7 +24,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
