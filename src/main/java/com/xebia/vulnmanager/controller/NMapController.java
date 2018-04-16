@@ -3,7 +3,7 @@ package com.xebia.vulnmanager.controller;
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
-import com.xebia.vulnmanager.repositories.NMapRepository;
+import com.xebia.vulnmanager.services.NmapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,11 +22,15 @@ public class NMapController {
 
     private final Logger logger = LoggerFactory.getLogger("NMapController");
 
-    @Autowired
-    private NMapRepository nMapRepository;
+    private NmapService nmapService;
+    private AuthenticationChecker authenticationChecker;
 
     @Autowired
-    private AuthenticationChecker authenticationChecker;
+    public NMapController(final NmapService nmapService,
+                          final AuthenticationChecker authenticationChecker) {
+        this.nmapService = nmapService;
+        this.authenticationChecker = authenticationChecker;
+    }
 
     @ModelAttribute(IS_AUTHENTICATED_STRING)
     boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "testauth") String authKey,
@@ -40,20 +43,19 @@ public class NMapController {
      * Get all the added reports
      *
      * @return A response with correct http header
-     * @throws IOException An exception if the example log isn't found
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllNMapReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
+    ResponseEntity<?> getAllNMapReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
         }
 
-        List<NMapReport> reportList = nMapRepository.findAll();
+        List<NMapReport> reportList = nmapService.getAllReports();
         if (reportList.isEmpty()) {
             return new ResponseEntity(new ErrorMsg("There are no reports for nMap right now. Upload a nMap xml file first."), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(reportList, HttpStatus.OK);
+        return new ResponseEntity(reportList, HttpStatus.OK);
     }
 }
