@@ -7,9 +7,9 @@ import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
-import com.xebia.vulnmanager.repositories.CompanyRepository;
 import com.xebia.vulnmanager.repositories.NMapRepository;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
+import com.xebia.vulnmanager.services.CompanyService;
 import com.xebia.vulnmanager.util.IOUtil;
 import com.xebia.vulnmanager.util.ReportType;
 import com.xebia.vulnmanager.util.ReportUtil;
@@ -37,7 +37,7 @@ public class UploadFileController {
     private NMapRepository nMapRepository;
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyService companyService;
 
     @Autowired
     private AuthenticationChecker authenticationChecker;
@@ -66,9 +66,8 @@ public class UploadFileController {
         }
 
         // Shouldn't return null because the authenticationChecker als checks for null.
-        MockCompanyFactory factory = new MockCompanyFactory();
-        Company comp = factory.findCompanyByName(companyName);
-        Team team = factory.findTeamByName(teamName, comp);
+        Company comp = companyService.getCompanyByName(companyName);
+        Team team = companyService.getTeamOfCompany(companyName, teamName);
 
         logger.info("Single file upload started!");
         String newFileName = "";
@@ -91,10 +90,9 @@ public class UploadFileController {
                 if (reportType.toString().equalsIgnoreCase(scannerType)) {
                     newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
 
-                    // Get company and team
-                    Team foundTeam = companyRepository.findByName(companyName).get(0).findTeamByName(teamName);
-                    if (foundTeam != null) {
-                        uploadFileToDB(tempFile, reportType, foundTeam);
+                    // Get company and team;
+                    if (team != null) {
+                        uploadFileToDB(tempFile, reportType, team);
                     } else {
                         wrongEndpoint = true;
                     }
