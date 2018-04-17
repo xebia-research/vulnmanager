@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -68,17 +69,17 @@ public class NMapController {
      * Get a parsed report of nmap
      *
      * @return A response with correct http header
-     * @throws IOException An exception if the example log isn't found
      */
     @RequestMapping(value = "/{reportId}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getNMapReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) throws IOException {
+    ResponseEntity<?> getNMapReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) {
         if (!isAuthenticated) {
             return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
-        if (nMapRepository.findById(reportId).isPresent()) {
-            NMapReport nMapReport = nMapRepository.findById(reportId).get();
+        Optional<NMapReport> report = nmapService.getReportById(reportId);
+        if (report.isPresent()) {
+            NMapReport nMapReport = report.get();
             return new ResponseEntity<>(nMapReport, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
@@ -89,17 +90,17 @@ public class NMapController {
      * Get all hosts of parsed test report
      *
      * @return A response with correct http header
-     * @throws IOException An exception if the example log isn't found
      */
     @RequestMapping(value = "/{reportId}/hosts", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllHostsOfReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) throws IOException {
+    ResponseEntity<?> getAllHostsOfReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) {
         if (!isAuthenticated) {
             return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
-        if (nMapRepository.findById(reportId).isPresent()) {
-            NMapReport nMapReport = nMapRepository.findById(reportId).get();
+        Optional<NMapReport> report = nmapService.getReportById(reportId);
+        if (report.isPresent()) {
+            NMapReport nMapReport = report.get();
             List<Host> nMapHosts = nMapReport.getHosts();
             return new ResponseEntity<>(nMapHosts, HttpStatus.OK);
         } else {
@@ -111,18 +112,18 @@ public class NMapController {
      * Get a specific host of parsed nMap report
      *
      * @return A response with correct http header
-     * @throws IOException An exception if the example log isn't found
      */
     @RequestMapping(value = "/{reportId}/hosts/{hostId}", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getHostOfReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId,
-                                      @PathVariable("hostId") long hostId) throws IOException {
+                                      @PathVariable("hostId") long hostId) {
         if (!isAuthenticated) {
             return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
-        if (nMapRepository.findById(reportId).isPresent()) {
-            NMapReport nMapReport = nMapRepository.findById(reportId).get();
+        Optional<NMapReport> report = nmapService.getReportById(reportId);
+        if (report.isPresent()) {
+            NMapReport nMapReport = report.get();
             List<Host> nMapHosts = nMapReport.getHosts();
 
             Host chosenHost = null;
@@ -146,17 +147,18 @@ public class NMapController {
      * Get the general information about a parsed nMap report
      *
      * @return A response with correct http header
-     * @throws IOException An exception if the example log isn't found
      */
     @RequestMapping(value = "/{reportId}/scanData", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getScanData(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) throws IOException {
+    ResponseEntity<?> getScanData(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) {
         if (!isAuthenticated) {
             return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
         }
 
-        if (nMapRepository.findById(reportId).isPresent()) {
-            NMapReport nMapReport = nMapRepository.findById(reportId).get();
+        Optional<NMapReport> report = nmapService.getReportById(reportId);
+
+        if (report.isPresent()) {
+            NMapReport nMapReport = report.get();
             NMapGeneralInformation nMapScanData = nMapReport.getScanData();
             return new ResponseEntity<>(nMapScanData, HttpStatus.OK);
         } else {

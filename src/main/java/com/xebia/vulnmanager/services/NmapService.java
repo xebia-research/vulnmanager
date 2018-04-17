@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NmapService {
@@ -19,5 +20,9 @@ public class NmapService {
 
     public List<NMapReport> getAllReports() {
         return nMapRepository.findAll();
+    }
+
+    public Optional<NMapReport> getReportById(long id) {
+        return nMapRepository.findById(id);
     }
 }

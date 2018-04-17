@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,10 +53,15 @@ public class NmapControllerTest {
         // Create the reports
         List<NMapReport> reports = new ArrayList<>();
         reports.add(ReportUtil.getNMapReportFromObject(parsedDocument));
+        reports.get(0).setId(1L);
 
 
         // Mock the database service to return a list of valid objects
         Mockito.when(nmapService.getAllReports()).thenReturn(reports);
+
+        Optional<NMapReport> report = Optional.of(reports.get(0));
+
+        Mockito.when(nmapService.getReportById(1L)).thenReturn(report);
 
         // MockMvc standalone approach
         mvc = MockMvcBuilders.standaloneSetup(nMapController)
@@ -64,7 +70,7 @@ public class NmapControllerTest {
 
     @Test
     public void getAllReports() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/xebia/vulnmanager/nmap/1")
+        mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/xebia/vulnmanager/nmap/1.json")
                 .header("auth", "testauth"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
