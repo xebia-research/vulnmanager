@@ -16,12 +16,18 @@ public class Person implements Serializable {
     private Long id;
 
     @ManyToMany(mappedBy = "teamMembers")
+    @JsonBackReference
     private List<Team> projects;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false) // Column that will be used to keep track of the parent
     @JsonBackReference // A backrefrence to keep json from infinite looping
     private Company company;
+
+    public Person() {
+        this.name = "NO NAME SET";
+        this.projects = new ArrayList<>();
+    }
 
     public Person(final String name) {
         this.name = name;

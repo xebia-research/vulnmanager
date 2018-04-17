@@ -35,7 +35,7 @@ public class TestController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> addTest()  {
+    public ResponseEntity<?> addTest()  {
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
         OpenvasReport report = ReportUtil.getOpenvasReportFromObject(parsedDocument);
 

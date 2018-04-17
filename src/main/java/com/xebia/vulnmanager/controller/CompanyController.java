@@ -3,7 +3,7 @@ package com.xebia.vulnmanager.controller;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
-import com.xebia.vulnmanager.repositories.CompanyRepository;
+import com.xebia.vulnmanager.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +14,15 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping(value = "/{company}")
 public class CompanyController {
+    private static final String IS_AUTHENTICATED_STRING = "isAuthenticated";
+    private static final String AUTH_NOT_CORRECT_STRING = "Auth not correct!";
+
+    private CompanyService companyService;
 
     @Autowired
-    private CompanyRepository companyRepository;
+    public CompanyController(final CompanyService companyService) {
+        this.companyService = companyService;
+    }
 
     /**
      * Get the teams of a specific company
@@ -26,9 +32,9 @@ public class CompanyController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getCompanyTeams(@RequestHeader(value = "auth", defaultValue = "nope") String authKey, @PathVariable("company") String companyName) {
+    ResponseEntity<?> getCompany(@RequestHeader(value = "auth", defaultValue = "nope") String authKey, @PathVariable("company") String companyName) {
         // find company by name
-        Company foundCompany = findCompanyByName(companyName);
+        Company foundCompany = companyService.getCompanyByName(companyName);
 
         if (foundCompany == null) {
             return new ResponseEntity<ErrorMsg>(new ErrorMsg("Company not found"), HttpStatus.NOT_FOUND);
@@ -38,7 +44,7 @@ public class CompanyController {
         if (authKey.equals(foundCompany.getAuthKey())) {
             return new ResponseEntity<Company>(foundCompany, HttpStatus.OK);
         } else {
-            return new ResponseEntity<ErrorMsg>(new ErrorMsg("Wrong auth key"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<ErrorMsg>(new ErrorMsg("Wrong auth key"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -52,7 +58,7 @@ public class CompanyController {
     @ResponseBody
     ResponseEntity<?> getCompanyTeamMembers(@RequestHeader(value = "auth", defaultValue = "nope") String authKey, @PathVariable("company") String companyName, @PathVariable("team") String teamName) {
         // find company by name
-        Company foundCompany = findCompanyByName(companyName);
+        Company foundCompany = companyService.getCompanyByName(companyName);
 
         if (foundCompany == null) {
             return new ResponseEntity<ErrorMsg>(new ErrorMsg("Company not found"), HttpStatus.NOT_FOUND);
@@ -60,7 +66,7 @@ public class CompanyController {
 
         // check auth
         if (authKey.equals(foundCompany.getAuthKey())) {
-            Team team = foundCompany.findTeamByName(teamName);
+            Team team = companyService.getTeamOfCompany(companyName, teamName);
             if (team != null) {
                 return new ResponseEntity<Team>(team, HttpStatus.OK);
             } else {
@@ -69,14 +75,5 @@ public class CompanyController {
         } else {
             return new ResponseEntity<ErrorMsg>(new ErrorMsg("Wrong auth key"), HttpStatus.NOT_FOUND);
         }
-    }
-
-    private Company findCompanyByName(String companyName) {
-        for (Company c : companyRepository.findAll()) {
-            if (c.getName().equalsIgnoreCase(companyName)) {
-                return c;
-            }
-        }
-        return null;
     }
 }

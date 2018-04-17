@@ -80,10 +80,12 @@ public class ReportUtil {
     public static ReportType checkDocumentType(Document testReportDoc) {
         String currentTypeOfScan = testReportDoc.getDocumentElement().getTagName();
 
-        if (currentTypeOfScan.equals("report")) {
-            return ReportType.OPENVAS;
-        } else if (currentTypeOfScan.equals("nmaprun")) {
-            return ReportType.NMAP;
+        if (currentTypeOfScan != null) {
+            if (currentTypeOfScan.equals("report")) {
+                return ReportType.OPENVAS;
+            } else if (currentTypeOfScan.equals("nmaprun")) {
+                return ReportType.NMAP;
+            }
         }
         return ReportType.UNKNOWN;
     }
