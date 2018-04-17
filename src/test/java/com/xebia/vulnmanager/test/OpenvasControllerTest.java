@@ -52,8 +52,8 @@ public class OpenvasControllerTest {
         Mockito.when(authenticationChecker.checkIfTeamExists(Mockito.any(), Mockito.anyString())).thenReturn(true);
 
         // Load test report
-        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
-        Object parsedDocument2 = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
+        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas/openvas.xml")));
+        Object parsedDocument2 = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas/openvas.xml")));
         // Create the reports
         List<OpenvasReport> reports = new ArrayList<OpenvasReport>();
         reports.add(ReportUtil.getOpenvasReportFromObject(parsedDocument));

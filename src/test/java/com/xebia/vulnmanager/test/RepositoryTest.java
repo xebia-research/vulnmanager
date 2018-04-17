@@ -40,10 +40,10 @@ public class RepositoryTest {
 
     @Before
     public void setup() throws Exception {
-        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas.xml")));
+        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas/openvas.xml")));
         OpenvasReport report = ReportUtil.getOpenvasReportFromObject(parsedDocument);
 
-        parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap.xml")));
+        parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap/nmap.xml")));
         NMapReport nMapReport = ReportUtil.getNMapReportFromObject(parsedDocument);
         nMapRepository.save(nMapReport);
 

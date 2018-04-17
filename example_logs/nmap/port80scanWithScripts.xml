@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.01 scan initiated Mon Apr 16 14:07:32 2018 as: nmap -p 80 -sV -sC -oX port80scanMetScripts.xml 10.20.120.114 -->
+<nmaprun scanner="nmap" args="nmap -p 80 -sV -sC -oX port80scanMetScripts.xml 10.20.120.114" start="1523880452" startstr="Mon Apr 16 14:07:32 2018" version="7.01" xmloutputversion="1.04">
+<scaninfo type="connect" protocol="tcp" numservices="1" services="80"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1523880452" endtime="1523880459"><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="10.20.120.114" addrtype="ipv4"/>
+<hostnames>
+<hostname name="stefan-HP-Pavilion-Notebook.dynamic.ziggo.nl" type="PTR"/>
+</hostnames>
+<ports><port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="Apache httpd" version="2.4.18" extrainfo="(Ubuntu)" method="probed" conf="10"><cpe>cpe:/a:apache:http_server:2.4.18</cpe></service><script id="http-server-header" output="Apache/2.4.18 (Ubuntu)"><elem>Apache/2.4.18 (Ubuntu)</elem>
+</script><script id="http-title" output="Apache2 Ubuntu Default Page: It works"><elem key="title">Apache2 Ubuntu Default Page: It works</elem>
+</script></port>
+</ports>
+<times srtt="102" rttvar="3761" to="100000"/>
+</host>
+<runstats><finished time="1523880459" timestr="Mon Apr 16 14:07:39 2018" elapsed="6.64" summary="Nmap done at Mon Apr 16 14:07:39 2018; 1 IP address (1 host up) scanned in 6.64 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

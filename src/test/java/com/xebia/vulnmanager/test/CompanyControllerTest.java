@@ -42,7 +42,7 @@ public class CompanyControllerTest {
     @Before
     public void setup() throws Exception {
         // Load test report
-        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap.xml")));
+        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap/nmap.xml")));
         // Create the reports
 
         MockCompanyFactory companyFactory = new MockCompanyFactory();

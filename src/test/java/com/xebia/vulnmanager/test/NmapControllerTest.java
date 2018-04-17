@@ -49,7 +49,7 @@ public class NmapControllerTest {
         Mockito.when(authenticationChecker.checkIfTeamExists(Mockito.any(), Mockito.anyString())).thenReturn(true);
 
         // Load test report
-        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap.xml")));
+        Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap/nmap.xml")));
         // Create the reports
         List<NMapReport> reports = new ArrayList<>();
         reports.add(ReportUtil.getNMapReportFromObject(parsedDocument));

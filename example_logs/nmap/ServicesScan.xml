@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.01 scan initiated Mon Apr 16 14:21:00 2018 as: nmap -sV -T4 -F -oX ServicesScan.xml 10.20.120.114 -->
+<nmaprun scanner="nmap" args="nmap -sV -T4 -F -oX ServicesScan.xml 10.20.120.114" start="1523881260" startstr="Mon Apr 16 14:21:00 2018" version="7.01" xmloutputversion="1.04">
+<scaninfo type="connect" protocol="tcp" numservices="100" services="7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8080-8081,8443,8888,9100,9999-10000,32768,49152-49157"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1523881260" endtime="1523881266"><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="10.20.120.114" addrtype="ipv4"/>
+<hostnames>
+<hostname name="stefan-HP-Pavilion-Notebook.dynamic.ziggo.nl" type="PTR"/>
+</hostnames>
+<ports><extraports state="closed" count="99">
+<extrareasons reason="conn-refused" count="99"/>
+</extraports>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" product="Apache httpd" version="2.4.18" extrainfo="(Ubuntu)" method="probed" conf="10"><cpe>cpe:/a:apache:http_server:2.4.18</cpe></service></port>
+</ports>
+<times srtt="95" rttvar="83" to="100000"/>
+</host>
+<runstats><finished time="1523881266" timestr="Mon Apr 16 14:21:06 2018" elapsed="6.60" summary="Nmap done at Mon Apr 16 14:21:06 2018; 1 IP address (1 host up) scanned in 6.60 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

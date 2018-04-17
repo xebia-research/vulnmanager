@@ -63,7 +63,7 @@ public class UploadControllerTest {
 
     @Test
     public void wrongEndPoint() throws Exception {
-        final InputStream inputStream = new FileInputStream(new File("example_logs/nmap.xml"));
+        final InputStream inputStream = new FileInputStream(new File("example_logs/nmap/nmap.xml"));
         final MockMultipartFile nmapReport = new MockMultipartFile("file", "nmap.xml", "text/xml", inputStream);
 
         final MvcResult result = mvc.perform(fileUpload(BASE_URL + "/xebia/vulnmanager/openvas/upload.json")
@@ -76,7 +76,7 @@ public class UploadControllerTest {
 
     @Test
     public void unknownScannerType() throws Exception {
-        final InputStream inputStream = new FileInputStream(new File("example_logs/nmap.xml"));
+        final InputStream inputStream = new FileInputStream(new File("example_logs/nmap/nmap.xml"));
         final MockMultipartFile nmapReport = new MockMultipartFile("file", "nmap.xml", "text/xml", inputStream);
 
         final MvcResult result = mvc.perform(fileUpload(BASE_URL + "/xebia/vulnmanager/unknown/upload.json")
