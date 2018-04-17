@@ -96,4 +96,8 @@ public class Host implements Serializable {
     public void setParentNMapReport(NMapReport nMapReport) {
         this.nMapReportParent = nMapReport;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

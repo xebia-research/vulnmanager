@@ -4,8 +4,8 @@ import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.openvas.objects.OvResult;
-import com.xebia.vulnmanager.repositories.OpenvasRepository;
 import com.xebia.vulnmanager.repositories.OpenvasResultRepository;
+import com.xebia.vulnmanager.services.OpenvasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,18 +25,26 @@ public class OpenvasController {
 
     private final Logger logger = LoggerFactory.getLogger("OpenvasController");
 
-    @Autowired
-    private OpenvasRepository openvasRepository;
+    private OpenvasResultRepository openvasResultRepository;
+
+    private AuthenticationChecker authenticationChecker;
+
+    private OpenvasService openvasService;
 
     @Autowired
-    private OpenvasResultRepository openvasResultRepository;
+    public OpenvasController(final OpenvasService openvasService,
+                             final AuthenticationChecker authenticationChecker,
+                             final OpenvasResultRepository openvasResultRepository) {
+        this.openvasService = openvasService;
+        this.authenticationChecker = authenticationChecker;
+        this.openvasResultRepository = openvasResultRepository;
+    }
 
     // This function is called before other functions, so if for example getReport is called it first runs the init function
     @ModelAttribute(IS_AUTHENTICATED_STRING)
     boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
                                    @PathVariable("company") String companyName,
                                    @PathVariable("team") String teamName) {
-        AuthenticationChecker authenticationChecker = new AuthenticationChecker();
         return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
     }
 
@@ -48,12 +56,12 @@ public class OpenvasController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
+    ResponseEntity<?> getReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
         }
 
-        List<OpenvasReport> reportList = openvasRepository.findAll();
+        List<OpenvasReport> reportList = openvasService.getAllReports();
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }
@@ -66,16 +74,16 @@ public class OpenvasController {
      */
     @RequestMapping(value = "{reportId}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) throws IOException {
+    ResponseEntity<?> getReportById(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
         }
 
-        if (openvasRepository.findById(reportId).isPresent()) {
-            OpenvasReport retReport = openvasRepository.findById(reportId).get();
-            return new ResponseEntity<>(retReport, HttpStatus.OK);
+        OpenvasReport report = openvasService.getReportById(reportId);
+        if (report != null) {
+            return new ResponseEntity<>(report, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg("report not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg("report not found"), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -88,17 +96,16 @@ public class OpenvasController {
      */
     @RequestMapping(value = "{reportid}/result", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllResult(@PathVariable("reportid") long reportId,
-                                   @ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
+    ResponseEntity<?> getAllResultFromReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportid") long reportId) throws IOException {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
         }
 
-        if (openvasRepository.findById(reportId).isPresent()) {
-            OpenvasReport retReport = openvasRepository.findById(reportId).get();
-            return new ResponseEntity<>(retReport.getResults(), HttpStatus.OK);
+        OpenvasReport report = openvasService.getReportById(reportId);
+        if (report != null) {
+            return new ResponseEntity<>(report.getResults(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg("report not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg("report not found"), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -113,27 +120,19 @@ public class OpenvasController {
      */
     @RequestMapping(value = "{reportid}/result/{id}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getResult(@PathVariable("id") long id,
-                                @PathVariable("reportid") long reportId,
-                                @ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
+    ResponseEntity<?> getResult(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
+                                @PathVariable("id") long id,
+                                @PathVariable("reportid") long reportId) throws IOException {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
         }
 
-        if (openvasRepository.findById(reportId).isPresent()) {
-            OpenvasReport retReport = openvasRepository.findById(reportId).get();
-            if (retReport.getResults().stream()
-                    .noneMatch((e) -> e.getId().equals(id))) {
-                return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.NOT_FOUND);
-            } else {
-                return new ResponseEntity<>(retReport.getResults().stream()
-                        .filter((e) -> e.getId().equals(id))
-                        .findFirst()
-                        .get(),
-                        HttpStatus.OK);
-            }
+        OvResult result = openvasService.getFromRaportByIdResultById(reportId, id);
+
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg("report not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg("Report or Result not found"), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -146,9 +145,9 @@ public class OpenvasController {
      */
     @RequestMapping(value = "{reportid}/result/{id}/toggle", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> updateResult(@PathVariable("id") long id,
-                                   @PathVariable("reportid") long reportId,
-                                   @ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
+    ResponseEntity<?> updateResult(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
+                                   @PathVariable("id") long id,
+                                   @PathVariable("reportid") long reportId) throws IOException {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
         }
@@ -161,7 +160,7 @@ public class OpenvasController {
             return new ResponseEntity<>(result, HttpStatus.OK);
 
         } else {
-            return new ResponseEntity<>(new ErrorMsg("result not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg("result not found"), HttpStatus.NOT_FOUND);
         }
     }
 }
