@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.GenerationType;
-import java.time.LocalDateTime;
 
 @Table(name = "NMapInfo")
 @Entity
@@ -24,7 +23,7 @@ public class NMapInfo implements Serializable {
     @JsonBackReference // A back reference to keep json from infinite looping
     private NMapGeneralInformation nMapGeneralInformationParent;
 
-    private LocalDateTime scanDateTime;
+    private String scanDateTime;
     private String calledArgument;
     private String nMapVersion;
 
@@ -32,13 +31,13 @@ public class NMapInfo implements Serializable {
         // Default Constructor
     }
 
-    public NMapInfo(final LocalDateTime scanDateTime, final String nMapVersion, final String nMapCalledArgument) {
+    public NMapInfo(final String scanDateTime, final String nMapVersion, final String nMapCalledArgument) {
         this.scanDateTime = scanDateTime;
         this.calledArgument = nMapCalledArgument;
         this.nMapVersion = nMapVersion;
     }
 
-    public LocalDateTime getScanDateTime() {
+    public String getScanDateTime() {
         return scanDateTime;
     }
 

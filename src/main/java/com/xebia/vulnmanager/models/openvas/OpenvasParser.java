@@ -92,12 +92,47 @@ public class OpenvasParser {
         String cve = nvtNode.getElementsByTagName("cve").item(0).getTextContent();
         String tags = nvtNode.getElementsByTagName("tags").item(0).getTextContent();
 
+        String[] tagsSplit = tags.split("\\|");
+        for (String tag : tagsSplit) {
+            if (tag.split("=").length > 0) {
+                String[] res = tag.split("=");
+                switch (res[0]) {
+                    case "summary":
+                        retNvt.setTagsSummary(res[1]);
+                        break;
+                    case "vuldetect":
+                        retNvt.setTagsVulDetect(res[1]);
+                        break;
+                    case "solution":
+                        retNvt.setTagsSolution(res[1]);
+                        break;
+                    case "affected":
+                        retNvt.setTagsAffected(res[1]);
+                        break;
+                    case "insight":
+                        retNvt.setTagsInsight(res[1]);
+                        break;
+                    case "impact":
+                        retNvt.setTagsImpact(res[1]);
+                        break;
+                    case "solution_type":
+                        retNvt.setTagsSolutionType(res[1]);
+                        break;
+                    case "qod_type":
+                        retNvt.setTagsQodType(res[1]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        retNvt.setTags(tags);
         retNvt.setType(type);
         retNvt.setCve(cve);
         retNvt.setCvssBase(cvssBase);
         retNvt.setFamily(family);
         retNvt.setName(name);
-        retNvt.setTags(tags);
         retNvt.setResult(result);
 
         return retNvt;

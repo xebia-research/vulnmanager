@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
+  visibleSidebar1:boolean;
 
   constructor() { }
 
   ngOnInit() {
-  }
+    }
 
 }
