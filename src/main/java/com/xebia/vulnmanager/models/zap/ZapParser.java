@@ -56,9 +56,9 @@ public class ZapParser {
 
                 List<ZapAlertItem> alertItemsList = new ArrayList<>();
                 for (int x = 0; x < nodeList.getLength(); x++) {
-                    NodeList alertItemNodeList = nodeList.item(i).getChildNodes();
+                    NodeList alertItemNodeList = nodeList.item(x).getChildNodes();
 
-                    if (nodeList.item(i).getNodeName().equals("alertitem")) {
+                    if (nodeList.item(x).getNodeName().equals("alertitem")) {
                         ZapAlertItem alertItem = getAlarmItem(alertItemNodeList);
                         alertItem.setSiteInformation(scannedSiteInformation);
                         alertItemsList.add(alertItem);
