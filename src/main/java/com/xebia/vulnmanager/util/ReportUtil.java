@@ -84,6 +84,9 @@ public class ReportUtil {
      * @param testReportDoc The Test document that has to be parsed.
      */
     public static ReportType checkDocumentType(Document testReportDoc) {
+        if (testReportDoc == null || testReportDoc.getDocumentElement() == null) {
+            return ReportType.UNKNOWN;
+        }
         String currentTypeOfScan = testReportDoc.getDocumentElement().getTagName();
 
         if (currentTypeOfScan != null) {
