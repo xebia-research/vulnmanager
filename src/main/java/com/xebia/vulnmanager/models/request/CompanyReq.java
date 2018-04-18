@@ -6,6 +6,7 @@ public class CompanyReq implements Serializable {
     private String name;
 
     public CompanyReq() {
+        // empty ctor
     }
 
     public CompanyReq(final String name) {

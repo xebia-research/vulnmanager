@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping(value = "/{company}")
+@RequestMapping
 public class CompanyController {
     private static final String IS_AUTHENTICATED_STRING = "isAuthenticated";
     private static final String AUTH_NOT_CORRECT_STRING = "Auth not correct!";
@@ -32,7 +32,7 @@ public class CompanyController {
      * @param companyName The name of the company
      * @return A list of teams within the team
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/{company}", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getCompany(@RequestHeader(value = "auth", defaultValue = "nope") String authKey, @PathVariable("company") String companyName) {
         // find company by name
@@ -56,7 +56,7 @@ public class CompanyController {
      * @param companyName The name of the company
      * @return A list of teams within the team
      */
-    @RequestMapping(value = "/{team}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{company}/{team}", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getCompanyTeamMembers(@RequestHeader(value = "auth", defaultValue = "nope") String authKey, @PathVariable("company") String companyName, @PathVariable("team") String teamName) {
         // find company by name
@@ -84,7 +84,7 @@ public class CompanyController {
      * @param company The request with information about the company
      * @return A response
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/company", method = RequestMethod.POST)
     @ResponseBody
     ResponseEntity<?> createCompany(@RequestBody CompanyReq company) {
         if (company.getName().length() < 1) {
@@ -103,10 +103,7 @@ public class CompanyController {
 
         // find company by name
         Company savedCompany = companyService.addCompany(comp);
-
-        if (savedCompany == null) {
-            return new ResponseEntity<ErrorMsg>(new ErrorMsg("Company not added"), HttpStatus.NOT_FOUND);
-        }
+        
         return new ResponseEntity<>(savedCompany, HttpStatus.OK);
     }
 
@@ -117,7 +114,7 @@ public class CompanyController {
      * @param companyName the company to wich the team needs to be added
      * @return Returns a response
      */
-    @RequestMapping(value = "/{team}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{company}", method = RequestMethod.POST)
     @ResponseBody
     ResponseEntity<?> creatTeam(@RequestBody TeamReq teamReq, @RequestHeader(value = "auth", defaultValue = "nope") String authKey, @PathVariable("company") String companyName) {
         // find company by name

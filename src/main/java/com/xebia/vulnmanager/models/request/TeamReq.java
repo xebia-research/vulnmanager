@@ -6,6 +6,7 @@ public class TeamReq implements Serializable {
     private String name;
 
     public TeamReq() {
+        // empty ctor
     }
 
     public TeamReq(final String name) {
