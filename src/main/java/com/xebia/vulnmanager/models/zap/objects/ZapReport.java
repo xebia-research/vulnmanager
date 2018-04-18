@@ -13,14 +13,12 @@ public class ZapReport implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String dateGenerated;
+    private int numberOfSitesInReport;
+
     @OneToMany(mappedBy = "zapReport", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<ZapAlertItem> alertItems;
-
-    private String dateGenerated;
-
-    @OneToOne(mappedBy = "zapReport", cascade = CascadeType.ALL)
-    private ScannedSiteInformation scannedSiteInformation;
+    private List<ScannedSiteInformation> scannedSitesInformation;
 
     public ZapReport() {
         // Empty constructor
@@ -34,14 +32,6 @@ public class ZapReport implements Serializable {
         this.id = id;
     }
 
-    public List<ZapAlertItem> getAlertItems() {
-        return alertItems;
-    }
-
-    public void setAlerItems(List<ZapAlertItem> alertItems) {
-        this.alertItems = alertItems;
-    }
-
     public String getDateGenerated() {
         return dateGenerated;
     }
@@ -50,11 +40,19 @@ public class ZapReport implements Serializable {
         this.dateGenerated = dateGenerated;
     }
 
-    public ScannedSiteInformation getScannedSiteInformation() {
-        return scannedSiteInformation;
+    public int getNumberOfSitesInReport() {
+        return numberOfSitesInReport;
     }
 
-    public void setScannedSiteInformation(ScannedSiteInformation scannedSiteInformation) {
-        this.scannedSiteInformation = scannedSiteInformation;
+    public void setNumberOfSitesInReport(int numberOfSitesInReport) {
+        this.numberOfSitesInReport = numberOfSitesInReport;
+    }
+
+    public List<ScannedSiteInformation> getScannedSitesInformation() {
+        return scannedSitesInformation;
+    }
+
+    public void setScannedSitesInformation(List<ScannedSiteInformation> scannedSitesInformation) {
+        this.scannedSitesInformation = scannedSitesInformation;
     }
 }

@@ -1,7 +1,11 @@
 package com.xebia.vulnmanager.models.zap.objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Table(name = "ScannedSiteInformation")
 @Entity
@@ -10,9 +14,14 @@ public class ScannedSiteInformation implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "zap_report_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "zap_report_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
     private ZapReport zapReport;
+
+    @OneToMany(mappedBy = "siteInformation", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<ZapAlertItem> alertItems;
 
     private String name;
     private String host;
@@ -25,6 +34,22 @@ public class ScannedSiteInformation implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public ZapReport getZapReport() {
+        return zapReport;
+    }
+
+    public void setZapReport(ZapReport zapReport) {
+        this.zapReport = zapReport;
+    }
+
+    public List<ZapAlertItem> getAlertItems() {
+        return alertItems;
+    }
+
+    public void setAlertItems(List<ZapAlertItem> alertItems) {
+        this.alertItems = alertItems;
     }
 
     public String getName() {

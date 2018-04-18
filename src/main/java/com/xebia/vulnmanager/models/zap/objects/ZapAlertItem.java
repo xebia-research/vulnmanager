@@ -16,9 +16,9 @@ public class ZapAlertItem implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "report_id", nullable = false) // Column that will be used to keep track of the parent
+    @JoinColumn(name = "website_id", nullable = false) // Column that will be used to keep track of the parent
     @JsonBackReference // A backrefrence to keep json from infinite looping
-    private ZapReport zapReport;
+    private ScannedSiteInformation siteInformation;
 
     @Column(columnDefinition = TEXT)
     private String name;
@@ -32,7 +32,7 @@ public class ZapAlertItem implements Serializable {
 
     @OneToMany(mappedBy = "zapAlertItem", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<RiskInstance> instance;
+    private List<RiskInstance> instanceList;
     private int instanceCount;
 
     @Column(columnDefinition = TEXT)
@@ -58,12 +58,12 @@ public class ZapAlertItem implements Serializable {
         this.id = id;
     }
 
-    public ZapReport getZapReport() {
-        return zapReport;
+    public ScannedSiteInformation getSiteInformation() {
+        return siteInformation;
     }
 
-    public void setZapReport(ZapReport zapReport) {
-        this.zapReport = zapReport;
+    public void setSiteInformation(ScannedSiteInformation siteInformation) {
+        this.siteInformation = siteInformation;
     }
 
     public String getName() {
@@ -106,12 +106,12 @@ public class ZapAlertItem implements Serializable {
         this.description = description;
     }
 
-    public List<RiskInstance> getInstance() {
-        return instance;
+    public List<RiskInstance> getInstanceList() {
+        return instanceList;
     }
 
-    public void setInstance(List<RiskInstance> instance) {
-        this.instance = instance;
+    public void setInstanceList(List<RiskInstance> instanceList) {
+        this.instanceList = instanceList;
     }
 
     public int getInstanceCount() {
