@@ -26,6 +26,18 @@ public class CompanyService {
         return null;
     }
 
+    public Company addCompany(Company c) {
+        return companyRepository.save(c);
+    }
+
+    public void addTeamCompany(String companyName, Team team) {
+        Company company = getCompanyByName(companyName);
+        if (company != null) {
+            company.addTeam(team);
+            companyRepository.save(company);
+        }
+    }
+
     public List<Team> getTeamsOfCompany(String compName) {
         Company company = getCompanyByName(compName);
         if (company != null) {

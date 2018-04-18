@@ -4,6 +4,7 @@ import com.xebia.vulnmanager.data.MockCompanyFactory;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.models.request.CompanyReq;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
 import com.xebia.vulnmanager.repositories.CompanyRepository;
 import com.xebia.vulnmanager.repositories.NMapRepository;

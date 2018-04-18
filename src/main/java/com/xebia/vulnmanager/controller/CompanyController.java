@@ -3,6 +3,8 @@ package com.xebia.vulnmanager.controller;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
+import com.xebia.vulnmanager.models.request.CompanyReq;
+import com.xebia.vulnmanager.models.request.TeamReq;
 import com.xebia.vulnmanager.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,5 +77,78 @@ public class CompanyController {
         } else {
             return new ResponseEntity<ErrorMsg>(new ErrorMsg("Wrong auth key"), HttpStatus.NOT_FOUND);
         }
+    }
+
+    /**
+     * Create a company by post request
+     * @param company The request with information about the company
+     * @return A response
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    ResponseEntity<?> createCompany(@RequestBody CompanyReq company) {
+        if (company.getName().length() < 1) {
+            return new ResponseEntity<>(new ErrorMsg("Name to short"), HttpStatus.BAD_REQUEST);
+        }
+
+        Company found = companyService.getCompanyByName(company.getName());
+
+        if (found != null) {
+            return new ResponseEntity<>(new ErrorMsg("There is already a company with that name"), HttpStatus.BAD_REQUEST);
+        }
+
+        Company comp = new Company(company.getName());
+        // Generate auth key when implemented
+
+
+        // find company by name
+        Company savedCompany = companyService.addCompany(comp);
+
+        if (savedCompany == null) {
+            return new ResponseEntity<ErrorMsg>(new ErrorMsg("Company not added"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(savedCompany, HttpStatus.OK);
+    }
+
+
+    /**
+     * Add a team with a post request
+     * @param teamReq A request with info about the team
+     * @param companyName the company to wich the team needs to be added
+     * @return Returns a response
+     */
+    @RequestMapping(value = "/{team}", method = RequestMethod.POST)
+    @ResponseBody
+    ResponseEntity<?> creatTeam(@RequestBody TeamReq teamReq, @RequestHeader(value = "auth", defaultValue = "nope") String authKey, @PathVariable("company") String companyName) {
+        // find company by name
+        Company foundCompany = companyService.getCompanyByName(companyName);
+
+        // check auth
+        if (foundCompany == null || !authKey.equals(foundCompany.getAuthKey())) {
+            return new ResponseEntity<>(new ErrorMsg("Company or auth incorrect"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (teamReq.getName().length() < 1) {
+            return new ResponseEntity<>(new ErrorMsg("Name to short"), HttpStatus.BAD_REQUEST);
+        }
+
+        Company found = companyService.getCompanyByName(companyName);
+
+        if (found == null) {
+            return new ResponseEntity<>(new ErrorMsg("Company not found"), HttpStatus.BAD_REQUEST);
+        }
+
+        for (Team t : found.getTeams()) {
+            if (t.getName().equalsIgnoreCase(teamReq.getName())) {
+                return new ResponseEntity<>(new ErrorMsg("Team with that name already exists"), HttpStatus.CONFLICT);
+            }
+        }
+
+        Team newTeam = new Team(teamReq.getName());
+        newTeam.setCompany(found);
+
+        // add team
+        companyService.addTeamCompany(companyName, newTeam);
+        return new ResponseEntity<>(newTeam, HttpStatus.OK);
     }
 }
