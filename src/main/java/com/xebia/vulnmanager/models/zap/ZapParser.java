@@ -33,6 +33,7 @@ public class ZapParser {
             Node currentSiteNode = nodeListOfSites.item(x);
 
             ScannedSiteInformation siteInformation = new ScannedSiteInformation();
+            siteInformation.setZapReport(zapReport);
 
             siteInformation.setName(currentSiteNode.getAttributes().getNamedItem("name").getNodeValue());
             siteInformation.setHost(currentSiteNode.getAttributes().getNamedItem("host").getNodeValue());
@@ -58,7 +59,9 @@ public class ZapParser {
                     NodeList alertItemNodeList = nodeList.item(i).getChildNodes();
 
                     if (nodeList.item(i).getNodeName().equals("alertitem")) {
-                        alertItemsList.add(getAlarmItem(alertItemNodeList));
+                        ZapAlertItem alertItem = getAlarmItem(alertItemNodeList);
+                        alertItem.setSiteInformation(scannedSiteInformation);
+                        alertItemsList.add(alertItem);
                     }
                 }
                 scannedSiteInformation.setAlertItems(alertItemsList);
@@ -94,7 +97,7 @@ public class ZapParser {
                     zapAlertItem.setDescription(attributeValue);
                     break;
                 case "instances":
-                    zapAlertItem.setInstanceList(getInstanceList(currentAlertItemAttributes));
+                    zapAlertItem.setInstanceList(getInstanceList(currentAlertItemAttributes, zapAlertItem));
                     break;
                 case "count":
                     zapAlertItem.setInstanceCount(Integer.parseInt(attributeValue));
@@ -135,14 +138,16 @@ public class ZapParser {
         return htmlString;
     }
 
-    private List<RiskInstance> getInstanceList(NodeList riskInstanceNodeList) {
+    private List<RiskInstance> getInstanceList(NodeList riskInstanceNodeList, ZapAlertItem zapAlertItem) {
         List<RiskInstance> instanceList = new ArrayList<>();
         for (int i = 0; i < riskInstanceNodeList.getLength(); i++) {
             Node riskInstanceNode = riskInstanceNodeList.item(i);
             String nodeName = riskInstanceNode.getNodeName();
 
             if (nodeName.equals("instance")) {
-                instanceList.add(getRiskInstance(riskInstanceNode));
+                RiskInstance riskInstance = getRiskInstance(riskInstanceNode);
+                riskInstance.setZapAlertItem(zapAlertItem);
+                instanceList.add(riskInstance);
             }
         }
         return instanceList;

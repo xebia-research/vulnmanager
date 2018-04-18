@@ -6,8 +6,10 @@ import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.models.zap.objects.ZapReport;
 import com.xebia.vulnmanager.repositories.NMapRepository;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
+import com.xebia.vulnmanager.repositories.OwaspZapRepository;
 import com.xebia.vulnmanager.services.CompanyService;
 import com.xebia.vulnmanager.util.IOUtil;
 import com.xebia.vulnmanager.util.ReportType;
@@ -34,6 +36,9 @@ public class UploadFileController {
 
     @Autowired
     private NMapRepository nMapRepository;
+
+    @Autowired
+    private OwaspZapRepository zapRepository;
 
     @Autowired
     private CompanyService companyService;
@@ -159,6 +164,15 @@ public class UploadFileController {
             // Save the report
             nMapRepository.save(nMapReport);
             nMapRepository.flush();
+        } else if (reportType == ReportType.ZAP) {
+            ZapReport zapReport = ReportUtil.getZapReportFromObject(parsedDocument);
+            if (zapReport == null) {
+                return;
+            }
+
+            // Save the report
+            zapRepository.save(zapReport);
+            zapRepository.flush();
         }
     }
 }
