@@ -6,8 +6,10 @@ import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.models.zap.objects.ZapReport;
 import com.xebia.vulnmanager.repositories.NMapRepository;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
+import com.xebia.vulnmanager.repositories.OwaspZapRepository;
 import com.xebia.vulnmanager.services.CompanyService;
 import com.xebia.vulnmanager.util.IOUtil;
 import com.xebia.vulnmanager.util.ReportType;
@@ -25,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(value = "/{company}/{team}/{scannerType}/upload")
+@RequestMapping(value = "/{company}/{team}/upload")
 public class UploadFileController {
     private final Logger logger = LoggerFactory.getLogger("UploadFileController");
 
@@ -34,6 +36,9 @@ public class UploadFileController {
 
     @Autowired
     private NMapRepository nMapRepository;
+
+    @Autowired
+    private OwaspZapRepository zapRepository;
 
     @Autowired
     private CompanyService companyService;
@@ -52,16 +57,9 @@ public class UploadFileController {
     ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadFile,
                                  @RequestHeader(value = "auth", defaultValue = "nope") String authKey,
                                  @PathVariable("company") String companyName,
-                                 @PathVariable("team") String teamName,
-                                 @PathVariable("scannerType") String scannerType) {
-
+                                 @PathVariable("team") String teamName) {
         if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
-        }
-
-        // Check if the parser type endpoint exists.
-        if (!isValidScannerType(scannerType)) {
-            return new ResponseEntity(new ErrorMsg("Unknown parser type"), HttpStatus.BAD_REQUEST);
         }
 
         // Shouldn't return null because the authenticationChecker als checks for null.
@@ -73,7 +71,7 @@ public class UploadFileController {
         }
 
         logger.info("Single file upload started!");
-        String newFileName = "";
+        String newFileName;
         if (uploadFile.isEmpty()) {
             return new ResponseEntity(new ErrorMsg("Uploaded file should't be empty"), HttpStatus.BAD_REQUEST);
         }
@@ -85,36 +83,20 @@ public class UploadFileController {
 
             // Success with upload. Check file to see of it is a {scannerType} document
             logger.info("File succesfully uploaded");
-            boolean wrongEndpoint = false;
 
             // Success check uploaded file
             ReportType reportType = ReportUtil.checkDocumentType(ReportUtil.getDocumentFromFile(tempFile));
-            if (reportType != ReportType.UNKNOWN) {
-                if (reportType.toString().equalsIgnoreCase(scannerType)) {
-                    newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
-
-                    // Get company and team;
-                    uploadFileToDB(tempFile, reportType, team);
-
-
-                } else {
-                    // File is known but wrong endpoint
-                    wrongEndpoint = true;
-                }
+            if (reportType == ReportType.UNKNOWN) {
+                return new ResponseEntity(new ErrorMsg("Unknown report!"), HttpStatus.BAD_REQUEST);
             }
+            newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
+
+            // Get company and team;
+            uploadFileToDB(tempFile, reportType, team);
 
             if (!tempFile.delete()) {
                 logger.error("Temp file couldn't be deleted");
             }
-
-            // Separate if to delete the tmp file
-            if (reportType == ReportType.UNKNOWN) {
-                // Type unknown send bad request.
-                return new ResponseEntity(new ErrorMsg("Unknown report!"), HttpStatus.BAD_REQUEST);
-            } else if (wrongEndpoint) {
-                return new ResponseEntity(new ErrorMsg("This is a " + reportType.name() + " report but this endpoint expects a " + scannerType), HttpStatus.BAD_REQUEST);
-            }
-
         } catch (IOException ex) {
             return new ResponseEntity(new ErrorMsg("IOException with msg: " + ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -159,6 +141,15 @@ public class UploadFileController {
             // Save the report
             nMapRepository.save(nMapReport);
             nMapRepository.flush();
+        } else if (reportType == ReportType.ZAP) {
+            ZapReport zapReport = ReportUtil.getZapReportFromObject(parsedDocument);
+            if (zapReport == null) {
+                return;
+            }
+
+            // Save the report
+            zapRepository.save(zapReport);
+            zapRepository.flush();
         }
     }
 }
