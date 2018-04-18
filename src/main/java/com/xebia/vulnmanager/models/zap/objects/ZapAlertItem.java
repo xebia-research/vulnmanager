@@ -46,10 +46,6 @@ public class ZapAlertItem implements Serializable {
     private int wascId;
     private int sourceId;
 
-    public ZapAlertItem() {
-        // Empty constructor
-    }
-
     public Long getId() {
         return id;
     }

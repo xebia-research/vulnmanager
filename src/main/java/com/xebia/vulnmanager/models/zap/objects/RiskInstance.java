@@ -21,10 +21,6 @@ public class RiskInstance implements Serializable {
     private String method;
     private String param;
 
-    public RiskInstance() {
-        // Empty constructor
-    }
-
     public Long getId() {
         return id;
     }

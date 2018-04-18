@@ -20,10 +20,6 @@ public class ZapReport implements Serializable {
     @JsonManagedReference
     private List<ScannedSiteInformation> scannedSitesInformation;
 
-    public ZapReport() {
-        // Empty constructor
-    }
-
     public Long getId() {
         return id;
     }
