@@ -1,6 +1,7 @@
 package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
+import com.xebia.vulnmanager.models.generic.GenericReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.openvas.objects.OvResult;
@@ -62,6 +63,24 @@ public class OpenvasController {
         }
 
         List<OpenvasReport> reportList = openvasService.getAllReports();
+
+        return new ResponseEntity<>(reportList, HttpStatus.OK);
+    }
+
+    /**
+     * Get all the added reports
+     *
+     * @return A response with correct http header
+     * @throws IOException An exception if the example log isn't found
+     */
+    @RequestMapping(value = "generic", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getGenericReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
+        if (!isAuthenticated) {
+            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+        }
+
+        List<GenericReport> reportList = openvasService.getAllReportsAsGeneric();
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }

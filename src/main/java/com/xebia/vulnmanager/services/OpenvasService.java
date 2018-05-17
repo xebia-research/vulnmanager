@@ -1,11 +1,13 @@
 package com.xebia.vulnmanager.services;
 
+import com.xebia.vulnmanager.models.generic.GenericReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.openvas.objects.OvResult;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +27,20 @@ public class OpenvasService {
      */
     public List<OpenvasReport> getAllReports() {
         return openvasDataService.findAll();
+    }
+
+    /**
+     * Get all the openvas reports
+     * @return Return an iteratable of all the openvas reports
+     */
+    public List<GenericReport> getAllReportsAsGeneric() {
+        List<OpenvasReport> reports = openvasDataService.findAll();
+        List<GenericReport> genericReports = new ArrayList<>();
+
+        for (OpenvasReport report : reports) {
+            genericReports.add(report.getGenericReport());
+        }
+        return genericReports;
     }
 
     /**
