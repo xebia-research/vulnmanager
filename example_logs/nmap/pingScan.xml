@@ -756,24 +756,24 @@
 <host starttime="1523880704" endtime="1523880716"><status state="up" reason="conn-refused" reason_ttl="0"/>
 <address addr="10.20.120.107" addrtype="ipv4"/>
 <hostnames>
-<hostname name="raspberrypi.dynamic.ziggo.nl" type="PTR"/>
+<hostname username="raspberrypi.dynamic.ziggo.nl" type="PTR"/>
 </hostnames>
 <ports><extraports state="closed" count="999">
 <extrareasons reason="conn-refused" count="999"/>
 </extraports>
-<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ssh" method="table" conf="3"/></port>
 </ports>
 <times srtt="21894" rttvar="1674" to="100000"/>
 </host>
 <host starttime="1523880704" endtime="1523880713"><status state="up" reason="syn-ack" reason_ttl="0"/>
 <address addr="10.20.120.114" addrtype="ipv4"/>
 <hostnames>
-<hostname name="stefan-HP-Pavilion-Notebook.dynamic.ziggo.nl" type="PTR"/>
+<hostname username="stefan-HP-Pavilion-Notebook.dynamic.ziggo.nl" type="PTR"/>
 </hostnames>
 <ports><extraports state="closed" count="999">
 <extrareasons reason="conn-refused" count="999"/>
 </extraports>
-<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
 </ports>
 <times srtt="103" rttvar="65" to="100000"/>
 </host>
@@ -784,14 +784,14 @@
 <ports><extraports state="closed" count="999">
 <extrareasons reason="conn-refused" count="999"/>
 </extraports>
-<port protocol="tcp" portid="21"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ftp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="21"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ftp" method="table" conf="3"/></port>
 </ports>
 <times srtt="13506" rttvar="2832" to="100000"/>
 </host>
 <host starttime="1523880704" endtime="1523880748"><status state="up" reason="conn-refused" reason_ttl="0"/>
 <address addr="10.20.120.118" addrtype="ipv4"/>
 <hostnames>
-<hostname name="iPad-van-stefa.dynamic.ziggo.nl" type="PTR"/>
+<hostname username="iPad-van-stefa.dynamic.ziggo.nl" type="PTR"/>
 </hostnames>
 <ports><extraports state="closed" count="865">
 <extrareasons reason="conn-refused" count="865"/>
@@ -799,7 +799,7 @@
 <extraports state="filtered" count="134">
 <extrareasons reason="no-responses" count="134"/>
 </extraports>
-<port protocol="tcp" portid="62078"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="iphone-sync" method="table" conf="3"/></port>
+<port protocol="tcp" portid="62078"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="iphone-sync" method="table" conf="3"/></port>
 </ports>
 <times srtt="5342" rttvar="3769" to="100000"/>
 </host>
@@ -816,7 +816,7 @@
 <host starttime="1523880704" endtime="1523880716"><status state="up" reason="conn-refused" reason_ttl="0"/>
 <address addr="10.20.120.128" addrtype="ipv4"/>
 <hostnames>
-<hostname name="Samsung-Galaxy-S7-edge.dynamic.ziggo.nl" type="PTR"/>
+<hostname username="Samsung-Galaxy-S7-edge.dynamic.ziggo.nl" type="PTR"/>
 </hostnames>
 <ports><extraports state="closed" count="1000">
 <extrareasons reason="conn-refused" count="1000"/>
@@ -831,14 +831,14 @@
 <ports><extraports state="closed" count="999">
 <extrareasons reason="conn-refused" count="999"/>
 </extraports>
-<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ssh" method="table" conf="3"/></port>
 </ports>
 <times srtt="22274" rttvar="712" to="100000"/>
 </host>
 <host starttime="1523880704" endtime="1523880747"><status state="up" reason="conn-refused" reason_ttl="0"/>
 <address addr="10.20.120.135" addrtype="ipv4"/>
 <hostnames>
-<hostname name="Apple-TV" type="PTR"/>
+<hostname username="Apple-TV" type="PTR"/>
 </hostnames>
 <ports><extraports state="closed" count="890">
 <extrareasons reason="conn-refused" count="890"/>
@@ -846,27 +846,27 @@
 <extraports state="filtered" count="105">
 <extrareasons reason="no-responses" count="105"/>
 </extraports>
-<port protocol="tcp" portid="3689"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="rendezvous" method="table" conf="3"/></port>
-<port protocol="tcp" portid="5000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="upnp" method="table" conf="3"/></port>
-<port protocol="tcp" portid="7000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="afs3-fileserver" method="table" conf="3"/></port>
-<port protocol="tcp" portid="7100"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="font-service" method="table" conf="3"/></port>
-<port protocol="tcp" portid="62078"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="iphone-sync" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3689"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="rendezvous" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5000"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="upnp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="7000"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="afs3-fileserver" method="table" conf="3"/></port>
+<port protocol="tcp" portid="7100"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="font-service" method="table" conf="3"/></port>
+<port protocol="tcp" portid="62078"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="iphone-sync" method="table" conf="3"/></port>
 </ports>
 <times srtt="5056" rttvar="1921" to="100000"/>
 </host>
 <host starttime="1523880704" endtime="1523880716"><status state="up" reason="syn-ack" reason_ttl="0"/>
 <address addr="10.20.120.155" addrtype="ipv4"/>
 <hostnames>
-<hostname name="Linksys00523" type="PTR"/>
+<hostname username="Linksys00523" type="PTR"/>
 </hostnames>
 <ports><extraports state="closed" count="995">
 <extrareasons reason="conn-refused" count="995"/>
 </extraports>
-<port protocol="tcp" portid="53"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
-<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
-<port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
-<port protocol="tcp" portid="10000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="snet-sensor-mgmt" method="table" conf="3"/></port>
-<port protocol="tcp" portid="49152"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="unknown" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="10000"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="snet-sensor-mgmt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="49152"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="unknown" method="table" conf="3"/></port>
 </ports>
 <times srtt="13600" rttvar="1929" to="100000"/>
 </host>

@@ -1,6 +1,6 @@
 <FindBugsFilter>
     <Match>
-        <Class name="~.*\.EJS.*|.*\._.*"/>
+        <Class username="~.*\.EJS.*|.*\._.*"/>
     </Match>
     <!-- Do not complain about getters returning mutable objects -->
     <Match>

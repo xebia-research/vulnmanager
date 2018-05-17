@@ -738,16 +738,16 @@
     <host starttime="1519035205" endtime="1519035207"><status state="up" reason="syn-ack" reason_ttl="0"/>
         <address addr="192.168.1.1" addrtype="ipv4"/>
         <hostnames>
-            <hostname name="router.asus.com" type="PTR"/>
+            <hostname username="router.asus.com" type="PTR"/>
         </hostnames>
         <ports><extraports state="closed" count="995">
             <extrareasons reason="conn-refused" count="995"/>
         </extraports>
-            <port protocol="tcp" portid="53"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="515"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="printer" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="9100"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="jetdirect" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="53"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="domain" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="515"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="printer" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8443"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="https-alt" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="9100"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="jetdirect" method="table" conf="3"/></port>
         </ports>
         <times srtt="380" rttvar="89" to="100000"/>
     </host>
@@ -758,25 +758,25 @@
         <ports><extraports state="closed" count="995">
             <extrareasons reason="conn-refused" count="995"/>
         </extraports>
-            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="netbios-ssn" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="548"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="afp" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8200"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="trivnet1" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="netbios-ssn" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="microsoft-ds" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="548"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="afp" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8200"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="trivnet1" method="table" conf="3"/></port>
         </ports>
         <times srtt="651" rttvar="97" to="100000"/>
     </host>
     <host starttime="1519035205" endtime="1519035213"><status state="up" reason="conn-refused" reason_ttl="0"/>
         <address addr="192.168.1.51" addrtype="ipv4"/>
         <hostnames>
-            <hostname name="Chromecast" type="PTR"/>
+            <hostname username="Chromecast" type="PTR"/>
         </hostnames>
         <ports><extraports state="closed" count="997">
             <extrareasons reason="conn-refused" count="997"/>
         </extraports>
-            <port protocol="tcp" portid="8008"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8009"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ajp13" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="9000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="cslistener" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8008"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8009"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ajp13" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="9000"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="cslistener" method="table" conf="3"/></port>
         </ports>
         <times srtt="1647" rttvar="414" to="100000"/>
     </host>
@@ -787,22 +787,22 @@
         <ports><extraports state="filtered" count="984">
             <extrareasons reason="no-responses" count="984"/>
         </extraports>
-            <port protocol="tcp" portid="135"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="msrpc" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="netbios-ssn" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="902"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="iss-realsecure" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="912"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="apex-mesh" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="2869"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="icslap" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="3389"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ms-wbt-server" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="5050"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="mmcc" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="5357"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="wsdapi" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="5666"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="nrpe" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="7070"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="realserver" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8009"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ajp13" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8085"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="unknown" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="9000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="cslistener" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="135"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="msrpc" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="netbios-ssn" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="https" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="microsoft-ds" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="902"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="iss-realsecure" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="912"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="apex-mesh" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="2869"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="icslap" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="3389"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ms-wbt-server" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="5050"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="mmcc" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="5357"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="wsdapi" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="5666"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="nrpe" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="7070"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="realserver" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8009"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ajp13" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8085"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="unknown" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8443"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="https-alt" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="9000"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="cslistener" method="table" conf="3"/></port>
         </ports>
         <times srtt="666" rttvar="116" to="100000"/>
     </host>
@@ -813,11 +813,11 @@
         <ports><extraports state="closed" count="995">
             <extrareasons reason="conn-refused" count="995"/>
         </extraports>
-            <port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="netbios-ssn" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="1494"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="citrix-ica" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8009"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ajp13" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ssh" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="netbios-ssn" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="microsoft-ds" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="1494"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="citrix-ica" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8009"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ajp13" method="table" conf="3"/></port>
         </ports>
         <times srtt="177" rttvar="108" to="100000"/>
     </host>
@@ -828,24 +828,24 @@
         <ports><extraports state="closed" count="997">
             <extrareasons reason="conn-refused" count="997"/>
         </extraports>
-            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="3031"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="eppc" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="5900"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="vnc" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="microsoft-ds" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="3031"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="eppc" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="5900"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="vnc" method="table" conf="3"/></port>
         </ports>
         <times srtt="594" rttvar="21" to="100000"/>
     </host>
     <host starttime="1519035205" endtime="1519035207"><status state="up" reason="syn-ack" reason_ttl="0"/>
         <address addr="192.168.1.111" addrtype="ipv4"/>
         <hostnames>
-            <hostname name="raspberrypi" type="PTR"/>
+            <hostname username="raspberrypi" type="PTR"/>
         </hostnames>
         <ports><extraports state="closed" count="996">
             <extrareasons reason="conn-refused" count="996"/>
         </extraports>
-            <port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8080"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ssh" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8080"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http-proxy" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8443"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="https-alt" method="table" conf="3"/></port>
         </ports>
         <times srtt="3664" rttvar="786" to="100000"/>
     </host>
@@ -856,17 +856,17 @@
         <ports><extraports state="closed" count="996">
             <extrareasons reason="conn-refused" count="996"/>
         </extraports>
-            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="554"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="rtsp" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="1900"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="upnp" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="https" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="554"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="rtsp" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="1900"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="upnp" method="table" conf="3"/></port>
         </ports>
         <times srtt="27343" rttvar="1436" to="100000"/>
     </host>
     <host starttime="1519035205" endtime="1519035536"><status state="up" reason="conn-refused" reason_ttl="0"/>
         <address addr="192.168.1.148" addrtype="ipv4"/>
         <hostnames>
-            <hostname name="DESKTOP-GNCC0FU" type="PTR"/>
+            <hostname username="DESKTOP-GNCC0FU" type="PTR"/>
         </hostnames>
         <ports><extraports state="closed" count="668">
             <extrareasons reason="conn-refused" count="668"/>
@@ -874,11 +874,11 @@
             <extraports state="filtered" count="327">
                 <extrareasons reason="no-responses" count="327"/>
             </extraports>
-            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="netbios-ssn" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="2869"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="icslap" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="5357"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="wsdapi" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8080"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="netbios-ssn" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="microsoft-ds" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="2869"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="icslap" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="5357"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="wsdapi" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8080"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http-proxy" method="table" conf="3"/></port>
         </ports>
         <times srtt="511" rttvar="66" to="100000"/>
     </host>
@@ -889,24 +889,24 @@
         <ports><extraports state="closed" count="997">
             <extrareasons reason="conn-refused" count="997"/>
         </extraports>
-            <port protocol="tcp" portid="8008"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="8009"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ajp13" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="9000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="cslistener" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8008"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="8009"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ajp13" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="9000"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="cslistener" method="table" conf="3"/></port>
         </ports>
         <times srtt="1467" rttvar="186" to="100000"/>
     </host>
     <host starttime="1519035205" endtime="1519035207"><status state="up" reason="syn-ack" reason_ttl="0"/>
         <address addr="192.168.1.187" addrtype="ipv4"/>
         <hostnames>
-            <hostname name="DataTank" type="PTR"/>
+            <hostname username="DataTank" type="PTR"/>
         </hostnames>
         <ports><extraports state="closed" count="996">
             <extrareasons reason="conn-refused" count="996"/>
         </extraports>
-            <port protocol="tcp" portid="21"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ftp" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="netbios-ssn" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="21"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="ftp" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="netbios-ssn" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="microsoft-ds" method="table" conf="3"/></port>
         </ports>
         <times srtt="287" rttvar="80" to="100000"/>
     </host>
@@ -917,24 +917,24 @@
         <ports><extraports state="closed" count="999">
             <extrareasons reason="conn-refused" count="999"/>
         </extraports>
-            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
         </ports>
         <times srtt="2086" rttvar="1088" to="100000"/>
     </host>
     <host starttime="1519035205" endtime="1519035207"><status state="up" reason="conn-refused" reason_ttl="0"/>
         <address addr="192.168.1.196" addrtype="ipv4"/>
         <hostnames>
-            <hostname name="android-73d13e1f1dbe9ea2" type="PTR"/>
+            <hostname username="android-73d13e1f1dbe9ea2" type="PTR"/>
         </hostnames>
         <ports><extraports state="closed" count="994">
             <extrareasons reason="conn-refused" count="994"/>
         </extraports>
-            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="netbios-ssn" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="49152"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="unknown" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="49153"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="unknown" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="49154"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="unknown" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="49155"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="unknown" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="139"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="netbios-ssn" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="445"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="microsoft-ds" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="49152"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="unknown" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="49153"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="unknown" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="49154"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="unknown" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="49155"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="unknown" method="table" conf="3"/></port>
         </ports>
         <times srtt="8707" rttvar="1132" to="100000"/>
     </host>
@@ -945,17 +945,17 @@
         <ports><extraports state="closed" count="996">
             <extrareasons reason="conn-refused" count="996"/>
         </extraports>
-            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="554"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="rtsp" method="table" conf="3"/></port>
-            <port protocol="tcp" portid="1900"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="upnp" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="http" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="https" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="554"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="rtsp" method="table" conf="3"/></port>
+            <port protocol="tcp" portid="1900"><state state="open" reason="syn-ack" reason_ttl="0"/><service username="upnp" method="table" conf="3"/></port>
         </ports>
         <times srtt="20567" rttvar="702" to="100000"/>
     </host>
     <host starttime="1519035205" endtime="1519035811"><status state="up" reason="conn-refused" reason_ttl="0"/>
         <address addr="192.168.1.224" addrtype="ipv4"/>
         <hostnames>
-            <hostname name="iPadAirchMakers" type="PTR"/>
+            <hostname username="iPadAirchMakers" type="PTR"/>
         </hostnames>
         <ports><extraports state="filtered" count="699">
             <extrareasons reason="no-responses" count="699"/>

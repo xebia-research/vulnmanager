@@ -1,7 +1,5 @@
 package com.xebia.vulnmanager.test;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.controller.OpenvasController;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.openvas.objects.OvResult;
@@ -41,16 +39,9 @@ public class OpenvasControllerTest {
     @InjectMocks
     private OpenvasController openvasController;
 
-    @Mock
-    private AuthenticationChecker authenticationChecker;
 
     @Before
     public void setup() throws Exception {
-        // Mock the authentication check to always return true
-        Mockito.when(authenticationChecker.checkCompanyAuthKey(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
-        Mockito.when(authenticationChecker.checkTeamAndCompany(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(true);
-        Mockito.when(authenticationChecker.checkIfTeamExists(Mockito.any(), Mockito.anyString())).thenReturn(true);
-
         // Load test report
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas/openvas.xml")));
         Object parsedDocument2 = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas/openvas.xml")));

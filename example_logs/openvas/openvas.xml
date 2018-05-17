@@ -1,32 +1,32 @@
 <report id="1da99c8d-7a52-4d68-ac30-56cb8d66b42a" format_id="a994b278-1f62-11e1-96ac-406186ea4fc5" extension="xml"
         type="scan" content_type="text/xml">
     <owner>
-        <name>Test1</name>
+        <username>Test1</username>
     </owner>
-    <name>2018-02-28T20:07:17Z</name>
+    <username>2018-02-28T20:07:17Z</username>
     <comment></comment>
     <creation_time>2018-02-28T20:07:17Z</creation_time>
     <modification_time></modification_time>
     <writable>0</writable>
     <in_use>0</in_use>
     <task id="ec51c614-66bb-477b-bbc1-472fdcbf21be">
-        <name>test scan</name>
+        <username>test scan</username>
     </task>
     <report_format id="a994b278-1f62-11e1-96ac-406186ea4fc5">
-        <name>XML</name>
+        <username>XML</username>
     </report_format>
     <report id="1da99c8d-7a52-4d68-ac30-56cb8d66b42a">
         <omp>
             <version>7.0</version>
         </omp>
         <sort>
-            <field>name
+            <field>username
                 <order>ascending</order>
             </field>
         </sort>
         <filters id="0">
             <term>autofp=0 apply_overrides=1 result_hosts_only=0 min_qod=0 levels=hmlgfd notes=1 overrides=1 start=1
-                rows=1000 first=1 sort=name
+                rows=1000 first=1 sort=username
             </term>
             <filter>High</filter>
             <filter>Medium</filter>
@@ -88,30 +88,30 @@
                 <keyword>
                     <column>sort</column>
                     <relation>=</relation>
-                    <value>name</value>
+                    <value>username</value>
                 </keyword>
             </keywords>
         </filters>
         <severity_class id="d4c74cda-89e1-11e3-9c29-406186ea4fc5">
-            <name>nist</name>
+            <username>nist</username>
             <full_name>NVD Vulnerability Severity Ratings</full_name>
             <severity_range>
-                <name>None</name>
+                <username>None</username>
                 <min>0.0</min>
                 <max>0.0</max>
             </severity_range>
             <severity_range>
-                <name>Low</name>
+                <username>Low</username>
                 <min>0.1</min>
                 <max>3.9</max>
             </severity_range>
             <severity_range>
-                <name>Medium</name>
+                <username>Medium</username>
                 <min>4.0</min>
                 <max>6.9</max>
             </severity_range>
             <severity_range>
-                <name>High</name>
+                <username>High</username>
                 <min>7.0</min>
                 <max>10.0</max>
             </severity_range>
@@ -139,7 +139,7 @@
             <count>0</count>
         </ssl_certs>
         <task id="ec51c614-66bb-477b-bbc1-472fdcbf21be">
-            <name>test scan</name>
+            <username>test scan</username>
             <comment></comment>
             <target id="39752765-2a30-44f1-bfac-6bdebf5afd37">
                 <trash>0</trash>
@@ -152,13 +152,13 @@
         <scan>
             <task>
                 <slave id="">
-                    <name></name>
+                    <username></username>
                     <host></host>
                     <port>0</port>
                 </slave>
                 <preferences>
                     <preference>
-                        <name>Network Source Interface</name>
+                        <username>Network Source Interface</username>
                         <scanner_name>source_iface</scanner_name>
                         <value></value>
                     </preference>
@@ -189,9 +189,9 @@
         </ports>
         <results max="-1" start="1">
             <result id="460a5b3a-1f34-4576-8377-b147dea9b0c8">
-                <name>CGI Scanning Consolidation</name>
+                <username>CGI Scanning Consolidation</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:12:08Z</creation_time>
@@ -205,7 +205,7 @@
                 <port>8080/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.111038">
                     <type>nvt</type>
-                    <name>CGI Scanning Consolidation</name>
+                    <username>CGI Scanning Consolidation</username>
                     <family>Web application abuses</family>
                     <cvss_base>0.0</cvss_base>
                     <cve>NOCVE</cve>
@@ -284,9 +284,9 @@
                 <overrides></overrides>
             </result>
             <result id="d89879be-79f5-44be-b3ec-fa138d567344">
-                <name>DIRB (NASL wrapper)</name>
+                <username>DIRB (NASL wrapper)</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:12:29Z</creation_time>
@@ -300,7 +300,7 @@
                 <port>8080/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.103079">
                     <type>nvt</type>
-                    <name>DIRB (NASL wrapper)</name>
+                    <username>DIRB (NASL wrapper)</username>
                     <family>Web application abuses</family>
                     <cvss_base>0.0</cvss_base>
                     <cve>NOCVE</cve>
@@ -330,9 +330,9 @@
                 <overrides></overrides>
             </result>
             <result id="bc943287-3c18-492b-bb3d-49ffd64d1839">
-                <name>HTTP Security Headers Detection</name>
+                <username>HTTP Security Headers Detection</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:11:48Z</creation_time>
@@ -346,7 +346,7 @@
                 <port>8080/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.112081">
                     <type>nvt</type>
-                    <name>HTTP Security Headers Detection</name>
+                    <username>HTTP Security Headers Detection</username>
                     <family>General</family>
                     <cvss_base>0.0</cvss_base>
                     <cve>NOCVE</cve>
@@ -383,9 +383,9 @@
                 <overrides></overrides>
             </result>
             <result id="8ba334f1-401a-4ee2-88f0-00c9c3b7f34a">
-                <name>Nikto (NASL wrapper)</name>
+                <username>Nikto (NASL wrapper)</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:12:24Z</creation_time>
@@ -399,7 +399,7 @@
                 <port>8080/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.14260">
                     <type>nvt</type>
-                    <name>Nikto (NASL wrapper)</name>
+                    <username>Nikto (NASL wrapper)</username>
                     <family>Web application abuses</family>
                     <cvss_base>0.0</cvss_base>
                     <cve>NOCVE</cve>
@@ -429,9 +429,9 @@
                 <overrides></overrides>
             </result>
             <result id="c7369393-e8c5-4063-9ea9-9a7267334ee9">
-                <name>No 404 check</name>
+                <username>No 404 check</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:10:09Z</creation_time>
@@ -445,7 +445,7 @@
                 <port>8080/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.10386">
                     <type>nvt</type>
-                    <name>No 404 check</name>
+                    <username>No 404 check</username>
                     <family>Web Servers</family>
                     <cvss_base>0.0</cvss_base>
                     <cve>NOCVE</cve>
@@ -479,9 +479,9 @@
                 <overrides></overrides>
             </result>
             <result id="6313fe54-a1ee-418f-ab23-d03df421f07e">
-                <name>OS Detection Consolidation and Reporting</name>
+                <username>OS Detection Consolidation and Reporting</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:10:53Z</creation_time>
@@ -495,7 +495,7 @@
                 <port>general/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.105937">
                     <type>nvt</type>
-                    <name>OS Detection Consolidation and Reporting</name>
+                    <username>OS Detection Consolidation and Reporting</username>
                     <family>Product detection</family>
                     <cvss_base>0.0</cvss_base>
                     <cve>NOCVE</cve>
@@ -541,9 +541,9 @@
                 <overrides></overrides>
             </result>
             <result id="36ad6059-e69b-4359-9d2e-e5329627a61d">
-                <name>Services</name>
+                <username>Services</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:08:59Z</creation_time>
@@ -557,7 +557,7 @@
                 <port>8080/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.10330">
                     <type>nvt</type>
-                    <name>Services</name>
+                    <username>Services</username>
                     <family>Service detection</family>
                     <cvss_base>0.0</cvss_base>
                     <cve>NOCVE</cve>
@@ -584,9 +584,9 @@
                 <overrides></overrides>
             </result>
             <result id="19ee96c4-43ab-485b-9ac1-8251874010ee">
-                <name>Services</name>
+                <username>Services</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:09:36Z</creation_time>
@@ -600,7 +600,7 @@
                 <port>80/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.10330">
                     <type>nvt</type>
-                    <name>Services</name>
+                    <username>Services</username>
                     <family>Service detection</family>
                     <cvss_base>0.0</cvss_base>
                     <cve>NOCVE</cve>
@@ -629,9 +629,9 @@
                 <overrides></overrides>
             </result>
             <result id="69805e27-0f0e-4f7c-b780-68a68f138175">
-                <name>TCP timestamps</name>
+                <username>TCP timestamps</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:11:43Z</creation_time>
@@ -645,7 +645,7 @@
                 <port>general/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.80091">
                     <type>nvt</type>
-                    <name>TCP timestamps</name>
+                    <username>TCP timestamps</username>
                     <family>General</family>
                     <cvss_base>2.6</cvss_base>
                     <cve>NOCVE</cve>
@@ -694,9 +694,9 @@
                 <overrides></overrides>
             </result>
             <result id="dbe66d4b-78c7-4b4f-99c5-c725ae2449f3">
-                <name>Traceroute</name>
+                <username>Traceroute</username>
                 <owner>
-                    <name>Test1</name>
+                    <username>Test1</username>
                 </owner>
                 <comment></comment>
                 <creation_time>2018-02-28T20:12:26Z</creation_time>
@@ -710,7 +710,7 @@
                 <port>general/tcp</port>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.51662">
                     <type>nvt</type>
-                    <name>Traceroute</name>
+                    <username>Traceroute</username>
                     <family>General</family>
                     <cvss_base>0.0</cvss_base>
                     <cve>NOCVE</cve>

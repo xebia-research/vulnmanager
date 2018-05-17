@@ -1,6 +1,5 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.zap.objects.ScannedSiteInformation;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
@@ -23,29 +22,12 @@ public class OwaspZapController {
 
     private final Logger logger = LoggerFactory.getLogger("OwaspZapController");
 
-    private AuthenticationChecker authenticationChecker;
 
     private OwaspZapService owaspZapService;
 
     @Autowired
-    public OwaspZapController(final OwaspZapService owaspZapService,
-                              final AuthenticationChecker authenticationChecker) {
+    public OwaspZapController(final OwaspZapService owaspZapService) {
         this.owaspZapService = owaspZapService;
-        this.authenticationChecker = authenticationChecker;
-    }
-
-    /**
-     * This function is called before other functions, so if for example getReport is called it first runs the init function
-     *
-     * @param authKey Key of the user
-     * @param companyName Name of the company of the user
-     * @param teamName Name of the team of the user
-     * @return returns boolean, true if the company, team and authentication are correct
-     */
-    @ModelAttribute(IS_AUTHENTICATED_STRING)
-    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
-                                   @PathVariable("company") String companyName, @PathVariable("team") String teamName) {
-        return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
     }
 
     /**

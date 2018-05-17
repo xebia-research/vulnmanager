@@ -1,6 +1,5 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
@@ -43,8 +42,6 @@ public class UploadFileController {
     @Autowired
     private CompanyService companyService;
 
-    @Autowired
-    private AuthenticationChecker authenticationChecker;
 
     /**
      * Upload a report to the server.
@@ -58,9 +55,6 @@ public class UploadFileController {
                                  @RequestHeader(value = "auth", defaultValue = "nope") String authKey,
                                  @PathVariable("company") String companyName,
                                  @PathVariable("team") String teamName) {
-        if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
-            return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
-        }
 
         // Shouldn't return null because the authenticationChecker als checks for null.
         Company comp = companyService.getCompanyByName(companyName);

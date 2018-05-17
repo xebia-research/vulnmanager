@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <OWASPZAPReport version="2.7.0" generated="Tue, 17 Apr 2018 08:00:55">
-    <site name="https://demo.kopano.com" host="demo.kopano.com" port="443" ssl="true">
+    <site username="https://demo.kopano.com" host="demo.kopano.com" port="443" ssl="true">
         <alerts>
             <alertitem>
                 <pluginid>10015</pluginid>
                 <alert>Incomplete or No Cache-control and Pragma HTTP Header Set</alert>
-                <name>Incomplete or No Cache-control and Pragma HTTP Header Set</name>
+                <username>Incomplete or No Cache-control and Pragma HTTP Header Set</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -92,7 +92,7 @@
             <alertitem>
                 <pluginid>10021</pluginid>
                 <alert>X-Content-Type-Options Header Missing</alert>
-                <name>X-Content-Type-Options Header Missing</name>
+                <username>X-Content-Type-Options Header Missing</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -250,7 +250,7 @@
             <alertitem>
                 <pluginid>10012</pluginid>
                 <alert>Password Autocomplete in Browser</alert>
-                <name>Password Autocomplete in Browser</name>
+                <username>Password Autocomplete in Browser</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -262,7 +262,7 @@
                         <uri>https://demo.kopano.com/webapp/index.php</uri>
                         <method>GET</method>
                         <param>password</param>
-                        <evidence>&lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;password&quot;
+                        <evidence>&lt;input type=&quot;password&quot; username=&quot;password&quot; id=&quot;password&quot;
                             value=&quot;demo3&quot;&gt;
                         </evidence>
                     </instance>
@@ -270,7 +270,7 @@
                         <uri>https://demo.kopano.com/webapp/index.php</uri>
                         <method>GET</method>
                         <param>password</param>
-                        <evidence>&lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;password&quot;
+                        <evidence>&lt;input type=&quot;password&quot; username=&quot;password&quot; id=&quot;password&quot;
                             value=&quot;demo18&quot;&gt;
                         </evidence>
                     </instance>
@@ -287,7 +287,7 @@
             <alertitem>
                 <pluginid>10020</pluginid>
                 <alert>X-Frame-Options Header Not Set</alert>
-                <name>X-Frame-Options Header Not Set</name>
+                <username>X-Frame-Options Header Not Set</username>
                 <riskcode>2</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Medium (Medium)</riskdesc>
@@ -321,7 +321,7 @@
             <alertitem>
                 <pluginid>10016</pluginid>
                 <alert>Web Browser XSS Protection Not Enabled</alert>
-                <name>Web Browser XSS Protection Not Enabled</name>
+                <username>Web Browser XSS Protection Not Enabled</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -361,7 +361,7 @@
             <alertitem>
                 <pluginid>10010</pluginid>
                 <alert>Cookie No HttpOnly Flag</alert>
-                <name>Cookie No HttpOnly Flag</name>
+                <username>Cookie No HttpOnly Flag</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -394,7 +394,7 @@
             <alertitem>
                 <pluginid>2</pluginid>
                 <alert>Private IP Disclosure</alert>
-                <name>Private IP Disclosure</name>
+                <username>Private IP Disclosure</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -423,12 +423,12 @@
             </alertitem>
         </alerts>
     </site>
-    <site name="https://hackthissite.org" host="hackthissite.org" port="443" ssl="true">
+    <site username="https://hackthissite.org" host="hackthissite.org" port="443" ssl="true">
         <alerts>
             <alertitem>
                 <pluginid>10011</pluginid>
                 <alert>Cookie Without Secure Flag</alert>
-                <name>Cookie Without Secure Flag</name>
+                <username>Cookie Without Secure Flag</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -456,7 +456,7 @@
             <alertitem>
                 <pluginid>10016</pluginid>
                 <alert>Web Browser XSS Protection Not Enabled</alert>
-                <name>Web Browser XSS Protection Not Enabled</name>
+                <username>Web Browser XSS Protection Not Enabled</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -491,7 +491,7 @@
             <alertitem>
                 <pluginid>10015</pluginid>
                 <alert>Incomplete or No Cache-control and Pragma HTTP Header Set</alert>
-                <name>Incomplete or No Cache-control and Pragma HTTP Header Set</name>
+                <username>Incomplete or No Cache-control and Pragma HTTP Header Set</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -517,7 +517,7 @@
             <alertitem>
                 <pluginid>10010</pluginid>
                 <alert>Cookie No HttpOnly Flag</alert>
-                <name>Cookie No HttpOnly Flag</name>
+                <username>Cookie No HttpOnly Flag</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -544,7 +544,7 @@
             <alertitem>
                 <pluginid>10012</pluginid>
                 <alert>Password Autocomplete in Browser</alert>
-                <name>Password Autocomplete in Browser</name>
+                <username>Password Autocomplete in Browser</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -556,7 +556,7 @@
                         <uri>https://hackthissite.org</uri>
                         <method>GET</method>
                         <param>password</param>
-                        <evidence>&lt;input type=&quot;password&quot; name=&quot;password&quot; class=&quot;login&quot;
+                        <evidence>&lt;input type=&quot;password&quot; username=&quot;password&quot; class=&quot;login&quot;
                             value=&quot;&quot; onclick=&quot;if(passclicked==0){this.value=&apos;&apos;;passclicked=1;};&quot;
                             title=&quot;Password&quot; /&gt;
                         </evidence>
@@ -574,7 +574,7 @@
             <alertitem>
                 <pluginid>10040</pluginid>
                 <alert>Secure Pages Include Mixed Content (Including Scripts)</alert>
-                <name>Secure Pages Include Mixed Content (Including Scripts)</name>
+                <username>Secure Pages Include Mixed Content (Including Scripts)</username>
                 <riskcode>2</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Medium (Medium)</riskdesc>
@@ -634,7 +634,7 @@
             <alertitem>
                 <pluginid>10017</pluginid>
                 <alert>Cross-Domain JavaScript Source File Inclusion</alert>
-                <name>Cross-Domain JavaScript Source File Inclusion</name>
+                <username>Cross-Domain JavaScript Source File Inclusion</username>
                 <riskcode>1</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Low (Medium)</riskdesc>
@@ -673,7 +673,7 @@
             <alertitem>
                 <pluginid>10020</pluginid>
                 <alert>X-Frame-Options Header Not Set</alert>
-                <name>X-Frame-Options Header Not Set</name>
+                <username>X-Frame-Options Header Not Set</username>
                 <riskcode>2</riskcode>
                 <confidence>2</confidence>
                 <riskdesc>Medium (Medium)</riskdesc>

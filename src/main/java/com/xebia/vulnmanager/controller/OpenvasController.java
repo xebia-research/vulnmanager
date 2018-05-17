@@ -1,6 +1,5 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.openvas.objects.OvResult;
@@ -27,25 +26,13 @@ public class OpenvasController {
 
     private OpenvasResultRepository openvasResultRepository;
 
-    private AuthenticationChecker authenticationChecker;
-
     private OpenvasService openvasService;
 
     @Autowired
     public OpenvasController(final OpenvasService openvasService,
-                             final AuthenticationChecker authenticationChecker,
                              final OpenvasResultRepository openvasResultRepository) {
         this.openvasService = openvasService;
-        this.authenticationChecker = authenticationChecker;
         this.openvasResultRepository = openvasResultRepository;
-    }
-
-    // This function is called before other functions, so if for example getReport is called it first runs the init function
-    @ModelAttribute(IS_AUTHENTICATED_STRING)
-    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
-                                   @PathVariable("company") String companyName,
-                                   @PathVariable("team") String teamName) {
-        return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
     }
 
     /**

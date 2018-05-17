@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ruleset
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        name="Android Application Rules"
+        username="Android Application Rules"
         xmlns="http://pmd.sf.net/ruleset/1.0.0"
         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd"
         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd">
@@ -16,18 +16,18 @@
     <rule ref="rulesets/java/finalizers.xml"/>
     <rule ref="rulesets/java/imports.xml"/>
     <rule ref="rulesets/java/logging-java.xml">
-            <exclude name="LoggerIsNotStaticFinal"/>
+            <exclude username="LoggerIsNotStaticFinal"/>
     </rule>
     <rule ref="rulesets/java/braces.xml"/>
     <rule ref="rulesets/java/strings.xml"/>
     <rule ref="rulesets/java/basic.xml"/>
     <rule ref="rulesets/java/naming.xml">
-        <exclude name="AbstractNaming"/>
-        <exclude name="LongVariable"/>
-        <exclude name="ShortMethodName"/>
-        <exclude name="ShortVariable"/>
-        <exclude name="VariableNamingConventions"/>
-        <exclude name="ShortClassName"/>
+        <exclude username="AbstractNaming"/>
+        <exclude username="LongVariable"/>
+        <exclude username="ShortMethodName"/>
+        <exclude username="ShortVariable"/>
+        <exclude username="VariableNamingConventions"/>
+        <exclude username="ShortClassName"/>
     </rule>
 
     <rule ref="rulesets/java/strictexception.xml/AvoidRethrowingException"/>

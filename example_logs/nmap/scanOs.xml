@@ -9,17 +9,17 @@
 <host starttime="1523881079" endtime="1523881083"><status state="up" reason="localhost-response" reason_ttl="0"/>
 <address addr="10.20.120.114" addrtype="ipv4"/>
 <hostnames>
-<hostname name="stefan-HP-Pavilion-Notebook.dynamic.ziggo.nl" type="PTR"/>
+<hostname username="stefan-HP-Pavilion-Notebook.dynamic.ziggo.nl" type="PTR"/>
 </hostnames>
 <ports><extraports state="closed" count="999">
 <extrareasons reason="resets" count="999"/>
 </extraports>
-<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="64"/><service username="http" method="table" conf="3"/></port>
 </ports>
 <os><portused state="open" proto="tcp" portid="80"/>
 <portused state="closed" proto="tcp" portid="1"/>
 <portused state="closed" proto="udp" portid="44474"/>
-<osmatch name="Linux 3.8 - 4.0" accuracy="100" line="59531">
+<osmatch username="Linux 3.8 - 4.0" accuracy="100" line="59531">
 <osclass type="general purpose" vendor="Linux" osfamily="Linux" osgen="3.X" accuracy="100"><cpe>cpe:/o:linux:linux_kernel:3</cpe></osclass>
 <osclass type="general purpose" vendor="Linux" osfamily="Linux" osgen="4.X" accuracy="100"><cpe>cpe:/o:linux:linux_kernel:4</cpe></osclass>
 </osmatch>

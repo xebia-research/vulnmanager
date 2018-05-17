@@ -1,6 +1,5 @@
 package com.xebia.vulnmanager.test;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.controller.NMapController;
 import com.xebia.vulnmanager.models.nmap.objects.Host;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
@@ -38,16 +37,8 @@ public class NmapControllerTest {
     @InjectMocks
     private NMapController nMapController;
 
-    @Mock
-    private AuthenticationChecker authenticationChecker;
-
     @Before
     public void setup() throws Exception {
-        // Mock the authentication check to always return true
-        Mockito.when(authenticationChecker.checkCompanyAuthKey(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
-        Mockito.when(authenticationChecker.checkTeamAndCompany(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(true);
-        Mockito.when(authenticationChecker.checkIfTeamExists(Mockito.any(), Mockito.anyString())).thenReturn(true);
-
         // Load test report
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap/nmap.xml")));
         // Create the reports
