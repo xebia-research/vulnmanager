@@ -1,5 +1,5 @@
 
-Lists of 84 third-party dependencies.
+Lists of 86 third-party dependencies.
      (BSD License) AntLR Parser Generator (antlr:antlr:2.7.7 - http://www.antlr.org/)
      (Eclipse Public License - v 1.0) (GNU Lesser General Public License) Logback Classic Module (ch.qos.logback:logback-classic:1.2.3 - http://logback.qos.ch/logback-classic)
      (Eclipse Public License - v 1.0) (GNU Lesser General Public License) Logback Core Module (ch.qos.logback:logback-core:1.2.3 - http://logback.qos.ch/logback-core)
@@ -13,6 +13,7 @@ Lists of 84 third-party dependencies.
      (The Apache Software License, Version 2.0) Jackson module: JAXB Annotations (com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.9.4 - https://github.com/FasterXML/jackson-modules-base)
      (The Apache Software License, Version 2.0) Jackson-module-parameter-names (com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.4 - https://github.com/FasterXML/jackson-modules-java8/jackson-module-parameter-names)
      (The Apache License, Version 2.0) Woodstox (com.fasterxml.woodstox:woodstox-core:5.0.3 - https://github.com/FasterXML/woodstox)
+     (MPL 2.0 or EPL 1.0) H2 Database Engine (com.h2database:h2:1.4.196 - http://www.h2database.com)
      (The Apache Software License, Version 2.0) project ':json-path' (com.jayway.jsonpath:json-path:2.4.0 - https://github.com/jayway/JsonPath)
      (Apache License 2.0) JSON library from Android SDK (com.vaadin.external.google:android-json:0.0.20131108.vaadin1 - http://developer.android.com/sdk)
      (The Apache Software License, Version 2.0) HikariCP (com.zaxxer:HikariCP:2.7.8 - https://github.com/brettwooldridge/HikariCP)
@@ -47,6 +48,7 @@ Lists of 84 third-party dependencies.
      (The MIT License) mockito-core (org.mockito:mockito-core:2.15.0 - https://github.com/mockito/mockito)
      (Apache 2) Objenesis (org.objenesis:objenesis:2.6 - http://objenesis.org)
      (BSD) ASM Core (org.ow2.asm:asm:5.0.4 - http://asm.objectweb.org/asm/)
+     (The PostgreSQL License) PostgreSQL JDBC Driver (org.postgresql:postgresql:9.4-1206-jdbc42 - http://jdbc.postgresql.org)
      (The Apache Software License, Version 2.0) JSONassert (org.skyscreamer:jsonassert:1.5.0 - https://github.com/skyscreamer/JSONassert)
      (MIT License) JUL to SLF4J bridge (org.slf4j:jul-to-slf4j:1.7.25 - http://www.slf4j.org)
      (MIT License) SLF4J API Module (org.slf4j:slf4j-api:1.7.25 - http://www.slf4j.org)

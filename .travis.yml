@@ -8,8 +8,20 @@ jdk:
 notifications:
   email: false
 
+services:
+  - postgresql
+
+before_install:
+  - psql -c 'create database vulnmanager;' -U postgres
+
+env:
+  global:
+  - PGPORT=5432
+
 install:
   - mvn install
 
-aggregate:
-  - mvn dependency-check:aggregate
+notifications:
+  slack: projectsecurityteam2:QKxWTArJnhIpA3OXylSNqTO2
+#aggregate:
+ # - mvn dependency-check:aggregate

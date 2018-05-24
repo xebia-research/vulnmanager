@@ -1,7 +1,11 @@
 package com.xebia.vulnmanager.util;
 
+import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.OpenvasParser;
 import com.xebia.vulnmanager.models.nmap.NMapParser;
+import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.models.zap.ZapParser;
+import com.xebia.vulnmanager.models.zap.objects.ZapReport;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -57,14 +61,18 @@ public class ReportUtil {
     public static Object parseDocument(Document testReportDoc) {
         String currentTypeOfScan = testReportDoc.getDocumentElement().getTagName();
 
-        if (currentTypeOfScan.equals("report")) {
+        if (currentTypeOfScan.equalsIgnoreCase("report")) {
             // This function parses the given Document
             OpenvasParser parser = new OpenvasParser();
             return parser.getOpenvasReport(testReportDoc);
-        } else if (currentTypeOfScan.equals("nmaprun")) {
+        } else if (currentTypeOfScan.equalsIgnoreCase("nmaprun")) {
             // This function parses the given Document
             NMapParser nMapParser = new NMapParser();
             return nMapParser.getNMapReport(testReportDoc);
+        } else if (currentTypeOfScan.equalsIgnoreCase("OWASPZAPReport")) {
+            // This function parses the given Document
+            ZapParser zapParser = new ZapParser();
+            return zapParser.getZapReport(testReportDoc);
         }
         return null;
     }
@@ -76,12 +84,19 @@ public class ReportUtil {
      * @param testReportDoc The Test document that has to be parsed.
      */
     public static ReportType checkDocumentType(Document testReportDoc) {
+        if (testReportDoc == null || testReportDoc.getDocumentElement() == null) {
+            return ReportType.UNKNOWN;
+        }
         String currentTypeOfScan = testReportDoc.getDocumentElement().getTagName();
 
-        if (currentTypeOfScan.equals("report")) {
-            return ReportType.OPENVAS;
-        } else if (currentTypeOfScan.equals("nmaprun")) {
-            return ReportType.NMAP;
+        if (currentTypeOfScan != null) {
+            if (currentTypeOfScan.equalsIgnoreCase("report")) {
+                return ReportType.OPENVAS;
+            } else if (currentTypeOfScan.equalsIgnoreCase("nmaprun")) {
+                return ReportType.NMAP;
+            } else if (currentTypeOfScan.equalsIgnoreCase("OWASPZAPReport")) {
+                return ReportType.ZAP;
+            }
         }
         return ReportType.UNKNOWN;
     }
@@ -133,4 +148,40 @@ public class ReportUtil {
         }
     }
 
+    public static OpenvasReport getOpenvasReportFromObject(Object parsedDocument) throws ClassCastException {
+        try {
+            if (!(parsedDocument instanceof OpenvasReport)) {
+                throw new ClassCastException("Object was not of type OpenvasReport");
+            }
+        } catch (ClassCastException exception) {
+            LOGGER.error(exception.getMessage());
+            return null;
+        }
+
+        return (OpenvasReport) parsedDocument;
+    }
+
+    public static NMapReport getNMapReportFromObject(Object parsedDocument) throws ClassCastException {
+        try {
+            if (!(parsedDocument instanceof NMapReport)) {
+                throw new ClassCastException("Object was not of type NMapReport");
+            }
+        } catch (ClassCastException exception) {
+            LOGGER.error(exception.getMessage());
+            return null;
+        }
+        return (NMapReport) parsedDocument;
+    }
+
+    public static ZapReport getZapReportFromObject(Object parsedDocument) throws ClassCastException {
+        try {
+            if (!(parsedDocument instanceof ZapReport)) {
+                throw new ClassCastException("Object was not of type ZapReport");
+            }
+        } catch (ClassCastException exception) {
+            LOGGER.error(exception.getMessage());
+            return null;
+        }
+        return (ZapReport) parsedDocument;
+    }
 }

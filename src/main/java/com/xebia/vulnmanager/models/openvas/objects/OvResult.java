@@ -1,14 +1,44 @@
 package com.xebia.vulnmanager.models.openvas.objects;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+
+@Table(name = "OpenvasResults")
+@Entity
 public class OvResult implements Serializable {
+
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
+    private OpenvasReport report;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String port;
     private String name;
+    // Specifiy columnDefenition to text to store text with more then 255 chars
+    @Column(columnDefinition = "text")
     private String description;
     private String threat;
     private String severity;
+
+    @OneToOne(mappedBy = "result", cascade = CascadeType.ALL)
     private NetworkVulnerabilityTest nvt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private Date updatedAt;
 
     public String getName() {
         return name;
@@ -56,6 +86,38 @@ public class OvResult implements Serializable {
 
     public void setNvt(NetworkVulnerabilityTest nvt) {
         this.nvt = nvt;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public OpenvasReport getReport() {
+        return report;
+    }
+
+    public void setResultId(OpenvasReport report) {
+        this.report = report;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override

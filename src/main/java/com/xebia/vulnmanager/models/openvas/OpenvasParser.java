@@ -25,7 +25,7 @@ public class OpenvasParser {
         Element mainElement = openvasDoc.getDocumentElement();
 
         retReport.setTimeDone(mainElement.getElementsByTagName("creation_time").item(0).getTextContent());
-        retReport.setId(mainElement.getAttribute("id"));
+        retReport.setFileId(mainElement.getAttribute("id"));
 
         NodeList reportList = mainElement.getElementsByTagName("report");
         Element reports = (Element) reportList.item(0);
@@ -58,10 +58,6 @@ public class OpenvasParser {
         String severity = resultNode.getElementsByTagName("severity").item(0).getTextContent();
         String threat = resultNode.getElementsByTagName("threat").item(0).getTextContent();
 
-        // Get a report
-        Element nvtNode = (Element) resultNode.getElementsByTagName("nvt").item(0);
-        NetworkVulnerabilityTest nvt = getNvtFromNode(nvtNode);
-
         // Set all the results in an object
         OvResult result = new OvResult();
         result.setPort(port);
@@ -69,6 +65,12 @@ public class OpenvasParser {
         result.setDescription(description);
         result.setSeverity(severity);
         result.setThreat(threat);
+        result.setResultId(report);
+
+        // Get a report
+        Element nvtNode = (Element) resultNode.getElementsByTagName("nvt").item(0);
+        NetworkVulnerabilityTest nvt = getNvtFromNode(result, nvtNode);
+
         result.setNvt(nvt);
 
         // Add result to the report.
@@ -81,7 +83,7 @@ public class OpenvasParser {
      * @param nvtNode The xml Element containing <nvt></nvt>
      * @return A Network Vulnerability Test from a xml node to represent it in code
      */
-    private NetworkVulnerabilityTest getNvtFromNode(Element nvtNode) {
+    private NetworkVulnerabilityTest getNvtFromNode(OvResult result, Element nvtNode) {
         NetworkVulnerabilityTest retNvt = new NetworkVulnerabilityTest();
         String type = nvtNode.getElementsByTagName("type").item(0).getTextContent();
         String name = nvtNode.getElementsByTagName("name").item(0).getTextContent();
@@ -90,12 +92,48 @@ public class OpenvasParser {
         String cve = nvtNode.getElementsByTagName("cve").item(0).getTextContent();
         String tags = nvtNode.getElementsByTagName("tags").item(0).getTextContent();
 
+        String[] tagsSplit = tags.split("\\|");
+        for (String tag : tagsSplit) {
+            if (tag.split("=").length > 0) {
+                String[] res = tag.split("=");
+                switch (res[0]) {
+                    case "summary":
+                        retNvt.setTagsSummary(res[1]);
+                        break;
+                    case "vuldetect":
+                        retNvt.setTagsVulDetect(res[1]);
+                        break;
+                    case "solution":
+                        retNvt.setTagsSolution(res[1]);
+                        break;
+                    case "affected":
+                        retNvt.setTagsAffected(res[1]);
+                        break;
+                    case "insight":
+                        retNvt.setTagsInsight(res[1]);
+                        break;
+                    case "impact":
+                        retNvt.setTagsImpact(res[1]);
+                        break;
+                    case "solution_type":
+                        retNvt.setTagsSolutionType(res[1]);
+                        break;
+                    case "qod_type":
+                        retNvt.setTagsQodType(res[1]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        retNvt.setTags(tags);
         retNvt.setType(type);
         retNvt.setCve(cve);
         retNvt.setCvssBase(cvssBase);
         retNvt.setFamily(family);
         retNvt.setName(name);
-        retNvt.setTags(tags);
+        retNvt.setResult(result);
 
         return retNvt;
     }

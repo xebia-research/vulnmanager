@@ -61,3 +61,33 @@ if docker -v && docker-compose -v && mvn -v; then
 	printf "\n===========All dependencies installed successfully!===========\n"
 else printf "\n\n===========Not all dependencies were installed successfully :(===========\n===========Scroll up to find out what went wrong..===========\n"
 fi
+
+# NPM installation
+
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Add source for Postgres
+
+sudo su -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+
+
+# POSTGRESQL initialisation
+
+if sudo apt install postgresql-10 pgadmin4 -y >/dev/null; then
+	printf "===========PostgreSQL and PGadmin install successful!============\n"
+fi
+
+if sudo -u postgres createuser root; then
+	printf "===========Postgresql user creation successful!============\n"
+fi
+
+if sudo -u postgres createdb vulnmanager; then
+	printf "===========Postgresql database creation successful!============\n"
+fi
+
+if sudo -u postgres psql -X -f ~/vulnmanager/sql_init/postgres.sql; then
+	printf "===========User alteration successful!============\n"
+fi
+
+

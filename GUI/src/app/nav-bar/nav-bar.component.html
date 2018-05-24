@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <a class="navbar-brand fa fa-bars fa-2x" routerLink="" (click)="visibleSidebar1=true"></a>
+  <a class="navbar-brand" routerLink="/home"> Xebia Vulnmanager</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <!--DROPDOWN 1-->
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto flex-row">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          View results
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink= "/nmap-results" routerLinkActive="active">Nmap results</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink= "/openvas-results" routerLinkActive="active">OpenVAS results</a>
+        </div>
+      </li>
+      <!-- DROPDOWN 2 -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Manage results
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">PLACEHOLDER</a>
+          <a class="dropdown-item" href="#">PLACEHOLDER</a>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Signup</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000">
+  <h1 style="font-weight:normal">Test Sidebar</h1>
+  <button pButton type="button" (click)="visibleSidebar1 = false" label="Save" class="ui-button-success"></button>
+  <button pButton type="button" (click)="visibleSidebar1 = false" label="Cancel" class="ui-button-secondary"></button>
+  <h6><br>Click outside this sidebar to close it</h6>
+</p-sidebar>

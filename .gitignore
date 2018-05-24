@@ -114,3 +114,7 @@ buildNumber.properties
 /.idea/inspectionProfiles/
 .idea/*
 globalReports/dependency-check-report.html
+
+package-lock.json
+
+application_logs.*
