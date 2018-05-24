@@ -1,8 +1,8 @@
-<h1>Results</h1>
+<h1>Results  of {{nMapObject.scanData.nMapInfo.scanDateTime | date:'HH:mm:ss @ dd/MM/yyyy'}}</h1>
 <div >
   <p-dataView class="toggle-container" #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]">
     <p-header>
-      <b>Nmap results of {{nMapObject.scanData.nMapInfo.scanDateTime | date:'HH:mm:ss @ dd/MM/yyyy'}} </b>
+      <b>Nmap results with arguments: </b> {{nMapObject.scanData.nMapInfo.calledArgument}} (Nmap version: {{nMapObject.scanData.nMapInfo.nMapVersion}})
       <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
 
     </p-header>
