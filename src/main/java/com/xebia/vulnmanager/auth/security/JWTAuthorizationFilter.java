@@ -19,7 +19,7 @@ import static com.xebia.vulnmanager.auth.security.SecurityConstants.TOKEN_PREFIX
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    public JWTAuthorizationFilter(final AuthenticationManager authManager) {
         super(authManager);
     }
 
