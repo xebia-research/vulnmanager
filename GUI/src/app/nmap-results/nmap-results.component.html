@@ -29,7 +29,7 @@
     </ng-template>
   </p-dataView>
 
-  <p-dialog width="600" appendTo="body" header="Nmap host Detail as of {{nMapObject.scanData.nMapInfo.scanDateTime | date: 'HH:mm:ss @ dd/MM/yyyy'}}" [(visible)]="displayDialog" [responsive]="false" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+  <p-dialog width="600" appendTo="body" header="Nmap host detail as of {{nMapObject.scanData.nMapInfo.scanDateTime | date: 'HH:mm:ss @ dd/MM/yyyy'}}" [(visible)]="displayDialog" [responsive]="false" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedNmapHost">
       <div class="ui-g-12" >
         <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">IP Address: </div>

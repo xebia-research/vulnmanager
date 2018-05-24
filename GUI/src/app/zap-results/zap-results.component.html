@@ -9,11 +9,14 @@
 
     </p-header>
     <ng-template let-scannedSiteInformation pTemplate="listItem">
-      <div class="ui-g" style="padding: 1em;border-bottom: 3px solid #d9d9d9"  >
-        <div class="ui-g-12 ui-md-8 result-details">
-          <div class="ui-g" >
-            <div class="ui-g-4 ui-sm-6"><b>Result: ({{scannedSiteInformation.alertItems[0].instanceCount}} instances) </b></div>
-            <div class="ui-g-8 ui-sm-6 ">{{scannedSiteInformation.alertItems[0].name}}</div>
+            <div *ngFor="let alertItem of scannedSiteInformation.alertItems">
+              <div class="ui-g" style="padding: 1em;border-bottom: 3px solid #d9d9d9"  >
+                <div class="ui-g-12 ui-md-8 result-details">
+                  <div class="ui-g">
+              <div class="ui-g-4 ui-sm-6"><b>Result: ({{alertItem.instanceCount}} instances) </b></div>
+              <div class="ui-g-8 ui-sm-6 ">{{alertItem.name}} ID: {{alertItem.id}}</div>
+            </div>
+
           </div>
         </div>
         <div class="ui-g-12 ui-md-1 search-icon">
@@ -38,10 +41,23 @@
         </div>
 
       </p-tabPanel>
-      <p-tabPanel header="Instances" leftIcon="fa-eye">
-        <ng-template let-selectedZap ></ng-template>
-        <div class="ui-g-4 ui-sm-6">Instance</div>
-        <div class="ui-g-8 ui-sm-6">{{selectedZap}}</div>
+      <p-tabPanel header="Instances" leftIcon="fa-eye" >
+        <p-table class="ui-g-12 ui-md-6 ui-lg-9"  [value]="selectedZap.alertItems[0].instanceList" [scrollable]="true" scrollHeight="200px">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID</th>
+              <th>Instance</th>
+              <th>method</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-instance>
+            <tr>
+              <td>{{instance.id}}</td>
+              <td>{{instance.uri}}</td>
+              <td>{{instance.method}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
       </p-tabPanel>
       <p-tabPanel header="About" leftIcon="fa-info-circle">
         <div class="ui-g">
