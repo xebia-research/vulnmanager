@@ -1,6 +1,6 @@
 CREATE TABLE "companies" (
 	"id" serial NOT NULL,
-	"name" TEXT NOT NULL,
+	"username" TEXT NOT NULL,
 	"authkey" TEXT NOT NULL,
 	CONSTRAINT companies_pk PRIMARY KEY ("id")
 ) WITH (
@@ -12,7 +12,7 @@ CREATE TABLE "companies" (
 CREATE TABLE "projects" (
 	"project_id" serial NOT NULL UNIQUE,
 	"company_id" bigint NOT NULL UNIQUE,
-	"name" bigint NOT NULL,
+	"username" bigint NOT NULL,
 	CONSTRAINT projects_pk PRIMARY KEY ("project_id")
 ) WITH (
   OIDS=FALSE
@@ -23,7 +23,7 @@ CREATE TABLE "projects" (
 CREATE TABLE "users" (
 	"id" serial NOT NULL,
 	"company_id" serial NOT NULL,
-	"name" serial NOT NULL,
+	"username" serial NOT NULL,
 	CONSTRAINT users_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -56,7 +56,7 @@ CREATE TABLE "report" (
 
 CREATE TABLE "report_types" (
 	"id" serial NOT NULL,
-	"name" TEXT NOT NULL,
+	"username" TEXT NOT NULL,
 	CONSTRAINT report_types_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE

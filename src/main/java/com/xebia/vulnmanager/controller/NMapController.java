@@ -1,6 +1,5 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.Host;
 import com.xebia.vulnmanager.models.nmap.objects.NMapGeneralInformation;
@@ -29,22 +28,11 @@ public class NMapController {
     private final Logger logger = LoggerFactory.getLogger("NMapController");
 
     private NmapService nmapService;
-    private AuthenticationChecker authenticationChecker;
 
     @Autowired
-    public NMapController(final NmapService nmapService,
-                          final AuthenticationChecker authenticationChecker) {
+    public NMapController(final NmapService nmapService) {
         this.nmapService = nmapService;
-        this.authenticationChecker = authenticationChecker;
     }
-
-    @ModelAttribute(IS_AUTHENTICATED_LITERAL)
-    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
-                                   @PathVariable("company") String companyName,
-                                   @PathVariable("team") String teamName) {
-        return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
-    }
-
     /**
      * Get all the added reports
      *

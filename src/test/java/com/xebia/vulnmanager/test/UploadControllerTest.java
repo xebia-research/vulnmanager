@@ -1,7 +1,5 @@
 package com.xebia.vulnmanager.test;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
-import com.xebia.vulnmanager.controller.NMapController;
 import com.xebia.vulnmanager.controller.UploadFileController;
 import com.xebia.vulnmanager.data.MockCompanyFactory;
 import com.xebia.vulnmanager.services.CompanyService;
@@ -41,15 +39,8 @@ public class UploadControllerTest {
     @InjectMocks
     private UploadFileController uploadFileController;
 
-    @Mock
-    private AuthenticationChecker authenticationChecker;
-
     @Before
     public void setup() throws Exception {
-        // Mock the authentication check to always return true
-        Mockito.when(authenticationChecker.checkCompanyAuthKey(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
-        Mockito.when(authenticationChecker.checkTeamAndCompany(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(true);
-        Mockito.when(authenticationChecker.checkIfTeamExists(Mockito.any(), Mockito.anyString())).thenReturn(true);
 
         // Mock the database service to return a list of valid objects
         MockCompanyFactory companyFactory = new MockCompanyFactory();
