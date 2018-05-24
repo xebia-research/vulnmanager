@@ -1,0 +1,9 @@
+<h3 class="first">Advanced</h3>
+<h3 class="first">Advanced</h3>
+<p-fileUpload name="file" url="http://localhost:8080/xebia/vulnmanager/upload" (onUpload)="onUpload($event)" (onError)="onError($event)" multiple="multiple" maxFileSize="1000000">
+  <ng-template pTemplate="content">
+    <ul *ngIf="uploadedFiles.length">
+      <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+    </ul>
+  </ng-template>
+</p-fileUpload>
