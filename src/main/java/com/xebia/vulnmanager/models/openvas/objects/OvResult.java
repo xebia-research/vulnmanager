@@ -130,6 +130,7 @@ public class OvResult implements Serializable {
         result.setThread(threat);
         result.setName(getName());
         result.setPort(port);
+        result.setId(getId());
         return result;
     }
 

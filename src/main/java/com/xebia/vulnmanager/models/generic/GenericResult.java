@@ -1,19 +1,47 @@
 package com.xebia.vulnmanager.models.generic;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xebia.vulnmanager.models.comments.Comment;
 import com.xebia.vulnmanager.util.ReportType;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class GenericResult implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
+    private GenericReport report;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Comment> comments = new ArrayList<>();
+
+    @Column(columnDefinition = "text")
     private ReportType type;
+    @Column(columnDefinition = "text")
     private String name;
+    @Column(columnDefinition = "text")
     private String description;
+    @Column(columnDefinition = "text")
     private String info;
+    @Column(columnDefinition = "text")
     private String cve;
+    @Column(columnDefinition = "text")
     private String thread;
+    @Column(columnDefinition = "text")
     private String port;
+    @Column(columnDefinition = "text")
     private String knownSolution;
+    @Column(columnDefinition = "text")
     private String url;
 
     public Long getId() {
@@ -94,5 +122,25 @@ public class GenericResult implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public GenericReport getReport() {
+        return report;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setReport(GenericReport report) {
+        this.report = report;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+
+        for (Comment comment : comments) {
+            comment.setParent(this);
+        }
     }
 }

@@ -1,15 +1,23 @@
 package com.xebia.vulnmanager.models.generic;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.xebia.vulnmanager.util.ReportType;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class GenericReport implements Serializable {
     private ReportType reportType;
-    private float id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<GenericResult> genericResults = new ArrayList<>();
 
     public ReportType getReportType() {
@@ -20,11 +28,11 @@ public class GenericReport implements Serializable {
         this.reportType = reportType;
     }
 
-    public float getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(float id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,6 +45,7 @@ public class GenericReport implements Serializable {
     }
 
     public void addGenericResult(GenericResult result) {
+        result.setReport(this);
         this.genericResults.add(result);
     }
 }

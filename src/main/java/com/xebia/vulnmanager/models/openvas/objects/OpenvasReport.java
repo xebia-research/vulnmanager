@@ -75,6 +75,7 @@ public class OpenvasReport implements Serializable {
         GenericReport report = new GenericReport();
         report.setReportType(ReportType.OPENVAS);
         for (OvResult res : results) {
+            report.setId(getId());
             report.addGenericResult(res.getGenericResult());
         }
         GenericMultiReport multiReport = new GenericMultiReport();

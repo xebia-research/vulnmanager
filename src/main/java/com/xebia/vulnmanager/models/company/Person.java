@@ -1,6 +1,7 @@
 package com.xebia.vulnmanager.models.company;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.xebia.vulnmanager.models.comments.Comment;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,6 +24,12 @@ public class Person implements Serializable {
     @JoinColumn(name = "company_id", nullable = false) // Column that will be used to keep track of the parent
     @JsonBackReference // A backrefrence to keep json from infinite looping
     private Company company;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    //@JsonManagedReference
+    @JsonBackReference
+    private List<Comment> comments = new ArrayList<>();
+
 
     public Person() {
         this.name = "NO NAME SET";
