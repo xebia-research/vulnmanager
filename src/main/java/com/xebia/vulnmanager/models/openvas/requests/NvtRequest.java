@@ -4,9 +4,10 @@ import java.io.Serializable;
 
 public class NvtRequest implements Serializable {
     private String userId;
-    private boolean isFalsePositive;
+    private boolean falsePositive;
 
     public NvtRequest() {
+        // empty ctor
     }
 
     public String getUserId() {
@@ -18,10 +19,10 @@ public class NvtRequest implements Serializable {
     }
 
     public boolean isFalsePositive() {
-        return isFalsePositive;
+        return falsePositive;
     }
 
     public void setFalsePositive(boolean falsePositive) {
-        isFalsePositive = falsePositive;
+        this.falsePositive = falsePositive;
     }
 }

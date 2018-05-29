@@ -1,7 +1,7 @@
 package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
-import com.xebia.vulnmanager.models.generic.GenericReport;
+import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.openvas.objects.OvResult;
@@ -80,7 +80,7 @@ public class OpenvasController {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
         }
 
-        List<GenericReport> reportList = openvasService.getAllReportsAsGeneric();
+        GenericMultiReport reportList = openvasService.getAllReportsAsGeneric();
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }

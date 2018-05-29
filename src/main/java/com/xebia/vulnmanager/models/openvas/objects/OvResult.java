@@ -2,6 +2,7 @@ package com.xebia.vulnmanager.models.openvas.objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.xebia.vulnmanager.models.generic.GenericResult;
+import com.xebia.vulnmanager.util.ReportType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -123,9 +124,12 @@ public class OvResult implements Serializable {
 
     public GenericResult getGenericResult() {
         GenericResult result = new GenericResult();
+        result.setType(ReportType.OPENVAS);
         result.setCve(nvt.getCve());
         result.setDescription(description);
         result.setThread(threat);
+        result.setName(getName());
+        result.setPort(port);
         return result;
     }
 

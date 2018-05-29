@@ -1,5 +1,7 @@
 package com.xebia.vulnmanager.services;
 
+import com.xebia.vulnmanager.models.generic.GenericMultiReport;
+import com.xebia.vulnmanager.models.generic.GenericReport;
 import com.xebia.vulnmanager.models.zap.objects.ScannedSiteInformation;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
 import com.xebia.vulnmanager.repositories.OwaspZapRepository;
@@ -61,4 +63,16 @@ public class OwaspZapService {
         return null;
     }
 
+    public GenericMultiReport getAllReportsAsGeneric() {
+        GenericMultiReport multiReport = new GenericMultiReport();
+
+        for (ZapReport report : getAllReports()) {
+            GenericMultiReport report1 = report.getGenericReport();
+            for (GenericReport finalReport : report1.getReports()) {
+                multiReport.addReports(finalReport);
+            }
+        }
+
+        return multiReport;
+    }
 }
