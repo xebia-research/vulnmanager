@@ -5,6 +5,7 @@ import com.xebia.vulnmanager.models.comments.Comment;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.generic.GenericReport;
+import com.xebia.vulnmanager.models.clair.objects.ClairReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
@@ -38,6 +39,8 @@ public class TestController {
     private OwaspZapRepository zapRepository;
     @Autowired
     private GenericRepository genericRepository;
+    @Autowired
+    private ClairRepository clairRepository;
 
     /**
      * @return A list of teams within the team
@@ -54,10 +57,13 @@ public class TestController {
         parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/owasp_zap/Kopano_web_app.xml")));
         ZapReport zapReport = ReportUtil.getZapReportFromObject(parsedDocument);
 
-
+        parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/clair/clair_scan_radarr.json")));
+        ClairReport clairReport = ReportUtil.getClairReportFromObject(parsedDocument);
 
         nMapRepository.save(nMapReport);
         zapRepository.save(zapReport);
+        clairRepository.save(clairReport);
+
         if (report == null) {
             return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
         }
