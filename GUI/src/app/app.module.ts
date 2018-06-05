@@ -19,10 +19,12 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NmapResultsComponent } from './nmap-results/nmap-results.component';
 import { OpenvasResultsComponent } from './openvas-results/openvas-results.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { ClairResultsComponent } from './clair-results/clair-results.component';
 
 const appRoutes: Routes = [
   { path: 'nmap-results', component: NmapResultsComponent },
   { path: 'openvas-results',      component: OpenvasResultsComponent },
+  { path: 'clair-results',      component: ClairResultsComponent },
   { path: 'home', component: HomePageComponent},
   { path: '',
     redirectTo: '/home',
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     NavBarComponent,
     NmapResultsComponent,
     OpenvasResultsComponent,
-    HomePageComponent
+    HomePageComponent,
+    ClairResultsComponent
   ],
   imports: [
     BrowserModule,
