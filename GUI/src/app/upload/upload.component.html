@@ -1,5 +1,5 @@
-<h3 class="first">Advanced</h3>
-<h3 class="first">Advanced</h3>
+<h2 class="first">File Upload</h2>
+<h3 class="first">Choose file(s) you want to upload</h3>
 <p-fileUpload name="file" url="http://localhost:8080/xebia/vulnmanager/upload" (onUpload)="onUpload($event)" (onError)="onError($event)" multiple="multiple" maxFileSize="1000000">
   <ng-template pTemplate="content">
     <ul *ngIf="uploadedFiles.length">

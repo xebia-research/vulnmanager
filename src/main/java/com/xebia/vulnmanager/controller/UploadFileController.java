@@ -55,9 +55,10 @@ public class UploadFileController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadFile,
-                                 @RequestHeader(value = "auth", defaultValue = "nope") String authKey,
+                                 @RequestHeader(value = "auth", defaultValue = "testauth") String authKey,
                                  @PathVariable("company") String companyName,
                                  @PathVariable("team") String teamName) {
+        logger.error("DOE IETS");
         if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
