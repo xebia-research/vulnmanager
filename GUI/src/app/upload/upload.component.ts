@@ -24,11 +24,9 @@ export class UploadComponent implements OnInit {
 
   }
   onError(event) {
-    for (let hoi of event) {
-      console.log(hoi);
     }
-    console.log(event);
+
   }
 
 
-}
+
