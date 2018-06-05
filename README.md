@@ -7,8 +7,8 @@
 __We currently plan to support the following programs:__ 
  * [x] Nmap
  * [x] OpenVAS
- * OWASP ZAP
- * Clair
+ * [x] OWASP ZAP
+ * [x] Clair
 
 ## Dependencies:
  * Docker
