@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 public class GenericResult implements Serializable {
-    private static final String textColDef = "text";
+    private static final String TEXTCOLDEF = "text";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,23 +27,23 @@ public class GenericResult implements Serializable {
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
-    @Column(columnDefinition = textColDef)
+    @Column(columnDefinition = TEXTCOLDEF)
     private ReportType type;
-    @Column(columnDefinition = textColDef)
+    @Column(columnDefinition = TEXTCOLDEF)
     private String name;
-    @Column(columnDefinition = textColDef)
+    @Column(columnDefinition = TEXTCOLDEF)
     private String description;
-    @Column(columnDefinition = textColDef)
+    @Column(columnDefinition = TEXTCOLDEF)
     private String info;
-    @Column(columnDefinition = textColDef)
+    @Column(columnDefinition = TEXTCOLDEF)
     private String cve;
-    @Column(columnDefinition = textColDef)
+    @Column(columnDefinition = TEXTCOLDEF)
     private String thread;
-    @Column(columnDefinition = textColDef)
+    @Column(columnDefinition = TEXTCOLDEF)
     private String port;
-    @Column(columnDefinition = textColDef)
+    @Column(columnDefinition = TEXTCOLDEF)
     private String knownSolution;
-    @Column(columnDefinition = textColDef)
+    @Column(columnDefinition = TEXTCOLDEF)
     private String url;
     @Column(columnDefinition = "boolean")
     private boolean falsePositive;
