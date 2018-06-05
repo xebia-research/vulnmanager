@@ -2,6 +2,8 @@ package com.xebia.vulnmanager.models.zap.objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xebia.vulnmanager.models.generic.GenericResult;
+import com.xebia.vulnmanager.util.ReportType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -164,5 +166,21 @@ public class ZapAlertItem implements Serializable {
 
     public void setSourceId(int sourceId) {
         this.sourceId = sourceId;
+    }
+
+    public GenericResult getGenericResult() {
+        GenericResult result = new GenericResult();
+        result.setName(getName());
+        result.setDescription(getDescription());
+        result.setKnownSolution(getSolution());
+        result.setCve(getShortDescription());
+        result.setType(ReportType.ZAP);
+
+        StringBuilder sbuilder = new StringBuilder("");
+        for (RiskInstance rin : getInstanceList()) {
+            sbuilder.append(rin.getUri() + "\n"); //NOPMD
+        }
+        result.setUrl(sbuilder.toString());
+        return result;
     }
 }

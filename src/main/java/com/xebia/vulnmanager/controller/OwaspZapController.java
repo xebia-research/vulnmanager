@@ -1,5 +1,6 @@
 package com.xebia.vulnmanager.controller;
 
+import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.zap.objects.ScannedSiteInformation;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
@@ -17,9 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/{company}/{team}/zap")
 public class OwaspZapController {
-    private static final String IS_AUTHENTICATED_STRING = "isAuthenticated";
-    private static final String AUTH_NOT_CORRECT_STRING = "Auth not correct!";
-
     private final Logger logger = LoggerFactory.getLogger("OwaspZapController");
 
 
@@ -38,11 +36,7 @@ public class OwaspZapController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllZapReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> getAllZapReports() throws IOException {
         List<ZapReport> reportList = owaspZapService.getAllReports();
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }
@@ -55,10 +49,7 @@ public class OwaspZapController {
      */
     @RequestMapping(value = "{reportId}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReportById(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<?> getReportById(@PathVariable("reportId") long reportId) {
 
         ZapReport report = owaspZapService.getReportById(reportId);
         if (report != null) {
@@ -77,10 +68,7 @@ public class OwaspZapController {
      */
     @RequestMapping(value = "{reportid}/sites", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllSitesFromReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportid") long reportId) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<?> getAllSitesFromReport(@PathVariable("reportid") long reportId) throws IOException {
 
         ZapReport report = owaspZapService.getReportById(reportId);
         if (report != null) {
@@ -95,18 +83,13 @@ public class OwaspZapController {
      *
      * @param siteId          The index of the site.
      * @param reportId        The id of the report
-     * @param isAuthenticated If the user is authenticated
      * @return Return a result of a report
      * @throws IOException
      */
     @RequestMapping(value = "{reportid}/sites/{siteid}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getResult(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
-                                @PathVariable("siteid") long siteId,
+    ResponseEntity<?> getResult(@PathVariable("siteid") long siteId,
                                 @PathVariable("reportid") long reportId) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
 
         ScannedSiteInformation siteInformation = owaspZapService.getSiteInformationFromReportById(reportId, siteId);
 
@@ -114,5 +97,20 @@ public class OwaspZapController {
             return new ResponseEntity<>(new ErrorMsg("Report or site with this id not found"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(siteInformation, HttpStatus.OK);
+    }
+
+    /**
+     * Get all the added reports
+     *
+     * @return A response with correct http header
+     * @throws IOException An exception if the example log isn't found
+     */
+    @RequestMapping(value = "generic", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getGenericReports() throws IOException {
+
+        GenericMultiReport reportList = owaspZapService.getAllReportsAsGeneric();
+
+        return new ResponseEntity<>(reportList, HttpStatus.OK);
     }
 }

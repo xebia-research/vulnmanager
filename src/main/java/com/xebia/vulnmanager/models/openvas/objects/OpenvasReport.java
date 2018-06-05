@@ -3,6 +3,9 @@ package com.xebia.vulnmanager.models.openvas.objects;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.xebia.vulnmanager.models.company.Team;
+import com.xebia.vulnmanager.models.generic.GenericMultiReport;
+import com.xebia.vulnmanager.models.generic.GenericReport;
+import com.xebia.vulnmanager.util.ReportType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,7 +34,6 @@ public class OpenvasReport implements Serializable {
     public OpenvasReport() {
         results = new ArrayList<>();
     }
-
 
     public List<OvResult> getResults() {
         return results;
@@ -67,6 +69,18 @@ public class OpenvasReport implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public GenericMultiReport getGenericMultiReport() {
+        GenericReport report = new GenericReport();
+        report.setReportType(ReportType.OPENVAS);
+        for (OvResult res : results) {
+            report.setId(getId());
+            report.addGenericResult(res.getGenericResult());
+        }
+        GenericMultiReport multiReport = new GenericMultiReport();
+        multiReport.addReports(report);
+        return multiReport;
     }
 
     @Override
