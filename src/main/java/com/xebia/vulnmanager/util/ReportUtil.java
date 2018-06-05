@@ -59,8 +59,8 @@ public class ReportUtil {
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
                 // NMAP has a doctype, almost every XEE attack are from the doctype, so we remove the doctype
-                if (fileString.equalsIgnoreCase("<nmaprun scanner=\"nmap\"")) {
-                    parseFile = removeDoctypeFromNmapFile(fileString);
+                if (fileString.toLowerCase().contains("<nmaprun scanner=\"nmap\"")) {
+                    parseFile = removeDoctypeFromNmapFile(parseFile, fileString);
                 }
 
                 String feature = null;
@@ -158,10 +158,9 @@ public class ReportUtil {
         return db.parse(is);
     }
 
-    private static File removeDoctypeFromNmapFile(String fileString) throws IOException {
+    private static File removeDoctypeFromNmapFile(File parseFile, String fileString) throws IOException {
         fileString = fileString.replaceFirst("<!DOCTYPE[^>\\[]*(\\[[^]]*])?>", "");
         fileString = fileString.replaceFirst("<\\?xml-stylesheet[^>\\[]*(\\\\[[^]]*])?>", "");
-        File parseFile = new File("");
         FileUtils.writeStringToFile(parseFile, fileString, "UTF-8");
 
         return parseFile;
