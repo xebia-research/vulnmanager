@@ -2,6 +2,9 @@ package com.xebia.vulnmanager.models.clair.objects;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xebia.vulnmanager.models.generic.GenericMultiReport;
+import com.xebia.vulnmanager.models.generic.GenericReport;
+import com.xebia.vulnmanager.util.ReportType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -61,5 +64,21 @@ public class ClairReport implements Serializable {
 
     public void setClairVulnerabilities(List<ClairVulnerability> clairVulnerabilities) {
         this.clairVulnerabilities = clairVulnerabilities;
+    }
+
+    public GenericMultiReport getGenericReport() {
+        GenericMultiReport multiReport = new GenericMultiReport();
+
+        GenericReport report = new GenericReport();
+        report.setReportType(ReportType.CLAIR);
+        report.setId(getId());
+
+        for (ClairVulnerability cv : clairVulnerabilities) {
+            report.addGenericResult(cv.getGenericResult());
+        }
+
+        multiReport.addReports(report);
+
+        return multiReport;
     }
 }
