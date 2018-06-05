@@ -1,16 +1,25 @@
 package com.xebia.vulnmanager.util;
 
+import com.xebia.vulnmanager.models.clair.ClairParser;
+import com.xebia.vulnmanager.models.clair.objects.ClairReport;
+import com.xebia.vulnmanager.models.nmap.NMapParser;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.OpenvasParser;
-import com.xebia.vulnmanager.models.nmap.NMapParser;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.zap.ZapParser;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
+import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
+import org.json.XML;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
@@ -19,17 +28,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Arrays;
+import java.util.Iterator;
 
 public class ReportUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger("ReportUtil");
@@ -44,12 +49,74 @@ public class ReportUtil {
         Document doc = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            // Parse the file to a Document
-            doc = factory.newDocumentBuilder().parse(parseFile);
-        } catch (SAXException | IOException | ParserConfigurationException e) {
+
+            String fileString = getStringFromFile(parseFile);
+            // This does not start with '<', so check if it is json and parse that to xml and then to Document object
+            if (!fileString.startsWith("<")) {
+                JSONObject jsonObject = new JSONObject(fileString);
+                String xmlString = jsonToXmlString(jsonObject);
+
+                doc = stringToDom(xmlString);
+            } else {
+                // Parse the file to a Document
+                doc = factory.newDocumentBuilder().parse(parseFile);
+            }
+        } catch (SAXException | IOException | ParserConfigurationException | NullPointerException e) {
             LOGGER.error(e.toString());
         }
         return doc;
+    }
+
+    private static String getStringFromFile(File parseFile) throws IOException {
+        return FileUtils.readFileToString(parseFile, "UTF-8");
+    }
+
+    private static String jsonToXmlString(JSONObject jsonObject) {
+        Iterator<String> jsonKeys = jsonObject.keys();
+        String xmlRoot = getXmlRootElementName(jsonKeys);
+
+        if (xmlRoot == null) {
+            return null;
+        }
+
+        // JsonObject to XML string
+        String xml = XML.toString(jsonObject);
+        StringBuilder stringBuilder = new StringBuilder();
+        // Add rootElement to xml string, this does XML toString not add
+        xml = stringBuilder
+                .append("<?xml version=\"1.0\"?>")
+                .append("<").append(xmlRoot).append(">")
+                .append(xml)
+                .append("</").append(xmlRoot).append(">")
+                .toString();
+        return xml;
+    }
+
+    private static String getXmlRootElementName(Iterator<String> jsonKeys) {
+        boolean isCorrectScanner = true;
+
+        String[] clairJsonKeys = {"image", "unapproved", "vulnerabilities"};
+        while (jsonKeys.hasNext()) {
+            String currentKey = jsonKeys.next();
+            if (!Arrays.asList(clairJsonKeys).contains(currentKey)) {
+                isCorrectScanner = false;
+                break;
+            }
+        }
+
+        if (isCorrectScanner) {
+            return "ClairReport";
+        }
+
+        return null;
+    }
+
+    private static Document stringToDom(String xmlString) throws ParserConfigurationException, IOException, SAXException, NullPointerException {
+        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        InputSource is = new InputSource();
+        is.setCharacterStream(new StringReader(xmlString));
+
+        return db.parse(is);
     }
 
     /**
@@ -73,6 +140,10 @@ public class ReportUtil {
             // This function parses the given Document
             ZapParser zapParser = new ZapParser();
             return zapParser.getZapReport(testReportDoc);
+        } else if (currentTypeOfScan.equalsIgnoreCase("ClairReport")) {
+            // This function parses the given Document
+            ClairParser clairParser = new ClairParser();
+            return clairParser.getClairReport(testReportDoc);
         }
         return null;
     }
@@ -96,6 +167,8 @@ public class ReportUtil {
                 return ReportType.NMAP;
             } else if (currentTypeOfScan.equalsIgnoreCase("OWASPZAPReport")) {
                 return ReportType.ZAP;
+            } else if (currentTypeOfScan.equalsIgnoreCase("ClairReport")) {
+                return ReportType.CLAIR;
             }
         }
         return ReportType.UNKNOWN;
@@ -183,5 +256,17 @@ public class ReportUtil {
             return null;
         }
         return (ZapReport) parsedDocument;
+    }
+
+    public static ClairReport getClairReportFromObject(Object parsedDocument) throws ClassCastException {
+        try {
+            if (!(parsedDocument instanceof ClairReport)) {
+                throw new ClassCastException("Object was not of type ClairReport");
+            }
+        } catch (ClassCastException exception) {
+            LOGGER.error(exception.getMessage());
+            return null;
+        }
+        return (ClairReport) parsedDocument;
     }
 }
