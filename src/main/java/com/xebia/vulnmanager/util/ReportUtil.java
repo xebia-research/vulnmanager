@@ -48,8 +48,6 @@ public class ReportUtil {
     public static Document getDocumentFromFile(File parseFile) {
         Document doc = null;
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
             String fileString = getStringFromFile(parseFile);
             // This does not start with '<', so check if it is json and parse that to xml and then to Document object
             if (!fileString.startsWith("<")) {
@@ -58,12 +56,53 @@ public class ReportUtil {
 
                 doc = stringToDom(xmlString);
             } else {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+                // NMAP has a doctype, almost every XEE attack are from the doctype, so we remove the doctype
+                if (fileString.equalsIgnoreCase("<nmaprun scanner=\"nmap\"")) {
+                    parseFile = removeDoctypeFromNmapFile(fileString);
+                }
+
+                String feature = null;
+                // This is the PRIMARY defense. If DTDs (doctypes) are disallowed, almost all XML entity attacks are prevented
+                // Xerces 2 only - http://xerces.apache.org/xerces2-j/features.html#disallow-doctype-decl
+                feature = "http://apache.org/xml/features/disallow-doctype-decl";
+                factory.setFeature(feature, true);
+
+                // If you can't completely disable DTDs, then at least do the following:
+                // Xerces 1 - http://xerces.apache.org/xerces-j/features.html#external-general-entities
+                // Xerces 2 - http://xerces.apache.org/xerces2-j/features.html#external-general-entities
+                // JDK7+ - http://xml.org/sax/features/external-general-entities
+                feature = "http://xml.org/sax/features/external-general-entities";
+                factory.setFeature(feature, false);
+
+                // Xerces 1 - http://xerces.apache.org/xerces-j/features.html#external-parameter-entities
+                // Xerces 2 - http://xerces.apache.org/xerces2-j/features.html#external-parameter-entities
+                // JDK7+ - http://xml.org/sax/features/external-parameter-entities
+                feature = "http://xml.org/sax/features/external-parameter-entities";
+                factory.setFeature(feature, false);
+
+                // Disable external DTDs as well
+                feature = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
+                factory.setFeature(feature, false);
+
+                // and these as well, per Timothy Morgan's 2014 paper: "XML Schema, DTD, and Entity Attacks"
+                factory.setXIncludeAware(false);
+                factory.setExpandEntityReferences(false);
+
                 // Parse the file to a Document
                 doc = factory.newDocumentBuilder().parse(parseFile);
             }
-        } catch (SAXException | IOException | ParserConfigurationException | NullPointerException e) {
+        } catch (SAXException e) {
+            LOGGER.error(e.toString());
+        } catch (IOException e) {
+            LOGGER.error(e.toString());
+        } catch (NullPointerException e) {
+            LOGGER.error(e.toString());
+        } catch (ParserConfigurationException e) {
             LOGGER.error(e.toString());
         }
+
         return doc;
     }
 
@@ -117,6 +156,15 @@ public class ReportUtil {
         is.setCharacterStream(new StringReader(xmlString));
 
         return db.parse(is);
+    }
+
+    private static File removeDoctypeFromNmapFile(String fileString) throws IOException {
+        fileString = fileString.replaceFirst("<!DOCTYPE[^>\\[]*(\\[[^]]*])?>", "");
+        fileString = fileString.replaceFirst("<\\?xml-stylesheet[^>\\[]*(\\\\[[^]]*])?>", "");
+        File parseFile = new File("");
+        FileUtils.writeStringToFile(parseFile, fileString, "UTF-8");
+
+        return parseFile;
     }
 
     /**
