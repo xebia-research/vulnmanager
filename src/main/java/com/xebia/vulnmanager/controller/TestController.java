@@ -91,6 +91,12 @@ public class TestController {
             multiReport.addReports(genRep);
         }
 
+        GenericMultiReport clair = clairReport.getGenericReport();
+        for (GenericReport genRep : clair.getReports()) {
+            multiReport.addReports(genRep);
+        }
+
+        // Save the generic reports
         for (GenericReport genRep : multiReport.getReports()) {
             genericRepository.save(genRep);
         }
