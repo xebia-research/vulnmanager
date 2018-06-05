@@ -28,6 +28,9 @@ public class CommentController {
     private static final String IS_AUTHENTICATED_STRING = "isAuthenticated";
     private static final String AUTH_NOT_CORRECT_STRING = "Auth not correct!";
 
+    private static final String RESULT_NOT_FOUND = "Result not found";
+    private static final String RESULT_ID = "resultid";
+
     private final Logger logger = LoggerFactory.getLogger("CommentController");
 
     private GenericReportService genericReportService;
@@ -95,7 +98,7 @@ public class CommentController {
     @ResponseBody
     ResponseEntity<?> getResultById(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
                                     @PathVariable("id") Long id,
-                                    @PathVariable("resultid") Long resultid) throws IOException {
+                                    @PathVariable(RESULT_ID) Long resultid) throws IOException {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
         }
@@ -104,7 +107,7 @@ public class CommentController {
         if (reportList.isPresent()) {
             return new ResponseEntity<>(reportList.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(RESULT_NOT_FOUND), HttpStatus.OK);
         }
     }
 
@@ -118,7 +121,7 @@ public class CommentController {
     @ResponseBody
     ResponseEntity<?> getCommentsById(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
                                     @PathVariable("id") Long id,
-                                    @PathVariable("resultid") Long resultid) throws IOException {
+                                    @PathVariable(RESULT_ID) Long resultid) throws IOException {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
         }
@@ -127,7 +130,7 @@ public class CommentController {
         if (reportList.isPresent()) {
             return new ResponseEntity<>(reportList.get().getComments(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(RESULT_NOT_FOUND), HttpStatus.OK);
         }
     }
 
@@ -141,7 +144,7 @@ public class CommentController {
     @ResponseBody
     ResponseEntity<?> postComment(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
                                       @PathVariable("id") Long id,
-                                      @PathVariable("resultid") Long resultid,
+                                      @PathVariable(RESULT_ID) Long resultid,
                                       @RequestBody CommentRequest comment) throws IOException {
         if (!isAuthenticated) {
             return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
@@ -162,6 +165,31 @@ public class CommentController {
                 return new ResponseEntity<>(commentService.saveComments(reportList.get().getReport()), HttpStatus.OK);
             }
             return new ResponseEntity<>(new ErrorMsg("User not found"), HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(new ErrorMsg(RESULT_NOT_FOUND), HttpStatus.OK);
+        }
+    }
+
+    /**
+     * Get all the added reports
+     *
+     * @return A response with correct http header
+     * @throws IOException An exception if the example log isn't found
+     */
+    @RequestMapping(value = "/report/{id}/result/{resultid}/falsePositive", method = RequestMethod.POST)
+    @ResponseBody
+    ResponseEntity<?> postFalsePositive(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
+                                  @PathVariable("id") Long id,
+                                  @PathVariable(RESULT_ID) Long resultid) throws IOException {
+        if (!isAuthenticated) {
+            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<GenericResult> reportList = genericReportService.getReportByGenericId(id, resultid);
+        if (reportList.isPresent()) {
+            reportList.get().setFalsePositive(!reportList.get().isFalsePositive());
+            return new ResponseEntity<>(genericReportService.saveComment(reportList.get().getReport()), HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.OK);
