@@ -15,7 +15,6 @@ public class Main {
         return new BCryptPasswordEncoder();
     }
 
-
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Main.class, args);
     }

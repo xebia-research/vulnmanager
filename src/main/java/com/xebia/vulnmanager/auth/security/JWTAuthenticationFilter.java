@@ -1,7 +1,7 @@
 package com.xebia.vulnmanager.auth.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xebia.vulnmanager.models.company.Person;
+import com.xebia.vulnmanager.models.company.PersonLogin;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,8 +32,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) {
         try {
-            Person cred = new ObjectMapper()
-                    .readValue(request.getInputStream(), Person.class);
+            PersonLogin cred = new ObjectMapper()
+                    .readValue(request.getInputStream(), PersonLogin.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

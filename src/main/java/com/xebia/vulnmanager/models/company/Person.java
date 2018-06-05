@@ -22,12 +22,20 @@ public class Person implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false) // Column that will be used to keep track of the parent
-    @JsonBackReference // A backrefrence to keep json from infinite looping
+    @JsonBackReference // A back reference to keep json from infinite looping
     private Company company;
 
     public Person() {
         this.username = "NO NAME SET";
         this.projects = new ArrayList<>();
+    }
+
+    public Person(final String username,
+                  final String password,
+                  final Company company) {
+        this.username = username;
+        this.password = password;
+        this.setCompany(company);
     }
 
     public Person(final String username) {
