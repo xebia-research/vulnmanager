@@ -58,7 +58,7 @@ public class ReportUtil {
             } else {
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-                // NMAP has a doctype, almost every XEE attack are from the doctype, so we remove the doctype
+                // NMAP has a doctype, almost every XXE attack are from the doctype, so we remove the doctype
                 if (fileString.toLowerCase().contains("<nmaprun scanner=\"nmap\"")) {
                     parseFile = removeDoctypeFromNmapFile(parseFile, fileString);
                 }
