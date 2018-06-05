@@ -1,6 +1,7 @@
 package com.xebia.vulnmanager.models.zap.objects;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -50,5 +51,14 @@ public class ZapReport implements Serializable {
 
     public void setScannedSitesInformation(List<ScannedSiteInformation> scannedSitesInformation) {
         this.scannedSitesInformation = scannedSitesInformation;
+    }
+
+    public GenericMultiReport getGenericReport() {
+        GenericMultiReport multiReport = new GenericMultiReport();
+
+        for (ScannedSiteInformation ssi : scannedSitesInformation) {
+            multiReport.addReports(ssi.getGenericReport());
+        }
+        return multiReport;
     }
 }

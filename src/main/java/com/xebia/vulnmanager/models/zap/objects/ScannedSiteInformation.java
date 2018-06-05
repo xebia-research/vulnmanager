@@ -2,6 +2,8 @@ package com.xebia.vulnmanager.models.zap.objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xebia.vulnmanager.models.generic.GenericReport;
+import com.xebia.vulnmanager.util.ReportType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -82,5 +84,17 @@ public class ScannedSiteInformation implements Serializable {
 
     public void setSsl(boolean ssl) {
         this.ssl = ssl;
+    }
+
+    public GenericReport getGenericReport() {
+        GenericReport res = new GenericReport();
+        res.setReportType(ReportType.ZAP);
+
+        for (ZapAlertItem item : getAlertItems()) {
+            res.addGenericResult(item.getGenericResult());
+        }
+
+
+        return res;
     }
 }

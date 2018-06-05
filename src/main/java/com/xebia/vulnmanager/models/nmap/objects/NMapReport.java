@@ -3,6 +3,8 @@ package com.xebia.vulnmanager.models.nmap.objects;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.xebia.vulnmanager.models.generic.GenericMultiReport;
+import com.xebia.vulnmanager.models.generic.GenericReport;
 
 import javax.persistence.Table;
 import javax.persistence.Entity;
@@ -63,5 +65,15 @@ public class NMapReport implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public GenericMultiReport getMultiReport() {
+        GenericMultiReport multiReport = new GenericMultiReport();
+
+        for (Host host : hosts) {
+            GenericReport report = host.getGeneralReport();
+            multiReport.addReports(report);
+        }
+        return multiReport;
     }
 }
