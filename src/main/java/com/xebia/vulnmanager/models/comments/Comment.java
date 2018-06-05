@@ -6,6 +6,7 @@ import com.xebia.vulnmanager.models.generic.GenericResult;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 public class Comment implements Serializable {
@@ -13,6 +14,9 @@ public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // Column that will be used to keep track of the parent
@@ -47,7 +51,7 @@ public class Comment implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-/*
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -55,7 +59,7 @@ public class Comment implements Serializable {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    */
+
 
     public Long getId() {
         return id;

@@ -12,6 +12,8 @@ import java.util.List;
 
 @Entity
 public class GenericResult implements Serializable {
+    private static final String textColDef = "text";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -25,24 +27,26 @@ public class GenericResult implements Serializable {
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = textColDef)
     private ReportType type;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = textColDef)
     private String name;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = textColDef)
     private String description;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = textColDef)
     private String info;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = textColDef)
     private String cve;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = textColDef)
     private String thread;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = textColDef)
     private String port;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = textColDef)
     private String knownSolution;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = textColDef)
     private String url;
+    @Column(columnDefinition = "boolean")
+    private boolean falsePositive;
 
     public Long getId() {
         return id;
@@ -136,11 +140,23 @@ public class GenericResult implements Serializable {
         this.report = report;
     }
 
+    public boolean isFalsePositive() {
+        return falsePositive;
+    }
+
+    public void setFalsePositive(boolean falsePositive) {
+        this.falsePositive = falsePositive;
+    }
+
     public void setComments(List<Comment> comments) {
         this.comments = comments;
 
         for (Comment comment : comments) {
             comment.setParent(this);
         }
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
     }
 }

@@ -50,4 +50,8 @@ public class GenericReportService {
         }
         return returnReport;
     }
+
+    public GenericReport saveComment(GenericReport result) {
+        return genRepository.save(result);
+    }
 }

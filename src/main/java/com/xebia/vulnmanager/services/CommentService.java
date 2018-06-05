@@ -1,6 +1,7 @@
 package com.xebia.vulnmanager.services;
 
 import com.xebia.vulnmanager.models.comments.Comment;
+import com.xebia.vulnmanager.models.generic.GenericReport;
 import com.xebia.vulnmanager.models.generic.GenericResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,4 +27,7 @@ public class CommentService {
         return  Optional.empty();
     }
 
+    public GenericReport saveComments(GenericReport report) {
+        return reportService.saveComment(report);
+    }
 }

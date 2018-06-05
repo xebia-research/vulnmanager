@@ -176,9 +176,9 @@ public class ZapAlertItem implements Serializable {
         result.setCve(getShortDescription());
         result.setType(ReportType.ZAP);
 
-        StringBuilder sbuilder = new StringBuilder();
+        StringBuilder sbuilder = new StringBuilder("");
         for (RiskInstance rin : getInstanceList()) {
-            sbuilder.append(rin.getUri() + "\n");
+            sbuilder.append(rin.getUri() + "\n"); //NOPMD
         }
         result.setUrl(sbuilder.toString());
         return result;
