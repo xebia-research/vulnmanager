@@ -1,12 +1,14 @@
 package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
+import com.xebia.vulnmanager.models.clair.objects.ClairReport;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
+import com.xebia.vulnmanager.repositories.ClairRepository;
 import com.xebia.vulnmanager.repositories.NMapRepository;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
 import com.xebia.vulnmanager.repositories.OwaspZapRepository;
@@ -41,6 +43,9 @@ public class UploadFileController {
     private OwaspZapRepository zapRepository;
 
     @Autowired
+    private ClairRepository clairRepository;
+
+    @Autowired
     private CompanyService companyService;
 
     @Autowired
@@ -55,7 +60,7 @@ public class UploadFileController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadFile,
-                                 @RequestHeader(value = "auth", defaultValue = "nope") String authKey,
+                                 @RequestHeader(value = "auth", defaultValue = "testauth") String authKey,
                                  @PathVariable("company") String companyName,
                                  @PathVariable("team") String teamName) {
         if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
@@ -150,6 +155,15 @@ public class UploadFileController {
             // Save the report
             zapRepository.save(zapReport);
             zapRepository.flush();
+        } else if (reportType == ReportType.CLAIR) {
+            ClairReport clairReport = ReportUtil.getClairReportFromObject(parsedDocument);
+            if (clairReport == null) {
+                return;
+            }
+
+            // Save the report
+            clairRepository.save(clairReport);
+            clairRepository.flush();
         }
     }
 }

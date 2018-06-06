@@ -20,12 +20,16 @@ import { NmapResultsComponent } from './nmap-results/nmap-results.component';
 import { OpenvasResultsComponent } from './openvas-results/openvas-results.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ZapResultsComponent } from './zap-results/zap-results.component';
+import { UploadComponent } from './upload/upload.component';
+import {FileUploadModule} from 'primeng/fileupload';
+
 
 const appRoutes: Routes = [
   { path: 'nmap-results', component: NmapResultsComponent },
   { path: 'openvas-results',      component: OpenvasResultsComponent },
   { path: 'zap-results',      component: ZapResultsComponent },
   { path: 'home', component: HomePageComponent},
+  { path: 'upload', component: UploadComponent},
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -40,7 +44,9 @@ const appRoutes: Routes = [
     NmapResultsComponent,
     OpenvasResultsComponent,
     HomePageComponent,
-    ZapResultsComponent
+    ZapResultsComponent,
+    UploadComponent
+
   ],
   imports: [
     BrowserModule,
@@ -56,6 +62,7 @@ const appRoutes: Routes = [
     AccordionModule,
     BrowserAnimationsModule,
     SidebarModule,
+    FileUploadModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only

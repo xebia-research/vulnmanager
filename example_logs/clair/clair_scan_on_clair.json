@@ -1,0 +1,128 @@
+{
+    "image": "arminc/clair-local-scan:v2.0.1",
+    "unapproved": [
+        "CVE-2017-1000158",
+        "CVE-2016-9840",
+        "CVE-2016-9842",
+        "CVE-2016-9843",
+        "CVE-2016-9841",
+        "CVE-2017-14166",
+        "CVE-2017-9233",
+        "CVE-2017-1000117",
+        "CVE-2017-15650",
+        "CVE-2017-16544",
+        "CVE-2017-15873"
+    ],
+    "vulnerabilities": [
+        {
+            "featurename": "python2",
+            "featureversion": "2.7.13-r0",
+            "vulnerability": "CVE-2017-1000158",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-1000158",
+            "severity": "Unknown",
+            "fixedby": "2.7.14-r0"
+        },
+        {
+            "featurename": "zlib",
+            "featureversion": "1.2.8-r2",
+            "vulnerability": "CVE-2016-9840",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9840",
+            "severity": "Unknown",
+            "fixedby": "1.2.11-r0"
+        },
+        {
+            "featurename": "zlib",
+            "featureversion": "1.2.8-r2",
+            "vulnerability": "CVE-2016-9842",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9842",
+            "severity": "Unknown",
+            "fixedby": "1.2.11-r0"
+        },
+        {
+            "featurename": "zlib",
+            "featureversion": "1.2.8-r2",
+            "vulnerability": "CVE-2016-9843",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9843",
+            "severity": "Unknown",
+            "fixedby": "1.2.11-r0"
+        },
+        {
+            "featurename": "zlib",
+            "featureversion": "1.2.8-r2",
+            "vulnerability": "CVE-2016-9841",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9841",
+            "severity": "Unknown",
+            "fixedby": "1.2.11-r0"
+        },
+        {
+            "featurename": "libarchive",
+            "featureversion": "3.2.2-r1",
+            "vulnerability": "CVE-2017-14166",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-14166",
+            "severity": "Unknown",
+            "fixedby": "3.3.1-r2"
+        },
+        {
+            "featurename": "expat",
+            "featureversion": "2.2.0-r0",
+            "vulnerability": "CVE-2017-9233",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-9233",
+            "severity": "Unknown",
+            "fixedby": "2.2.0-r1"
+        },
+        {
+            "featurename": "git",
+            "featureversion": "2.11.2-r0",
+            "vulnerability": "CVE-2017-1000117",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-1000117",
+            "severity": "Unknown",
+            "fixedby": "2.11.3"
+        },
+        {
+            "featurename": "musl",
+            "featureversion": "1.1.15-r6",
+            "vulnerability": "CVE-2017-15650",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-15650",
+            "severity": "Unknown",
+            "fixedby": "1.1.15-r8"
+        },
+        {
+            "featurename": "busybox",
+            "featureversion": "1.25.1-r0",
+            "vulnerability": "CVE-2017-16544",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-16544",
+            "severity": "Unknown",
+            "fixedby": "1.25.1-r1"
+        },
+        {
+            "featurename": "busybox",
+            "featureversion": "1.25.1-r0",
+            "vulnerability": "CVE-2017-15873",
+            "namespace": "alpine:v3.5",
+            "description": "",
+            "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-15873",
+            "severity": "Unknown",
+            "fixedby": "1.25.1-r1"
+        }
+    ]
+}

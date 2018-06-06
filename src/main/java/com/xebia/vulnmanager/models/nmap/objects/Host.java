@@ -2,6 +2,9 @@ package com.xebia.vulnmanager.models.nmap.objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xebia.vulnmanager.models.generic.GenericReport;
+import com.xebia.vulnmanager.models.generic.GenericResult;
+import com.xebia.vulnmanager.util.ReportType;
 
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -99,5 +102,23 @@ public class Host implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public GenericReport getGeneralReport() {
+        GenericReport report = new GenericReport();
+        report.setReportType(ReportType.NMAP);
+
+        for (HostPorts.Port port : hostPorts.getPorts()) {
+            GenericResult result = new GenericResult();
+            result.setType(ReportType.NMAP);
+            result.setUrl(addressDetails.getAddress());
+            result.setName("nmap");
+            result.setPort(port.getPortId());
+            result.setInfo("Process: " + port.getServiceDetails().getServiceName());
+            report.addGenericResult(result);
+        }
+
+        return report;
+
     }
 }

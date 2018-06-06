@@ -1,6 +1,7 @@
 package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
+import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.Host;
 import com.xebia.vulnmanager.models.nmap.objects.NMapGeneralInformation;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -164,5 +166,23 @@ public class NMapController {
         } else {
             return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
         }
+    }
+
+    /**
+     * Get all the added reports
+     *
+     * @return A response with correct http header
+     * @throws IOException An exception if the example log isn't found
+     */
+    @RequestMapping(value = "generic", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getGenericReports(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated) throws IOException {
+        if (!isAuthenticated) {
+            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
+        }
+
+        GenericMultiReport reportList = nmapService.getAllReportsAsGeneric();
+
+        return new ResponseEntity<>(reportList, HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.xebia.vulnmanager.services;
 
+import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.openvas.objects.OvResult;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
@@ -25,6 +26,20 @@ public class OpenvasService {
      */
     public List<OpenvasReport> getAllReports() {
         return openvasDataService.findAll();
+    }
+
+    /**
+     * Get all the openvas reports
+     * @return Return an iteratable of all the openvas reports
+     */
+    public GenericMultiReport getAllReportsAsGeneric() {
+        List<OpenvasReport> reports = openvasDataService.findAll();
+        GenericMultiReport genericReports = new GenericMultiReport();
+
+        for (OpenvasReport report : reports) {
+            genericReports.addReports(report.getGenericMultiReport().getReports().get(0));
+        }
+        return genericReports;
     }
 
     /**
