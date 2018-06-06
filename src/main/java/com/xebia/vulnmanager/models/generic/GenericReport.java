@@ -6,6 +6,7 @@ import com.xebia.vulnmanager.util.ReportType;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,13 @@ public class GenericReport implements Serializable {
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<GenericResult> genericResults = new ArrayList<>();
+
+    @Column(name = "date_parsed")
+    private Date parsedDate;
+
+    public GenericReport() {
+        parsedDate = new Date();
+    }
 
     public ReportType getReportType() {
         return reportType;
@@ -47,5 +55,13 @@ public class GenericReport implements Serializable {
     public void addGenericResult(GenericResult result) {
         result.setReport(this);
         this.genericResults.add(result);
+    }
+
+    public void setParsedDate(Date parsedDate) {
+        this.parsedDate = parsedDate;
+    }
+
+    public Date getParsedDate() {
+        return parsedDate;
     }
 }
