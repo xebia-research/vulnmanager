@@ -1,12 +1,14 @@
 package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.auth.AuthenticationChecker;
+import com.xebia.vulnmanager.models.clair.objects.ClairReport;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
+import com.xebia.vulnmanager.repositories.ClairRepository;
 import com.xebia.vulnmanager.repositories.NMapRepository;
 import com.xebia.vulnmanager.repositories.OpenvasRepository;
 import com.xebia.vulnmanager.repositories.OwaspZapRepository;
@@ -39,6 +41,9 @@ public class UploadFileController {
 
     @Autowired
     private OwaspZapRepository zapRepository;
+
+    @Autowired
+    private ClairRepository clairRepository;
 
     @Autowired
     private CompanyService companyService;
@@ -150,6 +155,15 @@ public class UploadFileController {
             // Save the report
             zapRepository.save(zapReport);
             zapRepository.flush();
+        } else if (reportType == ReportType.CLAIR) {
+            ClairReport clairReport = ReportUtil.getClairReportFromObject(parsedDocument);
+            if (clairReport == null) {
+                return;
+            }
+
+            // Save the report
+            clairRepository.save(clairReport);
+            clairRepository.flush();
         }
     }
 }

@@ -1,5 +1,5 @@
 
-Lists of 80 third-party dependencies.
+Lists of 82 third-party dependencies.
      (BSD License) AntLR Parser Generator (antlr:antlr:2.7.7 - http://www.antlr.org/)
      (Eclipse Public License - v 1.0) (GNU Lesser General Public License) Logback Classic Module (ch.qos.logback:logback-classic:1.2.3 - http://logback.qos.ch/logback-classic)
      (Eclipse Public License - v 1.0) (GNU Lesser General Public License) Logback Core Module (ch.qos.logback:logback-core:1.2.3 - http://logback.qos.ch/logback-core)
@@ -17,6 +17,7 @@ Lists of 80 third-party dependencies.
      (The Apache Software License, Version 2.0) project ':json-path' (com.jayway.jsonpath:json-path:2.4.0 - https://github.com/jayway/JsonPath)
      (Apache License 2.0) JSON library from Android SDK (com.vaadin.external.google:android-json:0.0.20131108.vaadin1 - http://developer.android.com/sdk)
      (The Apache Software License, Version 2.0) HikariCP (com.zaxxer:HikariCP:2.7.8 - https://github.com/brettwooldridge/HikariCP)
+     (Apache License, Version 2.0) Apache Commons IO (commons-io:commons-io:2.6 - http://commons.apache.org/proper/commons-io/)
      (Unknown license) dom4j (dom4j:dom4j:1.6.1 - http://dom4j.org)
      (CDDL + GPLv2 with classpath exception) javax.annotation API (javax.annotation:javax.annotation-api:1.3.2 - http://jcp.org/en/jsr/detail?id=250)
      (CDDL + GPLv2 with classpath exception) javax.transaction API (javax.transaction:javax.transaction-api:1.2 - http://jta-spec.java.net)
@@ -43,6 +44,7 @@ Lists of 80 third-party dependencies.
      (Apache License 2.0) (LGPL 2.1) (MPL 1.1) Javassist (org.javassist:javassist:3.22.0-GA - http://www.javassist.org/)
      (Apache License, Version 2.0) Java Annotation Indexer (org.jboss:jandex:2.0.3.Final - http://www.jboss.org/jandex)
      (Apache License, version 2.0) JBoss Logging 3 (org.jboss.logging:jboss-logging:3.3.2.Final - http://www.jboss.org)
+     (The JSON License) JSON in Java (org.json:json:20160212 - https://github.com/douglascrockford/JSON-java)
      (The MIT License) mockito-core (org.mockito:mockito-core:2.15.0 - https://github.com/mockito/mockito)
      (Apache 2) Objenesis (org.objenesis:objenesis:2.6 - http://objenesis.org)
      (BSD) ASM Core (org.ow2.asm:asm:5.0.4 - http://asm.objectweb.org/asm/)

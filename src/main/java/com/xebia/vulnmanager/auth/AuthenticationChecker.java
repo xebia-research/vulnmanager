@@ -1,10 +1,13 @@
 package com.xebia.vulnmanager.auth;
 
 import com.xebia.vulnmanager.models.company.Company;
+import com.xebia.vulnmanager.models.company.Person;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class AuthenticationChecker {
@@ -54,5 +57,17 @@ public class AuthenticationChecker {
             }
         }
         return false;
+    }
+
+    public Person checkIfUserExists(String userName) {
+        List<Company> companies = companyRepository.findAll();
+        for (Company comp : companies) {
+            for (Person empl : comp.getEmployees()) {
+                if (empl.getName().equalsIgnoreCase(userName)) {
+                    return empl;
+                }
+            }
+        }
+        return null;
     }
 }
