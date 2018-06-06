@@ -4,7 +4,7 @@
 
 #### This is a vulnerability manager with an authenticated API to manage vulnerability reports in a webGUI.
 
-__We currently plan to support the following programs:__ 
+__We currently support the following scanning tools:__ 
  * [x] Nmap
  * [x] OpenVAS
  * [x] OWASP ZAP
@@ -15,8 +15,8 @@ __We currently plan to support the following programs:__
  * Npm 5+
  * nodeJS 8+
  * Postgresql 10
- * Maven (This will download the rest of the dependencies with __mvn install__)
-
+ * Maven (Maven can download the rest of the dependencies with __mvn install__)
+ * AngularCLI
 ## Installation:
 Everything is run in docker, for your convenience ! :whale:
 
