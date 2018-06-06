@@ -5,8 +5,8 @@
               [rowsPerPageOptions]="[5,10,20]" [sortField]="sortField" [sortOrder]="sortOrder"
               filterBy="genericResult.name">
     <p-header>
-      <b>Clair results parsed as of {{clairObject.genericReport.reports[0].parsedDate | date :'HH:mm:ss @
-        dd/MM/yyyy'}}</b>
+      <b>Clair results parsed as of {{clairObject.genericReport.reports[0].parsedDate | date :'HH:mm:ss @ dd/MM/yyyy'}}
+      </b>
 
       <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items"
                      styleClass="ui-button-info"></p-splitButton>
