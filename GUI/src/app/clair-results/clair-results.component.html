@@ -2,15 +2,21 @@
 <div>
   <h3></h3>
   <p-dataView #dv [value]="clairObject.vulnerabilities" [paginator]="true" [rows]="5" paginatorPosition="both"
-              [rowsPerPageOptions]="[5,10,20]" [sortField]="sortField" [sortOrder]="sortOrder">
+              [rowsPerPageOptions]="[5,10,20]" [sortField]="sortField" [sortOrder]="sortOrder"
+              filterBy="genericResult.name">
     <p-header>
-      <b>Clair results parsed as of {{clairObject.genericReport.reports[0].parsedDate | date :'HH:mm:ss @ dd/MM/yyyy'}}</b>
+      <b>Clair results parsed as of {{clairObject.genericReport.reports[0].parsedDate | date :'HH:mm:ss @
+        dd/MM/yyyy'}}</b>
 
       <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items"
                      styleClass="ui-button-info"></p-splitButton>
 
+      <p></p>
       <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
-                  (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
+                  (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
+                  [ngStyle]="{'float': 'right'}"></p-dropdown>
+
+      <input type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)"/>
 
     </p-header>
     <ng-template let-car pTemplate="gridItem">
