@@ -58,7 +58,6 @@ public class UploadFileController {
                                  @RequestHeader(value = "auth", defaultValue = "testauth") String authKey,
                                  @PathVariable("company") String companyName,
                                  @PathVariable("team") String teamName) {
-        logger.error("DOE IETS");
         if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
