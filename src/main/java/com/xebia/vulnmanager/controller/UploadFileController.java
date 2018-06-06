@@ -24,7 +24,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
@@ -103,7 +105,17 @@ public class UploadFileController {
                 logger.error("Temp file couldn't be deleted");
             }
         } catch (IOException ex) {
+            logger.error(ex.getMessage());
             return new ResponseEntity(new ErrorMsg("IOException with msg: " + ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ParserConfigurationException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(new ErrorMsg("Parser configuration exception wit the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (SAXException e) {
+            logger.error(e.getMessage());
+            logger.error(e.getCause().getMessage());
+            return new ResponseEntity(new ErrorMsg("SAX basic exception with the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (NullPointerException e) {
+            return new ResponseEntity(new ErrorMsg("An null pointer exception was thrown"), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity(new ErrorMsg("Successfully uploaded - " + newFileName), HttpStatus.OK);
@@ -124,8 +136,11 @@ public class UploadFileController {
         return false;
     }
 
-    private void uploadFileToDB(File uploadFile, ReportType reportType, Team team) {
+    private void uploadFileToDB(File uploadFile, ReportType reportType, Team team) throws ParserConfigurationException, SAXException, IOException {
         Document document = ReportUtil.getDocumentFromFile(uploadFile);
+        if (document == null) {
+            return;
+        }
         Object parsedDocument = ReportUtil.parseDocument(document);
         if (reportType == ReportType.OPENVAS) {
             OpenvasReport openvasReport = ReportUtil.getOpenvasReportFromObject(parsedDocument);

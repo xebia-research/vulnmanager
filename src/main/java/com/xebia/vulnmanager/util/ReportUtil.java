@@ -45,62 +45,56 @@ public class ReportUtil {
      * @param parseFile The file that is converted to a Document variable.
      * @return The document that is going to be parsed.
      */
-    public static Document getDocumentFromFile(File parseFile) {
+    public static Document getDocumentFromFile(File parseFile) throws IOException, ParserConfigurationException, SAXException, NullPointerException {
         Document doc = null;
-        try {
-            String fileString = getStringFromFile(parseFile);
-            // This does not start with '<', so check if it is json and parse that to xml and then to Document object
-            if (!fileString.startsWith("<")) {
-                JSONObject jsonObject = new JSONObject(fileString);
-                String xmlString = jsonToXmlString(jsonObject);
+        String fileString = getStringFromFile(parseFile);
+        // This does not start with '<', so check if it is json and parse that to xml and then to Document object
+        if (!fileString.startsWith("<")) {
+            JSONObject jsonObject = new JSONObject(fileString);
+            String xmlString = jsonToXmlString(jsonObject);
 
-                doc = stringToDom(xmlString);
-            } else {
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-                // NMAP has a doctype, almost every XXE attack are from the doctype, so we remove the doctype
-                if (fileString.toLowerCase().contains("<nmaprun scanner=\"nmap\"")) {
-                    parseFile = removeDoctypeFromNmapFile(parseFile, fileString);
-                }
-
-                String feature = null;
-                // This is the PRIMARY defense. If DTDs (doctypes) are disallowed, almost all XML entity attacks are prevented
-                // Xerces 2 only - http://xerces.apache.org/xerces2-j/features.html#disallow-doctype-decl
-                feature = "http://apache.org/xml/features/disallow-doctype-decl";
-                factory.setFeature(feature, true);
-
-                // If you can't completely disable DTDs, then at least do the following:
-                // Xerces 1 - http://xerces.apache.org/xerces-j/features.html#external-general-entities
-                // Xerces 2 - http://xerces.apache.org/xerces2-j/features.html#external-general-entities
-                // JDK7+ - http://xml.org/sax/features/external-general-entities
-                feature = "http://xml.org/sax/features/external-general-entities";
-                factory.setFeature(feature, false);
-
-                // Xerces 1 - http://xerces.apache.org/xerces-j/features.html#external-parameter-entities
-                // Xerces 2 - http://xerces.apache.org/xerces2-j/features.html#external-parameter-entities
-                // JDK7+ - http://xml.org/sax/features/external-parameter-entities
-                feature = "http://xml.org/sax/features/external-parameter-entities";
-                factory.setFeature(feature, false);
-
-                // Disable external DTDs as well
-                feature = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
-                factory.setFeature(feature, false);
-
-                // and these as well, per Timothy Morgan's 2014 paper: "XML Schema, DTD, and Entity Attacks"
-                factory.setXIncludeAware(false);
-                factory.setExpandEntityReferences(false);
-
-                // Parse the file to a Document
-                doc = factory.newDocumentBuilder().parse(parseFile);
+            // It could be that we do not know the json report, so it could be null, when this is the case we return null
+            if (xmlString == null) {
+                return null;
             }
-        } catch (SAXException e) {
-            LOGGER.error(e.toString());
-        } catch (IOException e) {
-            LOGGER.error(e.toString());
-        } catch (NullPointerException e) {
-            LOGGER.error(e.toString());
-        } catch (ParserConfigurationException e) {
-            LOGGER.error(e.toString());
+            doc = stringToDom(xmlString);
+        } else {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+            // NMAP has a doctype, almost every XXE attack are from the doctype, so we remove the doctype
+            if (fileString.toLowerCase().contains("<nmaprun scanner=\"nmap\"")) {
+                parseFile = removeDoctypeFromNmapFile(parseFile, fileString);
+            }
+
+            String feature = null;
+            // This is the PRIMARY defense. If DTDs (doctypes) are disallowed, almost all XML entity attacks are prevented
+            // Xerces 2 only - http://xerces.apache.org/xerces2-j/features.html#disallow-doctype-decl
+            feature = "http://apache.org/xml/features/disallow-doctype-decl";
+            factory.setFeature(feature, true);
+
+            // If you can't completely disable DTDs, then at least do the following:
+            // Xerces 1 - http://xerces.apache.org/xerces-j/features.html#external-general-entities
+            // Xerces 2 - http://xerces.apache.org/xerces2-j/features.html#external-general-entities
+            // JDK7+ - http://xml.org/sax/features/external-general-entities
+            feature = "http://xml.org/sax/features/external-general-entities";
+            factory.setFeature(feature, false);
+
+            // Xerces 1 - http://xerces.apache.org/xerces-j/features.html#external-parameter-entities
+            // Xerces 2 - http://xerces.apache.org/xerces2-j/features.html#external-parameter-entities
+            // JDK7+ - http://xml.org/sax/features/external-parameter-entities
+            feature = "http://xml.org/sax/features/external-parameter-entities";
+            factory.setFeature(feature, false);
+
+            // Disable external DTDs as well
+            feature = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
+            factory.setFeature(feature, false);
+
+            // and these as well, per Timothy Morgan's 2014 paper: "XML Schema, DTD, and Entity Attacks"
+            factory.setXIncludeAware(false);
+            factory.setExpandEntityReferences(false);
+
+            // Parse the file to a Document
+            doc = factory.newDocumentBuilder().parse(parseFile);
         }
 
         return doc;
