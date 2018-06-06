@@ -1,75 +1,75 @@
-<h1>Results</h1>
+<h1>Results of scanning image: {{clairObject.image}}</h1>
 <div>
   <h3></h3>
-  <p-dataView #dv [value]="clairObject" [paginator]="true" [rows]="5" paginatorPosition="both" [rowsPerPageOptions]="[5,10,20]">
+  <p-dataView #dv [value]="clairObject.vulnerabilities" [paginator]="true" [rows]="5" paginatorPosition="both"
+              [rowsPerPageOptions]="[5,10,20]" [sortField]="sortField" [sortOrder]="sortOrder">
     <p-header>
-      <b>Clair results of {{clairObject[0].id}}</b>
+      <b>Clair results parsed as of {{clairObject.genericReport.reports[0].parsedDate | date :'HH:mm:ss @ dd/MM/yyyy'}}</b>
 
-      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
+      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items"
+                     styleClass="ui-button-info"></p-splitButton>
+
+      <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                  (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
 
     </p-header>
-    <ng-template let-result pTemplate="listItem">
-      <div class="ui-g" style="padding: 1em;border-bottom: 3px solid #d9d9d9"  >
-        <div class="ui-g-12 ui-md-8 result-details">
-          <div class="ui-g" >
-            <div class="ui-g-3 ui-sm-6"><b>Name: </b></div>
-            <div class="ui-g-9 ui-sm-6 ">{{result.name}}</div>
-            <div class="ui-g-3 ui-sm-6"><b>Result cve: </b></div>
-            <div class="ui-g-9 ui-sm-6 ">{{result.cve}}</div>
-            <div class="ui-g-3 ui-sm-6"><b>Severity: </b></div>
-            <div class="ui-g-9 ui-sm-6 ">{{result.thread}}</div>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-1 search-icon">
-          <button pButton type="button" icon="fa-search" (click)="selectClair($event, result)"></button>
-        </div>
-      </div>
-    </ng-template>
     <ng-template let-car pTemplate="gridItem">
       <div style="padding:.5em" class="ui-g-12 ui-md-3">
       </div>
     </ng-template>
+    <ng-template let-vulnerability pTemplate="listItem">
+      <div class="ui-g" style="padding: 1em;border-bottom: 3px solid #d9d9d9">
+        <div class="ui-g-12 ui-md-8 vulnerability-details">
+          <div class="ui-g">
+            <div class="ui-g-3 ui-sm-6"><b>Name: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{vulnerability.genericResult.name}}</div>
+            <div class="ui-g-3 ui-sm-6"><b>Cve: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{vulnerability.genericResult.cve}}</div>
+            <div class="ui-g-3 ui-sm-6"><b>Severity: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{vulnerability.genericResult.thread}}</div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-1 search-icon">
+          <button pButton type="button" icon="fa-search" (click)="selectClair($event, vulnerability)"></button>
+        </div>
+      </div>
+    </ng-template>
   </p-dataView>
-
 </div>
 
-<p-dialog width="800" header="Openvas result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
-  <div *ngIf="selectedOpenvas">
+<p-dialog width="800" header="Clair result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
+          [modal]="true" (onAfterHide)="onDialogHide()">
+  <div *ngIf="selectedClair">
     <p-tabView>
       <p-tabPanel header="Summary" [selected]="true" leftIcon="fa-list-ul">
-        <div class="ui-g" >
-          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Family / name: </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.nvt.family}} / {{selectedOpenvas.nvt.name}}</div>
-
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Port / protocol: </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.port}}</div>
-
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Severity: </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.severity}}</div>
-
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">CVE: </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" *ngIf="selectedOpenvas.nvt.CVE != 'NOCVE' ;else cvedetails" ngClass="divrow">No CVE associated with this result</div>
-          <ng-template #cvedetails>{{selectedOpenvas.nvt.CVE}}</ng-template>
-
-          <div class="ui-g-12 ui-md-6 ui-lg-3" *ngIf="selectedOpenvas.nvt.falsePositive==false" ngClass="divrow">False positive: </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9 fa fa-check" *ngIf="selectedOpenvas.nvt.falsePositive==false" ngClass="divrow">Not flagged as a false postive</div>
-          <div class="ui-g-12 ui-md-6 ui-lg-3 " *ngIf="selectedOpenvas.nvt.falsePositive==true" ngClass="divrow">False positive: </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9 fa fa-times" *ngIf="selectedOpenvas.nvt.falsePositive==true" ngClass="divrow">Previously flagged as false positive </div>
-        </div>
-
-      </p-tabPanel>
-      <p-tabPanel header="Findings" leftIcon="fa-eye">
-        <div class="ui-g-12 ui-md-6 ui-lg-1"></div>
-        <div class="ui-g-12 ui-md-6 ui-lg-11" style="white-space: pre-line;" >{{selectedOpenvas.description}}</div>
-      </p-tabPanel>
-      <p-tabPanel header="About" leftIcon="fa-info-circle">
         <div class="ui-g">
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Impact:</div>
-          <div *ngIf="selectedOpenvas.nvt.tagsImpact==null" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">No impact measured or known</div>
-          <div *ngIf="selectedOpenvas.nvt.tagsImpact!=null" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.nvt.tagsImpact}}</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Name:</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.name}}</div>
 
-          <div class="ui-g-12 ui-md-6 ui-lg-3">Description:</div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" style="white-space: pre-line;">{{selectedOpenvas.nvt.tagsSummary}}</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Namespace:</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.namespace}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Description:</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.description}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Severity:</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.thread}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Thread:</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.cve}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">More information:</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.link}}</div>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel header="Developer information" leftIcon="fa-eye">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Comment(s):</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.comments}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">False positive:</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.falsePositive}}</div>
         </div>
       </p-tabPanel>
     </p-tabView>
