@@ -22,7 +22,9 @@ import {ClairResultsComponent} from './clair-results/clair-results.component';
 import {UploadComponent} from './upload/upload.component';
 import {FileUploadModule} from 'primeng/fileupload';
 
+
 const appRoutes: Routes = [
+
   {path: 'nmap-results', component: NmapResultsComponent},
   {path: 'openvas-results', component: OpenvasResultsComponent},
   {path: 'clair-results', component: ClairResultsComponent},
@@ -43,8 +45,10 @@ const appRoutes: Routes = [
     NmapResultsComponent,
     OpenvasResultsComponent,
     HomePageComponent,
+    ZapResultsComponent,
     ClairResultsComponent,
     UploadComponent
+
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,79 @@
+<h1>Results</h1>
+<div>
+  <h3></h3>
+  <p-dataView #dv [value]="zapObject.scannedSitesInformation" [paginator]="true" [rows]="5" paginatorPosition="both" [rowsPerPageOptions]="[5,10,20]">
+    <p-header>
+      <b>ZAP results of {{zapObject.dateGenerated | date :'HH:mm:ss @ dd/MM/yyyy'}}</b>
+
+      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
+
+    </p-header>
+    <ng-template let-scannedSiteInformation pTemplate="listItem">
+            <div *ngFor="let alertItem of scannedSiteInformation.alertItems">
+              <div class="ui-g" style="padding: 1em;border-bottom: 3px solid #d9d9d9"  >
+                <div class="ui-g-12 ui-md-8 result-details">
+                  <div class="ui-g">
+                    <div class="ui-g-4 ui-sm-6"> <b>Result ID: {{alertItem.id}} </b> <br>({{alertItem.instanceCount}} instances)</div>
+              <div class="ui-g-8 ui-sm-6 ">{{alertItem.name}} </div>
+                  </div>
+
+            </div>
+                <div class="ui-g-12 ui-md-1 search-icon">
+                  <button pButton type="button" icon="fa-search" (click)="selectZap($event, alertItem)"></button>
+                </div>
+              </div>
+
+
+      </div>
+    </ng-template>
+    <ng-template let-car pTemplate="gridItem">
+      <div style="padding:.5em" class="ui-g-12 ui-md-3">
+      </div>
+    </ng-template>
+  </p-dataView>
+
+</div>
+
+<p-dialog width="800" height="80%" header="ZAP result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+  <div *ngIf="selectedZap">
+    <p-tabView>
+      <p-tabPanel header="About" [selected]="true" leftIcon="fa-list-ul">
+        <div class="ui-g" >
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Result summary </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.description}}</div>
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Result risk <br><strong><i>Likelyhood (Impact)</i></strong></div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.shortDescription}}</div>
+        </div>
+
+      </p-tabPanel>
+      <p-tabPanel header="Instances" leftIcon="fa-eye" >
+        <p-table class="ui-g-12 ui-md-6 ui-lg-12"  [value]="selectedZap.instanceList" [scrollable]="true" scrollHeight="400px">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="ui-lg-1">ID</th>
+              <th>Instance</th>
+              <th class="ui-lg-2" >method</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-instance>
+            <tr>
+              <td class="ui-lg-1">{{instance.id}}</td>
+              <td>{{instance.uri}}</td>
+              <td class="ui-lg-1" >{{instance.method}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-tabPanel>
+      <p-tabPanel header="Solutions & References" leftIcon="fa-info-circle">
+        <div class="ui-g">
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Solution </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.solution}}</div>
+          <div *ngIf="selectedZap.otherInfo!=null"  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Other info </div>
+          <div *ngIf="selectedZap.otherInfo!=null" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.otherInfo}}</div>
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Reference  </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow"><a href="{{selectedZap.reference}}">{{selectedZap.reference}}</a></div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</p-dialog>
