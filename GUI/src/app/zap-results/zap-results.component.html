@@ -39,7 +39,10 @@
     <p-tabView>
       <p-tabPanel header="About" [selected]="true" leftIcon="fa-list-ul">
         <div class="ui-g" >
-
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Result summary </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.description}}</div>
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Result risk <br><strong><i>Likelyhood (Impact)</i></strong></div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.shortDescription}}</div>
         </div>
 
       </p-tabPanel>
@@ -67,7 +70,7 @@
           <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.solution}}</div>
           <div *ngIf="selectedZap.otherInfo!=null"  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Other info </div>
           <div *ngIf="selectedZap.otherInfo!=null" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.otherInfo}}</div>
-          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Reference </div>
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Reference  </div>
           <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow"><a href="{{selectedZap.reference}}">{{selectedZap.reference}}</a></div>
         </div>
       </p-tabPanel>
