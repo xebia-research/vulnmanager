@@ -12,8 +12,8 @@
       <div class="ui-g" style="padding: 1em;border-bottom: 3px solid #d9d9d9"  >
         <div class="ui-g-12 ui-md-8 result-details">
           <div class="ui-g" >
-            <div class="ui-g-3 ui-sm-6"><b>Result username: </b></div>
-            <div class="ui-g-9 ui-sm-6 ">{{result.username}}</div>
+            <div class="ui-g-3 ui-sm-6"><b>Result name: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{result.name}}</div>
             <div class="ui-g-3 ui-sm-6"><b>Result port: </b></div>
             <div class="ui-g-9 ui-sm-6 ">{{result.port}}</div>
             <div class="ui-g-3 ui-sm-6"><b>Severity: </b></div>
@@ -38,8 +38,8 @@
       <p-tabView>
         <p-tabPanel header="Summary" [selected]="true" leftIcon="fa-list-ul">
         <div class="ui-g" >
-          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Family / username: </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.nvt.family}} / {{selectedOpenvas.nvt.username}}</div>
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Family / name: </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.nvt.family}} / {{selectedOpenvas.nvt.name}}</div>
 
           <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Port / protocol: </div>
           <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedOpenvas.port}}</div>
