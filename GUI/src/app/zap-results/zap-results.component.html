@@ -37,7 +37,7 @@
 <p-dialog width="800" header="ZAP result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
   <div *ngIf="selectedZap">
     <p-tabView>
-      <p-tabPanel header="Summary" [selected]="true" leftIcon="fa-list-ul">
+      <p-tabPanel header="About" [selected]="true" leftIcon="fa-list-ul">
         <div class="ui-g" >
 
         </div>
@@ -61,9 +61,14 @@
           </ng-template>
         </p-table>
       </p-tabPanel>
-      <p-tabPanel header="About" leftIcon="fa-info-circle">
+      <p-tabPanel header="Solutions & References" leftIcon="fa-info-circle">
         <div class="ui-g">
-
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Solution </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.solution}}</div>
+          <div *ngIf="selectedZap.otherInfo!=null"  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Other info </div>
+          <div *ngIf="selectedZap.otherInfo!=null" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.otherInfo}}</div>
+          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Reference </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow"><a href="{{selectedZap.reference}}">{{selectedZap.reference}}</a></div>
         </div>
       </p-tabPanel>
     </p-tabView>
