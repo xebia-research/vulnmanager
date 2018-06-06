@@ -9,6 +9,17 @@ __We currently support the following scanning tools:__
  * [x] OpenVAS
  * [x] OWASP ZAP
  * [x] Clair
+ 
+#### Report formats 
+The vulnmanager parser currently supports the following report formats per scan tool:
+
+ | Scanning Tool | Report Format | 
+ | ------------- | ------------- |
+ | Clair | JSON |
+ | OpenVAS | XML |
+ | ZAP | XML & JSON |
+ | Nmap | XML |
+
 
 ## Dependencies:
  * Docker
