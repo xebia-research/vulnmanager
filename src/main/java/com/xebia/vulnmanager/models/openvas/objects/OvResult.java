@@ -127,7 +127,7 @@ public class OvResult implements Serializable {
         result.setType(ReportType.OPENVAS);
         result.setCve(nvt.getCve());
         result.setDescription(description);
-        result.setThread(threat);
+        result.setSeverity(threat);
         result.setName(getName());
         result.setPort(port);
         result.setId(getId());
