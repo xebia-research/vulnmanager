@@ -19,11 +19,14 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NmapResultsComponent } from './nmap-results/nmap-results.component';
 import { OpenvasResultsComponent } from './openvas-results/openvas-results.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { LoginComponent } from './login/login.component';
+import { VulnApiService } from "./services/vuln-api.service";
 
 const appRoutes: Routes = [
   { path: 'nmap-results', component: NmapResultsComponent },
   { path: 'openvas-results',      component: OpenvasResultsComponent },
   { path: 'home', component: HomePageComponent},
+  { path: 'login', component: LoginComponent },
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -37,7 +40,8 @@ const appRoutes: Routes = [
     NavBarComponent,
     NmapResultsComponent,
     OpenvasResultsComponent,
-    HomePageComponent
+    HomePageComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,7 @@ const appRoutes: Routes = [
     )
     // other imports here
   ],
-  providers: [],
+  providers: [VulnApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

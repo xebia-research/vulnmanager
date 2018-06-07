@@ -22,7 +22,7 @@ public class Person implements Serializable {
     private List<Team> projects;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false) // Column that will be used to keep track of the parent
+    @JoinColumn(name = "company_id", nullable = true) // Column that will be used to keep track of the parent
     @JsonBackReference // A back reference to keep json from infinite looping
     private Company company;
 

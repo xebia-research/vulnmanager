@@ -2,6 +2,7 @@ package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.models.company.Person;
 import com.xebia.vulnmanager.models.company.PersonLogin;
+import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.repositories.PersonRepository;
 import com.xebia.vulnmanager.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class UserController {
         Person person = new Person(user.getUsername(),
                                    user.getPassword(),
                                    companyService.getCompanyByName(user.getCompanyName()));
+
+        if (personRepository.findByUsername(person.getUsername()) != null) {
+            new ResponseEntity<>(new ErrorMsg("Username already in use"), HttpStatus.BAD_REQUEST);
+        }
         person = personRepository.save(person);
         return new ResponseEntity<>(person, HttpStatus.OK);
     }
