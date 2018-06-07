@@ -93,14 +93,15 @@ public class UploadFileController {
             logger.info("File succesfully uploaded");
 
             // Success check uploaded file
-            ReportType reportType = ReportUtil.checkDocumentType(ReportUtil.getDocumentFromFile(tempFile));
+            Document reportDocument = ReportUtil.getDocumentFromFile(tempFile);
+            ReportType reportType = ReportUtil.checkDocumentType(reportDocument);
             if (reportType == ReportType.UNKNOWN) {
                 return new ResponseEntity(new ErrorMsg("Unknown report!"), HttpStatus.BAD_REQUEST);
             }
             newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
 
             // Get company and team;
-            uploadFileToDB(tempFile, reportType, team);
+            uploadFileToDB(reportDocument, reportType, team);
 
             if (!tempFile.delete()) {
                 logger.error("Temp file couldn't be deleted");
@@ -140,8 +141,7 @@ public class UploadFileController {
         return false;
     }
 
-    private void uploadFileToDB(File uploadFile, ReportType reportType, Team team) throws ParserConfigurationException, SAXException, IOException {
-        Document document = ReportUtil.getDocumentFromFile(uploadFile);
+    private void uploadFileToDB(Document document, ReportType reportType, Team team) {
         if (document == null) {
             return;
         }
