@@ -16,6 +16,7 @@ import com.xebia.vulnmanager.services.CompanyService;
 import com.xebia.vulnmanager.util.IOUtil;
 import com.xebia.vulnmanager.util.ReportType;
 import com.xebia.vulnmanager.util.ReportUtil;
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,10 +113,13 @@ public class UploadFileController {
             return new ResponseEntity(new ErrorMsg("Parser configuration exception wit the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (SAXException e) {
             logger.error(e.getMessage());
-            logger.error(e.getCause().getMessage());
             return new ResponseEntity(new ErrorMsg("SAX basic exception with the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NullPointerException e) {
+            logger.error("Null pointer exception was thrown");
             return new ResponseEntity(new ErrorMsg("An null pointer exception was thrown"), HttpStatus.BAD_REQUEST);
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(new ErrorMsg("A JSON exception was thrown with message:" + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity(new ErrorMsg("Successfully uploaded - " + newFileName), HttpStatus.OK);
