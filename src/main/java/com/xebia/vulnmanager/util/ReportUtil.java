@@ -39,6 +39,7 @@ import java.util.Iterator;
 
 public class ReportUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger("ReportUtil");
+    private static final String OWASP_ZAP_REPORT_LITERAL = "OWASPZAPReport";
 
     /**
      * This function parses a File to a Document, the document could be parsed
@@ -118,10 +119,8 @@ public class ReportUtil {
         String xml = XML.toString(jsonObject);
         StringBuilder stringBuilder = new StringBuilder();
 
-        if (openXmlRoot.equals("OWASPZAPReport")) {
-            // In Json you can have @, but in xml it is not possible with the tag, so we change it to a normal tag
-            xml = xml.replaceAll("<@", "<");
-            xml = xml.replaceAll("</@", "</");
+        if (openXmlRoot.equals(OWASP_ZAP_REPORT_LITERAL)) {
+            xml = improveXmlWithTagChanging(xml);
 
             openXmlRoot = getZapXmlOpenRootTag(xml, openXmlRoot);
             // We can remove the individual version and generated tags, because they are now in the root tag
@@ -129,11 +128,8 @@ public class ReportUtil {
             xml = removeXmlTagFromXml(xml, "generated");
 
             xml = setSiteXmlTag(xml);
-            // The site details are now in the site xml tag, so we can remove the individual tags
-            xml = removeXmlTagFromXml(xml, "name");
-            xml = removeXmlTagFromXml(xml, "ssl");
-            xml = removeXmlTagFromXml(xml, "port");
-            xml = removeXmlTagFromXml(xml, "host");
+            // The site details are now in the site xml tag, so we can remove the tags
+            xml = removeSiteTagsFromZapXml(xml);
         }
 
         // Add rootElement to xml string, this does XML toString not add
@@ -143,6 +139,37 @@ public class ReportUtil {
                 .append(xml)
                 .append("</").append(closingXmlRoot).append(">")
                 .toString();
+
+        return xml;
+    }
+
+    /**
+     * Because json is changed to xml, there are some tags not correct or missing.
+     * With this function we improve the tags of the xml.
+     *
+     * @param xml xml where the tags are change from
+     * @return Improved xml
+     */
+    private static String improveXmlWithTagChanging(String xml) {
+        // In Json you can have @, but in xml it is not possible with the tag, so we change it to a normal tag
+        xml = xml.replaceAll("<@", "<");
+        xml = xml.replaceAll("</@", "</");
+
+        // The name alerts is given to items, so we change the name of each instance to alertitem
+        xml = xml.replaceAll("<alerts>", "<alertitem>");
+        xml = xml.replaceAll("</alerts>", "</alertitem>");
+
+        // Because we turned Json to XML we do not have a list so we add a alerts tag
+        xml = xml.replaceAll("<site><alertitem>", "<site><alerts><alertitem>");
+        xml = xml.replaceAll("</alertitem><name>", "</alertitem></alerts><name>");
+
+        // In the XML there are instances for each item while it needs to be singular
+        xml = xml.replaceAll("<instances>", "<instance>");
+        xml = xml.replaceAll("</instances>", "</instance>");
+
+        // Add a list tag to the possible list of instances
+        xml = xml.replaceAll("</riskdesc><instance>", "</riskdesc><instances><instance>");
+        xml = xml.replaceAll("</instance><pluginid>", "</instance></instances><pluginid>");
 
         return xml;
     }
@@ -187,7 +214,7 @@ public class ReportUtil {
         isOwaspZapReport = isZapReport(jsonKeys);
 
         if (isOwaspZapReport) {
-            return "OWASPZAPReport";
+            return OWASP_ZAP_REPORT_LITERAL;
         }
 
         return null;
@@ -262,6 +289,16 @@ public class ReportUtil {
         return xml.substring(xml.indexOf(openingTag) + alertsClosingTag.length(), xml.indexOf(closingTag) + closingTag.length());
     }
 
+    /**
+     * Remove the tags that are moved in to the site tag.
+     *
+     * @param xml The xml where we do not need the tags from anymore.
+     * @return The xml without the site info tags.
+     */
+    private static String removeSiteTagsFromZapXml(String xml) {
+        return xml.replaceFirst("</alerts><name>[\\s\\S]*?</host></site>", "</alerts></site>");
+    }
+
     private static Document stringToDom(String xmlString) throws ParserConfigurationException, IOException, SAXException, NullPointerException {
         DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         InputSource is = new InputSource();
@@ -295,7 +332,7 @@ public class ReportUtil {
             // This function parses the given Document
             NMapParser nMapParser = new NMapParser();
             return nMapParser.getNMapReport(testReportDoc);
-        } else if (currentTypeOfScan.equalsIgnoreCase("OWASPZAPReport")) {
+        } else if (currentTypeOfScan.equalsIgnoreCase(OWASP_ZAP_REPORT_LITERAL)) {
             // This function parses the given Document
             ZapParser zapParser = new ZapParser();
             return zapParser.getZapReport(testReportDoc);
@@ -324,7 +361,7 @@ public class ReportUtil {
                 return ReportType.OPENVAS;
             } else if (currentTypeOfScan.equalsIgnoreCase("nmaprun")) {
                 return ReportType.NMAP;
-            } else if (currentTypeOfScan.equalsIgnoreCase("OWASPZAPReport")) {
+            } else if (currentTypeOfScan.equalsIgnoreCase(OWASP_ZAP_REPORT_LITERAL)) {
                 return ReportType.ZAP;
             } else if (currentTypeOfScan.equalsIgnoreCase("ClairReport")) {
                 return ReportType.CLAIR;
