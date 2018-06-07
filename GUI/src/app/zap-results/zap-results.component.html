@@ -70,8 +70,8 @@
           <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.solution}}</div>
           <div *ngIf="selectedZap.otherInfo!=null"  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Other info </div>
           <div *ngIf="selectedZap.otherInfo!=null" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedZap.otherInfo}}</div>
-          <div  class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Reference  </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow"><a href="{{selectedZap.reference}}">{{selectedZap.reference}}</a></div>
+          <div *ngIf="selectedZap.reference!=''" class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Reference  </div>
+          <div *ngIf="selectedZap.reference!=''" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow"><a href="{{selectedZap.reference}}">{{selectedZap.reference}}</a></div>
         </div>
       </p-tabPanel>
     </p-tabView>

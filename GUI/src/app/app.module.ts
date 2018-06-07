@@ -19,6 +19,7 @@ import {NmapResultsComponent} from './nmap-results/nmap-results.component';
 import {OpenvasResultsComponent} from './openvas-results/openvas-results.component';
 import {HomePageComponent} from './home-page/home-page.component';
 import {ClairResultsComponent} from './clair-results/clair-results.component';
+import {ZapResultsComponent} from "./zap-results/zap-results.component";
 import {UploadComponent} from './upload/upload.component';
 import {FileUploadModule} from 'primeng/fileupload';
 
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
   {path: 'nmap-results', component: NmapResultsComponent},
   {path: 'openvas-results', component: OpenvasResultsComponent},
   {path: 'clair-results', component: ClairResultsComponent},
+  {path: 'zap-results' , component: ZapResultsComponent},
   {path: 'home', component: HomePageComponent},
   {path: 'upload', component: UploadComponent},
   {
