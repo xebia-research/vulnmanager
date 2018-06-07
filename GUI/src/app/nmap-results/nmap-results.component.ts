@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MenuItem} from "primeng/api";
+import {MenuItem, SelectItem} from "primeng/api";
 
 @Component({
   selector: 'app-nmap-results',
@@ -14,11 +14,23 @@ export class NmapResultsComponent implements OnInit {
   selectedNmapHost: any;
   displayDialog: boolean;
   items: MenuItem[];
+  sortField: string;
+  sortOrder: number;
+
+  // Sort variables
+  sortOptions: SelectItem[];
+  sortKey: string;
+
+
 
   constructor(private http: HttpClient) {
     this.http.get('http://localhost:8080/addtest').subscribe(()=> {
     });
   }
+
+
+
+
   httpGetNmap() {
     const httpOption = {
       headers: new HttpHeaders({
@@ -45,6 +57,14 @@ export class NmapResultsComponent implements OnInit {
         }}
     ];
 
+    // Sort options
+    this.sortOptions = [
+      {label: 'Hosts state (Descending)', value: '!stateDetails.state'},
+      {label: 'Hosts state (Ascending)', value: 'stateDetails.state'},
+      {label: 'Open ports (Descending)', value: '!hostPorts.ports.length'},
+      {label: 'Open ports (Ascending)', value: 'hostPorts.ports.length'}
+    ];
+
   }
   selectNmapHost(event: Event, selectedNmapHost: any) {
     this.selectedNmapHost = selectedNmapHost;
@@ -53,6 +73,18 @@ export class NmapResultsComponent implements OnInit {
   }
   onDialogHide() {
     this.selectedNmapHost = null;
+  }
+
+  onSortChange(event) {
+    let value = event.value;
+
+    if (value.indexOf('!') === 0) {
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
+    } else {
+      this.sortOrder = 1;
+      this.sortField = value;
+    }
   }
 
 }
