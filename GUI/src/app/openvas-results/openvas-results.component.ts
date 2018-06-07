@@ -52,8 +52,10 @@ export class OpenvasResultsComponent implements OnInit {
     ];
     // Sort options
     this.sortOptions = [
-      {label: 'Severity High - Low', value: '!severity'},
-      {label: 'Severity Low - High', value: 'severity'}
+      {label: 'Severity (Descending)', value: '!severity'},
+      {label: 'Severity (Ascending)', value: 'severity'},
+      {label: 'Port (Descending)', value: '!port'},
+      {label: 'Port (Ascending)', value: 'port'}
     ];
   }
 
