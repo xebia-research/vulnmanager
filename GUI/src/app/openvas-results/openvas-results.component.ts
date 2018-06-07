@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {MenuItem} from "primeng/api";
+import {MenuItem, SelectItem} from "primeng/api";
 
 @Component({
   selector: 'app-openvas-results',
@@ -13,6 +13,12 @@ export class OpenvasResultsComponent implements OnInit {
   displayDialog: boolean;
   tags:boolean;
   items: MenuItem[];
+
+  // Sort variables
+  sortOptions: SelectItem[];
+  sortKey: string;
+  sortField: string;
+  sortOrder: number;
 
   constructor(private http: HttpClient) {
     this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
@@ -44,6 +50,11 @@ export class OpenvasResultsComponent implements OnInit {
 
         }}
     ];
+    // Sort options
+    this.sortOptions = [
+      {label: 'Severity High - Low', value: '!severity'},
+      {label: 'Severity Low - High', value: 'severity'}
+    ];
   }
 
   selectOpenvas(event: Event, selectedOpenvas: any) {
@@ -55,5 +66,16 @@ export class OpenvasResultsComponent implements OnInit {
   onDialogHide() {
     this.selectedOpenvas = null;
 
+  }
+  onSortChange(event) {
+    let value = event.value;
+
+    if (value.indexOf('!') === 0) {
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
+    } else {
+      this.sortOrder = 1;
+      this.sortField = value;
+    }
   }
 }
