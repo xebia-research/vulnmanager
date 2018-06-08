@@ -4,17 +4,19 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 @Injectable()
 export class VulnApiService {
 
+  BASE_URL:any =  "http://localhost:8080";
+
   constructor(private http: HttpClient) { }
 
   signup(user, password, companyName) {
 
     let userObj:any = {};
     userObj.username = user;
-    userObj.password = password;
+    userObj.password = password; // reverse with atob
     userObj.companyName = companyName;
 
 
-    return this.http.post('http://localhost:8080/users/sign-up', userObj);
+    return this.http.post(this.BASE_URL + '/users/sign-up', userObj);
   }
 
   login(user, password) {
@@ -23,11 +25,67 @@ export class VulnApiService {
     userObj.password = password;
 
 
-    this.http.post('http://localhost:8080/login', userObj,{ observe: 'response' }).subscribe(result => {
-      console.log(result);
-      console.log(result.headers.has("test"));
-      console.log(result.headers.get("test"));
-    })
+    return this.http.post(this.BASE_URL + '/login', userObj,{ withCredentials: true, observe: 'response' }).subscribe(result => {
+      let auth = result.headers.get("authorization");
+
+      if(auth != null) {
+        localStorage.setItem("user", userObj.username);
+        localStorage.setItem("pass", userObj.password);
+        localStorage.setItem("jwt", auth);
+        return true;
+      }
+    }, error => {
+      return false;
+    });
   }
 
+  addTest() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/addtest", httpOption);
+  }
+
+  getOpenvas(company, team) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/openvas", httpOption);
+  }
+
+  getNmap(company, team) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/nmap", httpOption);
+  }
+
+  getZap(company, team) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/zap", httpOption);
+  }
+
+  getClair(company, team) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/cair", httpOption);
+  }
 }

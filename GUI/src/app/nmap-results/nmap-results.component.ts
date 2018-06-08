@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MenuItem} from "primeng/api";
+import { VulnApiService } from '../services/vuln-api.service';
 
 @Component({
   selector: 'app-nmap-results',
   templateUrl: './nmap-results.component.html',
   styleUrls: ['./nmap-results.component.css'],
+  providers: [VulnApiService]
 })
 export class NmapResultsComponent implements OnInit {
 
@@ -15,9 +17,8 @@ export class NmapResultsComponent implements OnInit {
   displayDialog: boolean;
   items: MenuItem[];
 
-  constructor(private http: HttpClient) {
-    this.http.get('http://localhost:8080/addtest').subscribe(()=> {
-    });
+  constructor(private http: HttpClient, private apiService:VulnApiService) {
+    this.apiService.addTest().subscribe(()=>{});
   }
   httpGetNmap() {
     const httpOption = {
@@ -30,7 +31,7 @@ export class NmapResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpGetNmap().subscribe((data) => {
+    this.apiService.getNmap("xebia", "vulnmanager").subscribe((data) => {
       // data bestaat
       console.log(data) ;
       this.nMapObject = data[0];

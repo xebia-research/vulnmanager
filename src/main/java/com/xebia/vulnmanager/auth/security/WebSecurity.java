@@ -34,12 +34,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.GET, SIGN_UP_URL).permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/login").permitAll();
+                .antMatchers(HttpMethod.OPTIONS, "/login").permitAll()
+                .antMatchers(HttpMethod.PUT, "/login").permitAll();
 
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.OPTIONS, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/login").permitAll()
+                .antMatchers(HttpMethod.PUT, "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))

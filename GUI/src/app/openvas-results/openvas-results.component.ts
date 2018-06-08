@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {MenuItem} from "primeng/api";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { MenuItem } from "primeng/api";
+import { VulnApiService } from '../services/vuln-api.service';
 
 @Component({
   selector: 'app-openvas-results',
   templateUrl: './openvas-results.component.html',
-  styleUrls: ['./openvas-results.component.css']
+  styleUrls: ['./openvas-results.component.css'],
+  providers: [VulnApiService]
 })
 export class OpenvasResultsComponent implements OnInit {
   openVasObject: any ;
@@ -14,23 +16,12 @@ export class OpenvasResultsComponent implements OnInit {
   tags:boolean;
   items: MenuItem[];
 
-  constructor(private http: HttpClient) {
-    this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
+  constructor(private http: HttpClient, private apiService:VulnApiService) {
+    this.apiService.addTest().subscribe(()=>{});
   }
 
-  httpGetOpenVas() {
-    const httpOption = {
-      headers: new HttpHeaders({
-        'auth': 'testauth'
-        //  todo is to implement JWT
-
-      })
-    };
-    console.log(httpOption);
-    return this.http.get('http://localhost:8080/xebia/vulnmanager/openvas', httpOption) ;
-  }
   ngOnInit() {
-    this.httpGetOpenVas().subscribe((data) => {
+    this.apiService.getOpenvas("xebia", "vulnmanager").subscribe((data) => {
       // data bestaat
       console.log(data) ;
       this.openVasObject = data[0];

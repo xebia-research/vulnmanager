@@ -31,14 +31,14 @@ public class UserController {
 
     @RequestMapping(value = "sign-up", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Person> signUp(@RequestBody PersonLogin user) {
+    public ResponseEntity<?> signUp(@RequestBody PersonLogin user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Person person = new Person(user.getUsername(),
                                    user.getPassword(),
                                    companyService.getCompanyByName(user.getCompanyName()));
 
         if (personRepository.findByUsername(person.getUsername()) != null) {
-            new ResponseEntity<>(new ErrorMsg("Username already in use"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorMsg("Username already in use"), HttpStatus.BAD_REQUEST);
         }
         person = personRepository.save(person);
         return new ResponseEntity<>(person, HttpStatus.OK);

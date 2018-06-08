@@ -2,8 +2,10 @@ package com.xebia.vulnmanager.auth.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xebia.vulnmanager.models.company.PersonLogin;
+import com.xebia.vulnmanager.repositories.PersonRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,9 @@ import static com.xebia.vulnmanager.auth.security.SecurityConstants.TOKEN_PREFIX
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private PersonRepository personRepository;
 
     public JWTAuthenticationFilter(final AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -50,14 +55,18 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication auth) {
-        String token = Jwts.builder()
-                .setSubject(((User) auth.getPrincipal()).getUsername())
+        User user = (User) auth.getPrincipal();
+
+        //Person person = personRepository.findByUsername(user.getUsername());
+        //System.out.println("Looking for user: " + user.getUsername());
+        //ObjectMapper mapper = new ObjectMapper();
+        String token = null;
+        token = Jwts.builder()
+                .setSubject(user.getUsername()) //mapper.writeValueAsString(person))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
                 .compact();
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-
-        response.setHeader("test", TOKEN_PREFIX + token);
-
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");
     }
 }
