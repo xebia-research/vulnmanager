@@ -69,7 +69,7 @@ public class TestController {
         }
 
         Company xebiaComp = companyRepository.save(new MockCompanyFactory().getMockCompanies().get(0));
-        report.setTeam(companyRepository.findAll().get(1).findTeamByName("vulnmanager"));
+        report.setTeam(xebiaComp.findTeamByName("vulnmanager"));
         OpenvasReport retReport = openvasRepository.save(report);
 
         List<Comment> testComments = new ArrayList<>();

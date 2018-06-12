@@ -17,6 +17,7 @@ public class PersonLogin implements Serializable {
     private Long id;
 
     public PersonLogin() {
+        // empty ctor
     }
 
     public PersonLogin(final String username, final String password, final String companyName) {

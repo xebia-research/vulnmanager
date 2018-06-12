@@ -1,6 +1,5 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.clair.objects.ClairReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.services.ClairService;
@@ -19,15 +18,11 @@ import java.util.List;
 public class ClairController {
     private final Logger logger = LoggerFactory.getLogger("ClairController");
 
-    private AuthenticationChecker authenticationChecker;
-
     private ClairService clairService;
 
     @Autowired
-    public ClairController(final ClairService clairService,
-                           final AuthenticationChecker authenticationChecker) {
+    public ClairController(final ClairService clairService) {
         this.clairService = clairService;
-        this.authenticationChecker = authenticationChecker;
     }
 
     /**

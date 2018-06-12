@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class VulnApiService {
 
   BASE_URL:any =  "http://localhost:8080";
+  loginSucces:boolean;
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +16,6 @@ export class VulnApiService {
     userObj.password = password; // reverse with atob
     userObj.companyName = companyName;
 
-
     return this.http.post(this.BASE_URL + '/users/sign-up', userObj);
   }
 
@@ -25,18 +25,7 @@ export class VulnApiService {
     userObj.password = password;
 
 
-    return this.http.post(this.BASE_URL + '/login', userObj,{ withCredentials: true, observe: 'response' }).subscribe(result => {
-      let auth = result.headers.get("authorization");
-
-      if(auth != null) {
-        localStorage.setItem("user", userObj.username);
-        localStorage.setItem("pass", userObj.password);
-        localStorage.setItem("jwt", auth);
-        return true;
-      }
-    }, error => {
-      return false;
-    });
+    return this.http.post(this.BASE_URL + '/login', userObj,{ withCredentials: true, observe: 'response' });
   }
 
   addTest() {

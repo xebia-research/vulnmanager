@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
     console.log("SUBMITTING!")
     console.log(this.user);
     this.apiService.login(this.user.username, this.user.password);
+    
   }
 
 }
