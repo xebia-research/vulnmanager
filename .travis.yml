@@ -19,7 +19,7 @@ env:
   - PGPORT=5432
 
 install:
-  - mvn install
+  - mvn install -DskipTests=true
 
 notifications:
   slack: projectsecurityteam2:QKxWTArJnhIpA3OXylSNqTO2
