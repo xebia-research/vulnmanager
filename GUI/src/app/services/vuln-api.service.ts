@@ -88,4 +88,57 @@ export class VulnApiService {
 
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/clair", httpOption);
   }
+
+  getGenericMulti(company, team) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/generic", httpOption);
+  }
+
+  getGenericReport(company, team, id) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + id, httpOption);
+  }
+
+  getGenericResult(company, team, reportid, resultid) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + reportid + "/result/" + resultid, httpOption);
+  }
+
+  postComment(company, team, reportid, resultid, text) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    let comment:any = {};
+    comment.userName = localStorage.getItem("user");
+    comment.content = text;
+
+    return this.http.post(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + reportid + "/result/" + resultid + "/comment", comment, httpOption);
+  }
+
+  postFalsePositive(company, team, reportid, resultid) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+    return this.http.post(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + reportid + "/result/" + resultid + "/falsePositive", {}, httpOption);
+  }
 }

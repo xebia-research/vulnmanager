@@ -3,14 +3,12 @@ package com.xebia.vulnmanager.controller;
 import com.xebia.vulnmanager.models.clair.objects.ClairReport;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
+import com.xebia.vulnmanager.models.generic.GenericReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
-import com.xebia.vulnmanager.repositories.ClairRepository;
-import com.xebia.vulnmanager.repositories.NMapRepository;
-import com.xebia.vulnmanager.repositories.OpenvasRepository;
-import com.xebia.vulnmanager.repositories.OwaspZapRepository;
+import com.xebia.vulnmanager.repositories.*;
 import com.xebia.vulnmanager.services.CompanyService;
 import com.xebia.vulnmanager.util.IOUtil;
 import com.xebia.vulnmanager.util.ReportType;
@@ -49,6 +47,9 @@ public class UploadFileController {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private GenericRepository genericRepository;
 
 
     /**
@@ -147,8 +148,13 @@ public class UploadFileController {
 
             // Save the report
             openvasReport.setTeam(team);
-            openvasRepository.save(openvasReport);
+            openvasReport = openvasRepository.save(openvasReport);
             openvasRepository.flush();
+            for (GenericReport report : openvasReport.getGenericMultiReport().getReports()) {
+                genericRepository.save(report);
+            }
+            genericRepository.flush();
+
         } else if (reportType == ReportType.NMAP) {
             NMapReport nMapReport = ReportUtil.getNMapReportFromObject(parsedDocument);
             if (nMapReport == null) {
@@ -156,8 +162,12 @@ public class UploadFileController {
             }
 
             // Save the report
-            nMapRepository.save(nMapReport);
+            nMapReport = nMapRepository.save(nMapReport);
             nMapRepository.flush();
+            for (GenericReport report : nMapReport.getMultiReport().getReports()) {
+                genericRepository.save(report);
+            }
+            genericRepository.flush();
         } else if (reportType == ReportType.ZAP) {
             ZapReport zapReport = ReportUtil.getZapReportFromObject(parsedDocument);
             if (zapReport == null) {
@@ -165,8 +175,12 @@ public class UploadFileController {
             }
 
             // Save the report
-            zapRepository.save(zapReport);
+            zapReport = zapRepository.save(zapReport);
             zapRepository.flush();
+            for (GenericReport report : zapReport.getGenericReport().getReports()) {
+                genericRepository.save(report);
+            }
+            genericRepository.flush();
         } else if (reportType == ReportType.CLAIR) {
             ClairReport clairReport = ReportUtil.getClairReportFromObject(parsedDocument);
             if (clairReport == null) {
@@ -174,8 +188,12 @@ public class UploadFileController {
             }
 
             // Save the report
-            clairRepository.save(clairReport);
+            clairReport = clairRepository.save(clairReport);
             clairRepository.flush();
+            for (GenericReport report : clairReport.getGenericReport().getReports()) {
+                genericRepository.save(report);
+            }
+            genericRepository.flush();
         }
     }
 }
