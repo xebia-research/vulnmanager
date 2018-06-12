@@ -10,6 +10,5 @@ CMD ["/bin/bash"]
 RUN git clone https://github.com/xebia-research/vulnmanager
 WORKDIR /local/git/vulnmanager
 RUN mvn package -DskipTests=true
-RUN java- jar /local/git/vulnmanager/target/vulnmanager-1.0-SNAPSHOT.jar
 ENTRYPOINT ["java", "-jar", "/local/git/vulnmanager/target/vulnmanager-1.0-SNAPSHOT.jar"]
 
