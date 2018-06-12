@@ -1,6 +1,5 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.clair.objects.ClairReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.services.ClairService;
@@ -17,34 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/{company}/{team}/clair")
 public class ClairController {
-    private static final String IS_AUTHENTICATED_STRING = "isAuthenticated";
-    private static final String AUTH_NOT_CORRECT_STRING = "Auth not correct!";
-
     private final Logger logger = LoggerFactory.getLogger("ClairController");
-
-    private AuthenticationChecker authenticationChecker;
 
     private ClairService clairService;
 
     @Autowired
-    public ClairController(final ClairService clairService,
-                           final AuthenticationChecker authenticationChecker) {
+    public ClairController(final ClairService clairService) {
         this.clairService = clairService;
-        this.authenticationChecker = authenticationChecker;
-    }
-
-    /**
-     * This function is called before other functions, so if for example getReport is called it first runs the init function
-     *
-     * @param authKey     Key of the user
-     * @param companyName Name of the company of the user
-     * @param teamName    Name of the team of the user
-     * @return returns boolean, true if the company, team and authentication are correct
-     */
-    @ModelAttribute(IS_AUTHENTICATED_STRING)
-    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "testauth") String authKey,
-                                   @PathVariable("company") String companyName, @PathVariable("team") String teamName) {
-        return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
     }
 
     /**
@@ -55,11 +33,7 @@ public class ClairController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllZapReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> getAllZapReports() throws IOException {
         List<ClairReport> reportList = clairService.getAllReports();
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }
@@ -71,11 +45,7 @@ public class ClairController {
      */
     @RequestMapping(value = "{reportId}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReportById(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> getReportById(@PathVariable("reportId") long reportId) {
         ClairReport report = clairService.getReportById(reportId);
         if (report != null) {
             return new ResponseEntity<>(report, HttpStatus.OK);

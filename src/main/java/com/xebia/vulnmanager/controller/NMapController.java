@@ -1,6 +1,5 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.Host;
@@ -23,30 +22,17 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/{company}/{team}/nmap")
 public class NMapController {
-    private static final String IS_AUTHENTICATED_LITERAL = "isAuthenticated";
-    private static final String AUTH_NOT_CORRECT_LITERAL = "Auth not correct!";
     private static final String REPORT_NOT_FOUND_LITERAL = "Nmap report not found";
     private static final String REPORT_ID_LITERAL = "reportId";
 
     private final Logger logger = LoggerFactory.getLogger("NMapController");
 
     private NmapService nmapService;
-    private AuthenticationChecker authenticationChecker;
 
     @Autowired
-    public NMapController(final NmapService nmapService,
-                          final AuthenticationChecker authenticationChecker) {
+    public NMapController(final NmapService nmapService) {
         this.nmapService = nmapService;
-        this.authenticationChecker = authenticationChecker;
     }
-
-    @ModelAttribute(IS_AUTHENTICATED_LITERAL)
-    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
-                                   @PathVariable("company") String companyName,
-                                   @PathVariable("team") String teamName) {
-        return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
-    }
-
     /**
      * Get all the added reports
      *
@@ -54,10 +40,7 @@ public class NMapController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllNMapReports(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated) {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<?> getAllNMapReports() {
 
         List<NMapReport> reportList = nmapService.getAllReports();
         if (reportList.isEmpty()) {
@@ -74,10 +57,7 @@ public class NMapController {
      */
     @RequestMapping(value = "/{reportId}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getNMapReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) {
-        if (!isAuthenticated) {
-            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<?> getNMapReport(@PathVariable(REPORT_ID_LITERAL) long reportId) {
 
         Optional<NMapReport> report = nmapService.getReportById(reportId);
         if (report.isPresent()) {
@@ -95,10 +75,7 @@ public class NMapController {
      */
     @RequestMapping(value = "/{reportId}/hosts", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllHostsOfReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) {
-        if (!isAuthenticated) {
-            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<?> getAllHostsOfReport(@PathVariable(REPORT_ID_LITERAL) long reportId) {
 
         Optional<NMapReport> report = nmapService.getReportById(reportId);
         if (report.isPresent()) {
@@ -117,11 +94,8 @@ public class NMapController {
      */
     @RequestMapping(value = "/{reportId}/hosts/{hostId}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getHostOfReport(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId,
+    ResponseEntity<?> getHostOfReport(@PathVariable(REPORT_ID_LITERAL) long reportId,
                                       @PathVariable("hostId") long hostId) {
-        if (!isAuthenticated) {
-            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
-        }
 
         Optional<NMapReport> report = nmapService.getReportById(reportId);
         if (report.isPresent()) {
@@ -152,10 +126,7 @@ public class NMapController {
      */
     @RequestMapping(value = "/{reportId}/scanData", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getScanData(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated, @PathVariable(REPORT_ID_LITERAL) long reportId) {
-        if (!isAuthenticated) {
-            return new ResponseEntity<>(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<?> getScanData(@PathVariable(REPORT_ID_LITERAL) long reportId) {
 
         Optional<NMapReport> report = nmapService.getReportById(reportId);
 
@@ -176,10 +147,7 @@ public class NMapController {
      */
     @RequestMapping(value = "generic", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getGenericReports(@ModelAttribute(IS_AUTHENTICATED_LITERAL) boolean isAuthenticated) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_LITERAL), HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<?> getGenericReports() throws IOException {
 
         GenericMultiReport reportList = nmapService.getAllReportsAsGeneric();
 

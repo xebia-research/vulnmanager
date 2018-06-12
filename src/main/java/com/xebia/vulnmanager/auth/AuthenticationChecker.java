@@ -63,7 +63,7 @@ public class AuthenticationChecker {
         List<Company> companies = companyRepository.findAll();
         for (Company comp : companies) {
             for (Person empl : comp.getEmployees()) {
-                if (empl.getName().equalsIgnoreCase(userName)) {
+                if (empl.getUsername().equalsIgnoreCase(userName)) {
                     return empl;
                 }
             }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {MenuItem, SelectItem} from "primeng/api";
+import {VulnApiService} from "../services/vuln-api.service";
 
 @Component({
   selector: 'app-clair-results',
@@ -22,13 +23,12 @@ export class ClairResultsComponent implements OnInit {
   sortOrder: number;
 
 
-  constructor(private http: HttpClient) {
-    this.http.get('http://localhost:8080/addtest').subscribe(() => {
-    });
+  constructor(private http: HttpClient, private apiService:VulnApiService) {
+    this.apiService.addTest();
   }
 
   ngOnInit() {
-    this.httpGetClair().subscribe((data) => {
+    this.apiService.getClair("xebia", "vulnmanager").subscribe((data) => {
       // Add severity number so we can sort on this
       data[0].vulnerabilities.forEach(function (vulnerability) {
         let severityNumber = ClairResultsComponent.getSeverityNumber(vulnerability.severity);

@@ -146,7 +146,6 @@ public class ReportUtil {
                 .append(xml)
                 .append("</").append(closingXmlRoot).append(">")
                 .toString();
-        LOGGER.error(xml);
 
 
         return xml;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {MenuItem} from "primeng/api";
+import {VulnApiService} from "../services/vuln-api.service";
 
 @Component({
   selector: 'app-zap-results',
@@ -13,23 +14,13 @@ export class ZapResultsComponent implements OnInit {
   displayDialog: boolean;
   items: MenuItem[];
 
-  constructor(private http: HttpClient) {
-    this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
+  constructor(private http: HttpClient, private apiService:VulnApiService) {
+    this.apiService.addTest().subscribe(()=>{});
 
   }
-  httpGetZap() {
-    const httpOption = {
-      headers: new HttpHeaders({
-        'auth': 'testauth'
-        //  todo is to implement JWT
 
-      })
-    };
-    console.log(httpOption);
-    return this.http.get('http://localhost:8080/xebia/vulnmanager/zap', httpOption) ;
-  }
   ngOnInit() {
-    this.httpGetZap().subscribe((data) => {
+    this.apiService.getZap("xebia", "vulnmanager").subscribe((data) => {
       // data bestaat
       console.log(data) ;
       this.zapObject = data[0];
