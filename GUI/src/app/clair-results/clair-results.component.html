@@ -32,7 +32,7 @@
             <div class="ui-g-3 ui-sm-6"><b>Cve: </b></div>
             <div class="ui-g-9 ui-sm-6 ">{{vulnerability.genericResult.cve}}</div>
             <div class="ui-g-3 ui-sm-6"><b>Severity: </b></div>
-            <div class="ui-g-9 ui-sm-6 ">{{vulnerability.genericResult.thread}}</div>
+            <div class="ui-g-9 ui-sm-6 ">{{vulnerability.genericResult.severity}}</div>
           </div>
         </div>
         <div class="ui-g-12 ui-md-1 search-icon">
@@ -59,7 +59,7 @@
           <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.description}}</div>
 
           <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Severity:</div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.thread}}</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.severity}}</div>
 
           <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Thread:</div>
           <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.cve}}</div>
