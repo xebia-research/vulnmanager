@@ -127,9 +127,16 @@ public class ReportUtil {
             xml = removeXmlTagFromXml(xml, "version");
             xml = removeXmlTagFromXml(xml, "generated");
 
-            xml = setSiteXmlTag(xml);
-            // The site details are now in the site xml tag, so we can remove the tags
-            xml = removeSiteTagsFromZapXml(xml);
+            while (true) {
+                String siteXml = setSiteXmlTag(xml);
+                if (siteXml == null) {
+                    break;
+                }
+
+                xml = siteXml;
+                // The site details are now in the site xml tag, so we can remove the tags
+                xml = removeSiteTagsFromZapXml(xml);
+            }
         }
 
         // Add rootElement to xml string, this does XML toString not add
@@ -139,6 +146,8 @@ public class ReportUtil {
                 .append(xml)
                 .append("</").append(closingXmlRoot).append(">")
                 .toString();
+        LOGGER.error(xml);
+
 
         return xml;
     }
@@ -186,6 +195,10 @@ public class ReportUtil {
     private static String setSiteXmlTag(String xml) {
         // Get the individual site information, because we want to add this to the site tag
         String siteInfo = getSiteInformationXmlFromReportXml(xml);
+        if (siteInfo == null) {
+            return null;
+        }
+
         String name = getDataFromXmlTag(siteInfo, "name");
         String ssl = getDataFromXmlTag(siteInfo, "ssl");
         String port = getDataFromXmlTag(siteInfo, "port");
@@ -275,7 +288,7 @@ public class ReportUtil {
      * @return The xml without the delete tag
      */
     private static String removeXmlTagFromXml(String xml, String tag) {
-        return xml.replaceAll("<" + tag + ">[\\s\\S]*?</" + tag + ">", "");
+        return xml.replaceFirst("<" + tag + ">[\\s\\S]*?</" + tag + ">", "");
     }
 
     private static String getSiteInformationXmlFromReportXml(String xml) {
@@ -283,10 +296,18 @@ public class ReportUtil {
         String nameOpeningTag = "<name>";
 
         String openingTag = alertsClosingTag + nameOpeningTag;
+        int openingTagIndex = xml.indexOf(openingTag);
+
         String closingTag = "</host>";
+        int closingTagIndex = xml.indexOf(closingTag);
+
+        if (openingTagIndex < 0 || closingTagIndex < 0) {
+            return null;
+        }
+
         // We need to add the length of the alerts closing tag to the beginning index because we do not need this tag.
-        // We need to add the length of the closing tag to the end, beause we need the host closing tag.
-        return xml.substring(xml.indexOf(openingTag) + alertsClosingTag.length(), xml.indexOf(closingTag) + closingTag.length());
+        // We need to add the length of the closing tag to the end, because we need the host closing tag.
+        return xml.substring(openingTagIndex + alertsClosingTag.length(), closingTagIndex + closingTag.length());
     }
 
     /**
