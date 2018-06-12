@@ -28,9 +28,6 @@ export class NmapResultsComponent implements OnInit {
     });
   }
 
-
-
-
   httpGetNmap() {
     const httpOption = {
       headers: new HttpHeaders({
@@ -86,5 +83,4 @@ export class NmapResultsComponent implements OnInit {
       this.sortField = value;
     }
   }
-
 }
