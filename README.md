@@ -4,19 +4,30 @@
 
 #### This is a vulnerability manager with an authenticated API to manage vulnerability reports in a webGUI.
 
-__We currently plan to support the following programs:__ 
+__We currently support the following scanning tools:__ 
  * [x] Nmap
  * [x] OpenVAS
- * OWASP ZAP
- * Clair
+ * [x] OWASP ZAP
+ * [x] Clair
+ 
+#### Report formats 
+The vulnmanager parser currently supports the following report formats per scan tool:
+
+ | Scanning Tool | Report Format | 
+ | ------------- | ------------- |
+ | Clair | JSON |
+ | OpenVAS | XML |
+ | ZAP | XML & JSON |
+ | Nmap | XML |
+
 
 ## Dependencies:
  * Docker
  * Npm 5+
  * nodeJS 8+
  * Postgresql 10
- * Maven (This will download the rest of the dependencies with __mvn install__)
-
+ * Maven (Maven can download the rest of the dependencies with __mvn install__)
+ * AngularCLI
 ## Installation:
 Everything is run in docker, for your convenience ! :whale:
 

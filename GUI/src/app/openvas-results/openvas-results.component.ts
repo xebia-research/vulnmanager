@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { MenuItem } from "primeng/api";
 import { VulnApiService } from '../services/vuln-api.service';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {MenuItem, SelectItem} from "primeng/api";
 
 @Component({
   selector: 'app-openvas-results',
@@ -16,8 +16,15 @@ export class OpenvasResultsComponent implements OnInit {
   tags:boolean;
   items: MenuItem[];
 
+  sortOptions: SelectItem[];
+  sortKey: string;
+  sortField: string;
+  sortOrder: number;
+
   constructor(private http: HttpClient, private apiService:VulnApiService) {
     this.apiService.addTest().subscribe(()=>{});
+  // Sort variables
+    this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
   }
 
   ngOnInit() {
@@ -35,6 +42,13 @@ export class OpenvasResultsComponent implements OnInit {
 
         }}
     ];
+    // Sort options
+    this.sortOptions = [
+      {label: 'Severity (Descending)', value: '!severity'},
+      {label: 'Severity (Ascending)', value: 'severity'},
+      {label: 'Port (Descending)', value: '!port'},
+      {label: 'Port (Ascending)', value: 'port'}
+    ];
   }
 
   selectOpenvas(event: Event, selectedOpenvas: any) {
@@ -46,5 +60,16 @@ export class OpenvasResultsComponent implements OnInit {
   onDialogHide() {
     this.selectedOpenvas = null;
 
+  }
+  onSortChange(event) {
+    let value = event.value;
+
+    if (value.indexOf('!') === 0) {
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
+    } else {
+      this.sortOrder = 1;
+      this.sortField = value;
+    }
   }
 }

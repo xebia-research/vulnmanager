@@ -15,6 +15,7 @@ import com.xebia.vulnmanager.services.CompanyService;
 import com.xebia.vulnmanager.util.IOUtil;
 import com.xebia.vulnmanager.util.ReportType;
 import com.xebia.vulnmanager.util.ReportUtil;
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
@@ -83,20 +86,34 @@ public class UploadFileController {
             logger.info("File succesfully uploaded");
 
             // Success check uploaded file
-            ReportType reportType = ReportUtil.checkDocumentType(ReportUtil.getDocumentFromFile(tempFile));
+            Document reportDocument = ReportUtil.getDocumentFromFile(tempFile);
+            ReportType reportType = ReportUtil.checkDocumentType(reportDocument);
             if (reportType == ReportType.UNKNOWN) {
                 return new ResponseEntity(new ErrorMsg("Unknown report!"), HttpStatus.BAD_REQUEST);
             }
             newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
 
             // Get company and team;
-            uploadFileToDB(tempFile, reportType, team);
+            uploadFileToDB(reportDocument, reportType, team);
 
             if (!tempFile.delete()) {
                 logger.error("Temp file couldn't be deleted");
             }
         } catch (IOException ex) {
+            logger.error(ex.getMessage());
             return new ResponseEntity(new ErrorMsg("IOException with msg: " + ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ParserConfigurationException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(new ErrorMsg("Parser configuration exception wit the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (SAXException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(new ErrorMsg("SAX basic exception with the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (NullPointerException e) {
+            logger.error("Null pointer exception was thrown");
+            return new ResponseEntity(new ErrorMsg("An null pointer exception was thrown"), HttpStatus.BAD_REQUEST);
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(new ErrorMsg("A JSON exception was thrown with message:" + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity(new ErrorMsg("Successfully uploaded - " + newFileName), HttpStatus.OK);
@@ -117,8 +134,10 @@ public class UploadFileController {
         return false;
     }
 
-    private void uploadFileToDB(File uploadFile, ReportType reportType, Team team) {
-        Document document = ReportUtil.getDocumentFromFile(uploadFile);
+    private void uploadFileToDB(Document document, ReportType reportType, Team team) {
+        if (document == null) {
+            return;
+        }
         Object parsedDocument = ReportUtil.parseDocument(document);
         if (reportType == ReportType.OPENVAS) {
             OpenvasReport openvasReport = ReportUtil.getOpenvasReportFromObject(parsedDocument);

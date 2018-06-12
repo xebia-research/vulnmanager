@@ -1,9 +1,17 @@
-<h1>Results</h1>
+<h1>Results  of {{nMapObject.scanData.nMapInfo.scanDateTime | date:'HH:mm:ss @ dd/MM/yyyy'}}</h1>
 <div >
-  <p-dataView class="toggle-container" #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]">
-    <p-header>
-      <b>Nmap results of {{nMapObject.scanData.nMapInfo.scanDateTime | date:'HH:mm:ss @ dd/MM/yyyy'}} </b>
+  <p-dataView class="toggle-container" #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
+              [sortField]="sortField" [sortOrder]="sortOrder"
+              filterBy="addressDetails.address">
+             <p-header>
+      <b>Nmap results with arguments: </b> {{nMapObject.scanData.nMapInfo.calledArgument}} (Nmap version: {{nMapObject.scanData.nMapInfo.nMapVersion}})
       <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
+     <p></p>
+
+      <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                  (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
+                  [ngStyle]="{'float': 'right'}"></p-dropdown>
+      <input type="search" pInputText placeholder="Search by ip" (keyup)="dv.filter($event.target.value)"/>
 
     </p-header>
     <ng-template let-host pTemplate="listItem">
@@ -29,7 +37,7 @@
     </ng-template>
   </p-dataView>
 
-  <p-dialog width="600" appendTo="body" header="Nmap host Detail as of {{nMapObject.scanData.nMapInfo.scanDateTime | date: 'HH:mm:ss @ dd/MM/yyyy'}}" [(visible)]="displayDialog" [responsive]="false" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+  <p-dialog width="600" appendTo="body" header="Nmap host detail as of {{nMapObject.scanData.nMapInfo.scanDateTime | date: 'HH:mm:ss @ dd/MM/yyyy'}}" [(visible)]="displayDialog" [responsive]="false" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedNmapHost">
       <div class="ui-g-12" >
         <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">IP Address: </div>
