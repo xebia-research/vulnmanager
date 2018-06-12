@@ -10,12 +10,10 @@ services:
     container_name: "vulnmanager_docker"
   db:
     image: postgres
-    volumes:
-      - ./sql_init/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - 3306:3306
+      - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: changeme
-      POSTGRES_DB: VulnDB
+      POSTGRES_DB: vulnmanager
     container_name: "vulnmanager_postgres_docker"
