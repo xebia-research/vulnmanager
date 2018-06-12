@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile
     ports:
         - 9090:8080
-    container_name: "vulnmanager_app_docker"
+    container_name: "vulnmanager_backend_docker"
     links:
       - db:database
 
