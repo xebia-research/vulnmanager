@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {VulnApiService} from "../services/vuln-api.service";
 
 @Component({
   selector: 'app-nav-bar',
@@ -6,11 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  visibleSidebar1:boolean;
+  visibleSidebar1: boolean;
 
-  constructor() { }
+  constructor(private apiService: VulnApiService) {
+  }
 
   ngOnInit() {
-    }
+  }
+
+  runAddTest() {
+    this.apiService.addTest().subscribe(() => {
+      alert("The example logs are added, reloading page");
+      window.location.reload();
+    });
+  }
 
 }

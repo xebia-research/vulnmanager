@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import { VulnApiService } from '../services/vuln-api.service';
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {VulnApiService} from '../services/vuln-api.service';
 import {MenuItem, SelectItem} from "primeng/api";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-nmap-results',
@@ -23,26 +23,32 @@ export class NmapResultsComponent implements OnInit {
   sortOptions: SelectItem[];
   sortKey: string;
 
-
-
-  constructor(private http: HttpClient, private apiService:VulnApiService) {
-    this.apiService.addTest().subscribe(()=>{});
+  constructor(private http: HttpClient, private apiService: VulnApiService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.apiService.getNmap("xebia", "vulnmanager").subscribe((data) => {
-      // data bestaat
-      console.log(data) ;
-      this.nMapObject = data[0];
+    this.route.params.subscribe(params => {
+      let reportId = params['id']; // (+) converts string 'id' to a number
+
+      if (parseInt(reportId, 10)) {
+        this.apiService.getNmapReport("xebia", "vulnmanager", reportId).subscribe((nmapObject) => {
+          this.nMapObject = nmapObject;
+        });
+      }
     });
+
     // Dropdown for option button in p-header
     this.items = [
-      {label: 'View scan info', icon: 'fa-eye', command: () => {
+      {
+        label: 'View scan info', icon: 'fa-eye', command: () => {
 
-        }},
-      {label: 'Delete', icon: 'fa-close', command: () => {
+        }
+      },
+      {
+        label: 'Delete', icon: 'fa-close', command: () => {
 
-        }}
+        }
+      }
     ];
 
     // Sort options
@@ -54,11 +60,13 @@ export class NmapResultsComponent implements OnInit {
     ];
 
   }
+
   selectNmapHost(event: Event, selectedNmapHost: any) {
     this.selectedNmapHost = selectedNmapHost;
     this.displayDialog = true;
     event.preventDefault();
   }
+
   onDialogHide() {
     this.selectedNmapHost = null;
   }
