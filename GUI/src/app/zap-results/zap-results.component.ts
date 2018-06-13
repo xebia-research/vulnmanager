@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {MenuItem, SelectItem} from "primeng/api";
 import {VulnApiService} from "../services/vuln-api.service";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-zap-results',
@@ -22,29 +23,29 @@ export class ZapResultsComponent implements OnInit {
   sortField: string;
   sortOrder: number;
 
-  constructor(private http: HttpClient, private apiService: VulnApiService) {
-    this.apiService.addTest().subscribe(() => {
-    });
-
+  constructor(private http: HttpClient, private apiService: VulnApiService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.apiService.getZap("xebia", "vulnmanager").subscribe((data) => {
-      // data bestaat
-      console.log(data);
-      let scannedSites = data[0].scannedSitesInformation;
+    this.route.params.subscribe(params => {
+      let reportId = params['id']; // (+) converts string 'id' to a number
 
-      this.currentSiteInformation = scannedSites[0];
-      this.zapObject = data[0];
-      this.setItems(scannedSites);
+      if (parseInt(reportId, 10)) {
+        this.apiService.getReportZap("xebia", "vulnmanager", reportId).subscribe((zapObject) => {
+          this.zapObject = zapObject;
+          let scannedSites = this.zapObject.scannedSitesInformation;
 
-      // Sort options
-      this.sortOptions = [
-        {label: 'Severity High - Low', value: '!riskCode'},
-        {label: 'Severity Low - High', value: 'riskCode'}
-      ];
+          this.currentSiteInformation = scannedSites[0];
+          this.setItems(scannedSites);
+
+          // Sort options
+          this.sortOptions = [
+            {label: 'Severity High - Low', value: '!riskCode'},
+            {label: 'Severity Low - High', value: 'riskCode'}
+          ];
+        });
+      }
     });
-
   }
 
   setItems(scannedSiteInformation: any) {
@@ -85,4 +86,3 @@ export class ZapResultsComponent implements OnInit {
     }
   }
 }
-

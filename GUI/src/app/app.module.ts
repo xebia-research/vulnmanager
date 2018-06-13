@@ -25,14 +25,22 @@ import {ClairResultsComponent} from './clair-results/clair-results.component';
 import {ZapResultsComponent} from "./zap-results/zap-results.component";
 import {UploadComponent} from './upload/upload.component';
 import {FileUploadModule} from 'primeng/fileupload';
+import { OpenvasSelectReportComponent } from './openvas-select-report/openvas-select-report.component';
+import { NmapSelectReportComponent } from './nmap-select-report/nmap-select-report.component';
+import { ZapSelectReportComponent } from './zap-select-report/zap-select-report.component';
+import { ClairSelectReportComponent } from './clair-select-report/clair-select-report.component';
 
 
 const appRoutes: Routes = [
 
-  {path: 'nmap-results', component: NmapResultsComponent},
-  {path: 'openvas-results', component: OpenvasResultsComponent},
-  {path: 'clair-results', component: ClairResultsComponent},
-  {path: 'zap-results' , component: ZapResultsComponent},
+  {path: 'nmap-result/:id', component: NmapResultsComponent},
+  {path: 'nmap-select-report', component: NmapSelectReportComponent},
+  {path: 'openvas-result/:id', component: OpenvasResultsComponent},
+  {path: 'openvas-select-report', component: OpenvasSelectReportComponent},
+  {path: 'clair-result/:id', component: ClairResultsComponent},
+  {path: 'clair-select-report', component: ClairSelectReportComponent},
+  {path: 'zap-result/:id' , component: ZapResultsComponent},
+  {path: 'zap-select-report' , component: ZapSelectReportComponent},
   {path: 'home', component: HomePageComponent},
   {path: 'upload', component: UploadComponent},
   {path: 'login', component: LoginComponent },
@@ -54,7 +62,11 @@ const appRoutes: Routes = [
     LoginComponent,
     ZapResultsComponent,
     ClairResultsComponent,
-    UploadComponent
+    UploadComponent,
+    OpenvasSelectReportComponent,
+    NmapSelectReportComponent,
+    ZapSelectReportComponent,
+    ClairSelectReportComponent
   ],
   imports: [
     BrowserModule,
