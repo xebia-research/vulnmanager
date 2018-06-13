@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-        - 9090:8080
+        - 8080:8080
     container_name: "vulnmanager_backend"
     links:
           - db:database
