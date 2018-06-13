@@ -2,7 +2,7 @@
 <div >
   <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
               [sortField]="sortField" [sortOrder]="sortOrder"
-              filterBy="addressDetails.address">
+              filterBy="reportType">
     <p-header>
       <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
       <p></p>
@@ -10,7 +10,7 @@
       <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
                   (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
                   [ngStyle]="{'float': 'right'}"></p-dropdown>
-      <input type="search" pInputText placeholder="Search by ip" (keyup)="dv.filter($event.target.value)"/>
+      <input type="search" pInputText placeholder="Filter by scan type" (keyup)="dv.filter($event.target.value)"/>
 
     </p-header>
     <ng-template let-report pTemplate="listItem">
@@ -69,7 +69,7 @@ url
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-genericResult>
-            <tr>
+            <tr ngClass="genericrow">
               <td>{{genericResult.name}}</td>
               <td colspan="4">{{genericResult.description}}</td>
               <td>{{genericResult.severity}} / {{genericResult.cve}}</td>
@@ -78,17 +78,22 @@ url
               <td>{{genericResult.knownSolution}}</td>
               <td><input type="checkbox" (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)" [checked]="genericResult.falsePositive" binary="true"></td>
             </tr>
-            <tr colspan="10">Comments</tr>
-            <tr *ngIf="genericResult.comments.length > 0">
-              <td colspan="10">
-                <p-card *ngFor="let comment of genericResult.comments.reverse()">
-                  <p-header>
-                    User: {{comment.user.username}}
-                  </p-header>
-                  Posted: {{comment.content}}
-                </p-card>
-              </td>
-            </tr>
+            <td colspan="10">
+              <p-table [value]="genericResult.comments.reverse()" [scrollable]="true" scrollHeight="200px">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th colspan="1">User</th>
+                    <th colspan="9">Message</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-comment>
+                  <tr>
+                    <td colspan="1">{{comment.user.username}}</td>
+                    <td colspan="9">{{comment.content}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </td>
             <tr>
               <td colspan="10">
                 <p-card>

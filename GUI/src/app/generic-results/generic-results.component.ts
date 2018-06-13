@@ -48,8 +48,8 @@ export class GenericResultsComponent implements OnInit {
 
     // Sort options
     this.sortOptions = [
-      {label: 'Hosts state (Descending)', value: '!stateDetails.state'},
-      {label: 'Hosts state (Ascending)', value: 'stateDetails.state'},
+      {label: 'Result amount (Descending)', value: '!genericReports.genericResults.length'},
+      {label: 'Result amount (Ascending)', value: '!genericReports.genericResults.length'},
       {label: 'Open ports (Descending)', value: '!hostPorts.ports.length'},
       {label: 'Open ports (Ascending)', value: 'hostPorts.ports.length'}
     ];
