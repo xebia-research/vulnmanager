@@ -6,16 +6,29 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-        - 9090:8080
-    container_name: "vulnmanager_docker"
+        - 8080:8080
+    container_name: "vulnmanager_backend"
+    links:
+          - db:database
+
   db:
     image: postgres
-    volumes:
-      - ./sql_init/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - 3306:3306
+      - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: changeme
-      POSTGRES_DB: VulnDB
+      POSTGRES_DB: vulnmanager
     container_name: "vulnmanager_postgres_docker"
+
+  vulngui:
+      build: ./GUI
+      build:
+        context: ./GUI/
+        dockerfile: Dockerfile
+      ports:
+        - 4200:4200
+        - 4242:80
+      container_name: "vulnmanager_GUI"
+      links:
+        - vulnmanager:backend

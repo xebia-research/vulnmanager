@@ -138,6 +138,7 @@ public class CommentController {
             Person p = authenticationChecker.checkIfUserExists(comment.getUserName());
 
             if (p != null) {
+                p.setPassword("");
                 created.setUser(p);
                 reportList.get().addComment(created);
                 commentService.saveComments(reportList.get().getReport());
@@ -161,10 +162,24 @@ public class CommentController {
     ResponseEntity<?> postFalsePositive(@PathVariable("id") Long id,
                                   @PathVariable(RESULT_ID) Long resultid) throws IOException {
 
-        Optional<GenericResult> reportList = genericReportService.getReportByGenericId(id, resultid);
-        if (reportList.isPresent()) {
-            reportList.get().setFalsePositive(!reportList.get().isFalsePositive());
-            return new ResponseEntity<>(genericReportService.saveComment(reportList.get().getReport()), HttpStatus.OK);
+        Optional<GenericReport> optResult = genericReportService.getReportByGenericId(id);
+        if (optResult.isPresent()) {
+            GenericReport report = optResult.get();
+            List<GenericResult> results = report.getGenericResults();
+
+            GenericResult result = null;
+
+            for (GenericResult res : results) {
+
+                if (res.getId().equals(resultid)) {
+                    res.setFalsePositive(!res.isFalsePositive());
+                    result = res;
+                    break;
+                }
+            }
+            report.setGenericResults(results);
+            genericReportService.getGenRepository().save(report);
+            return new ResponseEntity<>(result, HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.OK);

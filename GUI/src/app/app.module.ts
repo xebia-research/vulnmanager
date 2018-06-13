@@ -7,6 +7,7 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import {TableModule} from 'primeng/table';
 import {DataViewModule} from 'primeng/dataview';
 import {DialogModule} from 'primeng/dialog';
+import {CardModule} from "primeng/card";
 import {HttpClientModule} from '@angular/common/http';
 import {PaginatorModule} from 'primeng/paginator';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -25,6 +26,8 @@ import {ClairResultsComponent} from './clair-results/clair-results.component';
 import {ZapResultsComponent} from "./zap-results/zap-results.component";
 import {UploadComponent} from './upload/upload.component';
 import {FileUploadModule} from 'primeng/fileupload';
+import { GenericResultsComponent } from './generic-results/generic-results.component';
+import {CheckboxModule} from 'primeng/checkbox';
 import { OpenvasSelectReportComponent } from './openvas-select-report/openvas-select-report.component';
 import { NmapSelectReportComponent } from './nmap-select-report/nmap-select-report.component';
 import { ZapSelectReportComponent } from './zap-select-report/zap-select-report.component';
@@ -41,6 +44,7 @@ const appRoutes: Routes = [
   {path: 'clair-select-report', component: ClairSelectReportComponent},
   {path: 'zap-result/:id' , component: ZapResultsComponent},
   {path: 'zap-select-report' , component: ZapSelectReportComponent},
+  {path: 'generic-results' , component: GenericResultsComponent},
   {path: 'home', component: HomePageComponent},
   {path: 'upload', component: UploadComponent},
   {path: 'login', component: LoginComponent },
@@ -63,6 +67,7 @@ const appRoutes: Routes = [
     ZapResultsComponent,
     ClairResultsComponent,
     UploadComponent,
+    GenericResultsComponent,
     OpenvasSelectReportComponent,
     NmapSelectReportComponent,
     ZapSelectReportComponent,
@@ -83,6 +88,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     SidebarModule,
     FileUploadModule,
+    CardModule,
+    CheckboxModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: false} // <-- debugging purposes only

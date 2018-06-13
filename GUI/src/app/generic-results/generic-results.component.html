@@ -1,0 +1,112 @@
+<h1>All generic results</h1>
+<div >
+  <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
+              [sortField]="sortField" [sortOrder]="sortOrder"
+              filterBy="scanType">
+    <p-header>
+      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
+      <p></p>
+
+      <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                  (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
+                  [ngStyle]="{'float': 'right'}"></p-dropdown>
+      <input type="search" pInputText placeholder="Filter by scantype" (keyup)="dv.filter($event.target.value)"/>
+
+    </p-header>
+    <ng-template let-report pTemplate="listItem">
+      <div class="ui-g" style="padding: .5em;border-bottom: 1px solid #d9d9d9">
+        <div class="ui-g-12 ui-md-8 result-details">
+          <div class="ui-g">
+            <div class="ui-g-3 ui-sm-6"><b>Report Type: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{report.reportType}}</div>
+            <div class="ui-g-3 ui-sm-6"><b>Results </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{report.genericResults.length}}</div>
+
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-1 search-icon">
+          <button pButton type="button" icon="fa-search" (click)="selectNmapHost($event, report)"></button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template let-car pTemplate="gridItem">
+      <div style="padding:.5em" class="ui-g-12 ui-md-3">
+      </div>
+    </ng-template>
+  </p-dataView>
+
+  <p-dialog width="600" appendTo="body" header="Header" [(visible)]="displayDialog" [responsive]="false" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedReport">
+      <div class="ui-g-12" >
+        <!--
+
+        comments[{…}]
+cve
+description
+falsePositive
+id
+info
+knownSolution
+name
+port
+severity
+type
+url
+
+
+        -->
+
+        <p-table [value]="selectedReport.genericResults" [scrollable]="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>name</th>
+              <th colspan="4">description</th>
+              <th>cve / severity</th>
+              <th>info</th>
+              <th>port</th>
+              <th>known solution</th>
+              <th>false positive</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-genericResult>
+            <tr>
+              <td>{{genericResult.name}}</td>
+              <td colspan="4">{{genericResult.description}}</td>
+              <td>{{genericResult.severity}} / {{genericResult.cve}}</td>
+              <td>{{genericResult.info}}</td>
+              <td>{{genericResult.port}}</td>
+              <td>{{genericResult.knownSolution}}</td>
+              <td><input type="checkbox" (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)" [checked]="genericResult.falsePositive" binary="true"></td>
+            </tr>
+            <tr colspan="10">Comments</tr>
+            <tr *ngIf="genericResult.comments.length > 0">
+              <td colspan="10">
+                <p-card *ngFor="let comment of genericResult.comments.reverse()">
+                  <p-header>
+                    User: {{comment.user.username}}
+                  </p-header>
+                  Posted: {{comment.content}}
+                </p-card>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="10">
+                <p-card>
+                  <p-header>
+                    New Comment
+                  </p-header>
+                  <form #f="ngForm" novalidate>
+                    <input name="text" ngModel required #first="ngModel">
+                    <button (click)="formSubmit(f, selectedReport.id, genericResult.id)">Submit</button>
+                  </form>
+                </p-card>
+              </td>
+            </tr>
+
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-dialog>
+
+</div>
