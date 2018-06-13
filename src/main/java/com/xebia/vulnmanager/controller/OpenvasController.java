@@ -1,6 +1,5 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
@@ -21,32 +20,17 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping(value = "/{company}/{team}/openvas")
 public class OpenvasController {
-    private static final String IS_AUTHENTICATED_STRING = "isAuthenticated";
-    private static final String AUTH_NOT_CORRECT_STRING = "Auth not correct!";
-
     private final Logger logger = LoggerFactory.getLogger("OpenvasController");
 
     private OpenvasResultRepository openvasResultRepository;
-
-    private AuthenticationChecker authenticationChecker;
 
     private OpenvasService openvasService;
 
     @Autowired
     public OpenvasController(final OpenvasService openvasService,
-                             final AuthenticationChecker authenticationChecker,
                              final OpenvasResultRepository openvasResultRepository) {
         this.openvasService = openvasService;
-        this.authenticationChecker = authenticationChecker;
         this.openvasResultRepository = openvasResultRepository;
-    }
-
-    // This function is called before other functions, so if for example getReport is called it first runs the init function
-    @ModelAttribute(IS_AUTHENTICATED_STRING)
-    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
-                                   @PathVariable("company") String companyName,
-                                   @PathVariable("team") String teamName) {
-        return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
     }
 
     /**
@@ -57,10 +41,7 @@ public class OpenvasController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<?> getReports() throws IOException {
 
         List<OpenvasReport> reportList = openvasService.getAllReports();
 
@@ -75,11 +56,7 @@ public class OpenvasController {
      */
     @RequestMapping(value = "generic", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getGenericReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> getGenericReports() throws IOException {
         GenericMultiReport reportList = openvasService.getAllReportsAsGeneric();
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
@@ -93,11 +70,7 @@ public class OpenvasController {
      */
     @RequestMapping(value = "{reportId}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReportById(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportId") long reportId) {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> getReportById(@PathVariable("reportId") long reportId) {
         OpenvasReport report = openvasService.getReportById(reportId);
         if (report != null) {
             return new ResponseEntity<>(report, HttpStatus.OK);
@@ -115,11 +88,7 @@ public class OpenvasController {
      */
     @RequestMapping(value = "{reportid}/result", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllResultFromReport(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated, @PathVariable("reportid") long reportId) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> getAllResultFromReport(@PathVariable("reportid") long reportId) throws IOException {
         OpenvasReport report = openvasService.getReportById(reportId);
         if (report != null) {
             return new ResponseEntity<>(report.getResults(), HttpStatus.OK);
@@ -139,12 +108,8 @@ public class OpenvasController {
      */
     @RequestMapping(value = "{reportid}/result/{id}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getResult(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
-                                @PathVariable("id") long id,
+    ResponseEntity<?> getResult(@PathVariable("id") long id,
                                 @PathVariable("reportid") long reportId) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
 
         OvResult result = openvasService.getFromRaportByIdResultById(reportId, id);
 
@@ -164,12 +129,8 @@ public class OpenvasController {
      */
     @RequestMapping(value = "{reportid}/result/{id}/toggle", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> updateResult(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
-                                   @PathVariable("id") long id,
+    ResponseEntity<?> updateResult(@PathVariable("id") long id,
                                    @PathVariable("reportid") long reportId) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
 
         if (openvasResultRepository.findById(id).isPresent()) {
             OvResult result = openvasResultRepository.findById(id).get();

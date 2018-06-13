@@ -4,6 +4,7 @@ import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Person;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.repositories.CompanyRepository;
+import com.xebia.vulnmanager.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,9 @@ public class AuthenticationChecker {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
 
     /**
      * Check if a company exists and if the auth key is right
@@ -60,13 +64,11 @@ public class AuthenticationChecker {
     }
 
     public Person checkIfUserExists(String userName) {
-        List<Company> companies = companyRepository.findAll();
-        for (Company comp : companies) {
-            for (Person empl : comp.getEmployees()) {
-                if (empl.getName().equalsIgnoreCase(userName)) {
+        List<Person> persons = personRepository.findAll();
+            for (Person empl : persons) {
+                if (empl.getUsername().equalsIgnoreCase(userName)) {
                     return empl;
                 }
-            }
         }
         return null;
     }
