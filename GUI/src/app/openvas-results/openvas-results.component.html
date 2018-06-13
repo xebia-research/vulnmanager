@@ -5,7 +5,7 @@
     <p-header>
       <b>OpenVAS results of {{openVasObject.timeDone | date :'HH:mm:ss @ dd/MM/yyyy'}}</b>
 
-      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" (onClick)="options()" [model]="items" styleClass="ui-button-info"></p-splitButton>
+      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
 
     </p-header>
     <ng-template let-result pTemplate="listItem">
