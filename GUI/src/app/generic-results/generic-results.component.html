@@ -2,7 +2,7 @@
 <div >
   <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
               [sortField]="sortField" [sortOrder]="sortOrder"
-              filterBy="addressDetails.address">
+              filterBy="reportType">
     <p-header>
       <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
       <p></p>
@@ -10,7 +10,7 @@
       <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
                   (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
                   [ngStyle]="{'float': 'right'}"></p-dropdown>
-      <input type="search" pInputText placeholder="Search by ip" (keyup)="dv.filter($event.target.value)"/>
+      <input type="search" pInputText placeholder="Filter by scan type" (keyup)="dv.filter($event.target.value)"/>
 
     </p-header>
     <ng-template let-report pTemplate="listItem">
