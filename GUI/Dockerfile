@@ -11,7 +11,7 @@ RUN git clone -b docker-maven https://github.com/xebia-research/vulnmanager.git
 
 
 # We label our stage as ‘builder’
-FROM node:8.1.4-alpine as builder
+FROM node:8.9-alpine as builder
 
 COPY --from=cloner /git/vulnmanager/GUI ./
 
