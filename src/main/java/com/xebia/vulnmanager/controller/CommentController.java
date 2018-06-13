@@ -56,11 +56,7 @@ public class CommentController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReports(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> getReports() throws IOException {
         List<GenericReport> reportList = genericReportService.getAllReports();
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
@@ -74,11 +70,7 @@ public class CommentController {
      */
     @RequestMapping(value = "report/{id}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReportById(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
-                                    @PathVariable("id") Long id) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<?> getReportById(@PathVariable("id") Long id) throws IOException {
 
         Optional<GenericReport> reportList = genericReportService.getReportByGenericId(id);
         if (reportList.isPresent()) {
@@ -96,12 +88,8 @@ public class CommentController {
      */
     @RequestMapping(value = "/report/{id}/result/{resultid}", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getResultById(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
-                                    @PathVariable("id") Long id,
+    ResponseEntity<?> getResultById(@PathVariable("id") Long id,
                                     @PathVariable(RESULT_ID) Long resultid) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
 
         Optional<GenericResult> reportList = genericReportService.getReportByGenericId(id, resultid);
         if (reportList.isPresent()) {
@@ -119,12 +107,8 @@ public class CommentController {
      */
     @RequestMapping(value = "/report/{id}/result/{resultid}/comment", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getCommentsById(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
-                                    @PathVariable("id") Long id,
+    ResponseEntity<?> getCommentsById(@PathVariable("id") Long id,
                                     @PathVariable(RESULT_ID) Long resultid) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
 
         Optional<GenericResult> reportList = genericReportService.getReportByGenericId(id, resultid);
         if (reportList.isPresent()) {
@@ -142,14 +126,9 @@ public class CommentController {
      */
     @RequestMapping(value = "/report/{id}/result/{resultid}/comment", method = RequestMethod.POST)
     @ResponseBody
-    ResponseEntity<?> postComment(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
-                                      @PathVariable("id") Long id,
+    ResponseEntity<?> postComment(@PathVariable("id") Long id,
                                       @PathVariable(RESULT_ID) Long resultid,
                                       @RequestBody CommentRequest comment) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
-
         Optional<GenericResult> reportList = genericReportService.getReportByGenericId(id, resultid);
         if (reportList.isPresent()) {
             Comment created = new Comment();
@@ -159,6 +138,7 @@ public class CommentController {
             Person p = authenticationChecker.checkIfUserExists(comment.getUserName());
 
             if (p != null) {
+                p.setPassword("");
                 created.setUser(p);
                 reportList.get().addComment(created);
                 commentService.saveComments(reportList.get().getReport());
@@ -179,29 +159,30 @@ public class CommentController {
      */
     @RequestMapping(value = "/report/{id}/result/{resultid}/falsePositive", method = RequestMethod.POST)
     @ResponseBody
-    ResponseEntity<?> postFalsePositive(@ModelAttribute(IS_AUTHENTICATED_STRING) boolean isAuthenticated,
-                                  @PathVariable("id") Long id,
+    ResponseEntity<?> postFalsePositive(@PathVariable("id") Long id,
                                   @PathVariable(RESULT_ID) Long resultid) throws IOException {
-        if (!isAuthenticated) {
-            return new ResponseEntity(new ErrorMsg(AUTH_NOT_CORRECT_STRING), HttpStatus.BAD_REQUEST);
-        }
 
-        Optional<GenericResult> reportList = genericReportService.getReportByGenericId(id, resultid);
-        if (reportList.isPresent()) {
-            reportList.get().setFalsePositive(!reportList.get().isFalsePositive());
-            return new ResponseEntity<>(genericReportService.saveComment(reportList.get().getReport()), HttpStatus.OK);
+        Optional<GenericReport> optResult = genericReportService.getReportByGenericId(id);
+        if (optResult.isPresent()) {
+            GenericReport report = optResult.get();
+            List<GenericResult> results = report.getGenericResults();
+
+            GenericResult result = null;
+
+            for (GenericResult res : results) {
+
+                if (res.getId().equals(resultid)) {
+                    res.setFalsePositive(!res.isFalsePositive());
+                    result = res;
+                    break;
+                }
+            }
+            report.setGenericResults(results);
+            genericReportService.getGenRepository().save(report);
+            return new ResponseEntity<>(result, HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>(new ErrorMsg("Result not found"), HttpStatus.OK);
         }
     }
-
-    // This function is called before other functions, so if for example getReport is called it first runs the init function
-    @ModelAttribute(IS_AUTHENTICATED_STRING)
-    boolean setAuthenticateBoolean(@RequestHeader(value = "auth", defaultValue = "nope") String authKey,
-                                   @PathVariable("company") String companyName,
-                                   @PathVariable("team") String teamName) {
-        return authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName);
-    }
-
 }

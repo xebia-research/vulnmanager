@@ -110,7 +110,7 @@ buildNumber.properties
 
 # End of https://www.gitignore.io/api/java,maven,intellij
 
-.idea/.name
+.idea/.username
 /.idea/inspectionProfiles/
 .idea/*
 globalReports/dependency-check-report.html

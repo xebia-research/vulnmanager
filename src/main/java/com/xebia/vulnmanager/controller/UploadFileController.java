@@ -1,21 +1,19 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.auth.AuthenticationChecker;
 import com.xebia.vulnmanager.models.clair.objects.ClairReport;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
+import com.xebia.vulnmanager.models.generic.GenericReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
-import com.xebia.vulnmanager.repositories.ClairRepository;
-import com.xebia.vulnmanager.repositories.NMapRepository;
-import com.xebia.vulnmanager.repositories.OpenvasRepository;
-import com.xebia.vulnmanager.repositories.OwaspZapRepository;
+import com.xebia.vulnmanager.repositories.*;
 import com.xebia.vulnmanager.services.CompanyService;
 import com.xebia.vulnmanager.util.IOUtil;
 import com.xebia.vulnmanager.util.ReportType;
 import com.xebia.vulnmanager.util.ReportUtil;
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +49,8 @@ public class UploadFileController {
     private CompanyService companyService;
 
     @Autowired
-    private AuthenticationChecker authenticationChecker;
+    private GenericRepository genericRepository;
+
 
     /**
      * Upload a report to the server.
@@ -62,12 +61,8 @@ public class UploadFileController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadFile,
-                                 @RequestHeader(value = "auth", defaultValue = "testauth") String authKey,
                                  @PathVariable("company") String companyName,
                                  @PathVariable("team") String teamName) {
-        if (!authenticationChecker.checkTeamAndCompany(companyName, authKey, teamName)) {
-            return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
-        }
 
         // Shouldn't return null because the authenticationChecker als checks for null.
         Company comp = companyService.getCompanyByName(companyName);
@@ -92,14 +87,15 @@ public class UploadFileController {
             logger.info("File succesfully uploaded");
 
             // Success check uploaded file
-            ReportType reportType = ReportUtil.checkDocumentType(ReportUtil.getDocumentFromFile(tempFile));
+            Document reportDocument = ReportUtil.getDocumentFromFile(tempFile);
+            ReportType reportType = ReportUtil.checkDocumentType(reportDocument);
             if (reportType == ReportType.UNKNOWN) {
                 return new ResponseEntity(new ErrorMsg("Unknown report!"), HttpStatus.BAD_REQUEST);
             }
             newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
 
             // Get company and team;
-            uploadFileToDB(tempFile, reportType, team);
+            uploadFileToDB(reportDocument, reportType, team);
 
             if (!tempFile.delete()) {
                 logger.error("Temp file couldn't be deleted");
@@ -112,10 +108,13 @@ public class UploadFileController {
             return new ResponseEntity(new ErrorMsg("Parser configuration exception wit the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (SAXException e) {
             logger.error(e.getMessage());
-            logger.error(e.getCause().getMessage());
             return new ResponseEntity(new ErrorMsg("SAX basic exception with the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NullPointerException e) {
+            logger.error("Null pointer exception was thrown");
             return new ResponseEntity(new ErrorMsg("An null pointer exception was thrown"), HttpStatus.BAD_REQUEST);
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity(new ErrorMsg("A JSON exception was thrown with message:" + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity(new ErrorMsg("Successfully uploaded - " + newFileName), HttpStatus.OK);
@@ -136,8 +135,7 @@ public class UploadFileController {
         return false;
     }
 
-    private void uploadFileToDB(File uploadFile, ReportType reportType, Team team) throws ParserConfigurationException, SAXException, IOException {
-        Document document = ReportUtil.getDocumentFromFile(uploadFile);
+    private void uploadFileToDB(Document document, ReportType reportType, Team team) {
         if (document == null) {
             return;
         }
@@ -150,8 +148,13 @@ public class UploadFileController {
 
             // Save the report
             openvasReport.setTeam(team);
-            openvasRepository.save(openvasReport);
+            openvasReport = openvasRepository.save(openvasReport);
             openvasRepository.flush();
+            for (GenericReport report : openvasReport.getGenericMultiReport().getReports()) {
+                genericRepository.save(report);
+            }
+            genericRepository.flush();
+
         } else if (reportType == ReportType.NMAP) {
             NMapReport nMapReport = ReportUtil.getNMapReportFromObject(parsedDocument);
             if (nMapReport == null) {
@@ -159,8 +162,12 @@ public class UploadFileController {
             }
 
             // Save the report
-            nMapRepository.save(nMapReport);
+            nMapReport = nMapRepository.save(nMapReport);
             nMapRepository.flush();
+            for (GenericReport report : nMapReport.getMultiReport().getReports()) {
+                genericRepository.save(report);
+            }
+            genericRepository.flush();
         } else if (reportType == ReportType.ZAP) {
             ZapReport zapReport = ReportUtil.getZapReportFromObject(parsedDocument);
             if (zapReport == null) {
@@ -168,8 +175,12 @@ public class UploadFileController {
             }
 
             // Save the report
-            zapRepository.save(zapReport);
+            zapReport = zapRepository.save(zapReport);
             zapRepository.flush();
+            for (GenericReport report : zapReport.getGenericReport().getReports()) {
+                genericRepository.save(report);
+            }
+            genericRepository.flush();
         } else if (reportType == ReportType.CLAIR) {
             ClairReport clairReport = ReportUtil.getClairReportFromObject(parsedDocument);
             if (clairReport == null) {
@@ -177,8 +188,12 @@ public class UploadFileController {
             }
 
             // Save the report
-            clairRepository.save(clairReport);
+            clairReport = clairRepository.save(clairReport);
             clairRepository.flush();
+            for (GenericReport report : clairReport.getGenericReport().getReports()) {
+                genericRepository.save(report);
+            }
+            genericRepository.flush();
         }
     }
 }

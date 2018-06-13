@@ -1,5 +1,5 @@
 
-Lists of 82 third-party dependencies.
+Lists of 88 third-party dependencies.
      (BSD License) AntLR Parser Generator (antlr:antlr:2.7.7 - http://www.antlr.org/)
      (Eclipse Public License - v 1.0) (GNU Lesser General Public License) Logback Classic Module (ch.qos.logback:logback-classic:1.2.3 - http://logback.qos.ch/logback-classic)
      (Eclipse Public License - v 1.0) (GNU Lesser General Public License) Logback Core Module (ch.qos.logback:logback-core:1.2.3 - http://logback.qos.ch/logback-core)
@@ -19,7 +19,9 @@ Lists of 82 third-party dependencies.
      (The Apache Software License, Version 2.0) HikariCP (com.zaxxer:HikariCP:2.7.8 - https://github.com/brettwooldridge/HikariCP)
      (Apache License, Version 2.0) Apache Commons IO (commons-io:commons-io:2.6 - http://commons.apache.org/proper/commons-io/)
      (Unknown license) dom4j (dom4j:dom4j:1.6.1 - http://dom4j.org)
+     (Apache License, Version 2.0) JSON Web Token support for the JVM (io.jsonwebtoken:jjwt:0.9.0 - http://nexus.sonatype.org/oss-repository-hosting.html/jjwt)
      (CDDL + GPLv2 with classpath exception) javax.annotation API (javax.annotation:javax.annotation-api:1.3.2 - http://jcp.org/en/jsr/detail?id=250)
+     (Unknown license) persistence-api (javax.persistence:persistence-api:1.0.2 - no url defined)
      (CDDL + GPLv2 with classpath exception) javax.transaction API (javax.transaction:javax.transaction-api:1.2 - http://jta-spec.java.net)
      (Apache License 2.0) Bean Validation API (javax.validation:validation-api:2.0.1.Final - http://beanvalidation.org)
      (Eclipse Public License 1.0) JUnit (junit:junit:4.12 - http://junit.org)
@@ -80,5 +82,9 @@ Lists of 82 third-party dependencies.
      (Apache License, Version 2.0) Spring Boot Test Auto-Configure (org.springframework.boot:spring-boot-test-autoconfigure:2.0.0.RELEASE - https://projects.spring.io/spring-boot/#/spring-boot-parent/spring-boot-test-autoconfigure)
      (Apache License, Version 2.0) Spring Data Core (org.springframework.data:spring-data-commons:2.0.5.RELEASE - http://www.spring.io/spring-data/spring-data-commons)
      (Apache License, Version 2.0) Spring Data JPA (org.springframework.data:spring-data-jpa:2.0.5.RELEASE - http://projects.spring.io/spring-data-jpa)
+     (The Apache Software License, Version 2.0) spring-security-config (org.springframework.security:spring-security-config:5.0.3.RELEASE - http://spring.io/spring-security)
+     (The Apache Software License, Version 2.0) spring-security-core (org.springframework.security:spring-security-core:5.0.3.RELEASE - http://spring.io/spring-security)
+     (The Apache Software License, Version 2.0) spring-security-crypto (org.springframework.security:spring-security-crypto:5.0.3.RELEASE - http://spring.io/spring-security)
+     (The Apache Software License, Version 2.0) spring-security-web (org.springframework.security:spring-security-web:5.0.3.RELEASE - http://spring.io/spring-security)
      (The Apache Software License, Version 2.0) org.xmlunit:xmlunit-core (org.xmlunit:xmlunit-core:2.5.1 - http://www.xmlunit.org/)
      (Apache License, Version 2.0) SnakeYAML (org.yaml:snakeyaml:1.19 - http://www.snakeyaml.org)

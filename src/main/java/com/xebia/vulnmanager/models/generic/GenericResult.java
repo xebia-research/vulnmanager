@@ -38,7 +38,7 @@ public class GenericResult implements Serializable {
     @Column(columnDefinition = TEXTCOLDEF)
     private String cve;
     @Column(columnDefinition = TEXTCOLDEF)
-    private String thread;
+    private String severity;
     @Column(columnDefinition = TEXTCOLDEF)
     private String port;
     @Column(columnDefinition = TEXTCOLDEF)
@@ -96,12 +96,12 @@ public class GenericResult implements Serializable {
         this.cve = cve;
     }
 
-    public String getThread() {
-        return thread;
+    public String getSeverity() {
+        return severity;
     }
 
-    public void setThread(String thread) {
-        this.thread = thread;
+    public void setSeverity(String severity) {
+        this.severity = severity;
     }
 
     public String getPort() {

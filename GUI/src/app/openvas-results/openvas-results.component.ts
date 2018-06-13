@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { VulnApiService } from '../services/vuln-api.service';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {MenuItem} from "primeng/api";
+import {MenuItem, SelectItem} from "primeng/api";
 
 @Component({
   selector: 'app-openvas-results',
   templateUrl: './openvas-results.component.html',
-  styleUrls: ['./openvas-results.component.css']
+  styleUrls: ['./openvas-results.component.css'],
+  providers: [VulnApiService]
 })
 export class OpenvasResultsComponent implements OnInit {
   openVasObject: any ;
@@ -14,23 +16,19 @@ export class OpenvasResultsComponent implements OnInit {
   tags:boolean;
   items: MenuItem[];
 
-  constructor(private http: HttpClient) {
+  sortOptions: SelectItem[];
+  sortKey: string;
+  sortField: string;
+  sortOrder: number;
+
+  constructor(private http: HttpClient, private apiService:VulnApiService) {
+    this.apiService.addTest().subscribe(()=>{});
+  // Sort variables
     this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
   }
 
-  httpGetOpenVas() {
-    const httpOption = {
-      headers: new HttpHeaders({
-        'auth': 'testauth'
-        //  todo is to implement JWT
-
-      })
-    };
-    console.log(httpOption);
-    return this.http.get('http://localhost:8080/xebia/vulnmanager/openvas', httpOption) ;
-  }
   ngOnInit() {
-    this.httpGetOpenVas().subscribe((data) => {
+    this.apiService.getOpenvas("xebia", "vulnmanager").subscribe((data) => {
       // data bestaat
       console.log(data) ;
       this.openVasObject = data[0];
@@ -44,6 +42,13 @@ export class OpenvasResultsComponent implements OnInit {
 
         }}
     ];
+    // Sort options
+    this.sortOptions = [
+      {label: 'Severity (Descending)', value: '!severity'},
+      {label: 'Severity (Ascending)', value: 'severity'},
+      {label: 'Port (Descending)', value: '!port'},
+      {label: 'Port (Ascending)', value: 'port'}
+    ];
   }
 
   selectOpenvas(event: Event, selectedOpenvas: any) {
@@ -55,5 +60,16 @@ export class OpenvasResultsComponent implements OnInit {
   onDialogHide() {
     this.selectedOpenvas = null;
 
+  }
+  onSortChange(event) {
+    let value = event.value;
+
+    if (value.indexOf('!') === 0) {
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
+    } else {
+      this.sortOrder = 1;
+      this.sortField = value;
+    }
   }
 }
