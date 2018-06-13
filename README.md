@@ -22,10 +22,10 @@ The vulnmanager parser currently supports the following report formats per scan 
 
 
 ## Dependencies:
- ##### Production
+ #### Production
  * Docker
 
-##### Development
+#### Development
  * Npm 5+
  * nodeJS 8+
  * Postgresql 10
@@ -37,11 +37,8 @@ Everything is run in docker, for your convenience ! :whale:
 
 1. git clone this repo
 2. run '__docker-compose build__' and wait(!) for it to finish
-3. run '__docker-compose up__'
+3. run '__docker-compose up -d__'
 
 ## Usage
 
 - After running docker-compose, you can reach the GUI at __localhost:4242__
-
-
-
