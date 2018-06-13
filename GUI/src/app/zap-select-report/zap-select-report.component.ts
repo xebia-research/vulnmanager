@@ -12,8 +12,6 @@ export class ZapSelectReportComponent implements OnInit {
   zapObjects: any;
 
   constructor(private http: HttpClient, private apiService: VulnApiService) {
-    this.apiService.addTest().subscribe(() => {
-    });
   }
 
   ngOnInit() {

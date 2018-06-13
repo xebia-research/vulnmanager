@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { VulnApiService } from '../services/vuln-api.service';
+import {Component, OnInit} from '@angular/core';
+import {VulnApiService} from '../services/vuln-api.service';
 import {HttpClient} from "@angular/common/http";
 
 
@@ -12,14 +12,13 @@ export class OpenvasSelectReportComponent implements OnInit {
 
   openVasObjects: any;
 
-  constructor(private http: HttpClient, private apiService:VulnApiService) {
-    this.apiService.addTest().subscribe(()=>{});
+  constructor(private http: HttpClient, private apiService: VulnApiService) {
   }
 
   ngOnInit() {
     this.apiService.getOpenvas("xebia", "vulnmanager").subscribe((data) => {
       // data bestaat
-      console.log(data) ;
+      console.log(data);
       this.openVasObjects = data;
     });
   }

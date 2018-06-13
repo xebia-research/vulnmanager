@@ -12,8 +12,6 @@ export class ClairSelectReportComponent implements OnInit {
   clairObjects: any;
 
   constructor(private http: HttpClient, private apiService: VulnApiService) {
-    this.apiService.addTest().subscribe(() => {
-    });
   }
 
   ngOnInit() {

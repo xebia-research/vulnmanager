@@ -12,8 +12,6 @@ export class NmapSelectReportComponent implements OnInit {
   nmapObjects: any;
 
   constructor(private http: HttpClient, private apiService: VulnApiService) {
-    this.apiService.addTest().subscribe(() => {
-    });
   }
 
   ngOnInit() {
