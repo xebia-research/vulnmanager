@@ -44,6 +44,7 @@ const appRoutes: Routes = [
   {path: 'clair-select-report', component: ClairSelectReportComponent},
   {path: 'zap-result/:id' , component: ZapResultsComponent},
   {path: 'zap-select-report' , component: ZapSelectReportComponent},
+  {path: 'generic-results' , component: GenericResultsComponent},
   {path: 'home', component: HomePageComponent},
   {path: 'upload', component: UploadComponent},
   {path: 'login', component: LoginComponent },

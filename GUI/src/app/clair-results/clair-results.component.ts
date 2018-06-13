@@ -64,17 +64,6 @@ export class ClairResultsComponent implements OnInit {
     ];
   }
 
-  httpGetClair() {
-    const httpOption = {
-      headers: new HttpHeaders({
-        'auth': 'testauth'
-        //  todo is to implement JWT
-
-      })
-    };
-    return this.http.get('http://localhost:8080/xebia/vulnmanager/clair', httpOption);
-  }
-
   static getSeverityNumber = function (priority) {
     return priority === 'Defcon1' ? 7
       : priority === 'Critical' ? 6
