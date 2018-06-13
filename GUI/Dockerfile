@@ -8,31 +8,29 @@ RUN apk --update add git openssh && \
     rm /var/cache/apk/*
 
 RUN git clone -b docker-maven https://github.com/xebia-research/vulnmanager.git
-RUN ls -lah
-RUN pwd
-## STAGE 1: Build
 
-FROM node:8.11-alpine as node-angular-cli
 
-RUN apk update \
-  && apk add --update alpine-sdk \
-  && apk del alpine-sdk \
-  && rm -rf /tmp/* /var/cache/apk/* *.tar.gz ~/.npm \
-  && npm cache verify \
-  && sed -i -e "s/bin\/ash/bin\/sh/" /etc/passwd
-#Angular CLI
-RUN npm install -g @angular/cli
-RUN mkdir -p /git/
-COPY --from=cloner /git/vulnmanager/ /git/
-WORKDIR /git/vulnmanager/GUI/
-RUN pwd && ls -lah
-RUN npm install
-RUN npm i npm@latest -g
+# We label our stage as ‘builder’
+FROM node:8.1.4-alpine as builder
+
+COPY --from=cloner /git/vulnmanager/GUI ./
+
+## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
+RUN npm i && mkdir /ng-app && cp -R ./node_modules ./ng-app
+
+WORKDIR /ng-app
+
+COPY . .
+
+## Build the angular app in production mode and store the artifacts in dist folder
+RUN npm i -g @angular/cli
+RUN npm install rxjs@6 rxjs-compat@6
 RUN ng build --prod
-RUN pwd && ls -lah
-### STAGE 1: Setup ###
 
-FROM nginx:1.13.3-alpine as webserver
+
+### STAGE 2: Setup ###
+
+FROM nginx:1.13.3-alpine
 
 ## Copy our default nginx config
 COPY nginx/default.conf /etc/nginx/conf.d/
@@ -40,7 +38,9 @@ COPY nginx/default.conf /etc/nginx/conf.d/
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
 
-## From 'builder' stage copy over the artifacts in dist folder to default nginx public folder
-COPY --from=builder /git/vulnmanager/GUI/dist /usr/share/nginx/html
+## From ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
+COPY --from=builder /ng-app/dist /usr/share/nginx/html
 
 CMD ["nginx", "-g", "daemon off;"]
+
+

@@ -25,6 +25,7 @@
     "font-awesome": "^4.7.0",
     "primeng": "^5.2.4",
     "rxjs": "^6.2.1",
+    "rxjs-compat": "^6.2.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
