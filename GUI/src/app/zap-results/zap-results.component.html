@@ -7,7 +7,7 @@
     <p-header>
       <b>ZAP results of {{zapObject.dateGenerated | date :'HH:mm:ss @ dd/MM/yyyy'}}</b>
 
-      <p-splitButton [ngStyle]="{'float': 'right'}" label="Select site" icon="fa-info" [model]="items"
+      <p-splitButton [ngStyle]="{'float': 'right'}" label="{{currentSiteInformation.name}}" icon="fa-info" [model]="items"
                      styleClass="ui-button-info"></p-splitButton>
 
       <p></p>

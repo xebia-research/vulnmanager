@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {MenuItem, SelectItem} from "primeng/api";
 import {VulnApiService} from "../services/vuln-api.service";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-clair-results',
@@ -23,19 +24,23 @@ export class ClairResultsComponent implements OnInit {
   sortOrder: number;
 
 
-  constructor(private http: HttpClient, private apiService:VulnApiService) {
-    this.apiService.addTest();
+  constructor(private http: HttpClient, private apiService: VulnApiService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.apiService.getClair("xebia", "vulnmanager").subscribe((data) => {
-      // Add severity number so we can sort on this
-      data[0].vulnerabilities.forEach(function (vulnerability) {
-        let severityNumber = ClairResultsComponent.getSeverityNumber(vulnerability.severity);
-        vulnerability.severityNumber = severityNumber;
-      });
+    this.route.params.subscribe(params => {
+      let reportId = params['id']; // (+) converts string 'id' to a number
 
-      this.clairObject = data[0];
+      if (parseInt(reportId, 10)) {
+        this.apiService.getReportClair("xebia", "vulnmanager", reportId).subscribe((clairObject) => {
+          this.clairObject = clairObject;
+          // Add severity number so we can sort on this
+          this.clairObject.vulnerabilities.forEach(function (vulnerability) {
+            let severityNumber = ClairResultsComponent.getSeverityNumber(vulnerability.severity);
+            vulnerability.severityNumber = severityNumber;
+          });
+        });
+      }
     });
 
     // Dropdown for option button in p-header
@@ -57,17 +62,6 @@ export class ClairResultsComponent implements OnInit {
       {label: 'Severity High - Low', value: '!severityNumber'},
       {label: 'Severity Low - High', value: 'severityNumber'}
     ];
-  }
-
-  httpGetClair() {
-    const httpOption = {
-      headers: new HttpHeaders({
-        'auth': 'testauth'
-        //  todo is to implement JWT
-
-      })
-    };
-    return this.http.get('http://localhost:8080/xebia/vulnmanager/clair', httpOption);
   }
 
   static getSeverityNumber = function (priority) {

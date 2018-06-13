@@ -13,13 +13,13 @@
           View results
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLink= "/nmap-results" routerLinkActive="active">Nmap results</a>
+          <a class="dropdown-item" routerLink= "/nmap-select-report" routerLinkActive="active">Nmap results</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink= "/openvas-results" routerLinkActive="active">OpenVAS results</a>
+          <a class="dropdown-item" routerLink= "/openvas-select-report" routerLinkActive="active">OpenVAS results</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink= "/zap-results" routerLinkActive="active">ZAP results</a>
+          <a class="dropdown-item" routerLink= "/zap-select-report" routerLinkActive="active">ZAP results</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink= "/clair-results" routerLinkActive="active">Clair results</a>
+          <a class="dropdown-item" routerLink= "/clair-select-report" routerLinkActive="active">Clair results</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" routerLink= "/generic-results" routerLinkActive="active">Generic results</a>
         </div>
@@ -30,8 +30,8 @@
           Manage results
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">PLACEHOLDER</a>
-          <a class="dropdown-item" routerLink="/upload">Upload report(s)</a>
+          <button class="dropdown-item" (click)="runAddTest()">Example reports</button>
+          <button class="dropdown-item" routerLink="/upload">Upload report(s)</button>
 
         </div>
       </li>

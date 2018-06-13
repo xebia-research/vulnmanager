@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { VulnApiService } from '../services/vuln-api.service';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Component, OnInit} from '@angular/core';
+import {VulnApiService} from '../services/vuln-api.service';
+import {HttpClient} from "@angular/common/http";
 import {MenuItem, SelectItem} from "primeng/api";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-openvas-results',
@@ -10,10 +11,10 @@ import {MenuItem, SelectItem} from "primeng/api";
   providers: [VulnApiService]
 })
 export class OpenvasResultsComponent implements OnInit {
-  openVasObject: any ;
+  openVasObject: any;
   selectedOpenvas: any;
   displayDialog: boolean;
-  tags:boolean;
+  tags: boolean;
   items: MenuItem[];
 
   sortOptions: SelectItem[];
@@ -21,27 +22,36 @@ export class OpenvasResultsComponent implements OnInit {
   sortField: string;
   sortOrder: number;
 
-  constructor(private http: HttpClient, private apiService:VulnApiService) {
-    this.apiService.addTest().subscribe(()=>{});
-  // Sort variables
-    this.http.get('http://localhost:8080/addtest').subscribe(()=> {});
+  constructor(private http: HttpClient, private apiService: VulnApiService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.apiService.getOpenvas("xebia", "vulnmanager").subscribe((data) => {
-      // data bestaat
-      console.log(data) ;
-      this.openVasObject = data[0];
+    this.route.params.subscribe(params => {
+      let reportId = params['id']; // (+) converts string 'id' to a number
+
+      if (parseInt(reportId, 10)) {
+        this.apiService.getOpenvasReport("xebia", "vulnmanager", reportId).subscribe((openVasObject) => {
+          // data bestaat
+          console.log(openVasObject);
+          this.openVasObject = openVasObject;
+        });
+      }
     });
+
     // Dropdown for option button in p-header
     this.items = [
-      {label: 'View scan info', icon: 'fa-eye', command: () => {
+      {
+        label: 'View scan info', icon: 'fa-eye', command: () => {
 
-        }},
-      {label: 'Delete', icon: 'fa-close', command: () => {
+        }
+      },
+      {
+        label: 'Delete', icon: 'fa-close', command: () => {
 
-        }}
+        }
+      }
     ];
+
     // Sort options
     this.sortOptions = [
       {label: 'Severity (Descending)', value: '!severity'},
@@ -57,10 +67,12 @@ export class OpenvasResultsComponent implements OnInit {
     this.tags = false;
     event.preventDefault();
   }
+
   onDialogHide() {
     this.selectedOpenvas = null;
 
   }
+
   onSortChange(event) {
     let value = event.value;
 
