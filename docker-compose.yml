@@ -20,3 +20,14 @@ services:
       POSTGRES_PASSWORD: changeme
       POSTGRES_DB: vulnmanager
     container_name: "vulnmanager_postgres_docker"
+
+  vulngui:
+      build: ./GUI
+      build:
+        context: ./GUI/
+        dockerfile: Dockerfile
+      ports:
+        - 4200:4200
+      container_name: "vulnmanager_GUI"
+      links:
+        - vulnmanager:backend
