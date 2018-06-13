@@ -20,7 +20,7 @@ export class NavBarComponent implements OnInit {
     });
     window.location.reload();
 
-    alert("addTest ran successfully");
+    alert("The example logs are added, reloading page");
   }
 
 }
