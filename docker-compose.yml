@@ -28,6 +28,7 @@ services:
         dockerfile: Dockerfile
       ports:
         - 4200:4200
+        - 4242:80
       container_name: "vulnmanager_GUI"
       links:
         - vulnmanager:backend
