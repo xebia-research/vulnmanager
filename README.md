@@ -36,8 +36,9 @@ The vulnmanager parser currently supports the following report formats per scan 
 Everything is run in docker, for your convenience ! :whale:
 
 1. git clone this repo
-2. run '__docker-compose build__' and wait(!) for it to finish
-3. run '__docker-compose up -d__'
+2. _cd_ into this repo
+3. run '__docker-compose build__' and wait(!) for it to finish
+4. run '__docker-compose up -d__'
 
 ## Usage
 
