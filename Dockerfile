@@ -1,4 +1,5 @@
-FROM ubuntu:16.04
+#stage1
+FROM ubuntu:16.04 as builder
 RUN apt-get update
 RUN apt-get install apt-utils -y
 RUN apt-get install maven git apt-utils -y
@@ -11,7 +12,10 @@ RUN apt-get install default-jdk -y
 RUN mvn install -DskipTests=true
 RUN mvn package -DskipTests=true
 
-FROM java:8
+#stage 2
+FROM java:8 as runner
 RUN mkdir -p /opt/
-COPY --from=0 /local/git/vulnmanager/target/vulnmanager-1.0-SNAPSHOT.jar /opt/vulnmanager-1.0-SNAPSHOT.jar
+COPY --from=builder /local/git/vulnmanager/target/vulnmanager-1.0-SNAPSHOT.jar /opt/vulnmanager-1.0-SNAPSHOT.jar
+RUN mkdir -p /opt/exmaple_logs
+COPY --from=builder /local/git/vulnmanager/example_logs /example_logs
 ENTRYPOINT ["java", "-jar", "/opt/vulnmanager-1.0-SNAPSHOT.jar"]
