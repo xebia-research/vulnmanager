@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-upload',
@@ -15,18 +15,19 @@ export class UploadComponent implements OnInit {
   ngOnInit() {
   }
 
+  onBeforeSend = function (event) {
+    event.xhr.setRequestHeader('authorization', localStorage.getItem("jwt"));
+  };
 
   onUpload(event) {
-    console.log("upload succeeds");
-    for(let file of event.files) {
+    for (let file of event.files) {
       this.uploadedFiles.push(file);
     }
 
   }
-  onError(event) {
-    }
 
+  onError(event) {
+    console.log(event)
   }
 
-
-
+}
