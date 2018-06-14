@@ -79,7 +79,7 @@ url
               <td><input type="checkbox" (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)" [checked]="genericResult.falsePositive" binary="true"></td>
             </tr>
             <td colspan="10">
-              <p-table [value]="genericResult.comments.reverse()" [scrollable]="true" scrollHeight="200px">
+              <p-table *ngIf="genericResult.comments.length > 0" [value]="genericResult.comments.reverse()" [scrollable]="true" scrollHeight="200px">
                 <ng-template pTemplate="header">
                   <tr>
                     <th colspan="1">User</th>
