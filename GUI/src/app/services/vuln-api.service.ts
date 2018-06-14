@@ -4,7 +4,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 @Injectable()
 export class VulnApiService {
 
-  BASE_URL: any = "http://localhost:8080";
+  BASE_URL: any = 'http://' + location.hostname + ':4343';
+
 
   constructor(private http: HttpClient) {
   }
