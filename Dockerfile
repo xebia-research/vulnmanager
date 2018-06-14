@@ -8,6 +8,8 @@ RUN mkdir -p /local/git
 WORKDIR /local/git/
 RUN git clone -b docker-maven https://github.com/xebia-research/vulnmanager
 WORKDIR /local/git/vulnmanager
+RUN git pull
+RUN git branch
 RUN apt-get install default-jdk -y
 RUN mvn install -DskipTests=true
 RUN mvn package -DskipTests=true
