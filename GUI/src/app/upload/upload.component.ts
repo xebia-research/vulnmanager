@@ -7,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class UploadComponent implements OnInit {
   uploadedFiles: any[] = [];
+  hostName: any = location.hostname;
 
   constructor() {
 
