@@ -5,8 +5,7 @@
               filterBy="reportType">
 
     <p-header>
-      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
-      <p></p>
+
 
       <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
                   (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
