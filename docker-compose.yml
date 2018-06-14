@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-        - 8080:8080
+        - 4343:4343
     container_name: "vulnmanager_backend"
     links:
           - db:database
@@ -27,7 +27,6 @@ services:
         context: ./GUI/
         dockerfile: Dockerfile
       ports:
-        - 4200:4200
         - 4242:80
       container_name: "vulnmanager_GUI"
       links:
