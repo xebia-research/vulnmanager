@@ -8,7 +8,9 @@ RUN apk --update add git openssh && \
     rm /var/cache/apk/*
 
 RUN git clone -b docker-maven https://github.com/xebia-research/vulnmanager.git
-
+WORKDIR /git/vulnmanager/
+RUN git pull
+RUN git branch
 
 # We label our stage as ‘builder’
 FROM node:8.9-alpine as builder
