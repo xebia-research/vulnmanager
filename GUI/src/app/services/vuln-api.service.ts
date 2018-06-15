@@ -53,6 +53,16 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/addtest", httpOption);
   }
 
+  addTestCompany() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/addtest/company", httpOption);
+  }
+
   getOpenvas(company, team) {
     const httpOption = {
       headers: new HttpHeaders({

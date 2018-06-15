@@ -55,12 +55,12 @@ public class UploadFileController {
     /**
      * Upload a report to the server.
      *
-     * @param uploadFile The file that will be uploaded
+     * @param uploadFiles The file that will be uploaded
      * @return A response with correct http header
      */
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
-    ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadFile,
+    ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile[] uploadFiles,
                                  @PathVariable("company") String companyName,
                                  @PathVariable("team") String teamName) {
 
@@ -72,52 +72,55 @@ public class UploadFileController {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
-        logger.info("Single file upload started!");
-        String newFileName;
-        if (uploadFile.isEmpty()) {
-            return new ResponseEntity(new ErrorMsg("Uploaded file should't be empty"), HttpStatus.BAD_REQUEST);
+        for (MultipartFile uploadFile : uploadFiles) {
+
+            logger.info("Single file upload started!");
+            String newFileName;
+            if (uploadFile.isEmpty()) {
+                return new ResponseEntity(new ErrorMsg("Uploaded file should't be empty"), HttpStatus.BAD_REQUEST);
+            }
+
+            try {
+                // IOUtil will try to save the file. Returns true on succes
+                String filePath = IOUtil.saveUploadedFiles(uploadFile);
+                File tempFile = new File(filePath);
+
+                // Success with upload. Check file to see of it is a {scannerType} document
+                logger.info("File succesfully uploaded");
+
+                // Success check uploaded file
+                Document reportDocument = ReportUtil.getDocumentFromFile(tempFile);
+                ReportType reportType = ReportUtil.checkDocumentType(reportDocument);
+                if (reportType == ReportType.UNKNOWN) {
+                    return new ResponseEntity(new ErrorMsg("Unknown report!"), HttpStatus.BAD_REQUEST);
+                }
+                newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
+
+                // Get company and team;
+                uploadFileToDB(reportDocument, reportType, team);
+
+                if (!tempFile.delete()) {
+                    logger.error("Temp file couldn't be deleted");
+                }
+            } catch (IOException ex) {
+                logger.error(ex.getMessage());
+                return new ResponseEntity(new ErrorMsg("IOException with msg: " + ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (ParserConfigurationException e) {
+                logger.error(e.getMessage());
+                return new ResponseEntity(new ErrorMsg("Parser configuration exception wit the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+            } catch (SAXException e) {
+                logger.error(e.getMessage());
+                return new ResponseEntity(new ErrorMsg("SAX basic exception with the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+            } catch (NullPointerException e) {
+                logger.error("Null pointer exception was thrown");
+                return new ResponseEntity(new ErrorMsg("An null pointer exception was thrown"), HttpStatus.BAD_REQUEST);
+            } catch (JSONException e) {
+                logger.error(e.getMessage());
+                return new ResponseEntity(new ErrorMsg("A JSON exception was thrown with message:" + e.getMessage()), HttpStatus.BAD_REQUEST);
+            }
         }
 
-        try {
-            // IOUtil will try to save the file. Returns true on succes
-            String filePath = IOUtil.saveUploadedFiles(uploadFile);
-            File tempFile = new File(filePath);
-
-            // Success with upload. Check file to see of it is a {scannerType} document
-            logger.info("File succesfully uploaded");
-
-            // Success check uploaded file
-            Document reportDocument = ReportUtil.getDocumentFromFile(tempFile);
-            ReportType reportType = ReportUtil.checkDocumentType(reportDocument);
-            if (reportType == ReportType.UNKNOWN) {
-                return new ResponseEntity(new ErrorMsg("Unknown report!"), HttpStatus.BAD_REQUEST);
-            }
-            newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
-
-            // Get company and team;
-            uploadFileToDB(reportDocument, reportType, team);
-
-            if (!tempFile.delete()) {
-                logger.error("Temp file couldn't be deleted");
-            }
-        } catch (IOException ex) {
-            logger.error(ex.getMessage());
-            return new ResponseEntity(new ErrorMsg("IOException with msg: " + ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (ParserConfigurationException e) {
-            logger.error(e.getMessage());
-            return new ResponseEntity(new ErrorMsg("Parser configuration exception wit the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (SAXException e) {
-            logger.error(e.getMessage());
-            return new ResponseEntity(new ErrorMsg("SAX basic exception with the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (NullPointerException e) {
-            logger.error("Null pointer exception was thrown");
-            return new ResponseEntity(new ErrorMsg("An null pointer exception was thrown"), HttpStatus.BAD_REQUEST);
-        } catch (JSONException e) {
-            logger.error(e.getMessage());
-            return new ResponseEntity(new ErrorMsg("A JSON exception was thrown with message:" + e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity(new ErrorMsg("Successfully uploaded - " + newFileName), HttpStatus.OK);
+        return new ResponseEntity(new ErrorMsg("Successfully uploaded "), HttpStatus.OK);
     }
 
     /**
