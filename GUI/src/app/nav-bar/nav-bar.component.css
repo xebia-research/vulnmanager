@@ -1,3 +1,4 @@
 ::ng-deep .ui-dialog {
   width: 90% !important;
+  max-height: 95% !important;
 }

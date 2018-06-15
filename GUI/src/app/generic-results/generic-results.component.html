@@ -5,8 +5,7 @@
               filterBy="reportType">
 
     <p-header>
-      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
-      <p></p>
+
 
       <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
                   (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
@@ -79,7 +78,7 @@ url
               <td><input type="checkbox" (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)" [checked]="genericResult.falsePositive" binary="true"></td>
             </tr>
             <td colspan="10">
-              <p-table [value]="genericResult.comments.reverse()" [scrollable]="true" scrollHeight="200px">
+              <p-table *ngIf="genericResult.comments.length > 0" [value]="genericResult.comments.reverse()" [scrollable]="true" scrollHeight="200px">
                 <ng-template pTemplate="header">
                   <tr>
                     <th colspan="1">User</th>
