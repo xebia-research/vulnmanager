@@ -1,4 +1,5 @@
 ::ng-deep .ui-dialog {
+  overflow: scroll;
   width: 90% !important;
   max-height: 95% !important;
 }
