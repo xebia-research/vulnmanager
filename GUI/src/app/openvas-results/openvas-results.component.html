@@ -39,7 +39,7 @@
 
 </div>
 
-<p-dialog width="800" header="Openvas result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+<p-dialog header="Openvas result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
   <div *ngIf="selectedOpenvas">
       <p-tabView>
         <p-tabPanel header="Summary" [selected]="true" leftIcon="fa-list-ul">
