@@ -2,7 +2,6 @@ package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.data.MockCompanyFactory;
 import com.xebia.vulnmanager.models.clair.objects.ClairReport;
-import com.xebia.vulnmanager.models.comments.Comment;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.generic.GenericReport;
@@ -26,8 +25,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/addtest")
@@ -37,8 +34,6 @@ public class TestController {
     @Autowired
     private OpenvasRepository openvasRepository;
     @Autowired
-    private CompanyRepository companyRepository;
-    @Autowired
     private NMapRepository nMapRepository;
     @Autowired
     private OwaspZapRepository zapRepository;
@@ -46,6 +41,15 @@ public class TestController {
     private GenericRepository genericRepository;
     @Autowired
     private ClairRepository clairRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    @RequestMapping(value = "/company", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> addCompany() {
+        Company xebiaComp = companyRepository.save(new MockCompanyFactory().getMockCompanies().get(0));
+        return new ResponseEntity<>(xebiaComp, HttpStatus.OK);
+    }
 
     /**
      * @return A list of teams within the team
@@ -73,18 +77,12 @@ public class TestController {
             return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
         }
 
-        Company xebiaComp = companyRepository.save(new MockCompanyFactory().getMockCompanies().get(0));
+        Company xebiaComp = companyRepository.findByName("xebia").get(0);
+
         report.setTeam(xebiaComp.findTeamByName("vulnmanager"));
         OpenvasReport retReport = openvasRepository.save(report);
 
-        List<Comment> testComments = new ArrayList<>();
-        Comment test = new Comment();
-        test.setContent("Hello world!");
-        test.setUser(xebiaComp.getTeams().get(0).getTeamMembers().get(0));
-        testComments.add(test);
-
         GenericMultiReport multiReport = retReport.getGenericMultiReport();
-        multiReport.getReports().get(0).getGenericResults().get(0).setComments(testComments);
 
         GenericMultiReport nmap = nMapReport.getMultiReport();
         for (GenericReport genRep : nmap.getReports()) {

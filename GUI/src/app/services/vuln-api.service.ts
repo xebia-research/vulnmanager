@@ -4,7 +4,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 @Injectable()
 export class VulnApiService {
 
-  BASE_URL: any = "http://localhost:8080";
+  BASE_URL: any = 'http://' + location.hostname + ':4343';
+
 
   constructor(private http: HttpClient) {
   }
@@ -51,6 +52,16 @@ export class VulnApiService {
     };
 
     return this.http.get(this.BASE_URL + "/addtest", httpOption);
+  }
+
+  addTestCompany() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/addtest/company", httpOption);
   }
 
   getOpenvas(company, team) {
