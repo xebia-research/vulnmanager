@@ -1,4 +1,5 @@
 <div class="container">
+  <!--<p-growl [(value)]="msgs"></p-growl>-->
   <h1>login Form</h1>
   <form>
     <div class="form-group">
@@ -10,7 +11,7 @@
       <label for="password">password</label>
       <input type="password" class="form-control" name="password" id="password" required [(ngModel)]="user.password">
     </div>
-    
+
     <button type="submit" class="btn btn-success" (click)="Register()">Register</button>
     <button type="submit" class="btn btn-success" (click)="Login()">Login</button>
 

@@ -1,20 +1,24 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 @Injectable()
 export class VulnApiService {
 
   BASE_URL: any = 'http://' + location.hostname + ':4343';
+  helper:JwtHelperService;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
+
+    this.helper = new JwtHelperService();
   }
 
   signup(user, password, companyName) {
 
     let userObj: any = {};
     userObj.username = user;
-    userObj.password = password; // reverse with atob
+    userObj.password = btoa(password); // reverse with atob
     userObj.companyName = companyName;
 
 
@@ -24,7 +28,7 @@ export class VulnApiService {
   login(user, password) {
     let userObj: any = {};
     userObj.username = user;
-    userObj.password = password;
+    userObj.password = btoa(password);
 
 
     return this.http.post(this.BASE_URL + '/login', userObj, {
@@ -33,15 +37,38 @@ export class VulnApiService {
     }).subscribe(result => {
       let auth = result.headers.get("authorization");
 
+      const decodedToken = this.helper.decodeToken(auth);
+      const expirationDate = this.helper.getTokenExpirationDate(auth);
+      const isExpired = this.helper.isTokenExpired(auth);
+
+      console.log(decodedToken);
+      console.log(expirationDate + " --- " + isExpired);
+
       if (auth != null) {
         localStorage.setItem("user", userObj.username);
-        localStorage.setItem("pass", userObj.password);
         localStorage.setItem("jwt", auth);
         return true;
       }
     }, error => {
       return false;
     });
+  }
+
+  logout() {
+    localStorage.removeItem("jwt");
+  }
+
+  isLoggedIn() {
+
+    const token = localStorage.getItem('jwt');
+    // Check whether the token is expired and return
+    // true or false
+    return !this.jwtHelper.isTokenExpired(token);
+  }
+
+  getUserNameFromToken() {
+    const decodedToken = this.helper.decodeToken(localStorage.getItem("jwt"));
+    return decodedToken.sub;
   }
 
   addTest() {
