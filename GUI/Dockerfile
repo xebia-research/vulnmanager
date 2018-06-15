@@ -7,7 +7,7 @@ RUN apk --update add git openssh && \
     rm -rf /var/lib/apt/lists/* && \
     rm /var/cache/apk/*
 
-RUN git clone -b docker-maven https://github.com/xebia-research/vulnmanager.git
+RUN git clone -b feature/public-https-domain https://github.com/xebia-research/vulnmanager.git
 WORKDIR /git/vulnmanager/
 RUN git pull
 RUN git branch

@@ -5,8 +5,8 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 @Injectable()
 export class VulnApiService {
 
-  BASE_URL: any = 'http://' + location.hostname + ':4343';
-  helper:JwtHelperService;
+
+  BASE_URL: any = location.protocol + '//' + 'vulnapi.' + location.hostname;
 
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
