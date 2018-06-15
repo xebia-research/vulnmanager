@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { Router, CanActivate } from '@angular/router';
 
 @Injectable()
 export class VulnApiService {
 
-
-  BASE_URL: any = location.protocol + '//' + 'vulnapi.' + location.hostname;
-
+  helper: JwtHelperService;
+  BASE_URL: any = location.protocol + '//' + location.hostname + ':4343';
+  router: Router;
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
 
@@ -49,9 +50,11 @@ export class VulnApiService {
         localStorage.setItem("jwt", auth);
         return true;
       }
+      this.router.navigate(['home']);
     }, error => {
       return false;
     });
+
   }
 
   logout() {
