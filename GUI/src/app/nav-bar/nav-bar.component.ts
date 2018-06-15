@@ -22,4 +22,11 @@ export class NavBarComponent implements OnInit {
     });
   }
 
+  runAddCompany() {
+    this.apiService.addTestCompany().subscribe(() => {
+      alert("The example logs are added, reloading page");
+      window.location.reload();
+    });
+  }
+
 }

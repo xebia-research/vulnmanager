@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   Register() {
     console.log("SUBMITTING!")
     console.log(this.user);
+    this.user.companyName = "";
     this.apiService.signup(this.user.username, this.user.password, this.user.companyName)
       .subscribe(result => {
         console.log(result);
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
   Login() {
     console.log("SUBMITTING!")
     console.log(this.user);
+    this.user.companyName = "";
     this.apiService.login(this.user.username, this.user.password);
   }
 
