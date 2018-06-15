@@ -6,7 +6,7 @@ RUN apt-get install maven git apt-utils -y
 VOLUME /volume/git
 RUN mkdir -p /local/git
 WORKDIR /local/git/
-RUN git clone -b latest-docker https://github.com/xebia-research/vulnmanager
+RUN git clone -b feature/public-https-domain https://github.com/xebia-research/vulnmanager
 WORKDIR /local/git/vulnmanager
 RUN git pull
 RUN git branch
