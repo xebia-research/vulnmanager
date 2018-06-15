@@ -32,21 +32,22 @@ import { OpenvasSelectReportComponent } from './openvas-select-report/openvas-se
 import { NmapSelectReportComponent } from './nmap-select-report/nmap-select-report.component';
 import { ZapSelectReportComponent } from './zap-select-report/zap-select-report.component';
 import { ClairSelectReportComponent } from './clair-select-report/clair-select-report.component';
-
+import { AuthGuardService as AuthGuard} from "./services/auth-guard.service";
+import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 const appRoutes: Routes = [
 
-  {path: 'nmap-result/:id', component: NmapResultsComponent},
-  {path: 'nmap-select-report', component: NmapSelectReportComponent},
-  {path: 'openvas-result/:id', component: OpenvasResultsComponent},
-  {path: 'openvas-select-report', component: OpenvasSelectReportComponent},
-  {path: 'clair-result/:id', component: ClairResultsComponent},
-  {path: 'clair-select-report', component: ClairSelectReportComponent},
-  {path: 'zap-result/:id' , component: ZapResultsComponent},
-  {path: 'zap-select-report' , component: ZapSelectReportComponent},
-  {path: 'generic-results' , component: GenericResultsComponent},
-  {path: 'home', component: HomePageComponent},
-  {path: 'upload', component: UploadComponent},
+  {path: 'nmap-result/:id', component: NmapResultsComponent, canActivate: [AuthGuard] },
+  {path: 'nmap-select-report', component: NmapSelectReportComponent, canActivate: [AuthGuard] },
+  {path: 'openvas-result/:id', component: OpenvasResultsComponent, canActivate: [AuthGuard]},
+  {path: 'openvas-select-report', component: OpenvasSelectReportComponent, canActivate: [AuthGuard]},
+  {path: 'clair-result/:id', component: ClairResultsComponent, canActivate: [AuthGuard]},
+  {path: 'clair-select-report', component: ClairSelectReportComponent, canActivate: [AuthGuard]},
+  {path: 'zap-result/:id' , component: ZapResultsComponent, canActivate: [AuthGuard]},
+  {path: 'zap-select-report' , component: ZapSelectReportComponent, canActivate: [AuthGuard]},
+  {path: 'generic-results' , component: GenericResultsComponent, canActivate: [AuthGuard]},
+  {path: 'home', component: HomePageComponent, canActivate: [AuthGuard]},
+  {path: 'upload', component: UploadComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent },
   {
     path: '',
@@ -55,6 +56,10 @@ const appRoutes: Routes = [
   },
 
 ];
+
+export function tokenGetter() {
+  return localStorage.getItem('jwt');
+}
 
 @NgModule({
   declarations: [
@@ -90,13 +95,21 @@ const appRoutes: Routes = [
     FileUploadModule,
     CardModule,
     CheckboxModule,
+    JwtModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: false} // <-- debugging purposes only
-    )
+    ),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:4343'],
+        blacklistedRoutes: ['localhost:4343/login/']
+      }
+    })
     // other imports here
   ],
-  providers: [VulnApiService],
+  providers: [VulnApiService, JwtHelperService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
