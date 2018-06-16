@@ -9,17 +9,31 @@ import {CheckboxModule} from 'primeng/checkbox';
 @Component({
   selector: 'app-generic-results',
   templateUrl: './generic-results.component.html',
-  styleUrls: ['./generic-results.component.css']
+  styleUrls: ['./generic-results.component.css'],
+  styles: [`
+        .custombar1 .ui-scrollpanel-wrapper {
+            border-right: 9px solid #f4f4f4;
+        }
+            
+        .custombar1 .ui-scrollpanel-bar {
+            background-color: #1976d2;
+            opacity: 1;
+            transition: background-color .3s;
+        }
+            
+        .custombar1 .ui-scrollpanel-bar:hover {
+            background-color: #135ba1;
+        }
+    `],
 })
 export class GenericResultsComponent implements OnInit {
-
   genericReports: any;
   selectedReport: any;
   displayDialog: boolean;
   items: MenuItem[];
   sortField: string;
   sortOrder: number;
-
+  text: String;
   // Sort variables
   sortOptions: SelectItem[];
   sortKey: string;
@@ -67,7 +81,7 @@ export class GenericResultsComponent implements OnInit {
   formSubmit(form, reportId, resultId) {
     console.log(reportId, resultId);
     console.log(form.value.text);
-
+    this.text = '';
     if(form.valid) {
       this.apiService.postComment("xebia", "vulnmanager", reportId, resultId, form.value.text).subscribe(() =>{
         this.genericReports.forEach((report) => {
