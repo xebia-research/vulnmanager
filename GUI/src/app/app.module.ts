@@ -35,6 +35,8 @@ import { ClairSelectReportComponent } from './clair-select-report/clair-select-r
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {FormsModule} from "@angular/forms";
 import {EditorModule} from 'primeng/editor';
+import {StepsModule} from 'primeng/steps';
+import {GrowlModule} from 'primeng/growl';
 
 const appRoutes: Routes = [
 
@@ -85,6 +87,7 @@ const appRoutes: Routes = [
     DataViewModule,
     TabViewModule,
     PaginatorModule,
+    GrowlModule,
     FieldsetModule,
     AccordionModule,
     BrowserAnimationsModule,
@@ -95,6 +98,7 @@ const appRoutes: Routes = [
     CardModule,
     EditorModule,
     CheckboxModule,
+    StepsModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: false} // <-- debugging purposes only
