@@ -8,23 +8,35 @@ import {VulnApiService} from "../services/vuln-api.service";
 })
 export class NavBarComponent implements OnInit {
   visibleSidebar1: boolean;
+  isLoggedIn:boolean;
+  username: any;
 
   constructor(private apiService: VulnApiService) {
   }
 
+  logout() {
+    this.apiService.logout();
+    window.location.reload();
+  }
+
   ngOnInit() {
+    this.isLoggedIn = this.apiService.isLoggedIn();
+
+    if(this.isLoggedIn) {
+      this.username = this.apiService.getUserNameFromToken();
+    }
   }
 
   runAddTest() {
     this.apiService.addTest().subscribe(() => {
-      alert("The example logs are added, Press OK to reload the page");
+      alert("The example logs are added, press OK to reload the page");
       window.location.reload();
     });
   }
 
   runAddCompany() {
     this.apiService.addTestCompany().subscribe(() => {
-      alert("The example logs are added, reloading page");
+      alert("The example company was added, press OK to reload the page");
       window.location.reload();
     });
   }
