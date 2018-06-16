@@ -8,3 +8,8 @@
   word-wrap: break-word;}
 .center {
   margin: auto;}
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
