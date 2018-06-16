@@ -7,9 +7,7 @@ export class VulnApiService {
   BASE_URL: any = 'http://' + location.hostname + ':4343';
 
 
-  constructor(private http: HttpClient) {
-  }
-
+  constructor(private http: HttpClient) {}
   signup(user, password, companyName) {
 
     let userObj: any = {};

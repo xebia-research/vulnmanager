@@ -3,15 +3,18 @@
   <p-dataView class="toggle-container" #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
               [sortField]="sortField" [sortOrder]="sortOrder"
               filterBy="addressDetails.address">
-             <p-header>
-      <b>Nmap results with arguments: </b> {{nMapObject.scanData.nMapInfo.calledArgument}} (Nmap version: {{nMapObject.scanData.nMapInfo.nMapVersion}})
-      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
-     <p></p>
+    <p-header>
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <b >Arguments: </b>
+          {{nMapObject.scanData.nMapInfo.calledArgument}} (With version: {{nMapObject.scanData.nMapInfo.nMapVersion}})
+        </div>
+        <p-dropdown class="ui-g-12 ui-lg-2 ui-md-6" [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                    (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
+                    [ngStyle]="{'float': 'right'}"></p-dropdown>
+        <input class="ui-g-12 ui-lg-2 ui-md-4 ui-md-offset-2 ui-lg-offset-8" type="search" pInputText placeholder="Search by ip" (keyup)="dv.filter($event.target.value)"/>
+      </div>
 
-      <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
-                  (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
-                  [ngStyle]="{'float': 'right'}"></p-dropdown>
-      <input type="search" pInputText placeholder="Search by ip" (keyup)="dv.filter($event.target.value)"/>
 
     </p-header>
     <ng-template let-host pTemplate="listItem">
