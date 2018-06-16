@@ -1,7 +1,14 @@
-<h1>Welcome to Xebia Vulnmanager</h1>
-<h4>You can navigate with the nav-bar up top, and the sidebar after pressing the "bars icon" top-left.</h4>
-
-
-
-
-
+<div>
+  <div class="center">
+    <h1 class="overflow">Welcome to Xebia Vulnmanager</h1><br>
+    <h4>Navigation through reports can be done via the sidebar (top left)</h4>
+    <br>
+    <h5>The following steps will automatically create a test company, and add test reports. <br>At the login page, you can create your own user account and receive an authentication token</h5>
+  </div>
+  <div>
+    <div class="ui-md-10 ui-sm-12 center">
+      <p-steps [(activeIndex)]="activeIndex" [model]="items" [readonly]="false"></p-steps>
+      <p-growl [(value)]="msgs"></p-growl>
+    </div>
+  </div>
+</div>
