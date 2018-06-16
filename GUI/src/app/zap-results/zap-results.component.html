@@ -58,20 +58,20 @@
 
       </p-tabPanel>
       <p-tabPanel header="Instances" leftIcon="fa-eye">
-        <p-table class="ui-g-12 ui-md-6 ui-lg-12" [value]="selectedZap.instanceList" [scrollable]="true"
-                 scrollHeight="400px">
+        <p-table class="ui-g-12" [value]="selectedZap.instanceList" [scrollable]="true"
+                 scrollHeight="300px">
           <ng-template pTemplate="header">
             <tr>
-              <th class="ui-lg-1">ID</th>
-              <th>Instance</th>
-              <th class="ui-lg-2">method</th>
+              <th colspan="1">ID</th>
+              <th colspan="9">Instance</th>
+              <th colspan="2" class="ui-lg-2">method</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-instance>
             <tr>
-              <td class="ui-lg-1">{{instance.id}}</td>
-              <td>{{instance.uri}}</td>
-              <td class="ui-lg-1">{{instance.method}}</td>
+              <td colspan="1">{{instance.id}}</td>
+              <td colspan="9" class="overflow">{{instance.uri}}</td>
+              <td colspan="2" class="ui-lg-1">{{instance.method}}</td>
             </tr>
           </ng-template>
         </p-table>
@@ -85,7 +85,7 @@
             {{selectedZap.otherInfo}}
           </div>
           <div *ngIf="selectedZap.reference!=''" class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Reference</div>
-          <div *ngIf="selectedZap.reference!=''" class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow"><a
+          <div *ngIf="selectedZap.reference!=''" class="ui-g-12 ui-md-6 ui-lg-9 overflow" ngClass="divrow"><a
             href="{{selectedZap.reference}}">{{selectedZap.reference}}</a></div>
         </div>
       </p-tabPanel>
