@@ -2,4 +2,14 @@
 .divrow {padding: 2em;border-bottom: 2px solid #d9d9d9}
 .genericrow {padding: 2em;border-top: 6px solid #6f6f6f}
 .commentrow {padding: 1em}
-
+.dynamic-height {max-height: 250px;}
+.overflow {
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;}
+.center {
+  margin: auto;}
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

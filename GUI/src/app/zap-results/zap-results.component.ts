@@ -40,6 +40,8 @@ export class ZapResultsComponent implements OnInit {
 
           // Sort options
           this.sortOptions = [
+            {label: 'Instances High - Low', value: '!instanceCount'},
+            {label: 'Instances Low - High', value: 'instanceCount'},
             {label: 'Severity High - Low', value: '!riskCode'},
             {label: 'Severity Low - High', value: 'riskCode'}
           ];

@@ -3,15 +3,18 @@
   <p-dataView class="toggle-container" #dv [value]="nMapObject.hosts" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
               [sortField]="sortField" [sortOrder]="sortOrder"
               filterBy="addressDetails.address">
-             <p-header>
-      <b>Nmap results with arguments: </b> {{nMapObject.scanData.nMapInfo.calledArgument}} (Nmap version: {{nMapObject.scanData.nMapInfo.nMapVersion}})
-      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
-     <p></p>
+    <p-header>
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <b >Arguments: </b>
+          {{nMapObject.scanData.nMapInfo.calledArgument}} (With version: {{nMapObject.scanData.nMapInfo.nMapVersion}})
+        </div>
+        <p-dropdown class="ui-g-12 ui-lg-2 ui-md-6" [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                    (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'11em'}">
+        </p-dropdown>
+        <input class="ui-g-12 ui-lg-2 ui-md-4 ui-md-offset-2 ui-lg-offset-8" type="search" pInputText placeholder="Search by ip" (keyup)="dv.filter($event.target.value)"/>
+      </div>
 
-      <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
-                  (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
-                  [ngStyle]="{'float': 'right'}"></p-dropdown>
-      <input type="search" pInputText placeholder="Search by ip" (keyup)="dv.filter($event.target.value)"/>
 
     </p-header>
     <ng-template let-host pTemplate="listItem">
@@ -26,7 +29,7 @@
             <div class="ui-g-9 ui-sm-6 ">{{host.hostPorts.ports.length}}</div>
           </div>
         </div>
-        <div class="ui-g-12 ui-md-1 search-icon">
+        <div class="ui-g-12 ui-md-1 ui-sm-offset-10 search-icon">
           <button pButton type="button" icon="fa-search" (click)="selectNmapHost($event, host)"></button>
         </div>
       </div>
@@ -40,14 +43,12 @@
   <p-dialog width="600" appendTo="body" header="Nmap host detail as of {{nMapObject.scanData.nMapInfo.scanDateTime | date: 'HH:mm:ss @ dd/MM/yyyy'}}" [(visible)]="displayDialog" [responsive]="false" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedNmapHost">
       <div class="ui-g-12" >
-        <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">IP Address: </div>
-        <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedNmapHost.addressDetails.address}}</div>
-        <div class="ui-g-12" *ngIf="selectedNmapHost.hostNamesDetails.hostNameDetails[0]">
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Hostname: </div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedNmapHost.hostNamesDetails.hostNameDetails[0].hostName}}</div>
-        </div>
-        <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">State: </div>
-        <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedNmapHost.stateDetails.state}}</div>
+        <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">IP Address: </div>
+        <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedNmapHost.addressDetails.address}}</div>
+        <div *ngIf="selectedNmapHost.hostNamesDetails.hostNameDetails[0].hostName" class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Hostname: </div>
+        <div class="ui-g-6 ui-md-6 ui-lg-9 truncate" ngClass="divrow" >{{selectedNmapHost.hostNamesDetails.hostNameDetails[0].hostName}}</div>
+        <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">State: </div>
+        <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedNmapHost.stateDetails.state}}</div>
         <div class="ui-g-12 ui-md-6 ui-lg-3">Open ports: </div>
         <p-table class="ui-g-12 ui-md-6 ui-lg-9" *ngIf="selectedNmapHost.hostPorts.ports.length != 0;else noPorts" [value]="selectedNmapHost.hostPorts.ports" [scrollable]="true" scrollHeight="200px">
           <ng-template pTemplate="header">

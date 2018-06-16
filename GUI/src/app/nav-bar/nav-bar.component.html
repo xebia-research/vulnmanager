@@ -39,11 +39,14 @@
     </ul>
 
     <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Signup</a>
+      <li class="nav-item" *ngIf="!isLoggedIn">
+        <a class="nav-link" href="/login">Signup/Login</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" href="#">Welkom {{username}}</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" (click)="logout()">logout</a>
       </li>
     </ul>
   </div>
