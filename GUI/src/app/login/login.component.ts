@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VulnApiService } from '../services/vuln-api.service';
+import {Router} from "@angular/router";
+import {Message} from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -10,11 +12,16 @@ import { VulnApiService } from '../services/vuln-api.service';
 export class LoginComponent implements OnInit {
 
   user:any;
+  //msgs: Message[] = [];
 
-  constructor(private apiService:VulnApiService) { }
+  constructor(private apiService:VulnApiService, private router: Router) { }
 
   ngOnInit() {
     this.user = {};
+
+    if (this.apiService.isLoggedIn()) {
+
+    }
   }
 
   Register() {
@@ -24,7 +31,12 @@ export class LoginComponent implements OnInit {
     this.apiService.signup(this.user.username, this.user.password, this.user.companyName)
       .subscribe(result => {
         console.log(result);
-        this.apiService.login(this.user.username, this.user.password);
+        if(this.apiService.login(this.user.username, this.user.password)) {
+          this.router.navigate(['']);
+        }
+        else {
+          //this.msgs.push({severity:'error', summary:'Error Message', detail:'Error logging in'});
+        }
       });
   }
 
@@ -32,7 +44,11 @@ export class LoginComponent implements OnInit {
     console.log("SUBMITTING!")
     console.log(this.user);
     this.user.companyName = "";
-    this.apiService.login(this.user.username, this.user.password);
+    if(this.apiService.login(this.user.username, this.user.password)) {
+      this.router.navigate(['']);
+    } else {
+      //this.msgs.push({severity:'error', summary:'Error Message', detail:'Error logging in'});
+    }
   }
 
 }

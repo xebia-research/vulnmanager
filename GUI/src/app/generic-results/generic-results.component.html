@@ -71,15 +71,11 @@
                     </div>
                   </p-scrollPanel>
                   </div>
-
-
                 </div>
                 <form #f="ngForm" novalidate>
                   <input name="text" [(ngModel)]="text" ngModel required #first="ngModel">
                   <button pButton type="button" icon="fa-plus" (click)="formSubmit(f, selectedReport.id, genericResult.id)" ></button>
                 </form>
-
-
                 <ng-template #noComments >No comments yet..</ng-template>
               </p-card>
             </div>

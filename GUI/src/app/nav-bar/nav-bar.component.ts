@@ -8,11 +8,23 @@ import {VulnApiService} from "../services/vuln-api.service";
 })
 export class NavBarComponent implements OnInit {
   visibleSidebar1: boolean;
+  isLoggedIn:boolean;
+  username: any;
 
   constructor(private apiService: VulnApiService) {
   }
 
+  logout() {
+    this.apiService.logout();
+    window.location.reload();
+  }
+
   ngOnInit() {
+    this.isLoggedIn = this.apiService.isLoggedIn();
+
+    if(this.isLoggedIn) {
+      this.username = this.apiService.getUserNameFromToken();
+    }
   }
 
   runAddTest() {
