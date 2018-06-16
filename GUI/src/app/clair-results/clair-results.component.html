@@ -49,23 +49,23 @@
     <p-tabView>
       <p-tabPanel header="Summary" [selected]="true" leftIcon="fa-list-ul">
         <div class="ui-g">
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Name:</div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.name}}</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Name:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.name}}</div>
 
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Namespace:</div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.namespace}}</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Namespace:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.namespace}}</div>
 
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Description:</div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.description}}</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Description:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9 overflow" ngClass="divrow">{{selectedClair.genericResult.description}}</div>
 
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Severity:</div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.severity}}</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Severity:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.severity}}</div>
 
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Thread:</div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.cve}}</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Thread:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.cve}}</div>
 
-          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">More information:</div>
-          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow"><a href="{{selectedClair.link}}">{{selectedClair.link}}</a></div>
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">More information:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9 overflow" ngClass="divrow"><a href="{{selectedClair.link}}">{{selectedClair.link}}</a></div>
         </div>
       </p-tabPanel>
 
