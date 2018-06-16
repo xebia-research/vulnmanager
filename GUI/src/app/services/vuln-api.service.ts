@@ -9,6 +9,7 @@ export class VulnApiService {
   BASE_URL: any = location.protocol + '//' + 'vulnapi.' + location.hostname;
 
 
+
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
 
     this.helper = new JwtHelperService();

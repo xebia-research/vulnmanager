@@ -34,6 +34,8 @@ import { ZapSelectReportComponent } from './zap-select-report/zap-select-report.
 import { ClairSelectReportComponent } from './clair-select-report/clair-select-report.component';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {FormsModule} from "@angular/forms";
+import {StepsModule} from 'primeng/steps';
+import {GrowlModule} from 'primeng/growl';
 import { AuthGuardService as AuthGuard} from "./services/auth-guard.service";
 import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
@@ -90,6 +92,7 @@ export function tokenGetter() {
     DataViewModule,
     TabViewModule,
     PaginatorModule,
+    GrowlModule,
     FieldsetModule,
     AccordionModule,
     BrowserAnimationsModule,
@@ -99,6 +102,7 @@ export function tokenGetter() {
     FileUploadModule,
     CardModule,
     CheckboxModule,
+    StepsModule,
     JwtModule,
     RouterModule.forRoot(
       appRoutes,
