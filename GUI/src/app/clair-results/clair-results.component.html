@@ -5,18 +5,18 @@
               [rowsPerPageOptions]="[5,10,20]" [sortField]="sortField" [sortOrder]="sortOrder"
               filterBy="genericResult.name">
     <p-header>
-      <b>Clair results parsed as of {{clairObject.genericReport.reports[0].parsedDate | date :'HH:mm:ss @ dd/MM/yyyy'}}
-      </b>
 
-      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items"
-                     styleClass="ui-button-info"></p-splitButton>
+      <div class="ui-g">
+        <b class="ui-g-12">Clair results parsed as of {{clairObject.genericReport.reports[0].parsedDate | date :'HH:mm:ss @ dd/MM/yyyy'}}
+        </b>
+        <p-dropdown class="ui-g-12 ui-lg-2 ui-md-6" [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                    (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'11em'}">
+        </p-dropdown>
 
-      <p></p>
-      <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
-                  (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
-                  [ngStyle]="{'float': 'right'}"></p-dropdown>
+        <input class="ui-g-12 ui-lg-2 ui-md-4 ui-md-offset-2 ui-lg-offset-8" type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)"/>
+      </div>
 
-      <input type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)"/>
+
 
     </p-header>
     <ng-template let-car pTemplate="gridItem">
