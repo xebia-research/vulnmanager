@@ -32,6 +32,8 @@ import { OpenvasSelectReportComponent } from './openvas-select-report/openvas-se
 import { NmapSelectReportComponent } from './nmap-select-report/nmap-select-report.component';
 import { ZapSelectReportComponent } from './zap-select-report/zap-select-report.component';
 import { ClairSelectReportComponent } from './clair-select-report/clair-select-report.component';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
+import {FormsModule} from "@angular/forms";
 import { AuthGuardService as AuthGuard} from "./services/auth-guard.service";
 import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
@@ -91,7 +93,9 @@ export function tokenGetter() {
     FieldsetModule,
     AccordionModule,
     BrowserAnimationsModule,
+    FormsModule,
     SidebarModule,
+    ScrollPanelModule,
     FileUploadModule,
     CardModule,
     CheckboxModule,
