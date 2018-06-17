@@ -72,6 +72,16 @@ export class VulnApiService {
     return decodedToken.sub;
   }
 
+  whoami() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/users/whoami", httpOption);
+  }
+
   delete() {
     const httpOption = {
       headers: new HttpHeaders({

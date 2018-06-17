@@ -34,6 +34,11 @@ export class NavBarComponent implements OnInit {
 
     if(this.isLoggedIn) {
       this.username = this.apiService.getUserNameFromToken();
+
+      this.apiService.whoami().subscribe((res) => {
+        console.log(res);
+      })
+
     }
 
 

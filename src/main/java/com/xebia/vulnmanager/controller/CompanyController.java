@@ -4,9 +4,12 @@ import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.services.CompanyService;
+import com.xebia.vulnmanager.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +23,12 @@ public class CompanyController {
 
     private CompanyService companyService;
 
+    private UserDetailsServiceImpl userService;
+
     @Autowired
-    public CompanyController(final CompanyService companyService) {
+    public CompanyController(final CompanyService companyService, final UserDetailsServiceImpl userService) {
         this.companyService = companyService;
+        this.userService = userService;
     }
 
     /**
@@ -50,6 +56,10 @@ public class CompanyController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     ResponseEntity<?> createCompany(@PathVariable(COMPANY) String companyName) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+
         // find company by name
         Company foundCompany = companyService.getCompanyByName(companyName);
 

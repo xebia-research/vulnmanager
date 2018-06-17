@@ -30,4 +30,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         emptyList()
         );
     }
+
+    public Person loadPersonByUsername(String username)
+            throws UsernameNotFoundException {
+        Person applicationUser = personRepository.findByUsername(username);
+        if (applicationUser == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return applicationUser;
+    }
 }
