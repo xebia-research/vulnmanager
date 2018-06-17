@@ -24,21 +24,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  Register() {
-    console.log("SUBMITTING!")
-    console.log(this.user);
-    this.user.companyName = "";
-    this.apiService.signup(this.user.username, this.user.password, this.user.companyName)
-      .subscribe(result => {
-        console.log(result);
-        if(this.apiService.login(this.user.username, this.user.password)) {
-          this.router.navigate(['']);
-        }
-        else {
-          //this.msgs.push({severity:'error', summary:'Error Message', detail:'Error logging in'});
-        }
-      });
-  }
+
 
   Login() {
     console.log("SUBMITTING!")

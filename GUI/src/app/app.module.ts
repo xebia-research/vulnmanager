@@ -38,6 +38,7 @@ import {StepsModule} from 'primeng/steps';
 import {GrowlModule} from 'primeng/growl';
 import { AuthGuardService as AuthGuard} from "./services/auth-guard.service";
 import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { RegisterComponent } from './register/register.component';
 
 const appRoutes: Routes = [
 
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
   {path: 'home', component: HomePageComponent, canActivate: [AuthGuard]},
   {path: 'upload', component: UploadComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent },
+  {path: 'register', component: RegisterComponent },
   {
     path: '',
     redirectTo: '/home',
@@ -80,7 +82,8 @@ export function tokenGetter() {
     OpenvasSelectReportComponent,
     NmapSelectReportComponent,
     ZapSelectReportComponent,
-    ClairSelectReportComponent
+    ClairSelectReportComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
