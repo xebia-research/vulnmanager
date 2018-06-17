@@ -11,6 +11,7 @@ export class ClairSelectReportComponent implements OnInit {
 
   clairObjects: any;
   errorMessages: any;
+  clairObjectIsEmpty: boolean;
 
   constructor(private http: HttpClient, private apiService: VulnApiService) {
   }
@@ -22,7 +23,10 @@ export class ClairSelectReportComponent implements OnInit {
         this.clairObjects = clairData;
 
         if (Object.keys(clairData).length === 0) {
-          this.showError("There are no clair reports, upload a report first!")
+          this.showError("There are no clair reports, upload a report first!");
+          this.clairObjectIsEmpty = true;
+        } else {
+          this.clairObjectIsEmpty = false;
         }
       },
       error => {

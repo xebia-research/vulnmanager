@@ -1,6 +1,6 @@
 <p-messages [(value)]="errorMessages"></p-messages>
-<h1>Select Clair report</h1>
-<div>
+<div *ngIf="!clairObjectIsEmpty">
+  <h1>Select Clair report</h1>
   <h3>Select the clair report you want to see the information from.</h3>
   <p-table [value]="clairObjects">
     <ng-template pTemplate="header">
