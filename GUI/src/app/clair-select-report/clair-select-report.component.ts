@@ -10,16 +10,29 @@ import {HttpClient} from "@angular/common/http";
 export class ClairSelectReportComponent implements OnInit {
 
   clairObjects: any;
+  errorMessages: any;
 
   constructor(private http: HttpClient, private apiService: VulnApiService) {
   }
 
   ngOnInit() {
-    this.apiService.getClair("xebia", "vulnmanager").subscribe((data) => {
-      // data bestaat
-      console.log(data);
-      this.clairObjects = data;
-    });
+    this.apiService.getClair("xebia", "vulnmanager").subscribe(
+      clairData => {// data bestaat
+        console.log(clairData);
+        this.clairObjects = clairData;
+
+        if (Object.keys(clairData).length === 0) {
+          this.showError("There are no clair reports, upload a report first!")
+        }
+      },
+      error => {
+        this.showError("The following Http status code was given: " + error.status + ", with the text: " + error.statusText);
+      });
+  }
+
+  showError(msg) {
+    this.errorMessages = [];
+    this.errorMessages.push({severity: 'error', summary: 'Error Message:', detail: msg});
   }
 
 }
