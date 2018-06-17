@@ -1,0 +1,23 @@
+<div class="container ui-g">
+  <!--<p-growl [(value)]="msgs"></p-growl>-->
+  <div class="ui-g-12 ui-lg-6 center">
+    <div class="center">
+      <h1 >Register</h1>
+    </div>
+    <form>
+      <div class="form-group ui-g-12">
+        <label for="name">Username</label>
+        <input type="text" class="form-control" id="name" name="username" required [(ngModel)]="user.username">
+      </div>
+
+      <div class="form-group ui-g-12">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" id="password" required [(ngModel)]="user.password">
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-5 ui-lg-5"> <a routerLink="/login">Already have an account?</a></div>
+        <button type="submit" class="btn btn-success ui-g-12 ui-md-3 ui-md-offset-4 ui-lg-2 ui-lg-offset-5" (click)="Register()">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
