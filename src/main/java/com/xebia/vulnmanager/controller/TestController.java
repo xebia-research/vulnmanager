@@ -6,6 +6,7 @@ import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.generic.GenericReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
+import com.xebia.vulnmanager.models.net.TestInfoResponse;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
@@ -43,6 +44,41 @@ public class TestController {
     private ClairRepository clairRepository;
     @Autowired
     private CompanyRepository companyRepository;
+    @Autowired
+    private PersonRepository personRepository;
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> deleteEveryThing() {
+        TestInfoResponse response = new TestInfoResponse();
+
+        companyRepository.deleteAll();
+        genericRepository.deleteAll();
+        openvasRepository.deleteAll();
+        nMapRepository.deleteAll();
+        zapRepository.deleteAll();
+        clairRepository.deleteAll();
+        companyRepository.deleteAll();
+        personRepository.deleteAll();
+
+        response.setCompany(companyRepository.findAll().size() > 0);
+        response.setReports(genericRepository.findAll().size() > 0);
+        response.setAccounts(personRepository.findAll().size() > 0);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/done", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> getIsCompanyAdded() {
+        TestInfoResponse response = new TestInfoResponse();
+
+        response.setCompany(companyRepository.findAll().size() > 0);
+        response.setReports(genericRepository.findAll().size() > 0);
+        response.setAccounts(personRepository.findAll().size() > 0);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/company", method = RequestMethod.GET)
     @ResponseBody

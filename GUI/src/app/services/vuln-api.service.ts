@@ -6,7 +6,7 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 export class VulnApiService {
 
   helper: JwtHelperService;
-  BASE_URL: any = location.protocol + '//' + location.hostname + ':4343';
+  BASE_URL: any = "http://127.0.0.1:4343";//location.protocol + '//' + location.hostname + ':4343';
 
 
 
@@ -70,6 +70,28 @@ export class VulnApiService {
   getUserNameFromToken() {
     const decodedToken = this.helper.decodeToken(localStorage.getItem("jwt"));
     return decodedToken.sub;
+  }
+
+  delete() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    this.logout()
+
+    return this.http.get(this.BASE_URL + "/addtest/delete", httpOption);
+  }
+
+  isTestAdded() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/addtest/done", httpOption);
   }
 
   addTest() {

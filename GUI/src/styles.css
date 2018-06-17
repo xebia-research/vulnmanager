@@ -13,3 +13,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.ui-menubar .ui-menuitem-link {
+  font-size: 20px;
+}

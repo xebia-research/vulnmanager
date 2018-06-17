@@ -11,16 +11,16 @@ import {MessageService} from 'primeng/components/common/messageservice';
   styleUrls: ['./home-page.component.css'],
   styles: [`
         .ui-steps .ui-steps-item {
-            width: 25%;
+            width: 33.333%;
         }
-    `],
+  `],
   encapsulation: ViewEncapsulation.None
 })
 export class HomePageComponent implements OnInit {
   constructor(private apiService: VulnApiService, private router: Router,private msgService: MessageService) { }
 
   items: MenuItem[];
-  activeIndex: number = 1;
+  activeIndex: number = 0;
   msgs: Message[] = [];
 
 
@@ -30,39 +30,58 @@ export class HomePageComponent implements OnInit {
       label: 'Log in',
       command: (event: any) => {
         this.activeIndex = 1;
+        this.items[0].label = "Log in done";
         this.router.navigateByUrl('/login');
       }
     },
       {
         label: 'Company',
         command: (event: any) => {
-          this.activeIndex = 2;
           this.apiService.addTestCompany().subscribe(() => {
+            this.activeIndex = 2;
+            this.items[1].disabled = true;
+            this.items[1].label = "Company done";
+            this.msgs.splice(0, 1);
             this.msgs.push({severity:'success', summary:'Test company was added'})
-
           });
         }
       },
       {
         label: 'Reports',
         command: (event: any) => {
-          this.activeIndex = 3;
           this.apiService.addTest().subscribe(() => {
+            this.activeIndex = 3;
+            this.items[3].disabled = true;
+            this.items[3].label = "Reports done"
+            this.msgs.splice(0, 1);
             this.msgs.push({severity:'success', summary:'Test reports were added'})
           });
-        }
-      },
-      {
-        label: 'Refresh',
-        command: (event: any) => {
-          this.activeIndex = 0;
-          window.location.reload();
-
         }
       }
     ];
 
+    this.apiService.isTestAdded().subscribe((res) => {
+      let result:any = res;
+
+      if(result.accounts) {
+        this.activeIndex = 1;
+        this.items[0].disabled = true;
+        this.items[0].label = "Log in done";;
+        if(result.company) {
+          this.activeIndex = 2;
+          this.items[1].disabled = true;
+          this.items[1].label = "Company done";
+          if(result.reports) {
+            this.activeIndex = 3;
+            this.items[2].disabled = true;
+            this.items[2].label = "Reports done";
+            this.msgs.push({severity:'success', summary:'Everything is working'})
+          }
+        }
+      }
+
+    })
   }
-  }
+}
 
 

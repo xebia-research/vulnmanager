@@ -39,6 +39,8 @@ import {GrowlModule} from 'primeng/growl';
 import { AuthGuardService as AuthGuard} from "./services/auth-guard.service";
 import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { RegisterComponent } from './register/register.component';
+import {MenubarModule} from "primeng/menubar";
+import {PanelMenuModule} from "primeng/primeng";
 
 const appRoutes: Routes = [
 
@@ -107,6 +109,8 @@ export function tokenGetter() {
     CheckboxModule,
     StepsModule,
     JwtModule,
+    MenubarModule,
+    PanelMenuModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: false} // <-- debugging purposes only
