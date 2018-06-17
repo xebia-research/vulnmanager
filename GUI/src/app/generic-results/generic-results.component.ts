@@ -81,18 +81,19 @@ export class GenericResultsComponent implements OnInit {
   formSubmit(form, reportId, resultId) {
     console.log(reportId, resultId);
     console.log(form.value.text);
-    this.text = '';
     if(form.valid) {
       this.apiService.postComment("xebia", "vulnmanager", reportId, resultId, form.value.text).subscribe(() =>{
         this.genericReports.forEach((report) => {
           if(report.id == reportId) {
             report.genericResults.forEach((result) => {
               if(result.id == resultId) {
+                console.log("Found it!")
                 let comment:any = {};
                 comment.user = {};
                 comment.user.username = localStorage.getItem("user");
                 comment.content = form.value.text;
-                result.comments.unshift(comment)
+                result.comments.unshift(comment);
+                this.text = '';
               }
             })
           }
