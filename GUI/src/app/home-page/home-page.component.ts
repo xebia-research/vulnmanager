@@ -75,7 +75,6 @@ export class HomePageComponent implements OnInit {
             this.activeIndex = 3;
             this.items[2].disabled = true;
             this.items[2].label = "Reports done";
-            this.msgs.push({severity:'success', summary:'Everything is working'})
           }
         }
       }
