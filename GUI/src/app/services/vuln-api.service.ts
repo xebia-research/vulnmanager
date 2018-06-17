@@ -6,7 +6,7 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 export class VulnApiService {
 
   helper: JwtHelperService;
-  BASE_URL: any = location.protocol + '//' + location.hostname + ':4343';
+  BASE_URL: any = location.protocol + '//' + 'vulnapi.' + location.hostname ;
 
 
 
