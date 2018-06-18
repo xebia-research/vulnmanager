@@ -102,6 +102,46 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/users/whomyteams", httpOption);
   }
 
+  getAllInfoFromServer() {
+    let promise = new Promise((resolve, reject) => {
+      if(localStorage.getItem("jwt") != null) {
+        this.whoami().subscribe((res) => {
+          let user:any = res;
+          localStorage.setItem("user", user.username);
+          this.whoMyCompany().subscribe(res2 => {
+
+            let company: any = res2;
+            localStorage.setItem("company", company.name);
+            localStorage.setItem("allteams", JSON.stringify(company.teams))
+
+            this.whoMyTeam().subscribe(res3 => {
+              let teams: any = res3;
+              localStorage.setItem("myteams", JSON.stringify(teams))
+
+              console.log(teams);
+              console.log(company.teams);
+
+              let otherTeams = company.teams.filter(item => teams.indexOf(item) > 0);
+              localStorage.setItem("otherteams", JSON.stringify(otherTeams));
+              resolve("Loaded everything")
+            })
+          })
+        });
+      } else {
+        reject("No Auth token found");
+      }
+    });
+    return promise;
+  }
+
+  setSelectedTeam(teamName) {
+    localStorage.setItem("selectedTeam", teamName);
+  }
+
+  getSelectedTeam(teamName) {
+    return localStorage.getItem("selectedTeam");
+  }
+
   delete() {
     const httpOption = {
       headers: new HttpHeaders({

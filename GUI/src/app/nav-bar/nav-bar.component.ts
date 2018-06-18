@@ -17,6 +17,9 @@ export class NavBarComponent implements OnInit {
   items: MenuItem[];
   msgs: Message[] = [];
 
+  selectedTeam:any;
+  teams:any[];
+
   constructor(private apiService: VulnApiService, private msgService: MessageService, private router:Router) {
   }
 
@@ -29,14 +32,27 @@ export class NavBarComponent implements OnInit {
     this.router.navigateByUrl("/login");
   }
 
+  onTeamSelectChange(event) {
+    if(event != null) {
+      this.apiService.setSelectedTeam(event.name);
+    } else {
+      this.apiService.setSelectedTeam("");
+    }
+  }
+
   ngOnInit() {
     this.isLoggedIn = this.apiService.isLoggedIn();
+
+    this.apiService.getAllInfoFromServer().then((res) => {
+      this.teams = JSON.parse(localStorage.getItem("myteams"));
+      console.log(this.teams);
+    })
 
     if(this.isLoggedIn) {
       this.username = this.apiService.getUserNameFromToken();
 
       this.apiService.whoami().subscribe((res) => {
-        console.log(res);
+
       })
 
     }

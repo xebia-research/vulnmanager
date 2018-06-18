@@ -1,8 +1,10 @@
 <div *ngIf="!companyFound">
   <form #f="ngForm" novalidate>
-    <label>Company Name</label>
-    <input name="companyName" [(ngModel)]="companyName" ngModel required #first="ngModel">
-    <button pButton type="button" icon="fa-plus" (click)="newCompanySubmit(f)" ></button>
+    <div class="form-group">
+      <label for="companyName">Company Name</label>
+      <input id="companyName" class="form-control" name="companyName" [(ngModel)]="companyName" ngModel required #first="ngModel">
+      <button type="sumbit" (click)="newCompanySubmit(f)" class="btn btn-primary">Add company</button>
+    </div>
   </form>
 </div>
 <div *ngIf="companyFound">
@@ -10,25 +12,26 @@
   <h1>You're part of {{companyName}}</h1>
 
   <form #g="ngForm" novalidate>
-    <label>teamName Name</label>
-    <input name="teamName" [(ngModel)]="teamName" ngModel required #first="ngModel">
-    <button pButton type="button" icon="fa-plus" (click)="newTeamSubmit(g)" ></button>
+    <div class="form-group">
+      <label for="teamName">New team name</label>
+      <input id="teamName" class="form-control" name="teamName" [(ngModel)]="teamName" ngModel required #first="ngModel">
+      <button type="submit" (click)="newTeamSubmit(g)" class="btn btn-primary">Add team</button>
+    </div>
   </form>
 
-  <div *ngIf="includedTeams">
-    <h1>Team you're part of</h1>
+  <div>
+    <h1>Team(s) you're part of</h1>
     <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of includedTeams">
       <p-accordionTab header="{{team.name}}" >
-        <h2 *ngFor="let member of team.teamMembers">{{member.username}}</h2>
-
+        <h3 *ngFor="let member of team.teamMembers">{{member.username}}</h3>
       </p-accordionTab>
     </p-accordion>
   </div>
-  <div *ngIf="teams">
-    <h1>Other teams</h1>
+  <div>
+    <h1>Other team(s)</h1>
     <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of teams">
       <p-accordionTab header="{{team.name}}" >
-        <h2 *ngFor="let member of team.teamMembers">{{member.username}}</h2>
+        <h3 *ngFor="let member of team.teamMembers">{{member.username}}</h3>
       </p-accordionTab>
     </p-accordion>
   </div>

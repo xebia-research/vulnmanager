@@ -39,6 +39,9 @@
       </li>
     </ul>
 
+    <div *ngIf="isLoggedIn">
+      <p-dropdown [options]="teams" [(ngModel)]="selectedTeam" (ngModelChange)="onTeamSelectChange($event)" placeholder="Select a team" optionLabel="name" [showClear]="true"></p-dropdown>
+    </div>
     <ul class="navbar-nav">
       <li class="nav-item" *ngIf="!isLoggedIn">
         <a class="nav-link" href="/login">Signup/Login</a>

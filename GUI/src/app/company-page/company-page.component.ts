@@ -26,22 +26,18 @@ export class companyComponent implements OnInit {
   ngOnInit() {
     this.companyFound = false;
 
-    this.apiService.whoami().subscribe(res1 => {
-      console.log(res1);
-      this.apiService.whoMyCompany().subscribe(res2 => {
-        console.log(res2);
-        let company:any = res2;
-        console.log(company)
+    this.apiService.getAllInfoFromServer().then((result) => {
+      this.companyName = localStorage.getItem("company");
+      console.log(this.companyName);
+
+      if(this.companyName != null) {
         this.companyFound = true;
-        this.companyName = company.name;
-        this.teams = company.teams;
-        this.apiService.whoMyTeam().subscribe(res3 => {
-          let teams:any = res3;
-          console.log(teams);
-          this.includedTeams = teams;
-        })
-      })
-    })
+        this.teams = JSON.parse(localStorage.getItem("otherteams"));
+        this.includedTeams = JSON.parse(localStorage.getItem("myteams"));
+      }
+    }).catch((reason => {
+      this.msgs.push({severity: "error", summary:"" + reason});
+    }));
   }
 
   newCompanySubmit(f) {
