@@ -11,7 +11,7 @@ export class ClairSelectReportComponent implements OnInit {
 
   clairObjects: any;
   errorMessages: any;
-  clairObjectIsEmpty: boolean;
+  clairObjectIsEmpty: boolean = true;
 
   constructor(private http: HttpClient, private apiService: VulnApiService) {
   }
@@ -30,7 +30,8 @@ export class ClairSelectReportComponent implements OnInit {
         }
       },
       error => {
-        this.showError("The following Http status code was given: " + error.status + ", with the text: " + error.statusText);
+        this.showError("Could not get clair reports: The following Http status code was given: " + error.status + ", with the text: " + error.statusText);
+        this.clairObjectIsEmpty = true;
       });
   }
 

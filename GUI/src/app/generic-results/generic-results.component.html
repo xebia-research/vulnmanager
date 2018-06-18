@@ -1,11 +1,15 @@
-<h1>All generic results</h1>
-<div >
-  <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="!genericReportIsEmpty">
+  <h1>All generic results</h1>
+
+  <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10"
+              paginatorPosition="both" [rowsPerPageOptions]="[5,10,20]"
               [sortField]="sortField" [sortOrder]="sortOrder"
               filterBy="reportType">
 
     <p-header>
-      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items" styleClass="ui-button-info"></p-splitButton>
+      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items"
+                     styleClass="ui-button-info"></p-splitButton>
       <p></p>
 
       <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
@@ -35,9 +39,10 @@
     </ng-template>
   </p-dataView>
 
-  <p-dialog width="600" appendTo="body" header="Header" [(visible)]="displayDialog" [responsive]="false" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+  <p-dialog width="600" appendTo="body" header="Header" [(visible)]="displayDialog" [responsive]="false"
+            showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedReport">
-      <div class="ui-g-12" >
+      <div class="ui-g-12">
         <!--
 
         comments[{…}]
@@ -76,7 +81,9 @@ url
               <td>{{genericResult.info}}</td>
               <td>{{genericResult.port}}</td>
               <td>{{genericResult.knownSolution}}</td>
-              <td><input type="checkbox" (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)" [checked]="genericResult.falsePositive" binary="true"></td>
+              <td><input type="checkbox"
+                         (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)"
+                         [checked]="genericResult.falsePositive" binary="true"></td>
             </tr>
             <td colspan="10">
               <p-table [value]="genericResult.comments.reverse()" [scrollable]="true" scrollHeight="200px">
