@@ -51,8 +51,8 @@ export class HomePageComponent implements OnInit {
         command: (event: any) => {
           this.apiService.addTest().subscribe(() => {
             this.activeIndex = 3;
-            this.items[3].disabled = true;
-            this.items[3].label = "Reports done"
+            this.items[2].disabled = true;
+            this.items[2].label = "Reports done"
             this.msgs.splice(0, 1);
             this.msgs.push({severity:'success', summary:'Test reports were added'})
           });

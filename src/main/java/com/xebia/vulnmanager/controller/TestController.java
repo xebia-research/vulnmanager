@@ -1,8 +1,9 @@
 package com.xebia.vulnmanager.controller;
 
-import com.xebia.vulnmanager.data.MockCompanyFactory;
 import com.xebia.vulnmanager.models.clair.objects.ClairReport;
 import com.xebia.vulnmanager.models.company.Company;
+import com.xebia.vulnmanager.models.company.Person;
+import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.generic.GenericReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
@@ -17,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -83,8 +86,24 @@ public class TestController {
     @RequestMapping(value = "/company", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> addCompany() {
-        Company xebiaComp = companyRepository.save(new MockCompanyFactory().getMockCompanies().get(0));
-        return new ResponseEntity<>(xebiaComp, HttpStatus.OK);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        Person p = personRepository.findByUsername(currentPrincipalName);
+
+        if (p != null) {
+            Company company = new Company("xebia");
+            company.addEmployee(p);
+            p.setCompany(company);
+
+            Team newTeam = new Team("vulnmanager");
+            newTeam.addTeamMember(p);
+            newTeam.setCompany(company);
+            company.addTeam(newTeam);
+
+            return new ResponseEntity<>(companyRepository.save(company), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(new ErrorMsg("User not found"), HttpStatus.NOT_FOUND);
     }
 
     /**

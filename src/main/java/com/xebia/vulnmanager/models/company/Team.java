@@ -34,6 +34,7 @@ public class Team implements Serializable {
 
     protected Team() {
         // Do nothing
+        teamMembers = new ArrayList<>();
     }
 
     public Team(final String name) {
