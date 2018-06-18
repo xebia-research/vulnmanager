@@ -1,10 +1,11 @@
 package com.xebia.vulnmanager.controller;
 
 import com.xebia.vulnmanager.models.company.Company;
+import com.xebia.vulnmanager.models.company.Person;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
+import com.xebia.vulnmanager.repositories.PersonRepository;
 import com.xebia.vulnmanager.services.CompanyService;
-import com.xebia.vulnmanager.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,10 @@ public class CompanyController {
 
     private CompanyService companyService;
 
-    private UserDetailsServiceImpl userService;
+    private PersonRepository userService;
 
     @Autowired
-    public CompanyController(final CompanyService companyService, final UserDetailsServiceImpl userService) {
+    public CompanyController(final CompanyService companyService, final PersonRepository userService) {
         this.companyService = companyService;
         this.userService = userService;
     }
@@ -59,17 +60,27 @@ public class CompanyController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
+        Person creator = userService.findByUsername(currentPrincipalName);
+
+        if (creator == null) {
+            return new ResponseEntity<ErrorMsg>(new ErrorMsg("User does not exist"), HttpStatus.OK);
+        }
 
         // find company by name
         Company foundCompany = companyService.getCompanyByName(companyName);
 
-        Company company = new Company(companyName);
-
         if (foundCompany == null) {
+            Company company = new Company(companyName);
+            company.addEmployee(creator);
+            creator.setCompany(company);
             return new ResponseEntity<>(companyService.getCompanyRepository().save(company), HttpStatus.OK);
-        }
+        } else {
+            foundCompany.addEmployee(creator);
+            creator.setCompany(foundCompany);
+            foundCompany = companyService.getCompanyRepository().save(foundCompany);
+            return new ResponseEntity<>(foundCompany, HttpStatus.OK);
 
-        return new ResponseEntity<ErrorMsg>(new ErrorMsg("Company name exists"), HttpStatus.OK);
+        }
     }
 
     /**
@@ -103,6 +114,16 @@ public class CompanyController {
     @RequestMapping(value = "/{team}", method = RequestMethod.POST)
     @ResponseBody
     ResponseEntity<?> createTeam(@PathVariable(COMPANY) String companyName, @PathVariable("team") String teamName) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        Person creator = userService.findByUsername(currentPrincipalName);
+
+        if (creator == null) {
+            return new ResponseEntity<ErrorMsg>(new ErrorMsg("User does not exist"), HttpStatus.OK);
+        }
+
+
         // find company by name
         Company foundCompany = companyService.getCompanyByName(companyName);
 
@@ -112,9 +133,18 @@ public class CompanyController {
 
         Team team = companyService.getTeamOfCompany(companyName, teamName);
         if (team != null) {
-            return new ResponseEntity<ErrorMsg>(new ErrorMsg("Team already exists"), HttpStatus.OK);
+            if (team.addTeamMember(creator)) {
+                foundCompany.addTeam(team);
+                return new ResponseEntity<Company>(companyService.getCompanyRepository().save(foundCompany), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(new ErrorMsg("Already in team"), HttpStatus.OK);
+
+            }
         } else {
-            foundCompany.addTeam(new Team(teamName));
+            Team newTeam = new Team(teamName);
+            newTeam.addTeamMember(creator);
+            newTeam.setCompany(foundCompany);
+            foundCompany.addTeam(newTeam);
             return new ResponseEntity<Company>(companyService.getCompanyRepository().save(foundCompany), HttpStatus.OK);
         }
     }

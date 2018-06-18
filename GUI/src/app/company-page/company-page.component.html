@@ -1,0 +1,35 @@
+<div *ngIf="!companyFound">
+  <form #f="ngForm" novalidate>
+    <label>Company Name</label>
+    <input name="companyName" [(ngModel)]="companyName" ngModel required #first="ngModel">
+    <button pButton type="button" icon="fa-plus" (click)="newCompanySubmit(f)" ></button>
+  </form>
+</div>
+<div *ngIf="companyFound">
+  <p-messages [(value)]="msgs"></p-messages>
+  <h1>You're part of {{companyName}}</h1>
+
+  <form #g="ngForm" novalidate>
+    <label>teamName Name</label>
+    <input name="teamName" [(ngModel)]="teamName" ngModel required #first="ngModel">
+    <button pButton type="button" icon="fa-plus" (click)="newTeamSubmit(g)" ></button>
+  </form>
+
+  <div *ngIf="includedTeams">
+    <h1>Team you're part of</h1>
+    <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of includedTeams">
+      <p-accordionTab header="{{team.name}}" >
+        <h2 *ngFor="let member of team.teamMembers">{{member.username}}</h2>
+
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+  <div *ngIf="teams">
+    <h1>Other teams</h1>
+    <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of teams">
+      <p-accordionTab header="{{team.name}}" >
+        <h2 *ngFor="let member of team.teamMembers">{{member.username}}</h2>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</div>

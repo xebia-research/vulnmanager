@@ -41,6 +41,7 @@ import { JwtHelperService, JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { RegisterComponent } from './register/register.component';
 import {MenubarModule} from "primeng/menubar";
 import {PanelMenuModule} from "primeng/primeng";
+import {companyComponent} from "./company-page/company-page.component"
 
 const appRoutes: Routes = [
 
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
   {path: 'zap-result/:id' , component: ZapResultsComponent, canActivate: [AuthGuard]},
   {path: 'zap-select-report' , component: ZapSelectReportComponent, canActivate: [AuthGuard]},
   {path: 'generic-results' , component: GenericResultsComponent, canActivate: [AuthGuard]},
+  {path: 'company' , component: companyComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomePageComponent, canActivate: [AuthGuard]},
   {path: 'upload', component: UploadComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent },
@@ -85,6 +87,7 @@ export function tokenGetter() {
     NmapSelectReportComponent,
     ZapSelectReportComponent,
     ClairSelectReportComponent,
+    companyComponent,
     RegisterComponent
   ],
   imports: [
