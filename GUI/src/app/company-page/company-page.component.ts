@@ -15,7 +15,7 @@ export class companyComponent implements OnInit {
   constructor(private apiService: VulnApiService, private router: Router,private msgService: MessageService) { }
 
   msgs: Message[] = [];
-
+  company:any;
   companyFound:boolean;
   companyName:any;
   teamName:any;
@@ -44,6 +44,9 @@ export class companyComponent implements OnInit {
       console.log(this.companyName);
 
       if(this.companyName != null && this.companyName != 'undefined') {
+        this.apiService.whoMyCompany().subscribe(
+          res => { this.company = res; console.log(res);}
+        );
         this.companyFound = true;
         this.teams = JSON.parse(localStorage.getItem("allteams"));
         this.includedTeams = JSON.parse(localStorage.getItem("myteams"));
