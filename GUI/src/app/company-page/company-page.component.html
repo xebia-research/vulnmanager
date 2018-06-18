@@ -21,8 +21,8 @@
         </div>
       </form>
 
-      <div>
-        <h1>Team(s) you're part of</h1>
+      <div *ngIf="includedTeams.length > 0">
+        <h1>Team(s) you're a part of</h1>
         <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of includedTeams">
           <p-accordionTab header="{{team.name}}" >
             <h3 class="overflow" *ngFor="let member of team.teamMembers">{{member.username}}</h3>
@@ -36,17 +36,17 @@
     <div class="ui-g-12">
       <p-card *ngIf="company" subtitle="Employees of {{companyName}}">
         <div *ngFor="let employee of company.employees">
-          <h5>{{employee.username}}</h5>
+          <h5>- {{employee.username}}</h5>
         </div>
       </p-card>
     </div>
 
     <div class="ui-g-12">
-      <div>
+      <div *ngIf="company.teams.length > 0">
         <h1>All team(s)</h1>
         <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of teams">
-          <p-accordionTab header="{{team.name}}" >
-            <h3 *ngFor="let member of team.teamMembers">{{member.username}}</h3>
+          <p-accordionTab header="{{team.name}}">
+            <h5 *ngFor="let member of team.teamMembers">- {{member.username}}</h5>
           </p-accordionTab>
         </p-accordion>
       </div>

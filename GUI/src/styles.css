@@ -17,3 +17,7 @@
 .ui-menubar .ui-menuitem-link {
   font-size: 20px;
 }
+
+.ui-accordion-header-text {
+  font-size: 25px;
+}

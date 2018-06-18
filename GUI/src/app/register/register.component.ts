@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
       .subscribe(result => {
         console.log(result);
         if(this.apiService.login(this.user.username, this.user.password)) {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/company']);
         }
         else {
           //this.msgs.push({severity:'error', summary:'Error Message', detail:'Error logging in'});
