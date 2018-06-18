@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MenuItem, Message} from "primeng/api";
 import {VulnApiService} from "../services/vuln-api.service";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import {MessageService} from 'primeng/components/common/messageservice';
 
 @Component({
@@ -24,13 +24,26 @@ export class companyComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.loadData();
+    this.router.events.subscribe(
+      value => {
+        if (value instanceof NavigationEnd) {
+
+          this.loadData();
+        }
+      });
+
+  }
+
+  loadData() {
     this.companyFound = false;
 
     this.apiService.getAllInfoFromServer().then((result) => {
       this.companyName = localStorage.getItem("company");
       console.log(this.companyName);
 
-      if(this.companyName != null) {
+      if(this.companyName != null && this.companyName != 'undefined') {
         this.companyFound = true;
         this.teams = JSON.parse(localStorage.getItem("allteams"));
         this.includedTeams = JSON.parse(localStorage.getItem("myteams"));
@@ -39,7 +52,6 @@ export class companyComponent implements OnInit {
       this.msgs.push({severity: "error", summary:"" + reason});
     }));
   }
-
   newCompanySubmit(f) {
     console.log(f.value.companyName);
     this.apiService.postCompany(f.value.companyName).subscribe((res) => {
@@ -59,6 +71,9 @@ export class companyComponent implements OnInit {
     console.log(g.value.teamName);
     this.apiService.postTeam(this.companyName, g.value.teamName).subscribe((res) => {
       console.log(res);
+      this.router.onSameUrlNavigation = "reload";
+      this.router.navigateByUrl("/company");
+
     })
   }
 }

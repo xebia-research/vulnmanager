@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {VulnApiService} from "../services/vuln-api.service";
 import {MessageService} from "primeng/components/common/messageservice";
 import {MenuItem, Message} from "primeng/api";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-nav-bar',
@@ -41,21 +41,31 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoggedIn = this.apiService.isLoggedIn();
 
-    this.apiService.getAllInfoFromServer().then((res) => {
-      this.teams = JSON.parse(localStorage.getItem("myteams"));
-      console.log(this.teams);
-    })
+    this.router.events.subscribe(
+      value => {
+        if(value instanceof NavigationEnd){
 
-    if(this.isLoggedIn) {
-      this.username = this.apiService.getUserNameFromToken();
+          this.isLoggedIn = this.apiService.isLoggedIn();
 
-      this.apiService.whoami().subscribe((res) => {
+          this.apiService.getAllInfoFromServer().then((res) => {
+            this.teams = JSON.parse(localStorage.getItem("myteams"));
+            console.log(this.teams);
+          })
 
-      })
+          if(this.isLoggedIn) {
+            this.username = this.apiService.getUserNameFromToken();
 
+            this.apiService.whoami().subscribe((res) => {
+
+            })
+
+          }
+        }
     }
+    )
+
+
 
 
     this.items = [
