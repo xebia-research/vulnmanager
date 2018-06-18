@@ -32,6 +32,18 @@ public class Team implements Serializable {
     @JsonBackReference
     private List<OpenvasReport> reports;
 
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<OpenvasReport> nmap;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<OpenvasReport> zap;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<OpenvasReport> clair;
+
     protected Team() {
         // Do nothing
         teamMembers = new ArrayList<>();

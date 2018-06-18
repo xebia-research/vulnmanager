@@ -15,7 +15,7 @@ export class ZapSelectReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.getZap("xebia", "vulnmanager").subscribe((data) => {
+    this.apiService.getZap().subscribe((data) => {
       // data bestaat
       console.log(data);
       this.zapObjects = data;

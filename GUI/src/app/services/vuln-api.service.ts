@@ -115,14 +115,8 @@ export class VulnApiService {
             localStorage.setItem("allteams", JSON.stringify(company.teams))
 
             this.whoMyTeam().subscribe(res3 => {
-              let teams: any = res3;
-              localStorage.setItem("myteams", JSON.stringify(teams))
-
-              console.log(teams);
-              console.log(company.teams);
-
-              let otherTeams = company.teams.filter(item => teams.indexOf(item) > 0);
-              localStorage.setItem("otherteams", JSON.stringify(otherTeams));
+              let myTeams: any = res3;
+              localStorage.setItem("myteams", JSON.stringify(myTeams))
               resolve("Loaded everything")
             })
           })
@@ -184,7 +178,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/addtest/company", httpOption);
   }
 
-  getOpenvas(company, team) {
+  getOpenvas() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -194,7 +195,13 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/openvas", httpOption);
   }
 
-  getOpenvasReport(company, team, reportId) {
+  getOpenvasReport(reportId) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -204,7 +211,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/openvas/" + reportId, httpOption);
   }
 
-  getNmap(company, team) {
+  getNmap() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -214,7 +228,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/nmap", httpOption);
   }
 
-  getNmapReport(company, team, reportId) {
+  getNmapReport(reportId) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -224,7 +245,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/nmap/" + reportId, httpOption);
   }
 
-  getZap(company, team) {
+  getZap() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -234,7 +262,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/zap", httpOption);
   }
 
-  getReportZap(company, team, reportId) {
+  getReportZap(reportId) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -244,7 +279,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/zap/" + reportId, httpOption);
   }
 
-  getClair(company, team) {
+  getClair() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -254,7 +296,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/clair", httpOption);
   }
 
-  getReportClair(company, team, reportId) {
+  getReportClair(reportId) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -264,7 +313,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/clair/" + reportId, httpOption);
   }
 
-  getGenericMulti(company, team) {
+  getGenericMulti() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -274,7 +330,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/generic", httpOption);
   }
 
-  getGenericReport(company, team, id) {
+  getGenericReport(id) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -284,7 +347,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + id, httpOption);
   }
 
-  getGenericResult(company, team, reportid, resultid) {
+  getGenericResult(reportid, resultid) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -294,7 +364,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + reportid + "/result/" + resultid, httpOption);
   }
 
-  postComment(company, team, reportid, resultid, text) {
+  postComment(reportid, resultid, text) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -308,7 +385,14 @@ export class VulnApiService {
     return this.http.post(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + reportid + "/result/" + resultid + "/comment", comment, httpOption);
   }
 
-  postFalsePositive(company, team, reportid, resultid) {
+  postFalsePositive(reportid, resultid) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")

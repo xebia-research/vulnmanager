@@ -45,7 +45,7 @@ export class GenericResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.getGenericMulti("xebia", "vulnmanager").subscribe((data) => {
+    this.apiService.getGenericMulti().subscribe((data) => {
       // data bestaat
       console.log(data) ;
       this.genericReports = data;
@@ -82,7 +82,7 @@ export class GenericResultsComponent implements OnInit {
     console.log(reportId, resultId);
     console.log(form.value.text);
     if(form.valid) {
-      this.apiService.postComment("xebia", "vulnmanager", reportId, resultId, form.value.text).subscribe(() =>{
+      this.apiService.postComment(reportId, resultId, form.value.text).subscribe(() =>{
         this.genericReports.forEach((report) => {
           if(report.id == reportId) {
             report.genericResults.forEach((result) => {
@@ -103,7 +103,7 @@ export class GenericResultsComponent implements OnInit {
   }
 
   changeFalsePositive(reportId, resultId, falsePositive) {
-    this.apiService.postFalsePositive("xebia", "vulnmanager", reportId, resultId).subscribe(() =>{
+    this.apiService.postFalsePositive(reportId, resultId).subscribe(() =>{
       this.genericReports.forEach((report) => {
         if(report.id == reportId) {
           report.genericResults.forEach((result) => {

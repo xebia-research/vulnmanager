@@ -1,6 +1,8 @@
 package com.xebia.vulnmanager.models.zap.objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 
 import javax.persistence.*;
@@ -20,6 +22,11 @@ public class ZapReport implements Serializable {
     @OneToMany(mappedBy = "zapReport", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<ScannedSiteInformation> scannedSitesInformation;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
+    private Team team;
 
     public Long getId() {
         return id;
@@ -60,5 +67,9 @@ public class ZapReport implements Serializable {
             multiReport.addReports(ssi.getGenericReport());
         }
         return multiReport;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

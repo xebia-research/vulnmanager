@@ -30,7 +30,7 @@ export class OpenvasResultsComponent implements OnInit {
       let reportId = params['id']; // (+) converts string 'id' to a number
 
       if (parseInt(reportId, 10)) {
-        this.apiService.getOpenvasReport("xebia", "vulnmanager", reportId).subscribe((openVasObject) => {
+        this.apiService.getOpenvasReport(reportId).subscribe((openVasObject) => {
           // data bestaat
           console.log(openVasObject);
           this.openVasObject = openVasObject;

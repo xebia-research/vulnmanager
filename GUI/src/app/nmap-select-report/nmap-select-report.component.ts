@@ -15,7 +15,7 @@ export class NmapSelectReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.getNmap("xebia", "vulnmanager").subscribe((data) => {
+    this.apiService.getNmap().subscribe((data) => {
       // data bestaat
       console.log(data);
       this.nmapObjects = data;

@@ -16,7 +16,7 @@ export class OpenvasSelectReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.getOpenvas("xebia", "vulnmanager").subscribe((data) => {
+    this.apiService.getOpenvas().subscribe((data) => {
       // data bestaat
       console.log(data);
       this.openVasObjects = data;

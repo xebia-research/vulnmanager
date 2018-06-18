@@ -32,7 +32,7 @@ export class companyComponent implements OnInit {
 
       if(this.companyName != null) {
         this.companyFound = true;
-        this.teams = JSON.parse(localStorage.getItem("otherteams"));
+        this.teams = JSON.parse(localStorage.getItem("allteams"));
         this.includedTeams = JSON.parse(localStorage.getItem("myteams"));
       }
     }).catch((reason => {

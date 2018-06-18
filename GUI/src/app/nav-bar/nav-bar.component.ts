@@ -100,14 +100,7 @@ export class NavBarComponent implements OnInit {
   }
 
   runDelete() {
-    let names:any = [];
-    names[0] = "THE Dofensmithzinator";
-    names[1] = "DOLBY";
-    names[2] = "YOUUUU";
-    names[3] = "SNOOP DAWG";
-    names[4] = "A WRONG CLICK ON 420";
-
-    if(confirm("DELETE EVERYTHING WITH THANKS TO "+ names[Math.floor(Math.random() * Math.floor(names.length))])) {
+    if(confirm("DELETE EVERYTHING WITH THANKS TO YOU")) {
       this.apiService.delete().subscribe(() => {
         this.msgs.push({severity:'success', summary:'Everything was lost and world is now burning thanks to you'});
         this.router.navigateByUrl("/login");

@@ -31,7 +31,7 @@ export class ZapResultsComponent implements OnInit {
       let reportId = params['id']; // (+) converts string 'id' to a number
 
       if (parseInt(reportId, 10)) {
-        this.apiService.getReportZap("xebia", "vulnmanager", reportId).subscribe((zapObject) => {
+        this.apiService.getReportZap(reportId).subscribe((zapObject) => {
           this.zapObject = zapObject;
           let scannedSites = this.zapObject.scannedSitesInformation;
 

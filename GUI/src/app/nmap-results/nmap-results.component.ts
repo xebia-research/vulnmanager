@@ -31,7 +31,7 @@ export class NmapResultsComponent implements OnInit {
       let reportId = params['id']; // (+) converts string 'id' to a number
 
       if (parseInt(reportId, 10)) {
-        this.apiService.getNmapReport("xebia", "vulnmanager", reportId).subscribe((nmapObject) => {
+        this.apiService.getNmapReport(reportId).subscribe((nmapObject) => {
           this.nMapObject = nmapObject;
         });
       }

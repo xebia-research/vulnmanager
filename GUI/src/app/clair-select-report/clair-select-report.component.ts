@@ -15,7 +15,7 @@ export class ClairSelectReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.getClair("xebia", "vulnmanager").subscribe((data) => {
+    this.apiService.getClair().subscribe((data) => {
       // data bestaat
       console.log(data);
       this.clairObjects = data;

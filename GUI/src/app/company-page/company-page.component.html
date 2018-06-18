@@ -1,38 +1,40 @@
-<div *ngIf="!companyFound">
-  <form #f="ngForm" novalidate>
-    <div class="form-group">
-      <label for="companyName">Company Name</label>
-      <input id="companyName" class="form-control" name="companyName" [(ngModel)]="companyName" ngModel required #first="ngModel">
-      <button type="sumbit" (click)="newCompanySubmit(f)" class="btn btn-primary">Add company</button>
-    </div>
-  </form>
-</div>
-<div *ngIf="companyFound">
-  <p-messages [(value)]="msgs"></p-messages>
-  <h1>You're part of {{companyName}}</h1>
-
-  <form #g="ngForm" novalidate>
-    <div class="form-group">
-      <label for="teamName">New team name</label>
-      <input id="teamName" class="form-control" name="teamName" [(ngModel)]="teamName" ngModel required #first="ngModel">
-      <button type="submit" (click)="newTeamSubmit(g)" class="btn btn-primary">Add team</button>
-    </div>
-  </form>
-
-  <div>
-    <h1>Team(s) you're part of</h1>
-    <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of includedTeams">
-      <p-accordionTab header="{{team.name}}" >
-        <h3 *ngFor="let member of team.teamMembers">{{member.username}}</h3>
-      </p-accordionTab>
-    </p-accordion>
+<div>
+  <div *ngIf="!companyFound">
+    <form #f="ngForm" novalidate>
+      <div class="form-group">
+        <label for="companyName">Company Name</label>
+        <input id="companyName" class="form-control" name="companyName" [(ngModel)]="companyName" ngModel required #first="ngModel">
+        <button type="sumbit" (click)="newCompanySubmit(f)" class="btn btn-primary">Add company</button>
+      </div>
+    </form>
   </div>
-  <div>
-    <h1>Other team(s)</h1>
-    <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of teams">
-      <p-accordionTab header="{{team.name}}" >
-        <h3 *ngFor="let member of team.teamMembers">{{member.username}}</h3>
-      </p-accordionTab>
-    </p-accordion>
+  <div *ngIf="companyFound">
+    <p-messages [(value)]="msgs"></p-messages>
+    <h1>You're part of {{companyName}}</h1>
+
+    <form #g="ngForm" novalidate>
+      <div class="form-group">
+        <label for="teamName">New team name</label>
+        <input id="teamName" class="form-control" name="teamName" [(ngModel)]="teamName" ngModel required #first="ngModel">
+        <button type="submit" (click)="newTeamSubmit(g)" class="btn btn-primary">Add team</button>
+      </div>
+    </form>
+
+    <div>
+      <h1>Team(s) you're part of</h1>
+      <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of includedTeams">
+        <p-accordionTab header="{{team.name}}" >
+          <h3 *ngFor="let member of team.teamMembers">{{member.username}}</h3>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+    <div>
+      <h1>All team(s)</h1>
+      <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of teams">
+        <p-accordionTab header="{{team.name}}" >
+          <h3 *ngFor="let member of team.teamMembers">{{member.username}}</h3>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
   </div>
 </div>
