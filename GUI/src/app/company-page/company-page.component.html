@@ -48,7 +48,7 @@
         <p-card class="ui-lg-12 smallheader overflow ui-card-body" *ngFor="let team of teams" title="{{team.name}}">
           <div class="ui-g">
 
-            <p-accordion class="ui-g-8">
+            <p-accordion class="ui-g-12">
               <p-accordionTab header="Members">
                 <h5 *ngFor="let member of team.teamMembers">- {{member.username}}</h5>
               </p-accordionTab>
