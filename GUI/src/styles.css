@@ -19,5 +19,8 @@
 }
 
 .ui-accordion-header-text {
-  font-size: 25px;
+  font-size: 18px;
+}
+.smallheader {
+  font-size: 18px;
 }
