@@ -1,35 +1,36 @@
 <div class="ui-g">
   <div class="ui-g-6">
-    <div *ngIf="!companyFound">
+    <div *ngIf="!companyFound" class="ui-g-12">
       <form #f="ngForm" novalidate>
-        <div class="form-group">
-          <label for="companyName">Company Name</label>
-          <input id="companyName" class="form-control" name="companyName" [(ngModel)]="companyName" ngModel required #first="ngModel">
-          <button type="sumbit" (click)="newCompanySubmit(f)" class="btn btn-primary">Add company</button>
+        <div class="form-group ui-g-12">
+          <label for="companyName" class="ui-g-12"><h2>Create new company:</h2></label>
+          <input id="companyName" class="form-control ui-g-8" name="companyName" [(ngModel)]="companyName" ngModel required #first="ngModel">
+          <button type="sumbit" (click)="newCompanySubmit(f)" class="btn btn-primary ui-g-3 ui-g-offset-1">Add company</button>
         </div>
       </form>
     </div>
-    <div *ngIf="companyFound">
+    <div *ngIf="companyFound" class="ui-g-12">
       <p-messages [(value)]="msgs"></p-messages>
-      <h1>You're part of {{companyName}}</h1>
-
+      <h2>Current company: {{companyName}}</h2>
+    </div>
+    <div *ngIf="companyFound" class="ui-g-12">
       <form #g="ngForm" novalidate>
         <div class="form-group">
-          <label for="teamName">New team name</label>
-          <input id="teamName" class="form-control" name="teamName" [(ngModel)]="teamName" ngModel required #first="ngModel">
-          <button type="submit" (click)="newTeamSubmit(g)" class="btn btn-primary">Add team</button>
+          <label for="teamName" class="ui-g-12"><h2>Create new team:</h2></label>
+          <input id="teamName" class="form-control ui-g-8" name="teamName" [(ngModel)]="teamName" ngModel required #first="ngModel">
+          <button type="submit" (click)="newTeamSubmit(g)" class="btn btn-primary ui-g-3 ui-g-offset-1">Add team</button>
         </div>
       </form>
-
+    </div>
+    <div *ngIf="companyFound" class="ui-g-12">
       <div *ngIf="includedTeams.length > 0">
-        <h1>Team(s) you're a part of</h1>
+        <h2>Team(s) you're a part of</h2>
         <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of includedTeams">
           <p-accordionTab header="{{team.name}}" >
             <h3 class="overflow" *ngFor="let member of team.teamMembers">{{member.username}}</h3>
           </p-accordionTab>
         </p-accordion>
       </div>
-
     </div>
   </div>
   <div class="ui-g-4 ui-g-offset-2">
@@ -42,13 +43,16 @@
     </div>
 
     <div class="ui-g-12">
-      <div *ngIf="company && company.teams.length > 0">
-        <h1>All team(s)</h1>
-        <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of teams">
-          <p-accordionTab header="{{team.name}}">
-            <h5 *ngFor="let member of team.teamMembers">- {{member.username}}</h5>
-          </p-accordionTab>
-        </p-accordion>
+      <div *ngIf="company && company.teams.length > 0" class="ui-g-12">
+        <h2>All team(s)</h2>
+        <p-card class="ui-g-12 smallheader overflow" *ngFor="let team of teams" title="{{team.name}}">
+          <p-accordion>
+            <p-accordionTab header="Members">
+              <h5 class="ui-g-9" *ngFor="let member of team.teamMembers">- {{member.username}}</h5>
+            </p-accordionTab>
+          </p-accordion>
+          <button class="btn btn-primary">Join</button>
+        </p-card>
       </div>
     </div>
   </div>
