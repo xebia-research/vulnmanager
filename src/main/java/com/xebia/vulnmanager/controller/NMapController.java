@@ -61,7 +61,7 @@ public class NMapController {
         if (report != null) {
             return new ResponseEntity<>(report, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -78,7 +78,7 @@ public class NMapController {
         if (report != null) {
             return new ResponseEntity<>(report, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -109,7 +109,7 @@ public class NMapController {
             }
             return new ResponseEntity<>(chosenHost, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -126,7 +126,7 @@ public class NMapController {
         if (report != null) {
             return new ResponseEntity<>(report, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
+            return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.NOT_FOUND);
         }
     }
 
