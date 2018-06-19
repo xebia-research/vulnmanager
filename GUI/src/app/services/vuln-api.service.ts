@@ -6,11 +6,18 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 export class VulnApiService {
 
   helper: JwtHelperService;
-  BASE_URL: any = "http://127.0.0.1:4343";//location.protocol + '//' + location.hostname + ':4343';
-
+  BASE_URL: any;
+  DOMAIN_URL: any = location.protocol + '//' + 'vulnapi.' + location.hostname;
+  LAN_URL: any = location.protocol + '//' + location.hostname + ':4343'
 
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
+
+    if(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/.test(location.hostname)) {
+      this.BASE_URL = this.LAN_URL;
+    } else {
+      this.BASE_URL = this.DOMAIN_URL;
+    }
 
     this.helper = new JwtHelperService();
   }
