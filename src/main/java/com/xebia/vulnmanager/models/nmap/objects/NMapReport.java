@@ -27,7 +27,7 @@ public class NMapReport implements Serializable {
     @JsonManagedReference
     private List<Host> hosts;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id", nullable = false) // Column that will be used to keep track of the parent
     @JsonBackReference // A backrefrence to keep json from infinite looping
     private Team team;
@@ -79,5 +79,9 @@ public class NMapReport implements Serializable {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

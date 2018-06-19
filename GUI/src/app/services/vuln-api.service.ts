@@ -56,6 +56,9 @@ export class VulnApiService {
   }
 
   logout() {
+    localStorage.removeItem("company");
+    localStorage.removeItem("allteams");
+    localStorage.removeItem("myteams");
     localStorage.removeItem("jwt");
   }
 
@@ -111,18 +114,20 @@ export class VulnApiService {
           this.whoMyCompany().subscribe(res2 => {
 
             let company: any = res2;
-            localStorage.setItem("company", company.name);
-            localStorage.setItem("allteams", JSON.stringify(company.teams))
+            if(company.msg == null) {
+              localStorage.setItem("company", company.name);
+              localStorage.setItem("allteams", JSON.stringify(company.teams))
 
-            this.whoMyTeam().subscribe(res3 => {
-              let myTeams: any = res3;
-              localStorage.setItem("myteams", JSON.stringify(myTeams))
-              resolve("Loaded everything")
-            })
+              this.whoMyTeam().subscribe(res3 => {
+                let myTeams: any = res3;
+                localStorage.setItem("myteams", JSON.stringify(myTeams))
+                resolve("Loaded everything")
+              })
+            }
           })
         });
       } else {
-        reject("No Auth token found");
+        resolve("ERROR: no Auth token found");
       }
     });
     return promise;

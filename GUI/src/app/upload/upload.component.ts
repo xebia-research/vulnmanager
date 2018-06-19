@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-upload',
@@ -8,15 +9,26 @@ import {Component, OnInit} from '@angular/core';
 export class UploadComponent implements OnInit {
   uploadedFiles: any[] = [];
   hostName: any = location.hostname;
+  companyName:any;
+  teamName:any;
 
-  constructor() {
+  constructor(private router:Router) {
 
   }
 
   ngOnInit() {
+    this.companyName = localStorage.getItem("company");
+    this.teamName = localStorage.getItem("selectedTeam");
+
+    this.router.events.subscribe((event => {
+      if(event instanceof NavigationEnd) {
+        this.teamName = localStorage.getItem("selectedTeam");
+      }
+    }))
   }
 
   onBeforeSend = function (event) {
+    this.teamName = localStorage.getItem("selectedTeam");
     event.xhr.setRequestHeader('authorization', localStorage.getItem("jwt"));
   };
 

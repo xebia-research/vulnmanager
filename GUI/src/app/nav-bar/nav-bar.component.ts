@@ -35,13 +35,14 @@ export class NavBarComponent implements OnInit {
   onTeamSelectChange(event) {
     if(event != null) {
       this.apiService.setSelectedTeam(event.name);
+      this.router.navigateByUrl(this.router.url);
     } else {
       this.apiService.setSelectedTeam("");
     }
   }
 
   ngOnInit() {
-
+    this.router.onSameUrlNavigation = "reload";
     this.router.events.subscribe(
       value => {
         if(value instanceof NavigationEnd){
@@ -49,8 +50,11 @@ export class NavBarComponent implements OnInit {
           this.isLoggedIn = this.apiService.isLoggedIn();
 
           this.apiService.getAllInfoFromServer().then((res) => {
-            this.teams = JSON.parse(localStorage.getItem("myteams"));
-            console.log(this.teams);
+            let result:any = res;
+            if(!result.startsWith("ERROR")) {
+              this.teams = JSON.parse(localStorage.getItem("myteams"));
+              console.log(this.teams);
+            }
           })
 
           if(this.isLoggedIn) {

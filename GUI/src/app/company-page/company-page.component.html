@@ -42,7 +42,7 @@
     </div>
 
     <div class="ui-g-12">
-      <div *ngIf="company.teams.length > 0">
+      <div *ngIf="company && company.teams.length > 0">
         <h1>All team(s)</h1>
         <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let team of teams">
           <p-accordionTab header="{{team.name}}">

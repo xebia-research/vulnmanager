@@ -24,7 +24,7 @@ export class companyComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.router.onSameUrlNavigation = "reload";
     this.loadData();
     this.router.events.subscribe(
       value => {
@@ -50,6 +50,8 @@ export class companyComponent implements OnInit {
         this.companyFound = true;
         this.teams = JSON.parse(localStorage.getItem("allteams"));
         this.includedTeams = JSON.parse(localStorage.getItem("myteams"));
+      } else {
+        this.companyName = null;
       }
     }).catch((reason => {
       this.msgs.push({severity: "error", summary:"" + reason});
@@ -66,6 +68,7 @@ export class companyComponent implements OnInit {
         this.companyFound = true;
         this.companyName = company.name;
         this.teams = company.teams;
+        this.router.navigateByUrl("/company");
       }
     });
   }
@@ -74,9 +77,7 @@ export class companyComponent implements OnInit {
     console.log(g.value.teamName);
     this.apiService.postTeam(this.companyName, g.value.teamName).subscribe((res) => {
       console.log(res);
-      this.router.onSameUrlNavigation = "reload";
       this.router.navigateByUrl("/company");
-
     })
   }
 }
