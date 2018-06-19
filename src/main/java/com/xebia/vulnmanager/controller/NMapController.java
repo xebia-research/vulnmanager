@@ -3,20 +3,17 @@ package com.xebia.vulnmanager.controller;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.Host;
-import com.xebia.vulnmanager.models.nmap.objects.NMapGeneralInformation;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.services.NmapService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -33,6 +30,7 @@ public class NMapController {
     public NMapController(final NmapService nmapService) {
         this.nmapService = nmapService;
     }
+
     /**
      * Get all the added reports
      *
@@ -59,10 +57,9 @@ public class NMapController {
     @ResponseBody
     ResponseEntity<?> getNMapReport(@PathVariable(REPORT_ID_LITERAL) long reportId) {
 
-        Optional<NMapReport> report = nmapService.getReportById(reportId);
-        if (report.isPresent()) {
-            NMapReport nMapReport = report.get();
-            return new ResponseEntity<>(nMapReport, HttpStatus.OK);
+        NMapReport report = nmapService.getReportById(reportId);
+        if (report != null) {
+            return new ResponseEntity<>(report, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
         }
@@ -77,11 +74,9 @@ public class NMapController {
     @ResponseBody
     ResponseEntity<?> getAllHostsOfReport(@PathVariable(REPORT_ID_LITERAL) long reportId) {
 
-        Optional<NMapReport> report = nmapService.getReportById(reportId);
-        if (report.isPresent()) {
-            NMapReport nMapReport = report.get();
-            List<Host> nMapHosts = nMapReport.getHosts();
-            return new ResponseEntity<>(nMapHosts, HttpStatus.OK);
+        NMapReport report = nmapService.getReportById(reportId);
+        if (report != null) {
+            return new ResponseEntity<>(report, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
         }
@@ -97,9 +92,8 @@ public class NMapController {
     ResponseEntity<?> getHostOfReport(@PathVariable(REPORT_ID_LITERAL) long reportId,
                                       @PathVariable("hostId") long hostId) {
 
-        Optional<NMapReport> report = nmapService.getReportById(reportId);
-        if (report.isPresent()) {
-            NMapReport nMapReport = report.get();
+        NMapReport nMapReport = nmapService.getReportById(reportId);
+        if (nMapReport != null) {
             List<Host> nMapHosts = nMapReport.getHosts();
 
             Host chosenHost = null;
@@ -128,12 +122,9 @@ public class NMapController {
     @ResponseBody
     ResponseEntity<?> getScanData(@PathVariable(REPORT_ID_LITERAL) long reportId) {
 
-        Optional<NMapReport> report = nmapService.getReportById(reportId);
-
-        if (report.isPresent()) {
-            NMapReport nMapReport = report.get();
-            NMapGeneralInformation nMapScanData = nMapReport.getScanData();
-            return new ResponseEntity<>(nMapScanData, HttpStatus.OK);
+        NMapReport report = nmapService.getReportById(reportId);
+        if (report != null) {
+            return new ResponseEntity<>(report, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ErrorMsg(REPORT_NOT_FOUND_LITERAL), HttpStatus.OK);
         }
