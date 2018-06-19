@@ -1,6 +1,6 @@
 package com.xebia.vulnmanager.models.clair.objects;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xebia.vulnmanager.models.company.Team;
@@ -34,7 +34,7 @@ public class ClairReport implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false) // Column that will be used to keep track of the parent
-    @JsonBackReference // A backrefrence to keep json from infinite looping
+    @JsonIgnore // A backrefrence to keep json from infinite looping
     private Team team;
 
     public ClairReport() {
@@ -79,6 +79,7 @@ public class ClairReport implements Serializable {
         GenericReport report = new GenericReport();
         report.setReportType(ReportType.CLAIR);
         report.setId(getId());
+        report.setTeam(team);
 
         for (ClairVulnerability cv : clairVulnerabilities) {
             report.addGenericResult(cv.getGenericResult());
@@ -91,5 +92,9 @@ public class ClairReport implements Serializable {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

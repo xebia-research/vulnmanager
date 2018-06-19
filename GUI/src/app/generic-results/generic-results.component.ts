@@ -5,6 +5,7 @@ import {VulnApiService} from "../services/vuln-api.service";
 import {CardModule} from 'primeng/card';
 import {NgForm} from "@angular/forms";
 import {CheckboxModule} from 'primeng/checkbox';
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-generic-results',
@@ -40,16 +41,19 @@ export class GenericResultsComponent implements OnInit {
 
 
 
-  constructor(private http: HttpClient, private apiService:VulnApiService) {
+  constructor(private http: HttpClient, private apiService:VulnApiService, private router:Router) {
     //this.apiService.addTest().subscribe(()=>{});
   }
 
   ngOnInit() {
-    this.apiService.getGenericMulti().subscribe((data) => {
-      // data bestaat
-      console.log(data) ;
-      this.genericReports = data;
-    });
+    this.loadData();
+
+    this.router.events.subscribe((event => {
+      if(event instanceof NavigationEnd) {
+        this.loadData();
+      }
+    }))
+
     // Dropdown for option button in p-header
     this.items = [
       {label: 'View scan info', icon: 'fa-eye', command: () => {
@@ -69,6 +73,15 @@ export class GenericResultsComponent implements OnInit {
     ];
 
   }
+
+  loadData() {
+    this.apiService.getGenericMulti().subscribe((data) => {
+      // data bestaat
+      console.log(data) ;
+      this.genericReports = data;
+    });
+  }
+
   selectNmapHost(event: Event, selectedReport: any) {
     this.selectedReport = selectedReport;
     this.displayDialog = true;

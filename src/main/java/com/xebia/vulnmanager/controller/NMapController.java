@@ -46,9 +46,6 @@ public class NMapController {
                                         @PathVariable(TEAM_LITTERAL) String teamName) {
 
         List<NMapReport> reportList = nmapService.getAllReportsByTeam(companyName, teamName);
-        //if (reportList.isEmpty()) {
-            //return new ResponseEntity(new ErrorMsg("There are no reports for nMap right now. Upload a nMap xml file first."), HttpStatus.BAD_REQUEST);
-        //}
 
         return new ResponseEntity(reportList, HttpStatus.OK);
     }

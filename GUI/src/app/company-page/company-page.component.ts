@@ -57,6 +57,14 @@ export class companyComponent implements OnInit {
       this.msgs.push({severity: "error", summary:"" + reason});
     }));
   }
+
+  joinTeam(teamName) {
+    this.apiService.postTeam(this.companyName, teamName).subscribe((res) => {
+      console.log(res);
+      this.router.navigateByUrl("/company");
+    })
+  }
+
   newCompanySubmit(f) {
     console.log(f.value.companyName);
     this.apiService.postCompany(f.value.companyName).subscribe((res) => {

@@ -16,20 +16,20 @@ export class NmapSelectReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadData();
+
+    this.router.events.subscribe((event => {
+      if(event instanceof NavigationEnd) {
+        this.loadData();
+      }
+    }))
+  }
+
+  loadData() {
     this.apiService.getNmap().subscribe((data) => {
       // data bestaat
       console.log(data);
       this.nmapObjects = data;
     });
-
-    this.router.events.subscribe((event => {
-      if(event instanceof NavigationEnd) {
-        this.apiService.getNmap().subscribe((data) => {
-          // data bestaat
-          console.log(data);
-          this.nmapObjects = data;
-        });
-      }
-    }))
   }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
+import com.xebia.vulnmanager.models.generic.GenericReport;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -64,12 +65,18 @@ public class ZapReport implements Serializable {
         GenericMultiReport multiReport = new GenericMultiReport();
 
         for (ScannedSiteInformation ssi : scannedSitesInformation) {
-            multiReport.addReports(ssi.getGenericReport());
+            GenericReport report = ssi.getGenericReport();
+            report.setTeam(team);
+            multiReport.addReports(report);
         }
         return multiReport;
     }
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

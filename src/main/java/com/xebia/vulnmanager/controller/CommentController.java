@@ -27,6 +27,8 @@ import java.util.Optional;
 public class CommentController {
     private static final String IS_AUTHENTICATED_STRING = "isAuthenticated";
     private static final String AUTH_NOT_CORRECT_STRING = "Auth not correct!";
+    private static final String COMPANY_LITTERAL = "company";
+    private static final String TEAM_LITTERAL = "team";
 
     private static final String RESULT_NOT_FOUND = "Result not found";
     private static final String RESULT_ID = "resultid";
@@ -56,8 +58,9 @@ public class CommentController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReports() throws IOException {
-        List<GenericReport> reportList = genericReportService.getAllReports();
+    ResponseEntity<?> getReports(@PathVariable(COMPANY_LITTERAL) String companyName,
+                                 @PathVariable(TEAM_LITTERAL) String teamName) throws IOException {
+        List<GenericReport> reportList = genericReportService.getAllReportsByTeam(companyName, teamName);
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }

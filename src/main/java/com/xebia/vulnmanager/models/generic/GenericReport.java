@@ -1,6 +1,8 @@
 package com.xebia.vulnmanager.models.generic;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.util.ReportType;
 
 import javax.persistence.*;
@@ -23,6 +25,11 @@ public class GenericReport implements Serializable {
 
     @Column(name = "date_parsed")
     private Date parsedDate;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "team_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
+    private Team team;
 
     public GenericReport() {
         parsedDate = new Date();
@@ -63,5 +70,13 @@ public class GenericReport implements Serializable {
 
     public Date getParsedDate() {
         return parsedDate;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

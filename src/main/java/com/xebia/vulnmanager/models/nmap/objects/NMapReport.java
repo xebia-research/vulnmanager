@@ -72,6 +72,7 @@ public class NMapReport implements Serializable {
 
         for (Host host : hosts) {
             GenericReport report = host.getGeneralReport();
+            report.setTeam(team);
             multiReport.addReports(report);
         }
         return multiReport;

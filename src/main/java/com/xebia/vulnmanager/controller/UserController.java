@@ -61,8 +61,6 @@ public class UserController {
         } else {
             p.setPassword("");
 
-            System.out.println("Looking for id: " + p.getId());
-
             List<Company> companyList = companyService.getCompanyRepository().findAll();
 
             if (companyList.size() == 0) {
@@ -73,7 +71,6 @@ public class UserController {
                 List<Person> employees = company.getEmployees();
 
                 for (Person empl : employees) {
-                    System.out.println(empl.getId());
                     if (empl.getId().equals(p.getId())) {
                         return new ResponseEntity<>(company, HttpStatus.OK);
                     }

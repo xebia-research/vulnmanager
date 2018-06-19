@@ -5,6 +5,7 @@ import com.xebia.vulnmanager.repositories.ClairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +25,21 @@ public class ClairService {
      */
     public List<ClairReport> getAllReports() {
         return clairRepository.findAll();
+    }
+
+    public List<ClairReport> getAllReportsByTeam(String companyName, String teamName) {
+        List<ClairReport> all = clairRepository.findAll();
+        List<ClairReport> result = new ArrayList<>();
+        for (int i = 0; i < all.size(); i++) {
+            ClairReport report = all.get(i);
+
+            if (report.getTeam().getName().equalsIgnoreCase(teamName)
+                    && report.getTeam().getCompany().getName().equalsIgnoreCase(companyName)) {
+                result.add(report);
+            }
+        }
+
+        return result;
     }
 
     /**
