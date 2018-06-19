@@ -21,6 +21,9 @@ export class NavBarComponent implements OnInit {
   teams:any[];
 
   constructor(private apiService: VulnApiService, private msgService: MessageService, private router:Router) {
+    if (this.selectedTeam = '') {
+      this.selectedTeam = this.teams[0]
+    }
   }
 
   logout() {
@@ -69,48 +72,6 @@ export class NavBarComponent implements OnInit {
     }
     )
 
-
-
-
-    this.items = [
-      {
-        label: 'Home',
-        routerLink: '/',
-        icon: 'fa fa-home'
-      },
-      {
-        label: 'Reports',
-        icon: 'fa fa-file',
-        items: [
-          {label: 'Nmap', icon: 'fa fa-eye', routerLink: '/nmap-select-report'},
-          {label: 'Openvas', icon: 'fab fa-d-and-d', routerLink: '/openvas-select-report'},
-          {label: 'ZAP', icon: 'fa fa-bolt', routerLink: '/zap-select-report'},
-          {label: 'Clair', icon: 'fab fa-docker', routerLink: '/clair-select-report'},
-        ]
-      },
-      {
-        label: 'Generic',
-        routerLink: '/generic-results',
-        icon: 'fa fa-book'
-      },
-      {
-        label: 'Upload',
-        routerLink: '/upload',
-        icon: 'fas fa-cloud-upload-alt'
-      },
-      {
-        label: 'Unsafe',
-        icon: 'fas fa-skull',
-        items: [
-          {
-            label: 'DELETE EVERYTHING', icon: 'fas fa-skull',
-            command: (event: any) => {
-              this.runDelete();
-            }
-          }
-        ]
-      }
-    ];
   }
 
   runDelete() {
