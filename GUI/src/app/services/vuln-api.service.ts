@@ -45,13 +45,6 @@ export class VulnApiService {
     }).subscribe(result => {
       let auth = result.headers.get("authorization");
 
-      const decodedToken = this.helper.decodeToken(auth);
-      const expirationDate = this.helper.getTokenExpirationDate(auth);
-      const isExpired = this.helper.isTokenExpired(auth);
-
-      console.log(decodedToken);
-      console.log(expirationDate + " --- " + isExpired);
-
       if (auth != null) {
         localStorage.setItem("user", userObj.username);
         localStorage.setItem("jwt", auth);

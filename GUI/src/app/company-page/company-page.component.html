@@ -43,9 +43,9 @@
     </div>
 
     <div class="ui-g-12 ui-lg-12 ui-md-6">
-      <div *ngIf="company && company.teams.length > 0" class="ui-lg-12">
-        <h2>All teams</h2>
-        <p-card class="ui-lg-12 smallheader overflow ui-card-body" *ngFor="let team of teams" title="{{team.name}}">
+      <div *ngIf="company && otherTeams.length > 0" class="ui-lg-12">
+        <h2>Other teams</h2>
+        <p-card class="ui-lg-12 smallheader overflow ui-card-body" *ngFor="let team of otherTeams" title="{{team.name}}">
           <div class="ui-g">
 
             <p-accordion class="ui-g-12">
@@ -54,7 +54,7 @@
               </p-accordionTab>
 
             </p-accordion>
-            <button class="btn btn-primary ui-g-2 ui-g-offset-10">Join</button>
+            <button (click)="joinTeam(team.name)" class="btn btn-primary ui-g-2 ui-g-offset-10">Join</button>
 
           </div>
         </p-card>
