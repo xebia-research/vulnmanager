@@ -23,6 +23,8 @@ export class ZapResultsComponent implements OnInit {
   sortField: string;
   sortOrder: number;
 
+  errorMessages: any;
+
   constructor(private http: HttpClient, private apiService: VulnApiService, private route: ActivatedRoute) {
   }
 
@@ -31,19 +33,22 @@ export class ZapResultsComponent implements OnInit {
       let reportId = params['id']; // (+) converts string 'id' to a number
 
       if (parseInt(reportId, 10)) {
-        this.apiService.getReportZap("xebia", "vulnmanager", reportId).subscribe((zapObject) => {
-          this.zapObject = zapObject;
-          let scannedSites = this.zapObject.scannedSitesInformation;
+        this.apiService.getReportZap("xebia", "vulnmanager", reportId).subscribe(
+          zapObject => {
+            this.zapObject = zapObject;
+            let scannedSites = this.zapObject.scannedSitesInformation;
 
-          this.currentSiteInformation = scannedSites[0];
-          this.setItems(scannedSites);
+            this.currentSiteInformation = scannedSites[0];
+            this.setItems(scannedSites);
 
-          // Sort options
-          this.sortOptions = [
-            {label: 'Severity High - Low', value: '!riskCode'},
-            {label: 'Severity Low - High', value: 'riskCode'}
-          ];
-        });
+            // Sort options
+            this.sortOptions = [
+              {label: 'Severity High - Low', value: '!riskCode'},
+              {label: 'Severity Low - High', value: 'riskCode'}
+            ];
+          }, error => {
+            this.showError("The following message was given: " + error.error.msg + ".This was for the report with id: " + reportId);
+          });
       }
     });
   }
@@ -84,5 +89,10 @@ export class ZapResultsComponent implements OnInit {
       this.sortOrder = 1;
       this.sortField = value;
     }
+  }
+
+  showError(msg) {
+    this.errorMessages = [];
+    this.errorMessages.push({severity: 'error', summary: 'Error Message:', detail: msg});
   }
 }

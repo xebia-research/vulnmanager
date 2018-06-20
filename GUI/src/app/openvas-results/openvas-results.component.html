@@ -1,5 +1,6 @@
-<h1>Results</h1>
-<div>
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="openVasObject != null">
+  <h1>Results</h1>
   <h3></h3>
   <p-dataView #dv [value]="openVasObject.results" [paginator]="true" [rows]="5" paginatorPosition="both" [rowsPerPageOptions]="[5,10,20]" [sortField]="sortField" [sortOrder]="sortOrder"
               filterBy="genericResult.name">

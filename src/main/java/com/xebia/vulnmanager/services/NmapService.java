@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NmapService {
@@ -24,8 +23,8 @@ public class NmapService {
         return nMapRepository.findAll();
     }
 
-    public Optional<NMapReport> getReportById(long id) {
-        return nMapRepository.findById(id);
+    public NMapReport getReportById(long id) {
+        return nMapRepository.findById(id).orElse(null);
     }
 
     public GenericMultiReport getAllReportsAsGeneric() {
