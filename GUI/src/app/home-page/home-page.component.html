@@ -6,8 +6,9 @@
     <h4 *ngIf="activeIndex == 3">You are all set to explore and upload your reports!</h4>
   </div>
   <div *ngIf="activeIndex < 3">
-    <h5>First time use detected!</h5>
-    <h5>The following steps will automatically create a test company, and add test reports. <br>At the login page, you can create your own user account and receive an authentication token</h5>
+    <h4>First time use detected!</h4>
+    <h5>To get started, create or join a company and team, upload some reports and you're good to go</h5>
+    <h5>The highlighted (blue) buttons below will navigate you to the corresponding pages</h5>
     <div class="ui-md-10 ui-sm-12 center">
       <p-steps [(activeIndex)]="activeIndex" [model]="items" [readonly]="false"></p-steps>
     </div>

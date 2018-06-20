@@ -1,7 +1,7 @@
 
 <div class="ui-g">
   <h3 class="first ui-g-12">Choose file(s) you want to upload</h3>
-  <h5 class="ui-g-12"> Or, drag and drop them to the upload box</h5>
+  <h5 class="ui-g-12"> Or, drag and drop them to the upload box <br> Check <a href="https://github.com/xebia-research/vulnmanager#report-formats">github</a> for the latest supported report formats</h5>
 <p-fileUpload class="ui-g-12 ui-lg-10 ui-md-12 center" name="file" url="{{this.BASE_URL}}/{{this.companyName}}/{{this.teamName}}/upload" (onUpload)="onUpload($event)"
               (onBeforeSend)="onBeforeSend($event)" (onError)="onError($event)" multiple="multiple"
               maxFileSize="1000000" accept=".xml,.json">
