@@ -13,8 +13,6 @@ export class UploadComponent implements OnInit {
   teamName:any;
   protocol: any = location.protocol;
 
-  constructor() {
-
   BASE_URL:any;
   DOMAIN_URL:any = location.protocol + '//' + 'vulnapi.' + location.hostname;
   LAN_URL:any = location.protocol + '//' + location.hostname + ':4343';
@@ -47,13 +45,13 @@ export class UploadComponent implements OnInit {
   onUpload(event) {
     for (let file of event.files) {
       this.uploadedFiles.push(file);
-      console.log(this.BASE_URL)
+      console.log(this.BASE_URL);
     }
 
   }
 
   onError(event) {
-    console.log(event)
+    console.log(event);
   }
 
 }
