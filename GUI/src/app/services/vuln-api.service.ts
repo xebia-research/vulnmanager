@@ -1,20 +1,32 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 @Injectable()
 export class VulnApiService {
 
-  BASE_URL: any = 'http://' + location.hostname + ':4343';
+  helper: JwtHelperService;
+  BASE_URL: any;
+  DOMAIN_URL: any = location.protocol + '//' + 'vulnapi.' + location.hostname;
+  LAN_URL: any = location.protocol + '//' + location.hostname + ':4343'
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
+
+    if(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/.test(location.hostname)) {
+      this.BASE_URL = this.LAN_URL;
+    } else {
+      this.BASE_URL = this.DOMAIN_URL;
+    }
+
+    this.helper = new JwtHelperService();
   }
 
   signup(user, password, companyName) {
 
     let userObj: any = {};
     userObj.username = user;
-    userObj.password = password; // reverse with atob
+    userObj.password = btoa(password); // reverse with atob
     userObj.companyName = companyName;
 
 
@@ -24,7 +36,7 @@ export class VulnApiService {
   login(user, password) {
     let userObj: any = {};
     userObj.username = user;
-    userObj.password = password;
+    userObj.password = btoa(password);
 
 
     return this.http.post(this.BASE_URL + '/login', userObj, {
@@ -35,13 +47,122 @@ export class VulnApiService {
 
       if (auth != null) {
         localStorage.setItem("user", userObj.username);
-        localStorage.setItem("pass", userObj.password);
         localStorage.setItem("jwt", auth);
         return true;
       }
     }, error => {
       return false;
     });
+  }
+
+  logout() {
+    localStorage.removeItem("company");
+    localStorage.removeItem("allteams");
+    localStorage.removeItem("myteams");
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("selectedTeam");
+
+  }
+
+  isLoggedIn() {
+
+    const token = localStorage.getItem('jwt');
+    // Check whether the token is expired and return
+    // true or false
+    return !this.jwtHelper.isTokenExpired(token);
+  }
+
+  getUserNameFromToken() {
+    const decodedToken = this.helper.decodeToken(localStorage.getItem("jwt"));
+    return decodedToken.sub;
+  }
+
+  whoami() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/users/whoami", httpOption);
+  }
+
+  whoMyCompany() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/users/whomycompany", httpOption);
+  }
+
+  whoMyTeam() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/users/whomyteams", httpOption);
+  }
+
+  getAllInfoFromServer() {
+    let promise = new Promise((resolve, reject) => {
+      if(localStorage.getItem("jwt") != null) {
+        this.whoami().subscribe((res) => {
+          let user:any = res;
+          localStorage.setItem("user", user.username);
+          this.whoMyCompany().subscribe(res2 => {
+
+            let company: any = res2;
+            if(company.msg == null) {
+              localStorage.setItem("company", company.name);
+              localStorage.setItem("allteams", JSON.stringify(company.teams))
+
+              this.whoMyTeam().subscribe(res3 => {
+                let myTeams: any = res3;
+                localStorage.setItem("myteams", JSON.stringify(myTeams))
+                resolve("Loaded everything")
+              })
+            }
+          })
+        });
+      } else {
+        resolve("ERROR: no Auth token found");
+      }
+    });
+    return promise;
+  }
+
+  setSelectedTeam(teamName) {
+    localStorage.setItem("selectedTeam", teamName);
+  }
+
+  getSelectedTeam() {
+    return localStorage.getItem("selectedTeam");
+  }
+
+  delete() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    this.logout()
+
+    return this.http.get(this.BASE_URL + "/addtest/delete", httpOption);
+  }
+
+  isTestAdded() {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+
+    return this.http.get(this.BASE_URL + "/addtest/done", httpOption);
   }
 
   addTest() {
@@ -64,7 +185,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/addtest/company", httpOption);
   }
 
-  getOpenvas(company, team) {
+  getOpenvas() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -74,7 +202,13 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/openvas", httpOption);
   }
 
-  getOpenvasReport(company, team, reportId) {
+  getOpenvasReport(reportId) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -84,7 +218,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/openvas/" + reportId, httpOption);
   }
 
-  getNmap(company, team) {
+  getNmap() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -94,7 +235,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/nmap", httpOption);
   }
 
-  getNmapReport(company, team, reportId) {
+  getNmapReport(reportId) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -104,7 +252,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/nmap/" + reportId, httpOption);
   }
 
-  getZap(company, team) {
+  getZap() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -114,7 +269,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/zap", httpOption);
   }
 
-  getReportZap(company, team, reportId) {
+  getReportZap(reportId) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -124,7 +286,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/zap/" + reportId, httpOption);
   }
 
-  getClair(company, team) {
+  getClair() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -134,7 +303,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/clair", httpOption);
   }
 
-  getReportClair(company, team, reportId) {
+  getReportClair(reportId) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -144,7 +320,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/clair/" + reportId, httpOption);
   }
 
-  getGenericMulti(company, team) {
+  getGenericMulti() {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -154,7 +337,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/generic", httpOption);
   }
 
-  getGenericReport(company, team, id) {
+  getGenericReport(id) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -164,7 +354,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + id, httpOption);
   }
 
-  getGenericResult(company, team, reportid, resultid) {
+  getGenericResult(reportid, resultid) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -174,7 +371,14 @@ export class VulnApiService {
     return this.http.get(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + reportid + "/result/" + resultid, httpOption);
   }
 
-  postComment(company, team, reportid, resultid, text) {
+  postComment(reportid, resultid, text) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -188,7 +392,14 @@ export class VulnApiService {
     return this.http.post(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + reportid + "/result/" + resultid + "/comment", comment, httpOption);
   }
 
-  postFalsePositive(company, team, reportid, resultid) {
+  postFalsePositive(reportid, resultid) {
+    let company:any = localStorage.getItem("company");
+    let team:any = localStorage.getItem("selectedTeam");
+
+    if(team == null || company == null) {
+      return;
+    }
+
     const httpOption = {
       headers: new HttpHeaders({
         'authorization': localStorage.getItem("jwt")
@@ -196,4 +407,33 @@ export class VulnApiService {
     };
     return this.http.post(this.BASE_URL + "/" + company + "/" + team + "/generic/report/" + reportid + "/result/" + resultid + "/falsePositive", {}, httpOption);
   }
+
+  getCompany(name) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+    return this.http.get(this.BASE_URL + "/" + name, httpOption);
+  }
+
+  postCompany(name) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+    return this.http.post(this.BASE_URL + "/" + name, {}, httpOption);
+  }
+
+  postTeam(companyName, teamName) {
+    const httpOption = {
+      headers: new HttpHeaders({
+        'authorization': localStorage.getItem("jwt")
+      })
+    };
+    return this.http.post(this.BASE_URL + "/" + companyName + "/" + teamName, {}, httpOption);
+  }
+
+
 }

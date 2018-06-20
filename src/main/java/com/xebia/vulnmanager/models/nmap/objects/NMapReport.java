@@ -1,19 +1,14 @@
 package com.xebia.vulnmanager.models.nmap.objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.xebia.vulnmanager.models.company.Team;
 import com.xebia.vulnmanager.models.generic.GenericMultiReport;
 import com.xebia.vulnmanager.models.generic.GenericReport;
 
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.GenerationType;
-import javax.persistence.CascadeType;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,6 +26,11 @@ public class NMapReport implements Serializable {
     @OneToMany(mappedBy = "nMapReportParent", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Host> hosts;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "team_id", nullable = false) // Column that will be used to keep track of the parent
+    @JsonBackReference // A backrefrence to keep json from infinite looping
+    private Team team;
 
     public NMapReport() {
         // Do nothing
@@ -72,8 +72,17 @@ public class NMapReport implements Serializable {
 
         for (Host host : hosts) {
             GenericReport report = host.getGeneralReport();
+            report.setTeam(team);
             multiReport.addReports(report);
         }
         return multiReport;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }

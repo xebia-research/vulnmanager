@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {VulnApiService} from '../services/vuln-api.service';
 import {HttpClient} from "@angular/common/http";
+import {NavigationEnd, Router} from "@angular/router";
 
 
 @Component({
@@ -14,16 +15,27 @@ export class OpenvasSelectReportComponent implements OnInit {
   errorMessages: any;
   openvasObjectIsEmpty: boolean = true;
 
-  constructor(private http: HttpClient, private apiService: VulnApiService) {
+  constructor(private http: HttpClient, private apiService: VulnApiService, private router:Router) {
   }
 
   ngOnInit() {
-    this.apiService.getOpenvas("xebia", "vulnmanager").subscribe(
-      openvasReportData => {// data bestaat
-        console.log(openvasReportData);
-        this.openVasObjects = openvasReportData;
+    this.loadData();
 
-        if (Object.keys(openvasReportData).length === 0) {
+    this.router.events.subscribe((event => {
+      if(event instanceof NavigationEnd) {
+        this.errorMessages = [];
+        this.loadData();
+      }
+    }))
+  }
+
+  loadData(){
+    this.apiService.getOpenvas().subscribe((data) => {
+      // data bestaat
+      console.log(data);
+      this.openVasObjects = data;
+
+        if (Object.keys(data).length === 0) {
           this.showError("There are no openvas reports, upload a report first!");
           this.openvasObjectIsEmpty = true;
         } else {

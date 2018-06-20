@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MessageService} from 'primeng/components/common/messageservice';
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-upload',
@@ -11,14 +12,35 @@ export class UploadComponent implements OnInit {
   uploadedFiles: any[] = [];
   hostName: any = location.hostname;
 
-  constructor(private messageService: MessageService) {
+  companyName:any;
+  teamName:any;
+  protocol: any = location.protocol;
 
+  BASE_URL:any;
+  DOMAIN_URL:any = location.protocol + '//' + 'vulnapi.' + location.hostname;
+  LAN_URL:any = location.protocol + '//' + location.hostname + ':4343';
+
+  constructor(private router:Router, private messageService: MessageService) {
+    if(/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/.test(location.hostname)) {
+      this.BASE_URL = this.LAN_URL;
+    } else {
+      this.BASE_URL = this.DOMAIN_URL;
+    }
   }
 
   ngOnInit() {
+    this.companyName = localStorage.getItem("company");
+    this.teamName = localStorage.getItem("selectedTeam");
+
+    this.router.events.subscribe((event => {
+      if(event instanceof NavigationEnd) {
+        this.teamName = localStorage.getItem("selectedTeam");
+      }
+    }));
   }
 
   onBeforeSend = function (event) {
+    this.teamName = localStorage.getItem("selectedTeam");
     event.xhr.setRequestHeader('authorization', localStorage.getItem("jwt"));
   };
 
@@ -27,12 +49,11 @@ export class UploadComponent implements OnInit {
       this.uploadedFiles.push(file);
     }
 
-    let httpErrorMsg = JSON.parse(event.xhr.responseText);
-    this.addSuccessfulUploadMessages(httpErrorMsg);
+    let httpSuccessfulMsg = JSON.parse(event.xhr.responseText);
+    this.addSuccessfulUploadMessages(httpSuccessfulMsg);
   }
 
   onError(event) {
-    console.log(event);
     let httpErrorMsg = JSON.parse(event.xhr.responseText);
 
     let successfullyMsgList = httpErrorMsg['successfullyUploadedMsgs'];

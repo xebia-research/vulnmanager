@@ -16,6 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/{company}/{team}/clair")
 public class ClairController {
+    private static final String COMPANY_LITTERAL = "company";
+    private static final String TEAM_LITTERAL = "team";
+
     private final Logger logger = LoggerFactory.getLogger("ClairController");
 
     private ClairService clairService;
@@ -33,8 +36,9 @@ public class ClairController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllZapReports() throws IOException {
-        List<ClairReport> reportList = clairService.getAllReports();
+    ResponseEntity<?> getAllClairReports(@PathVariable(COMPANY_LITTERAL) String companyName,
+                                       @PathVariable(TEAM_LITTERAL) String teamName) throws IOException {
+        List<ClairReport> reportList = clairService.getAllReportsByTeam(companyName, teamName);
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }
 

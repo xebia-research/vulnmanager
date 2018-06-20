@@ -3,14 +3,31 @@ import {MenuItem, SelectItem} from "primeng/api";
 import {HttpClient} from "@angular/common/http";
 import {VulnApiService} from "../services/vuln-api.service";
 import {NgForm} from "@angular/forms";
+import {CheckboxModule} from 'primeng/checkbox';
+import {NavigationEnd, Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-generic-results',
   templateUrl: './generic-results.component.html',
-  styleUrls: ['./generic-results.component.css']
+  styleUrls: ['./generic-results.component.css'],
+  styles: [`
+        .custombar1 .ui-scrollpanel-wrapper {
+            border-right: 9px solid #f4f4f4;
+        }
+            
+        .custombar1 .ui-scrollpanel-bar {
+            background-color: #1976d2;
+            opacity: 1;
+            transition: background-color .3s;
+        }
+            
+        .custombar1 .ui-scrollpanel-bar:hover {
+            background-color: #135ba1;
+        }
+    `],
 })
 export class GenericResultsComponent implements OnInit {
-
   genericReports: any;
   selectedReport: any;
   genericReportIsEmpty: boolean = true;
@@ -19,7 +36,7 @@ export class GenericResultsComponent implements OnInit {
   items: MenuItem[];
   sortField: string;
   sortOrder: number;
-
+  text: String;
   errorMessages: any;
 
   // Sort variables
@@ -27,25 +44,20 @@ export class GenericResultsComponent implements OnInit {
   sortKey: string;
 
 
-  constructor(private http: HttpClient, private apiService: VulnApiService) {
+  constructor(private http: HttpClient, private apiService:VulnApiService, private router:Router) {
+    //this.apiService.addTest().subscribe(()=>{});
   }
 
-  ngOnInit() {
-    this.apiService.getGenericMulti("xebia", "vulnmanager").subscribe(
-      genericReportData => {// data bestaat
-        console.log(genericReportData);
-        this.genericReports = genericReportData;
 
-        if (Object.keys(genericReportData).length === 0) {
-          this.showError("There are no generic reports, upload a report first!");
-          this.genericReportIsEmpty = true;
-        } else {
-          this.genericReportIsEmpty = false;
+  ngOnInit() {
+
+    this.loadData();
+    this.router.events.subscribe(
+      value => {
+        if (value instanceof NavigationEnd) {
+
+          this.loadData();
         }
-      },
-      error => {
-        this.showError("Could not get generic reports: The following Http status code was given: " + error.status + ", with the text: " + error.statusText);
-        this.genericReportIsEmpty = true;
       });
 
     // Dropdown for option button in p-header
@@ -71,6 +83,25 @@ export class GenericResultsComponent implements OnInit {
     ];
   }
 
+  loadData() {
+    this.apiService.getGenericMulti().subscribe(
+      genericReportData => {// data bestaat
+        console.log(genericReportData);
+        this.genericReports = genericReportData;
+
+        if (Object.keys(genericReportData).length === 0) {
+          this.showError("There are no generic reports, upload a report first!");
+          this.genericReportIsEmpty = true;
+        } else {
+          this.genericReportIsEmpty = false;
+        }
+      },
+      error => {
+        this.showError("Could not get generic reports: The following Http status code was given: " + error.status + ", with the text: " + error.statusText);
+        this.genericReportIsEmpty = true;
+      });
+  }
+
   selectNmapHost(event: Event, selectedReport: any) {
     this.selectedReport = selectedReport;
     this.displayDialog = true;
@@ -84,9 +115,8 @@ export class GenericResultsComponent implements OnInit {
   formSubmit(form, reportId, resultId) {
     console.log(reportId, resultId);
     console.log(form.value.text);
-
-    if (form.valid) {
-      this.apiService.postComment("xebia", "vulnmanager", reportId, resultId, form.value.text).subscribe(() => {
+    if(form.valid) {
+      this.apiService.postComment(reportId, resultId, form.value.text).subscribe(() =>{
         this.genericReports.forEach((report) => {
           if (report.id == reportId) {
             report.genericResults.forEach((result) => {
@@ -95,7 +125,8 @@ export class GenericResultsComponent implements OnInit {
                 comment.user = {};
                 comment.user.username = localStorage.getItem("user");
                 comment.content = form.value.text;
-                result.comments.unshift(comment)
+                result.comments.unshift(comment);
+                this.text = '';
               }
             })
           }
@@ -105,7 +136,7 @@ export class GenericResultsComponent implements OnInit {
   }
 
   changeFalsePositive(reportId, resultId, falsePositive) {
-    this.apiService.postFalsePositive("xebia", "vulnmanager", reportId, resultId).subscribe(() => {
+    this.apiService.postFalsePositive(reportId, resultId).subscribe(() =>{
       this.genericReports.forEach((report) => {
         if (report.id == reportId) {
           report.genericResults.forEach((result) => {

@@ -20,6 +20,9 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping(value = "/{company}/{team}/openvas")
 public class OpenvasController {
+    private static final String COMPANY_LITTERAL = "company";
+    private static final String TEAM_LITTERAL = "team";
+
     private final Logger logger = LoggerFactory.getLogger("OpenvasController");
 
     private OpenvasResultRepository openvasResultRepository;
@@ -41,9 +44,10 @@ public class OpenvasController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getReports() throws IOException {
+    ResponseEntity<?> getReports(@PathVariable(COMPANY_LITTERAL) String companyName,
+                                 @PathVariable(TEAM_LITTERAL) String teamName) throws IOException {
 
-        List<OpenvasReport> reportList = openvasService.getAllReports();
+        List<OpenvasReport> reportList = openvasService.getAllReportsByTeam(companyName, teamName);
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }
@@ -56,8 +60,9 @@ public class OpenvasController {
      */
     @RequestMapping(value = "generic", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getGenericReports() throws IOException {
-        GenericMultiReport reportList = openvasService.getAllReportsAsGeneric();
+    ResponseEntity<?> getGenericReports(@PathVariable(COMPANY_LITTERAL) String companyName,
+                                        @PathVariable(TEAM_LITTERAL) String teamName) throws IOException {
+        GenericMultiReport reportList = openvasService.getAllReportsAsGeneric(companyName, teamName);
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }
@@ -102,7 +107,6 @@ public class OpenvasController {
      *
      * @param id              The index id in the OpenvasReport of the result.
      * @param reportId        The id of the report
-     * @param isAuthenticated If the user is authenticated
      * @return Return a result of a report
      * @throws IOException
      */
@@ -123,7 +127,6 @@ public class OpenvasController {
     /**
      * @param id              The index id in the OpenvasReport of the result.
      * @param reportId        The id of the report
-     * @param isAuthenticated If the user is authenticated
      * @return Return a result of a report
      * @throws IOException
      */

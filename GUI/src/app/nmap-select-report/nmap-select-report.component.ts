@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {VulnApiService} from "../services/vuln-api.service";
 import {HttpClient} from "@angular/common/http";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-nmap-select-report',
@@ -13,13 +14,22 @@ export class NmapSelectReportComponent implements OnInit {
   errorMessages: any;
   nmapObjectIsEmpty: boolean = true;
 
-  constructor(private http: HttpClient, private apiService: VulnApiService) {
+  constructor(private http: HttpClient, private apiService: VulnApiService, private router:Router) {
   }
 
   ngOnInit() {
-    this.apiService.getNmap("xebia", "vulnmanager").subscribe(
-      nmapReportData => {// data bestaat
-        console.log(nmapReportData);
+    this.loadData();
+
+    this.router.events.subscribe((event => {
+      if(event instanceof NavigationEnd) {
+        this.loadData();
+        this.errorMessages = [];
+      }
+    }))
+  }
+
+  loadData() {
+    this.apiService.getNmap().subscribe((nmapReportData) => {
         this.nmapObjects = nmapReportData;
 
         if (Object.keys(nmapReportData).length === 0) {
@@ -39,5 +49,4 @@ export class NmapSelectReportComponent implements OnInit {
     this.errorMessages = [];
     this.errorMessages.push({severity: 'error', summary: 'Error Message:', detail: msg});
   }
-
 }

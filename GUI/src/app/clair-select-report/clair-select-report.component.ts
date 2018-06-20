@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {VulnApiService} from "../services/vuln-api.service";
 import {HttpClient} from "@angular/common/http";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-clair-select-report',
@@ -13,11 +14,22 @@ export class ClairSelectReportComponent implements OnInit {
   errorMessages: any;
   clairObjectIsEmpty: boolean = true;
 
-  constructor(private http: HttpClient, private apiService: VulnApiService) {
+  constructor(private http: HttpClient, private apiService: VulnApiService, private router:Router) {
   }
 
   ngOnInit() {
-    this.apiService.getClair("xebia", "vulnmanager").subscribe(
+    this.loadData();
+
+    this.router.events.subscribe((event => {
+      if(event instanceof NavigationEnd) {
+        this.errorMessages = [];
+        this.loadData();
+      }
+    }))
+  }
+
+  loadData() {
+    this.apiService.getClair().subscribe(
       clairData => {// data bestaat
         console.log(clairData);
         this.clairObjects = clairData;
