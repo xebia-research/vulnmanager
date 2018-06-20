@@ -10,8 +10,8 @@ import java.util.List;
 
 @Entity
 public class Team implements Serializable {
-    private String name;
     private static final String TEAM_LITTERAL = "team";
+    private String name;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
