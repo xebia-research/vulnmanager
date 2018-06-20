@@ -1,5 +1,6 @@
-<h1>Select Zap report</h1>
-<div>
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="!zapObjectIsEmpty">
+  <h1>Select Zap report</h1>
   <h3>Select the zap report you want to see the information from.</h3>
   <p-table [value]="zapObjects">
     <ng-template pTemplate="header">

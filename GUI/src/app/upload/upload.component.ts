@@ -13,6 +13,8 @@ export class UploadComponent implements OnInit {
   teamName:any;
   protocol: any = location.protocol;
 
+  constructor() {
+
   BASE_URL:any;
   DOMAIN_URL:any = location.protocol + '//' + 'vulnapi.' + location.hostname;
   LAN_URL:any = location.protocol + '//' + location.hostname + ':4343';

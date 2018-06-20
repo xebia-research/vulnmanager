@@ -11,6 +11,8 @@ import {NavigationEnd, Router} from "@angular/router";
 export class NmapSelectReportComponent implements OnInit {
 
   nmapObjects: any;
+  errorMessages: any;
+  nmapObjectIsEmpty: boolean = true;
 
   constructor(private http: HttpClient, private apiService: VulnApiService, private router:Router) {
   }
@@ -21,15 +23,30 @@ export class NmapSelectReportComponent implements OnInit {
     this.router.events.subscribe((event => {
       if(event instanceof NavigationEnd) {
         this.loadData();
+        this.errorMessages = [];
       }
     }))
   }
 
   loadData() {
-    this.apiService.getNmap().subscribe((data) => {
-      // data bestaat
-      console.log(data);
-      this.nmapObjects = data;
-    });
+    this.apiService.getNmap().subscribe((nmapReportData) => {
+        this.nmapObjects = nmapReportData;
+
+        if (Object.keys(nmapReportData).length === 0) {
+          this.showError("There are no nmap reports, upload a report first!");
+          this.nmapObjectIsEmpty = true;
+        } else {
+          this.nmapObjectIsEmpty = false;
+        }
+      },
+      error => {
+        this.showError("Could not get nmap reports: The following Http status code was given: " + error.status + ", with the text: " + error.statusText);
+        this.nmapObjectIsEmpty = true;
+      });
+  }
+
+  showError(msg) {
+    this.errorMessages = [];
+    this.errorMessages.push({severity: 'error', summary: 'Error Message:', detail: msg});
   }
 }

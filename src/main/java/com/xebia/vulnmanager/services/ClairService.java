@@ -49,6 +49,6 @@ public class ClairService {
      * @return Return a report if it is present else it will return null
      */
     public ClairReport getReportById(long id) {
-        return clairRepository.findById(id).get();
+        return clairRepository.findById(id).orElse(null);
     }
 }

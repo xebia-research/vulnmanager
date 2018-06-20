@@ -1,6 +1,9 @@
-<h1>All generic results</h1>
-<div >
-  <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="!genericReportIsEmpty">
+  <h1>All generic results</h1>
+
+  <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10"
+              paginatorPosition="both" [rowsPerPageOptions]="[5,10,20]"
               [sortField]="sortField" [sortOrder]="sortOrder"
               filterBy="reportType">
 
@@ -11,6 +14,10 @@
                     [ngStyle]="{'float': 'right'}"></p-dropdown>
         <input class="ui-g-12 ui-lg-2 ui-lg-offset-8" type="search" pInputText placeholder="Filter by type" (keyup)="dv.filter($event.target.value)"/>
       </div>
+
+      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items"
+                     styleClass="ui-button-info"></p-splitButton>
+      <p></p>
 
 
     </p-header>
@@ -36,57 +43,74 @@
     </ng-template>
   </p-dataView>
 
-  <p-dialog appendTo="body" header="Header" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+  <p-dialog width="600" appendTo="body" header="Header" [(visible)]="displayDialog" [responsive]="false"
+            showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedReport">
+      <div class="ui-g-12">
+        <!--
 
-        <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let genericResult of selectedReport.genericResults">
-          <p-accordionTab header="{{genericResult.name}}" >
-            <div class="ui-g">
-              <div class="ui-lg-8">
-
-                <div class="ui-g-12 ui-lg-4 ui-md-4">
-                  <p-card title="Port: {{genericResult.port}}" subtitle="Severity: {{genericResult.severity}}" styleClass="ui-card-shadow">
-                    <div *ngIf="genericResult.info!=null">Info: {{genericResult.info}}</div>
-                    <div *ngIf="genericResult.cve!='NOCVE' ">Associated CVE:<p></p> {{genericResult.cve}}</div>
-                    <p-footer>
-                      <div>Mark false positive: <input type="checkbox" (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)"
-                                                       [checked]="genericResult.falsePositive" binary="true"></div>
-                    </p-footer>
-                  </p-card>
-                </div>
-                <div *ngIf="genericResult.description != null" class="ui-g-12 ui-md-8 ui-lg-8">
-                  <p-scrollPanel  [style]="{width: '100%',height: '200px'}" styleClass="custombar1 ui-card-shadow">
-                    <h4 style="padding: 0.70em;"><b>Description</b></h4>
-                    <div style="padding:1em;white-space: pre-line;" class="overflow">
-                      {{genericResult.description}}
-                    </div>
-                  </p-scrollPanel>
-                </div>
-                <div *ngIf="genericResult.knownSolution!=null" class="ui-g-12 ui-lg-8 ui-md-12">
-                  <p-scrollPanel  [style]="{width: '100%',height: '200px'}" styleClass="custombar1 ui-card-shadow">
-                    <h4 style="padding: 0.70em;"><b>Solution</b></h4>
-                    <div style="padding:1em;line-height:1.5; white-space: pre-line;">
-                     {{genericResult.knownSolution}}
-                    </div>
-                  </p-scrollPanel>
-                </div>
-
-              </div>
-              <div class="ui-g-12 ui-lg-4 ui-md-12">
-                <p-card title="Comments:" styleClass="ui-card-shadow">
-                  <div *ngIf="genericResult.comments.length > 0;else noComments" class="ui-g">
-                    <div class="ui-g-12 ui-lg-12" style="padding: 0.01em;">
-                      <p-scrollPanel [style]="{width: '100%', height: '220px'}" styleClass="custombar1">
-                        <div *ngFor="let comment of genericResult.comments" class="ui-g-12">
-                          <p-card title="{{comment.user.username}}" styleClass="ui-card-shadow">
-                            <div style="overflow: hidden;text-overflow: ellipsis;">"{{comment.content}}"</div>
-                          </p-card>
-                        </div>
-                      </p-scrollPanel>
-                    </div>
+        comments[{…}]
+cve
+description
+falsePositive
+id
+info
+knownSolution
+name
+port
+severity
+type
+url
 
 
-                  </div>
+        -->
+
+        <p-table [value]="selectedReport.genericResults" [scrollable]="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>name</th>
+              <th colspan="4">description</th>
+              <th>cve / severity</th>
+              <th>info</th>
+              <th>port</th>
+              <th>known solution</th>
+              <th>false positive</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-genericResult>
+            <tr ngClass="genericrow">
+              <td>{{genericResult.name}}</td>
+              <td colspan="4">{{genericResult.description}}</td>
+              <td>{{genericResult.severity}} / {{genericResult.cve}}</td>
+              <td>{{genericResult.info}}</td>
+              <td>{{genericResult.port}}</td>
+              <td>{{genericResult.knownSolution}}</td>
+              <td><input type="checkbox"
+                         (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)"
+                         [checked]="genericResult.falsePositive" binary="true"></td>
+            </tr>
+            <td colspan="10">
+              <p-table *ngIf="genericResult.comments.length > 0" [value]="genericResult.comments.reverse()" [scrollable]="true" scrollHeight="200px">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th colspan="1">User</th>
+                    <th colspan="9">Message</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-comment>
+                  <tr>
+                    <td colspan="1">{{comment.user.username}}</td>
+                    <td colspan="9">{{comment.content}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </td>
+            <tr>
+              <td colspan="10">
+                <p-card>
+                  <p-header>
+                    New Comment
+                  </p-header>
                   <form #f="ngForm" novalidate>
                     <input name="text" [(ngModel)]="text" ngModel required #first="ngModel">
                     <button pButton type="button" icon="fa-plus" (click)="formSubmit(f, selectedReport.id, genericResult.id)" ></button>
@@ -95,17 +119,11 @@
 
                   <ng-template #noComments >No comments yet..</ng-template>
                 </p-card>
-              </div>
-            </div>
-
-
-
-
-
-
-          </p-accordionTab>
-        </p-accordion>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
     </div>
   </p-dialog>
-
-</div>
+                </div>

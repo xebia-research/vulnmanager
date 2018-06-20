@@ -55,7 +55,6 @@ public class TestController {
     public ResponseEntity<?> deleteEveryThing() {
         TestInfoResponse response = new TestInfoResponse();
 
-        companyRepository.deleteAll();
         genericRepository.deleteAll();
         openvasRepository.deleteAll();
         nMapRepository.deleteAll();

@@ -12,6 +12,8 @@ import {NavigationEnd, Router} from "@angular/router";
 export class OpenvasSelectReportComponent implements OnInit {
 
   openVasObjects: any;
+  errorMessages: any;
+  openvasObjectIsEmpty: boolean = true;
 
   constructor(private http: HttpClient, private apiService: VulnApiService, private router:Router) {
   }
@@ -21,6 +23,7 @@ export class OpenvasSelectReportComponent implements OnInit {
 
     this.router.events.subscribe((event => {
       if(event instanceof NavigationEnd) {
+        this.errorMessages = [];
         this.loadData();
       }
     }))
@@ -31,6 +34,23 @@ export class OpenvasSelectReportComponent implements OnInit {
       // data bestaat
       console.log(data);
       this.openVasObjects = data;
-    });
+
+        if (Object.keys(data).length === 0) {
+          this.showError("There are no openvas reports, upload a report first!");
+          this.openvasObjectIsEmpty = true;
+        } else {
+          this.openvasObjectIsEmpty = false;
+        }
+      },
+      error => {
+        this.showError("Could not get openvas reports: The following Http status code was given: " + error.status + ", with the text: " + error.statusText);
+        this.openvasObjectIsEmpty = true;
+      });
   }
+
+  showError(msg) {
+    this.errorMessages = [];
+    this.errorMessages.push({severity: 'error', summary: 'Error Message:', detail: msg});
+  }
+
 }

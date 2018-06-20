@@ -1,6 +1,7 @@
-<h1>Select Nmap report</h1>
-<div>
-  <h3>Select the nmap report you want to see the information from.</h3>
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="!nmapObjectIsEmpty">
+  <h1>Select Nmap report</h1>
+  <h3>Select the Nmap report you want to see the information from.</h3>
   <p-table [value]="nmapObjects">
     <ng-template pTemplate="header">
       <tr>

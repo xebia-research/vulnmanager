@@ -64,7 +64,7 @@ public class OpenvasService {
      * @return Return a report if it is present else it will return null
      */
     public OpenvasReport getReportById(long id) {
-        return openvasDataService.findById(id).get();
+        return openvasDataService.findById(id).orElse(null);
     }
 
     /**

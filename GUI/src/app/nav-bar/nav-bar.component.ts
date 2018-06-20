@@ -79,6 +79,11 @@ export class NavBarComponent implements OnInit {
     }
     );
 
+  runAddTest() {
+    this.apiService.addTest().subscribe(() => {
+      alert("The example logs are added, Press OK to reload the page");
+      window.location.reload();
+    });
   }
 
   runDelete() {
