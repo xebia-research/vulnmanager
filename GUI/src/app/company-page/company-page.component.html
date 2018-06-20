@@ -36,9 +36,14 @@
   <div class="ui-g-12 ui-md-12 ui-lg-5 ui-lg-offset-1">
     <div class="ui-g-12 ui-md-6 ui-lg-12">
       <p-card *ngIf="company" subtitle="Employees of {{companyName}}">
-        <div *ngFor="let employee of company.employees">
-          <h5>- {{employee.username}}</h5>
-        </div>
+
+        <p-accordion>
+          <p-accordionTab header="Show" [selected]="company.employees.length >= 5 ? false:true">
+            <div *ngFor="let employee of company.employees">
+              <h5>- {{employee.username}}</h5>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
       </p-card>
     </div>
 

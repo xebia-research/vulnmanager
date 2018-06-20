@@ -60,6 +60,8 @@ export class VulnApiService {
     localStorage.removeItem("allteams");
     localStorage.removeItem("myteams");
     localStorage.removeItem("jwt");
+    localStorage.removeItem("selectedTeam");
+
   }
 
   isLoggedIn() {
@@ -137,7 +139,7 @@ export class VulnApiService {
     localStorage.setItem("selectedTeam", teamName);
   }
 
-  getSelectedTeam(teamName) {
+  getSelectedTeam() {
     return localStorage.getItem("selectedTeam");
   }
 

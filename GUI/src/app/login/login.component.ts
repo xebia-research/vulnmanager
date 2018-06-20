@@ -22,11 +22,13 @@ export class LoginComponent implements OnInit {
     if (this.apiService.isLoggedIn()) {
 
     }
+
   }
 
 
 
   Login() {
+    this.apiService.logout();
     console.log("SUBMITTING!")
     console.log(this.user);
     this.user.companyName = "";

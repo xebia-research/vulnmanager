@@ -41,7 +41,7 @@ export class companyComponent implements OnInit {
 
     this.apiService.getAllInfoFromServer().then((result) => {
       this.companyName = localStorage.getItem("company");
-      console.log(this.companyName);
+      console.log('Company' + this.companyName);
 
       if(this.companyName != null && this.companyName != 'undefined') {
         this.apiService.whoMyCompany().subscribe(
