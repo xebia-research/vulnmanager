@@ -7,6 +7,7 @@ import com.xebia.vulnmanager.models.generic.GenericReport;
 import com.xebia.vulnmanager.models.net.ErrorMsg;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.models.openvas.objects.OpenvasReport;
+import com.xebia.vulnmanager.models.upload.UploadMessages;
 import com.xebia.vulnmanager.models.zap.objects.ZapReport;
 import com.xebia.vulnmanager.repositories.*;
 import com.xebia.vulnmanager.services.CompanyService;
@@ -27,6 +28,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/{company}/{team}/upload")
@@ -72,12 +75,16 @@ public class UploadFileController {
             return new ResponseEntity(new ErrorMsg("Auth not correct!"), HttpStatus.BAD_REQUEST);
         }
 
+        List<String> successfullyUploadedMsgs = new ArrayList<>();
+        List<String> errorUploadingMsgs = new ArrayList<>();
+
         for (MultipartFile uploadFile : uploadFiles) {
 
             logger.info("Single file upload started!");
             String newFileName;
             if (uploadFile.isEmpty()) {
-                return new ResponseEntity(new ErrorMsg("Uploaded file should't be empty"), HttpStatus.BAD_REQUEST);
+                errorUploadingMsgs.add(getUploadingFailedString(uploadFile.getOriginalFilename()) + " Error: Uploaded file should't be empty");
+                continue;
             }
 
             try {
@@ -92,7 +99,8 @@ public class UploadFileController {
                 Document reportDocument = ReportUtil.getDocumentFromFile(tempFile);
                 ReportType reportType = ReportUtil.checkDocumentType(reportDocument);
                 if (reportType == ReportType.UNKNOWN) {
-                    return new ResponseEntity(new ErrorMsg("Unknown report!"), HttpStatus.BAD_REQUEST);
+                    errorUploadingMsgs.add(getUploadingFailedString(uploadFile.getOriginalFilename()) + " Error: Unknown report!");
+                    continue;
                 }
                 newFileName = IOUtil.moveFileToFolder(tempFile, comp, team, reportType);
 
@@ -104,23 +112,43 @@ public class UploadFileController {
                 }
             } catch (IOException ex) {
                 logger.error(ex.getMessage());
-                return new ResponseEntity(new ErrorMsg("IOException with msg: " + ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+                errorUploadingMsgs.add(getUploadingFailedString(uploadFile.getOriginalFilename()) + " Error: IOException: " + ex.getMessage());
+                continue;
             } catch (ParserConfigurationException e) {
                 logger.error(e.getMessage());
-                return new ResponseEntity(new ErrorMsg("Parser configuration exception wit the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+                errorUploadingMsgs.add(getUploadingFailedString(uploadFile.getOriginalFilename()) + " Error: Parser configuration exception: " + e.getMessage());
+                continue;
             } catch (SAXException e) {
                 logger.error(e.getMessage());
-                return new ResponseEntity(new ErrorMsg("SAX basic exception with the message: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+                errorUploadingMsgs.add(getUploadingFailedString(uploadFile.getOriginalFilename()) + " Error: SAX basic exception: " + e.getMessage());
+                continue;
             } catch (NullPointerException e) {
                 logger.error("Null pointer exception was thrown");
-                return new ResponseEntity(new ErrorMsg("An null pointer exception was thrown"), HttpStatus.BAD_REQUEST);
+                errorUploadingMsgs.add(getUploadingFailedString(uploadFile.getOriginalFilename()) + " Error: Null pointer exception thrown");
+                continue;
             } catch (JSONException e) {
                 logger.error(e.getMessage());
-                return new ResponseEntity(new ErrorMsg("A JSON exception was thrown with message:" + e.getMessage()), HttpStatus.BAD_REQUEST);
+                errorUploadingMsgs.add(getUploadingFailedString(uploadFile.getOriginalFilename()) + " Error: JSON exception: " + e.getMessage());
+                continue;
             }
+
+            successfullyUploadedMsgs.add("Successfully uploaded file with name: " + uploadFile.getOriginalFilename());
         }
 
-        return new ResponseEntity(new ErrorMsg("Successfully uploaded "), HttpStatus.OK);
+        if (!errorUploadingMsgs.isEmpty()) {
+            UploadMessages uploadMessages = new UploadMessages();
+
+            uploadMessages.setSuccessfullyUploadedMsgs(successfullyUploadedMsgs);
+            uploadMessages.setErrorUploadingMsgs(errorUploadingMsgs);
+
+            return new ResponseEntity<>(uploadMessages, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(successfullyUploadedMsgs, HttpStatus.OK);
+    }
+
+    private String getUploadingFailedString(String fileName) {
+        return "Uploading failed for file: " + fileName + ".";
     }
 
     /**
