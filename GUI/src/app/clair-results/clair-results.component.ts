@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {MenuItem, SelectItem} from "primeng/api";
 import {VulnApiService} from "../services/vuln-api.service";
 import {ActivatedRoute} from '@angular/router';
@@ -23,6 +23,8 @@ export class ClairResultsComponent implements OnInit {
   sortField: string;
   sortOrder: number;
 
+  errorMessages: any;
+
 
   constructor(private http: HttpClient, private apiService: VulnApiService, private route: ActivatedRoute) {
   }
@@ -32,13 +34,20 @@ export class ClairResultsComponent implements OnInit {
       let reportId = params['id']; // (+) converts string 'id' to a number
 
       if (parseInt(reportId, 10)) {
-        this.apiService.getReportClair("xebia", "vulnmanager", reportId).subscribe((clairObject) => {
+        this.apiService.getReportClair(reportId).subscribe((clairObject) => {
           this.clairObject = clairObject;
           // Add severity number so we can sort on this
-          this.clairObject.vulnerabilities.forEach(function (vulnerability) {
-            let severityNumber = ClairResultsComponent.getSeverityNumber(vulnerability.severity);
-            vulnerability.severityNumber = severityNumber;
-          });
+          this.apiService.getReportClair(reportId).subscribe(
+            clairObject => {
+              this.clairObject = clairObject;
+              // Add severity number so we can sort on this
+              this.clairObject.vulnerabilities.forEach(function (vulnerability) {
+                let severityNumber = ClairResultsComponent.getSeverityNumber(vulnerability.severity);
+                vulnerability.severityNumber = severityNumber;
+              });
+            }, error => {
+              this.showError("The following message was given: " + error.error.msg + ".This was for the report with id: " + reportId);
+            });
         });
       }
     });
@@ -95,5 +104,10 @@ export class ClairResultsComponent implements OnInit {
       this.sortOrder = 1;
       this.sortField = value;
     }
+  }
+
+  showError(msg) {
+    this.errorMessages = [];
+    this.errorMessages.push({severity: 'error', summary: 'Error Message:', detail: msg});
   }
 }

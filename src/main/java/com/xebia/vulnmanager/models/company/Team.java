@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 public class Team implements Serializable {
+    private static final String TEAM_LITTERAL = "team";
     private String name;
 
     @Id
@@ -21,19 +22,32 @@ public class Team implements Serializable {
     @JsonBackReference // A backrefrence to keep json from infinite looping
     private Company company;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "team_person",
             joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id")
     )
     private List<Person> teamMembers;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = TEAM_LITTERAL, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<OpenvasReport> reports;
 
+    @OneToMany(mappedBy = TEAM_LITTERAL, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<OpenvasReport> nmap;
+
+    @OneToMany(mappedBy = TEAM_LITTERAL, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<OpenvasReport> zap;
+
+    @OneToMany(mappedBy = TEAM_LITTERAL, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<OpenvasReport> clair;
+
     protected Team() {
         // Do nothing
+        teamMembers = new ArrayList<>();
     }
 
     public Team(final String name) {
@@ -73,9 +87,19 @@ public class Team implements Serializable {
         this.teamMembers = teamMembers;
     }
 
-    public void addTeamMember(Person p) {
+    public boolean addTeamMember(Person p) {
+        boolean added = false;
+
+        for (Person person : teamMembers) {
+            if (person.getId().equals(p.getId())) {
+                return added;
+            }
+        }
+
         p.addTeam(this);
         teamMembers.add(p);
+        added = true;
+        return added;
     }
 
 }

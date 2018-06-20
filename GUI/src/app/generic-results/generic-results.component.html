@@ -1,16 +1,25 @@
-<h1>All generic results</h1>
-<div >
-  <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="!genericReportIsEmpty">
+  <h1>All generic results</h1>
+
+  <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10"
+              paginatorPosition="both" [rowsPerPageOptions]="[5,10,20]"
               [sortField]="sortField" [sortOrder]="sortOrder"
               filterBy="reportType">
 
     <p-header>
+      <div class="ui-g">
+        <p-dropdown class="ui-g-12 ui-lg-2 " [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                    (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'12em'}"
+                    [ngStyle]="{'float': 'right'}"></p-dropdown>
+        <input class="ui-g-12 ui-lg-2 ui-lg-offset-8" type="search" pInputText placeholder="Filter by type" (keyup)="dv.filter($event.target.value)"/>
+      </div>
+
+      <p-splitButton [ngStyle]="{'float': 'right'}" label="Options" icon="fa-info" [model]="items"
+                     styleClass="ui-button-info"></p-splitButton>
+      <p></p>
 
 
-      <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
-                  (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"
-                  [ngStyle]="{'float': 'right'}"></p-dropdown>
-      <input type="search" pInputText placeholder="Filter by scan type" (keyup)="dv.filter($event.target.value)"/>
     </p-header>
     <ng-template let-report pTemplate="listItem">
       <div class="ui-g" style="padding: .5em;border-bottom: 1px solid #d9d9d9">
@@ -23,7 +32,7 @@
 
           </div>
         </div>
-        <div class="ui-g-12 ui-md-1 search-icon">
+        <div class="ui-g-12 ui-md-1 ui-sm-offset-10 search-icon">
           <button pButton type="button" icon="fa-search" (click)="selectNmapHost($event, report)"></button>
         </div>
       </div>
@@ -34,9 +43,10 @@
     </ng-template>
   </p-dataView>
 
-  <p-dialog width="600" appendTo="body" header="Header" [(visible)]="displayDialog" [responsive]="false" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+  <p-dialog width="600" appendTo="body" header="Header" [(visible)]="displayDialog" [responsive]="false"
+            showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedReport">
-      <div class="ui-g-12" >
+      <div class="ui-g-12">
         <!--
 
         comments[{…}]
@@ -75,7 +85,9 @@ url
               <td>{{genericResult.info}}</td>
               <td>{{genericResult.port}}</td>
               <td>{{genericResult.knownSolution}}</td>
-              <td><input type="checkbox" (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)" [checked]="genericResult.falsePositive" binary="true"></td>
+              <td><input type="checkbox"
+                         (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)"
+                         [checked]="genericResult.falsePositive" binary="true"></td>
             </tr>
             <td colspan="10">
               <p-table *ngIf="genericResult.comments.length > 0" [value]="genericResult.comments.reverse()" [scrollable]="true" scrollHeight="200px">
@@ -100,17 +112,18 @@ url
                     New Comment
                   </p-header>
                   <form #f="ngForm" novalidate>
-                    <input name="text" ngModel required #first="ngModel">
-                    <button (click)="formSubmit(f, selectedReport.id, genericResult.id)">Submit</button>
+                    <input name="text" [(ngModel)]="text" ngModel required #first="ngModel">
+                    <button pButton type="button" icon="fa-plus" (click)="formSubmit(f, selectedReport.id, genericResult.id)" ></button>
                   </form>
+
+
+                  <ng-template #noComments >No comments yet..</ng-template>
                 </p-card>
               </td>
             </tr>
-
           </ng-template>
         </p-table>
       </div>
     </div>
   </p-dialog>
-
-</div>
+                </div>

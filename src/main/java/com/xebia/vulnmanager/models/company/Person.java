@@ -1,6 +1,7 @@
 package com.xebia.vulnmanager.models.company;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xebia.vulnmanager.models.comments.Comment;
 
 import javax.persistence.*;
@@ -82,6 +83,7 @@ public class Person implements Serializable {
         return company;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

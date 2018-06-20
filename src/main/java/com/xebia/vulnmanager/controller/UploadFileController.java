@@ -165,6 +165,7 @@ public class UploadFileController {
             }
 
             // Save the report
+            nMapReport.setTeam(team);
             nMapReport = nMapRepository.save(nMapReport);
             nMapRepository.flush();
             for (GenericReport report : nMapReport.getMultiReport().getReports()) {
@@ -178,6 +179,7 @@ public class UploadFileController {
             }
 
             // Save the report
+            zapReport.setTeam(team);
             zapReport = zapRepository.save(zapReport);
             zapRepository.flush();
             for (GenericReport report : zapReport.getGenericReport().getReports()) {
@@ -191,6 +193,7 @@ public class UploadFileController {
             }
 
             // Save the report
+            clairReport.setTeam(team);
             clairReport = clairRepository.save(clairReport);
             clairRepository.flush();
             for (GenericReport report : clairReport.getGenericReport().getReports()) {

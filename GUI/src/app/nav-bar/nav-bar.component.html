@@ -1,13 +1,12 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <a class="navbar-brand fa fa-bars fa-2x" routerLink="" (click)="visibleSidebar1=true"></a>
-  <a class="navbar-brand" routerLink="/home"> Xebia Vulnmanager</a>
 
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" routerLink="/home"> Xebia Vulnmanager</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <!--DROPDOWN 1-->
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto flex-row">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           View results
@@ -24,33 +23,45 @@
           <a class="dropdown-item" routerLink= "/generic-results" routerLinkActive="active">Generic results</a>
         </div>
       </li>
-      <!-- DROPDOWN 2 -->
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Manage results
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <button class="dropdown-item" (click)="runAddCompany()">Add Company</button>
-          <button class="dropdown-item" (click)="runAddTest()">Example reports</button>
           <button class="dropdown-item" routerLink="/upload">Upload report(s)</button>
-
+          <button class="dropdown-item" (click)="runDelete()">DELETE EVERYTHING</button>
         </div>
       </li>
-    </ul>
-
-    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Signup</a>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" href="/company">Company</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
+    </ul>
+    <div *ngIf="isLoggedIn">
+      <p-dropdown [style]="{'min-width':'8em'}" [options]="teams" [(ngModel)]="selectedTeam" (ngModelChange)="onTeamSelectChange($event)" placeholder="{{selectedTeam}}" optionLabel="name" [showClear]="false"></p-dropdown>
+    </div>
+    <ul class="navbar-nav">
+      <li class="nav-item" *ngIf="!isLoggedIn">
+        <a class="nav-link" href="/login">Signup/Login</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" href="#">Welcome, {{username}}!</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" (click)=" logout()">Logout</a>
       </li>
     </ul>
   </div>
 </nav>
-<p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000">
-  <h1 style="font-weight:normal">Test Sidebar</h1>
-  <button pButton type="button" (click)="visibleSidebar1 = false" label="Save" class="ui-button-success"></button>
-  <button pButton type="button" (click)="visibleSidebar1 = false" label="Cancel" class="ui-button-secondary"></button>
-  <h6><br>Click outside this sidebar to close it</h6>
-</p-sidebar>
+
+
+<!--
+<p-menubar [model]="items" [autoDisplay]="false" styleClass="ui-sidebar-lg">
+  <button pButton label="Logout" (click)="logout()" *ngIf="isLoggedIn"></button>
+  <button pButton label="Login" (click)="login()" *ngIf="!isLoggedIn"></button>
+</p-menubar>
+<p-sidebar [(visible)]="display" class="ui-lg" styleClass="ui-sidebar-sm"><p-panelMenu [model]="items"></p-panelMenu></p-sidebar>
+<button type="text" (click)="display = true" pButton icon="pi pi-plus" label="Show"></button>
+
+<p-messages [(value)]="msgs"></p-messages>
+-->

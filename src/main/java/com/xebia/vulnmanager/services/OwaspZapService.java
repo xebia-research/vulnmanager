@@ -8,13 +8,13 @@ import com.xebia.vulnmanager.repositories.OwaspZapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OwaspZapService {
 
     private OwaspZapRepository zapRepository;
-
 
     @Autowired
     public OwaspZapService(final OwaspZapRepository zapRepository) {
@@ -37,7 +37,22 @@ public class OwaspZapService {
      * @return Return a report if it is present else it will return null
      */
     public ZapReport getReportById(long id) {
-        return zapRepository.findById(id).get();
+        return zapRepository.findById(id).orElse(null);
+    }
+
+    public List<ZapReport> getAllReportsByTeam(String companyName, String teamName) {
+        List<ZapReport> all = zapRepository.findAll();
+        List<ZapReport> result = new ArrayList<>();
+        for (int i = 0; i < all.size(); i++) {
+            ZapReport report = all.get(i);
+
+            if (report.getTeam().getName().equalsIgnoreCase(teamName)
+                    && report.getTeam().getCompany().getName().equalsIgnoreCase(companyName)) {
+                result.add(report);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -63,10 +78,10 @@ public class OwaspZapService {
         return null;
     }
 
-    public GenericMultiReport getAllReportsAsGeneric() {
+    public GenericMultiReport getAllReportsAsGeneric(String companyName, String teamName) {
         GenericMultiReport multiReport = new GenericMultiReport();
 
-        for (ZapReport report : getAllReports()) {
+        for (ZapReport report : getAllReportsByTeam(companyName, teamName)) {
             GenericMultiReport report1 = report.getGenericReport();
             for (GenericReport finalReport : report1.getReports()) {
                 multiReport.addReports(finalReport);

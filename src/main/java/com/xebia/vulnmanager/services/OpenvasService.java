@@ -7,6 +7,7 @@ import com.xebia.vulnmanager.repositories.OpenvasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,12 +29,27 @@ public class OpenvasService {
         return openvasDataService.findAll();
     }
 
+    public List<OpenvasReport> getAllReportsByTeam(String companyName, String teamName) {
+        List<OpenvasReport> all = openvasDataService.findAll();
+        List<OpenvasReport> result = new ArrayList<>();
+        for (int i = 0; i < all.size(); i++) {
+            OpenvasReport report = all.get(i);
+
+            if (report.getTeam().getName().equalsIgnoreCase(teamName)
+                    && report.getTeam().getCompany().getName().equalsIgnoreCase(companyName)) {
+                result.add(report);
+            }
+        }
+
+        return result;
+    }
+
     /**
      * Get all the openvas reports
      * @return Return an iteratable of all the openvas reports
      */
-    public GenericMultiReport getAllReportsAsGeneric() {
-        List<OpenvasReport> reports = openvasDataService.findAll();
+    public GenericMultiReport getAllReportsAsGeneric(String companyName, String teamName) {
+        List<OpenvasReport> reports = getAllReportsByTeam(companyName, teamName);
         GenericMultiReport genericReports = new GenericMultiReport();
 
         for (OpenvasReport report : reports) {
@@ -48,7 +64,7 @@ public class OpenvasService {
      * @return Return a report if it is present else it will return null
      */
     public OpenvasReport getReportById(long id) {
-        return openvasDataService.findById(id).get();
+        return openvasDataService.findById(id).orElse(null);
     }
 
     /**

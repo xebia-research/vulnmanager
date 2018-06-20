@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Company implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String authKey = "testauth";
@@ -65,7 +65,19 @@ public class Company implements Serializable {
     }
 
     public void addTeam(Team team) {
-        this.teams.add(team);
+        boolean found = false;
+        for (int i = 0; i < teams.size(); i++) {
+            Team t = teams.get(i);
+            if (t.getName().equalsIgnoreCase(team.getName())) {
+                teams.set(i, team);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            this.teams.add(team);
+        }
     }
 
     public Long getId() {
@@ -78,6 +90,16 @@ public class Company implements Serializable {
 
     public List<Person> getEmployees() {
         return employees;
+    }
+
+    public void addEmployee(Person person) {
+        for (Person p : employees) {
+            if (p.getId().equals(person.getId())) {
+                return;
+            }
+        }
+
+        employees.add(person);
     }
 
     public void setEmployees(List<Person> employees) {
