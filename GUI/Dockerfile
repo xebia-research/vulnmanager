@@ -25,7 +25,7 @@ COPY . .
 
 ## Build the angular app in production mode and store the artifacts in dist folder
 RUN npm i -g @angular/cli
-RUN npm install rxjs@6 rxjs-compat@6
+RUN npm install rxjs@6 rxjs-compat@6 @auth0/angular-jwt
 RUN ng build --prod
 
 
