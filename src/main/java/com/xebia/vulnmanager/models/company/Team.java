@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 public class Team implements Serializable {
     private String name;
+    private static final String TEAM_LITTERAL = "team";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,19 +29,19 @@ public class Team implements Serializable {
     )
     private List<Person> teamMembers;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = TEAM_LITTERAL, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<OpenvasReport> reports;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = TEAM_LITTERAL, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<OpenvasReport> nmap;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = TEAM_LITTERAL, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<OpenvasReport> zap;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = TEAM_LITTERAL, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<OpenvasReport> clair;
 
