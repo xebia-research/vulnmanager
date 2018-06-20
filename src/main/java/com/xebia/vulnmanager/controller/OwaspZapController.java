@@ -18,9 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/{company}/{team}/zap")
 public class OwaspZapController {
+
+    private static final String COMPANY_LITTERAL = "company";
+    private static final String TEAM_LITTERAL = "team";
+
     private final Logger logger = LoggerFactory.getLogger("OwaspZapController");
-
-
     private OwaspZapService owaspZapService;
 
     @Autowired
@@ -36,8 +38,9 @@ public class OwaspZapController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllZapReports() throws IOException {
-        List<ZapReport> reportList = owaspZapService.getAllReports();
+    ResponseEntity<?> getAllZapReports(@PathVariable(COMPANY_LITTERAL) String companyName,
+                                       @PathVariable(TEAM_LITTERAL) String teamName) throws IOException {
+        List<ZapReport> reportList = owaspZapService.getAllReportsByTeam(companyName, teamName);
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }
 
@@ -107,9 +110,10 @@ public class OwaspZapController {
      */
     @RequestMapping(value = "generic", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getGenericReports() throws IOException {
+    ResponseEntity<?> getGenericReports(@PathVariable(COMPANY_LITTERAL) String companyName,
+                                        @PathVariable(TEAM_LITTERAL) String teamName) throws IOException {
 
-        GenericMultiReport reportList = owaspZapService.getAllReportsAsGeneric();
+        GenericMultiReport reportList = owaspZapService.getAllReportsAsGeneric(companyName, teamName);
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }

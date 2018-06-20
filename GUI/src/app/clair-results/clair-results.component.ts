@@ -34,17 +34,21 @@ export class ClairResultsComponent implements OnInit {
       let reportId = params['id']; // (+) converts string 'id' to a number
 
       if (parseInt(reportId, 10)) {
-        this.apiService.getReportClair("xebia", "vulnmanager", reportId).subscribe(
-          clairObject => {
-            this.clairObject = clairObject;
-            // Add severity number so we can sort on this
-            this.clairObject.vulnerabilities.forEach(function (vulnerability) {
-              let severityNumber = ClairResultsComponent.getSeverityNumber(vulnerability.severity);
-              vulnerability.severityNumber = severityNumber;
+        this.apiService.getReportClair(reportId).subscribe((clairObject) => {
+          this.clairObject = clairObject;
+          // Add severity number so we can sort on this
+          this.apiService.getReportClair(reportId).subscribe(
+            clairObject => {
+              this.clairObject = clairObject;
+              // Add severity number so we can sort on this
+              this.clairObject.vulnerabilities.forEach(function (vulnerability) {
+                let severityNumber = ClairResultsComponent.getSeverityNumber(vulnerability.severity);
+                vulnerability.severityNumber = severityNumber;
+              });
+            }, error => {
+              this.showError("The following message was given: " + error.error.msg + ".This was for the report with id: " + reportId);
             });
-          }, error => {
-            this.showError("The following message was given: " + error.error.msg + ".This was for the report with id: " + reportId);
-          });
+        });
       }
     });
 

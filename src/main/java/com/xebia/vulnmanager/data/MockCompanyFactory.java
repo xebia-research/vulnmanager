@@ -12,8 +12,11 @@ public class MockCompanyFactory {
 
     public MockCompanyFactory() {
         Person p1 = new Person("p1");
+        p1.setId(1L);
         Person p2 = new Person("p2");
+        p2.setId(2L);
         Person p3 = new Person("p3");
+        p3.setId(3L);
 
         Team t1 = new Team("vulnmanager");
         Team t2 = new Team("headerbuddy");

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {VulnApiService} from "../services/vuln-api.service";
 import {HttpClient} from "@angular/common/http";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-zap-select-report',
@@ -13,11 +14,22 @@ export class ZapSelectReportComponent implements OnInit {
   errorMessages: any;
   zapObjectIsEmpty: boolean = true;
 
-  constructor(private http: HttpClient, private apiService: VulnApiService) {
+  constructor(private http: HttpClient, private apiService: VulnApiService, private router:Router) {
   }
 
   ngOnInit() {
-    this.apiService.getZap("xebia", "vulnmanager").subscribe(
+    this.loadData();
+
+    this.router.events.subscribe((event => {
+      if(event instanceof NavigationEnd) {
+        this.errorMessages = [];
+        this.loadData();
+      }
+    }))
+  }
+
+  loadData() {
+    this.apiService.getZap().subscribe(
       zapReportData => {// data bestaat
         console.log(zapReportData);
         this.zapObjects = zapReportData;

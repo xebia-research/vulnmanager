@@ -21,6 +21,8 @@ import java.util.List;
 public class NMapController {
     private static final String REPORT_NOT_FOUND_LITERAL = "Nmap report not found";
     private static final String REPORT_ID_LITERAL = "reportId";
+    private static final String COMPANY_LITTERAL = "company";
+    private static final String TEAM_LITTERAL = "team";
 
     private final Logger logger = LoggerFactory.getLogger("NMapController");
 
@@ -38,12 +40,10 @@ public class NMapController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getAllNMapReports() {
+    ResponseEntity<?> getAllNMapReports(@PathVariable(COMPANY_LITTERAL) String companyName,
+                                        @PathVariable(TEAM_LITTERAL) String teamName) {
 
-        List<NMapReport> reportList = nmapService.getAllReports();
-        if (reportList.isEmpty()) {
-            return new ResponseEntity(new ErrorMsg("There are no reports for nMap right now. Upload a nMap xml file first."), HttpStatus.BAD_REQUEST);
-        }
+        List<NMapReport> reportList = nmapService.getAllReportsByTeam(companyName, teamName);
 
         return new ResponseEntity(reportList, HttpStatus.OK);
     }
@@ -138,9 +138,10 @@ public class NMapController {
      */
     @RequestMapping(value = "generic", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getGenericReports() throws IOException {
+    ResponseEntity<?> getGenericReports(@PathVariable(COMPANY_LITTERAL) String companyName,
+                                        @PathVariable(TEAM_LITTERAL) String teamName) throws IOException {
 
-        GenericMultiReport reportList = nmapService.getAllReportsAsGeneric();
+        GenericMultiReport reportList = nmapService.getAllReportsAsGeneric(companyName, teamName);
 
         return new ResponseEntity<>(reportList, HttpStatus.OK);
     }

@@ -6,6 +6,7 @@ import com.xebia.vulnmanager.repositories.GenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,21 @@ public class GenericReportService {
             }
         }
         return returnReport;
+    }
+
+    public List<GenericReport> getAllReportsByTeam(String companyName, String teamName) {
+        List<GenericReport> all = genRepository.findAll();
+        List<GenericReport> result = new ArrayList<>();
+        for (int i = 0; i < all.size(); i++) {
+            GenericReport report = all.get(i);
+
+            if (report.getTeam().getName().equalsIgnoreCase(teamName)
+                    && report.getTeam().getCompany().getName().equalsIgnoreCase(companyName)) {
+                result.add(report);
+            }
+        }
+
+        return result;
     }
 
     public Optional<GenericResult> getReportByGenericId(long reportId, long resultId) {
