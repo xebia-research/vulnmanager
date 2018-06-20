@@ -37,7 +37,7 @@ public class OwaspZapService {
      * @return Return a report if it is present else it will return null
      */
     public ZapReport getReportById(long id) {
-        return zapRepository.findById(id).get();
+        return zapRepository.findById(id).orElse(null);
     }
 
     public List<ZapReport> getAllReportsByTeam(String companyName, String teamName) {

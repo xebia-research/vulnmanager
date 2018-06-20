@@ -22,6 +22,8 @@ export class OpenvasResultsComponent implements OnInit {
   sortField: string;
   sortOrder: number;
 
+  errorMessages: any;
+
   constructor(private http: HttpClient, private apiService: VulnApiService, private route: ActivatedRoute) {
   }
 
@@ -31,10 +33,11 @@ export class OpenvasResultsComponent implements OnInit {
 
       if (parseInt(reportId, 10)) {
         this.apiService.getOpenvasReport(reportId).subscribe((openVasObject) => {
-          // data bestaat
-          console.log(openVasObject);
-          this.openVasObject = openVasObject;
-        });
+            console.log(openVasObject);
+            this.openVasObject = openVasObject;
+          }, error => {
+            this.showError("The following message was given: " + error.error.msg + ".This was for the report with id: " + reportId);
+          });
       }
     });
 
@@ -83,5 +86,10 @@ export class OpenvasResultsComponent implements OnInit {
       this.sortOrder = 1;
       this.sortField = value;
     }
+  }
+
+  showError(msg) {
+    this.errorMessages = [];
+    this.errorMessages.push({severity: 'error', summary: 'Error Message:', detail: msg});
   }
 }

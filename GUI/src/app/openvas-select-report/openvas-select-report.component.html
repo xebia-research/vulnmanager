@@ -1,5 +1,6 @@
-<h1>Select Openvas report</h1>
-<div>
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="!openvasObjectIsEmpty">
+  <h1>Select Openvas report</h1>
   <h3>Select the openvas report you want to see the information from.</h3>
   <p-table [value]="openVasObjects">
     <ng-template pTemplate="header">

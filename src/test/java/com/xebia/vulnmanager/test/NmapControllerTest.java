@@ -1,7 +1,6 @@
 package com.xebia.vulnmanager.test;
 
 import com.xebia.vulnmanager.controller.NMapController;
-import com.xebia.vulnmanager.models.nmap.objects.Host;
 import com.xebia.vulnmanager.models.nmap.objects.NMapReport;
 import com.xebia.vulnmanager.services.NmapService;
 import com.xebia.vulnmanager.util.ReportUtil;
@@ -13,16 +12,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class NmapControllerTest {
@@ -50,7 +44,7 @@ public class NmapControllerTest {
         // Mock the database service to return a list of valid objects
         Mockito.when(nmapService.getAllReports()).thenReturn(reports);
 
-        Optional<NMapReport> report = Optional.of(reports.get(0));
+        NMapReport report = reports.get(0);
 
         Mockito.when(nmapService.getReportById(1L)).thenReturn(report);
 

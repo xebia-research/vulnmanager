@@ -1,5 +1,6 @@
-<h1>Results of scanning image: {{clairObject.image}}</h1>
-<div>
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="clairObject != null">
+  <h1>Results of scanning image: {{clairObject.image}}</h1>
   <h3></h3>
   <p-dataView #dv [value]="clairObject.vulnerabilities" [paginator]="true" [rows]="5" paginatorPosition="both"
               [rowsPerPageOptions]="[5,10,20]" [sortField]="sortField" [sortOrder]="sortOrder"
