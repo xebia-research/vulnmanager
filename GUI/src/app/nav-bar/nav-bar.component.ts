@@ -48,14 +48,14 @@ export class NavBarComponent implements OnInit {
     this.router.events.subscribe(
       value => {
 
-        if(value instanceof NavigationEnd){
+        if (value instanceof NavigationEnd) {
 
 
           this.isLoggedIn = this.apiService.isLoggedIn();
 
           this.apiService.getAllInfoFromServer().then((res) => {
-            let result:any = res;
-            if(!result.startsWith("ERROR")) {
+            let result: any = res;
+            if (!result.startsWith("ERROR")) {
               this.teams = JSON.parse(localStorage.getItem("myteams"));
               console.log(this.teams);
               console.log(this.apiService.getSelectedTeam());
@@ -67,7 +67,7 @@ export class NavBarComponent implements OnInit {
             }
           })
 
-          if(this.isLoggedIn) {
+          if (this.isLoggedIn) {
             this.username = this.apiService.getUserNameFromToken();
 
             this.apiService.whoami().subscribe((res) => {
@@ -76,9 +76,9 @@ export class NavBarComponent implements OnInit {
 
           }
         }
-    }
+      }
     )
-
+  }
   runAddTest() {
     this.apiService.addTest().subscribe(() => {
       alert("The example logs are added, Press OK to reload the page");
