@@ -50,17 +50,23 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "whomycompany", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<?> whoMyCompany() {
+    private Person findPerson() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         Person p = personRepository.findByUsername(currentPrincipalName);
+        if (p != null) {
+            p.setPassword("");
+        }
+        return p;
+    }
+
+    @RequestMapping(value = "whomycompany", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> whoMyCompany() {
+        Person p = findPerson();
         if (p == null) {
             return new ResponseEntity<>(new ErrorMsg("User not found!?"), HttpStatus.OK);
         } else {
-            p.setPassword("");
-
             List<Company> companyList = companyService.getCompanyRepository().findAll();
 
             if (companyList.size() == 0) {
@@ -85,14 +91,10 @@ public class UserController {
     @RequestMapping(value = "whomyteams", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> whoMyTeams() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        Person p = personRepository.findByUsername(currentPrincipalName);
+        Person p = findPerson();
         if (p == null) {
             return new ResponseEntity<>(new ErrorMsg("User not found!?"), HttpStatus.OK);
         } else {
-            p.setPassword("");
-
             List<Company> companyList = companyService.getCompanyRepository().findAll();
 
             if (companyList.size() == 0) {
