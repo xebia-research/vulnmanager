@@ -37,8 +37,9 @@ Everything is run in docker, for your convenience ! :whale:
 
 1. git clone this repo
 2. _cd_ into this repo
-3. run '__docker-compose build__' and wait(!) for it to finish
-4. run '__docker-compose up -d__'
+3. Generate a new secret for your JWT token signing with __./genSec.sh__. Do NOT skip this
+4. run '__docker-compose build__' and wait(!) for it to finish
+5. run '__docker-compose up -d__'
 
 ## Usage
 
