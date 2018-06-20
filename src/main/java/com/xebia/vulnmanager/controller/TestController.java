@@ -112,7 +112,7 @@ public class TestController {
     @ResponseBody
     public ResponseEntity<?> addTest() throws ParserConfigurationException, SAXException, IOException {
         Object parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/openvas/openvas.xml")));
-        OpenvasReport report = ReportUtil.getOpenvasReportFromObject(parsedDocument);
+        OpenvasReport openvasReport = ReportUtil.getOpenvasReportFromObject(parsedDocument);
 
         parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/nmap/nmap.xml")));
         NMapReport nMapReport = ReportUtil.getNMapReportFromObject(parsedDocument);
@@ -123,20 +123,20 @@ public class TestController {
         parsedDocument = ReportUtil.parseDocument(ReportUtil.getDocumentFromFile(new File("example_logs/clair/clair_scan_radarr.json")));
         ClairReport clairReport = ReportUtil.getClairReportFromObject(parsedDocument);
 
-        nMapRepository.save(nMapReport);
-        zapRepository.save(zapReport);
-        clairRepository.save(clairReport);
+        Company testComp = companyRepository.findAll().get(0);
+        Team team = testComp.findTeamByName("vulnmanager");
 
-        if (report == null) {
-            return new ResponseEntity(new ErrorMsg("The file requested is not of the right type"), HttpStatus.BAD_REQUEST);
-        }
+        openvasReport.setTeam(team);
+        nMapReport.setTeam(team);
+        zapReport.setTeam(team);
+        clairReport.setTeam(team);
 
-        Company xebiaComp = companyRepository.findByName("xebia").get(0);
+        nMapReport = nMapRepository.save(nMapReport);
+        zapReport = zapRepository.save(zapReport);
+        clairReport = clairRepository.save(clairReport);
+        openvasReport = openvasRepository.save(openvasReport);
 
-        report.setTeam(xebiaComp.findTeamByName("vulnmanager"));
-        OpenvasReport retReport = openvasRepository.save(report);
-
-        GenericMultiReport multiReport = retReport.getGenericMultiReport();
+        GenericMultiReport multiReport = openvasReport.getGenericMultiReport();
 
         GenericMultiReport nmap = nMapReport.getMultiReport();
         for (GenericReport genRep : nmap.getReports()) {
