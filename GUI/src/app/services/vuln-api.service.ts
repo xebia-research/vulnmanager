@@ -38,21 +38,27 @@ export class VulnApiService {
     userObj.username = user;
     userObj.password = btoa(password);
 
+    let promise = new Promise((resolve, reject) => {
+      this.http.post(this.BASE_URL + '/login', userObj, {
+        withCredentials: true,
+        observe: 'response'
+      }).subscribe(result => {
 
-    return this.http.post(this.BASE_URL + '/login', userObj, {
-      withCredentials: true,
-      observe: 'response'
-    }).subscribe(result => {
-      let auth = result.headers.get("authorization");
+        let auth = result.headers.get("authorization");
 
-      if (auth != null) {
-        localStorage.setItem("user", userObj.username);
-        localStorage.setItem("jwt", auth);
-        return true;
-      }
-    }, error => {
-      return false;
+        if (auth != null) {
+          localStorage.setItem("user", userObj.username);
+          localStorage.setItem("jwt", auth);
+          resolve("login")
+        }
+        reject(false);
+      }, error => {
+        reject(false);
+      });
     });
+
+
+    return promise;
   }
 
   logout() {

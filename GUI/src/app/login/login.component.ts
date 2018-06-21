@@ -12,7 +12,7 @@ import {Message} from 'primeng/api';
 export class LoginComponent implements OnInit {
 
   user:any;
-  //msgs: Message[] = [];
+  msgs: Message[] = [];
 
   constructor(private apiService:VulnApiService, private router: Router) { }
 
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     this.user = {};
 
     if (this.apiService.isLoggedIn()) {
-
+      this.router.navigate(['/home']);
     }
 
   }
@@ -32,11 +32,11 @@ export class LoginComponent implements OnInit {
     console.log("SUBMITTING!")
     console.log(this.user);
     this.user.companyName = "";
-    if(this.apiService.login(this.user.username, this.user.password)) {
-      this.router.navigate(['']);
-    } else {
-      //this.msgs.push({severity:'error', summary:'Error Message', detail:'Error logging in'});
-    }
+    this.apiService.login(this.user.username, this.user.password).then((res) => {
+      this.router.navigate(['/home']);
+    }).catch(error => {
+      this.msgs.push({severity:'error', summary:'Error Message', detail:'Details not correct'});
+    })
   }
 
 }
