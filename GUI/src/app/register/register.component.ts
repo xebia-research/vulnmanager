@@ -22,14 +22,14 @@ export class RegisterComponent implements OnInit {
     console.log("SUBMITTING!")
     console.log(this.user);
     this.user.companyName = "";
-    this.apiService.signup(this.user.username, this.user.password, this.user.companyName)
-      .subscribe(result => {
-        console.log(result);
-        this.apiService.login(this.user.username, this.user.password).then(res => {
-          this.router.navigate(['/company']);
-        }).catch(error => {
-          this.msgs.push({severity:'error', summary:'Error Message', detail:'Error logging in'});
-        })
-      });
+    this.apiService.signup(this.user.username, this.user.password, this.user.companyName).then((res) => {
+      this.apiService.login(this.user.username, this.user.password).then(res => {
+        this.router.navigate(['/company']);
+      }).catch(error => {
+        this.msgs.push({severity: 'error', summary: 'Error Message', detail: 'Error logging in'});
+      })
+    }).catch((error) => {
+      this.msgs.push({severity: 'error', summary: 'Error Message', detail: 'Error registering, account already exists'});
+    })
   }
 }

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import {reject} from "q";
 
 @Injectable()
 export class VulnApiService {
@@ -30,7 +31,18 @@ export class VulnApiService {
     userObj.companyName = companyName;
 
 
-    return this.http.post(this.BASE_URL + '/users/sign-up', userObj);
+    let promise = new Promise((resolve, reject) => {
+      this.http.post(this.BASE_URL + '/users/sign-up', userObj, {
+        observe: 'response'
+      }).subscribe(result => {
+        resolve();
+      }, error => {
+        reject();
+      });
+
+    }
+
+    return promise;
   }
 
   login(user, password) {
