@@ -61,7 +61,7 @@ public class UploadControllerTest {
                 .file(nmapReport))
                 .andExpect(status().isBadRequest())
                 .andDo(print())
-                .andExpect(jsonPath("$.msg", is("Unknown report!")))
+                .andExpect(jsonPath("$.errorUploadingMsgs[0]", is("Uploading failed for file: nmap.xml. Error: Unknown report!")))
                 .andReturn();
     }
 }
