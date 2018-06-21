@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import {reject} from "q";
 
 @Injectable()
 export class VulnApiService {
@@ -30,7 +31,18 @@ export class VulnApiService {
     userObj.companyName = companyName;
 
 
-    return this.http.post(this.BASE_URL + '/users/sign-up', userObj);
+    let promise = new Promise((resolve, reject) => {
+      this.http.post(this.BASE_URL + '/users/sign-up', userObj, {
+        observe: 'response'
+      }).subscribe(result => {
+        resolve();
+      }, error => {
+        reject();
+      });
+
+    }
+
+    return promise;
   }
 
   login(user, password) {
@@ -38,21 +50,27 @@ export class VulnApiService {
     userObj.username = user;
     userObj.password = btoa(password);
 
+    let promise = new Promise((resolve, reject) => {
+      this.http.post(this.BASE_URL + '/login', userObj, {
+        withCredentials: true,
+        observe: 'response'
+      }).subscribe(result => {
 
-    return this.http.post(this.BASE_URL + '/login', userObj, {
-      withCredentials: true,
-      observe: 'response'
-    }).subscribe(result => {
-      let auth = result.headers.get("authorization");
+        let auth = result.headers.get("authorization");
 
-      if (auth != null) {
-        localStorage.setItem("user", userObj.username);
-        localStorage.setItem("jwt", auth);
-        return true;
-      }
-    }, error => {
-      return false;
+        if (auth != null) {
+          localStorage.setItem("user", userObj.username);
+          localStorage.setItem("jwt", auth);
+          resolve("login")
+        }
+        reject(false);
+      }, error => {
+        reject(false);
+      });
     });
+
+
+    return promise;
   }
 
   logout() {
