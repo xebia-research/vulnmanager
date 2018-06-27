@@ -1,5 +1,6 @@
 package com.xebia.vulnmanager.controller;
 
+import com.xebia.vulnmanager.auth.security.RandomAESKeyGen;
 import com.xebia.vulnmanager.models.company.Company;
 import com.xebia.vulnmanager.models.company.Person;
 import com.xebia.vulnmanager.models.company.PersonLogin;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +25,10 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/users")
 public class UserController {
+    private static final int KEY_LENGTH = 256;
     private final PersonRepository personRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     private CompanyService companyService;
 
     @Autowired
@@ -45,8 +49,7 @@ public class UserController {
         if (p == null) {
             return new ResponseEntity<>(new ErrorMsg("User not found!?"), HttpStatus.OK);
         } else {
-            p.setPassword("");
-            return new ResponseEntity<>(p, HttpStatus.OK);
+            return new ResponseEntity<>(p.getDetailedPerson(), HttpStatus.OK);
         }
     }
 
@@ -134,7 +137,13 @@ public class UserController {
         if (personRepository.findByUsername(person.getUsername()) != null) {
             return new ResponseEntity<>(new ErrorMsg("Username already in use"), HttpStatus.BAD_REQUEST);
         }
+
+        try {
+            person.setApiKey(RandomAESKeyGen.generate(KEY_LENGTH));
+        } catch (NoSuchAlgorithmException e) {
+            return new ResponseEntity<>(new ErrorMsg("Couldn\'t generate token for new user. user not created"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         person = personRepository.save(person);
-        return new ResponseEntity<>(person, HttpStatus.OK);
+        return new ResponseEntity<>(person.getDetailedPerson(), HttpStatus.OK);
     }
 }

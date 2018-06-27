@@ -1,5 +1,8 @@
 package com.xebia.vulnmanager.auth.security;
 
+import com.xebia.vulnmanager.repositories.PersonRepository;
+import com.xebia.vulnmanager.services.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +26,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private PersonRepository personRepository;
+
     public WebSecurity(final UserDetailsService userDetailsService,
                        final BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
@@ -43,7 +49,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
@@ -70,7 +76,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Bean
     @SuppressWarnings("AvoidFieldNameMatchingMethodName")
-    protected UserDetailsService userDetailsService() {
-        return super.userDetailsService();
+    protected UserDetailsServiceImpl userDetailsService() {
+        return new UserDetailsServiceImpl(personRepository);
     }
 }

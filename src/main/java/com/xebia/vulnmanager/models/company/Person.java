@@ -18,6 +18,9 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(columnDefinition = "text")
+    private String apiKey;
+
     @ManyToMany(mappedBy = "teamMembers")
     @JsonBackReference
     private List<Team> projects;
@@ -91,4 +94,19 @@ public class Person implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @JsonIgnore
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    @JsonIgnore
+    public PersonDetail getDetailedPerson() {
+        return new PersonDetail(username, id, apiKey);
+    }
+
 }
