@@ -40,8 +40,7 @@ export class VulnApiService {
         reject();
       });
 
-    }
-
+    })
     return promise;
   }
 
