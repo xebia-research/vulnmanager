@@ -6,7 +6,7 @@ WORKDIR /git/
 RUN apk --update add git openssh && \
     rm -rf /var/lib/apt/lists/* && \
     rm /var/cache/apk/*
-RUN git clone -b latest-docker https://github.com/xebia-research/vulnmanager.git
+RUN git clone -b develop https://github.com/xebia-research/vulnmanager.git
 WORKDIR /git/vulnmanager/
 RUN git pull
 RUN git branch

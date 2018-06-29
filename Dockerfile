@@ -5,7 +5,7 @@ RUN apt-get install maven pwgen git default-jdk -y
 VOLUME /volume/git
 RUN mkdir -p /local/git
 WORKDIR /local/git/
-RUN git clone -b feature/universal-branch-docker-support https://github.com/xebia-research/vulnmanager
+RUN git clone -b develop https://github.com/xebia-research/vulnmanager
 WORKDIR /local/git/vulnmanager
 RUN git pull
 RUN git branch
