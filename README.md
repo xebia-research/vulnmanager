@@ -1,14 +1,14 @@
-# vulnmanager
+# Vulnmanager
 
 [![Build Status](https://travis-ci.org/xebia-research/vulnmanager.svg?branch=develop)](https://travis-ci.org/xebia-research/vulnmanager)
 
 #### This is a vulnerability manager with an authenticated API to manage vulnerability reports in a webGUI.
-
+##### Be sure to check our [Wiki](https://github.com/xebia-research/vulnmanager/wiki) for up-to-date instructions and info!
 __We currently support the following scanning tools:__ 
- * [x] Nmap
- * [x] OpenVAS
- * [x] OWASP ZAP
- * [x] Clair
+ * Nmap
+ * OpenVAS
+ * OWASP ZAP
+ * Clair
  
 #### Report formats 
 The vulnmanager parser currently supports the following report formats per scan tool:
@@ -34,12 +34,11 @@ The vulnmanager parser currently supports the following report formats per scan 
  
 ## Production installation:
 Everything is run in docker, for your convenience ! :whale:
-
+During `docker-compose build`, a JWT secret is generated 
 1. git clone this repo
 2. _cd_ into this repo
-3. Generate a new secret for your JWT token signing with __./genSec.sh__. Do NOT skip this
-4. run '__docker-compose build__' and wait(!) for it to finish
-5. run '__docker-compose up -d__'
+3. run '__docker-compose build__' and wait(!) for it to finish
+4. run '__docker-compose up -d__'
 
 ## Usage
 
