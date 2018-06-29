@@ -1,0 +1,21 @@
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="!openvasObjectIsEmpty">
+  <h1>Select Openvas report</h1>
+  <h3>Select the openvas report you want to see the information from.</h3>
+  <p-table [value]="openVasObjects">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Parsed date</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-openvasObject>
+      <tr>
+        <td>
+          <a class="ui-orderlist-item" [routerLink]="['/openvas-result', openvasObject.id]" routerLinkActive="active">
+            {{openvasObject.timeDone | date :'HH:mm:ss @ dd/MM/yyyy'}}
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

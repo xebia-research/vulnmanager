@@ -1,0 +1,25 @@
+<div class="container ui-g">
+  <p-messages class="ui-g-12" [(value)]="msgs"></p-messages>
+  <div class="ui-g-12 ui-md-12 ui-lg-6 center">
+    <h1>Log-in</h1>
+
+    <form>
+      <div class="form-group ui-g-12">
+        <label for="name">Username</label>
+        <input type="text" class="form-control" id="name" name="username" required [(ngModel)]="user.username">
+      </div>
+
+      <div class="form-group ui-g-12">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" id="password" required [(ngModel)]="user.password">
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-3 ui-lg-4"> <a routerLink="/register">No account yet?</a></div>
+
+        <button type="submit" class="btn btn-success ui-g-12 ui-md-3 ui-md-offset-6 ui-lg-2 ui-lg-offset-6" (click)="Login()">Login</button>
+
+      </div>
+    </form>
+  </div>
+
+</div>

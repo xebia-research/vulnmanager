@@ -1,0 +1,704 @@
+<?xml version="1.0"?>
+<OWASPZAPReport version="2.7.0" generated="Tue, 17 Apr 2018 08:00:55">
+    <site name="https://demo.kopano.com" host="demo.kopano.com" port="443" ssl="true">
+        <alerts>
+            <alertitem>
+                <pluginid>10015</pluginid>
+                <alert>Incomplete or No Cache-control and Pragma HTTP Header Set</alert>
+                <name>Incomplete or No Cache-control and Pragma HTTP Header Set</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;The cache-control and pragma HTTP header have not been set properly or are missing
+                    allowing the browser and proxies to cache content.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/files/php/cssloader.php?debug=false?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/client/extjs/resources/css/ext-all.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/spreedwebrtc/resources/css/spreedwebrtc.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/client/extjs/ux/css/ux-all.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/whatsapp4deskapp/deploy/css/whatsapp4deskapp.min.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/client/resources/css/kopano.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/desktopnotifications/resources/desktopnotifications.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/client/resources/css/external/login.css</uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/filesbackendSMB/resources/css/filesbackendSMB.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/filesbackendOwncloud/resources/css/filesbackendOwncloud.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                </instances>
+                <count>10</count>
+                <solution>&lt;p&gt;Whenever possible ensure the cache-control HTTP header is set with no-cache,
+                    no-store, must-revalidate; and that the pragma HTTP header is set with no-cache.&lt;/p&gt;
+                </solution>
+                <reference>&lt;p&gt;https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Web_Content_Caching&lt;/p&gt;</reference>
+                <cweid>525</cweid>
+                <wascid>13</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10021</pluginid>
+                <alert>X-Content-Type-Options Header Missing</alert>
+                <name>X-Content-Type-Options Header Missing</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;The Anti-MIME-Sniffing header X-Content-Type-Options was not set to &apos;nosniff&apos;.
+                    This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response
+                    body, potentially causing the response body to be interpreted and displayed as a content type other
+                    than the declared content type. Current (early 2014) and legacy versions of Firefox will use the
+                    declared content type (if one is set), rather than performing MIME-sniffing.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/filesbackendSMB/resources/css/filesbackendSMB.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/index.php</uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/spreedwebrtc/js/spreedwebrtc.js?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/spellchecker-languagepack-spanish/js/spellchecker-languagepack-spanish.js?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/filesbackendSMB/js/filesbackendSMB.js?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/client/extjs/ext-base-all.js?version=3.4.10.1344+54.1</uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/files/php/jsloader.php?debug=false?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/client/resources/css/external/login.css</uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/whatsapp4deskapp/deploy/css/whatsapp4deskapp.min.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/spellchecker-languagepack-german-at/js/spellchecker-languagepack-german-at.js?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/client/extjs/resources/css/ext-all.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/client/kopano.js?version=3.4.10.1344+54.1</uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/spellchecker-languagepack-english-us/js/spellchecker-languagepack-english-us.js?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/filesbackendOwncloud/resources/css/filesbackendOwncloud.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/client/extjs/ux/ux-all.js?version=3.4.10.1344+54.1</uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/client/resources/images/favicon.ico?kv2.2.0</uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/</uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/desktopnotifications/resources/desktopnotifications.css?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/spellchecker-languagepack-german-ch/js/spellchecker-languagepack-german-ch.js?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/spellchecker/js/spellchecker.js?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <param>X-Content-Type-Options</param>
+                    </instance>
+                </instances>
+                <count>35</count>
+                <solution>&lt;p&gt;Ensure that the application/web server sets the Content-Type header appropriately,
+                    and that it sets the X-Content-Type-Options header to &apos;nosniff&apos; for all web pages.&lt;/p&gt;&lt;p&gt;If
+                    possible, ensure that the end user uses a standards-compliant and modern web browser that does not
+                    perform MIME-sniffing at all, or that can be directed by the web application/web server to not
+                    perform MIME-sniffing.&lt;/p&gt;
+                </solution>
+                <otherinfo>&lt;p&gt;This issue still applies to error type pages (401, 403, 500, etc) as those pages are
+                    often still affected by injection issues, in which case there is still concern for browsers sniffing
+                    pages away from their actual content type.&lt;/p&gt;&lt;p&gt;At &quot;High&quot; threshold this
+                    scanner will not alert on client or server error responses.&lt;/p&gt;
+                </otherinfo>
+                <reference>&lt;p&gt;http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx&lt;/p&gt;&lt;p&gt;https://www.owasp.org/index.php/List_of_useful_HTTP_headers&lt;/p&gt;</reference>
+                <cweid>16</cweid>
+                <wascid>15</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10012</pluginid>
+                <alert>Password Autocomplete in Browser</alert>
+                <name>Password Autocomplete in Browser</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;The AUTOCOMPLETE attribute is not disabled on an HTML FORM/INPUT element containing
+                    password type input. Passwords may be stored in browsers and retrieved.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/index.php</uri>
+                        <method>GET</method>
+                        <param>password</param>
+                        <evidence>&lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;password&quot;
+                            value=&quot;demo3&quot;&gt;
+                        </evidence>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/index.php</uri>
+                        <method>GET</method>
+                        <param>password</param>
+                        <evidence>&lt;input type=&quot;password&quot; name=&quot;password&quot; id=&quot;password&quot;
+                            value=&quot;demo18&quot;&gt;
+                        </evidence>
+                    </instance>
+                </instances>
+                <count>2</count>
+                <solution>&lt;p&gt;Turn off the AUTOCOMPLETE attribute in forms or individual input elements containing
+                    password inputs by using AUTOCOMPLETE=&apos;OFF&apos;.&lt;/p&gt;
+                </solution>
+                <reference>&lt;p&gt;http://www.w3schools.com/tags/att_input_autocomplete.asp&lt;/p&gt;&lt;p&gt;https://msdn.microsoft.com/en-us/library/ms533486%28v=vs.85%29.aspx&lt;/p&gt;</reference>
+                <cweid>525</cweid>
+                <wascid>15</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10020</pluginid>
+                <alert>X-Frame-Options Header Not Set</alert>
+                <name>X-Frame-Options Header Not Set</name>
+                <riskcode>2</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Medium (Medium)</riskdesc>
+                <desc>&lt;p&gt;X-Frame-Options header is not included in the HTTP response to protect against &apos;ClickJacking&apos;
+                    attacks.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/index.php</uri>
+                        <method>GET</method>
+                        <param>X-Frame-Options</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/</uri>
+                        <method>GET</method>
+                        <param>X-Frame-Options</param>
+                    </instance>
+                </instances>
+                <count>2</count>
+                <solution>&lt;p&gt;Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it&apos;s
+                    set on all web pages returned by your site (if you expect the page to be framed only by pages on
+                    your server (e.g. it&apos;s part of a FRAMESET) then you&apos;ll want to use SAMEORIGIN, otherwise
+                    if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites
+                    to frame the web page in supported web browsers).&lt;/p&gt;
+                </solution>
+                <reference>&lt;p&gt;http://blogs.msdn.com/b/ieinternals/archive/2010/03/30/combating-clickjacking-with-x-frame-options.aspx&lt;/p&gt;</reference>
+                <cweid>16</cweid>
+                <wascid>15</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10016</pluginid>
+                <alert>Web Browser XSS Protection Not Enabled</alert>
+                <name>Web Browser XSS Protection Not Enabled</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;Web Browser XSS Protection is not enabled, or is disabled by the configuration of the
+                    &apos;X-XSS-Protection&apos; HTTP response header on the web server&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/</uri>
+                        <method>GET</method>
+                        <param>X-XSS-Protection</param>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/index.php</uri>
+                        <method>GET</method>
+                        <param>X-XSS-Protection</param>
+                    </instance>
+                </instances>
+                <count>2</count>
+                <solution>&lt;p&gt;Ensure that the web browser&apos;s XSS filter is enabled, by setting the
+                    X-XSS-Protection HTTP response header to &apos;1&apos;.&lt;/p&gt;
+                </solution>
+                <otherinfo>&lt;p&gt;The X-XSS-Protection HTTP response header allows the web server to enable or disable
+                    the web browser&apos;s XSS protection mechanism. The following values would attempt to enable it:
+                    &lt;/p&gt;&lt;p&gt;X-XSS-Protection: 1; mode=block&lt;/p&gt;&lt;p&gt;X-XSS-Protection: 1;
+                    report=http://www.example.com/xss&lt;/p&gt;&lt;p&gt;The following values would disable it:&lt;/p&gt;&lt;p&gt;X-XSS-Protection:
+                    0&lt;/p&gt;&lt;p&gt;The X-XSS-Protection HTTP response header is currently supported on Internet
+                    Explorer, Chrome and Safari (WebKit).&lt;/p&gt;&lt;p&gt;Note that this alert is only raised if the
+                    response body could potentially contain an XSS payload (with a text-based content type, with a
+                    non-zero length).&lt;/p&gt;
+                </otherinfo>
+                <reference>&lt;p&gt;https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet&lt;/p&gt;&lt;p&gt;https://blog.veracode.com/2014/03/guidelines-for-setting-security-headers/&lt;/p&gt;</reference>
+                <cweid>933</cweid>
+                <wascid>14</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10010</pluginid>
+                <alert>Cookie No HttpOnly Flag</alert>
+                <name>Cookie No HttpOnly Flag</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;A cookie has been set without the HttpOnly flag, which means that the cookie can be
+                    accessed by JavaScript. If a malicious script can be run on this page then the cookie will be
+                    accessible and can be transmitted to another site. If this is a session cookie then session
+                    hijacking may be possible.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/</uri>
+                        <method>GET</method>
+                        <param>lang</param>
+                        <evidence>Set-Cookie: lang</evidence>
+                    </instance>
+                    <instance>
+                        <uri>https://demo.kopano.com/webapp/index.php?load=translations.js%E2%8C%A9=en_US.UTF-8&amp;version=3.4.10.1344+54.1</uri>
+                        <method>GET</method>
+                        <param>lang</param>
+                        <evidence>Set-Cookie: lang</evidence>
+                    </instance>
+                </instances>
+                <count>2</count>
+                <solution>&lt;p&gt;Ensure that the HttpOnly flag is set for all cookies.&lt;/p&gt;</solution>
+                <reference>&lt;p&gt;http://www.owasp.org/index.php/HttpOnly&lt;/p&gt;</reference>
+                <cweid>16</cweid>
+                <wascid>13</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>2</pluginid>
+                <alert>Private IP Disclosure</alert>
+                <name>Private IP Disclosure</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;A private IP (such as 10.x.x.x, 172.x.x.x, 192.168.x.x) or an Amazon EC2 private hostname
+                    (for example, ip-10-0-56-78) has been found in the HTTP response body. This information might be
+                    helpful for further attacks targeting internal systems.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>
+                            https://demo.kopano.com/webapp/plugins/spreedwebrtc/js/spreedwebrtc.js?version=3.4.10.1344+54.1
+                        </uri>
+                        <method>GET</method>
+                        <evidence>192.168.112.130:1234</evidence>
+                    </instance>
+                </instances>
+                <count>1</count>
+                <solution>&lt;p&gt;Remove the private IP address from the HTTP response body. For comments, use
+                    JSP/ASP/PHP comment instead of HTML/JavaScript comment which can be seen by client browsers.&lt;/p&gt;
+                </solution>
+                <otherinfo>&lt;p&gt;192.168.112.130:1234&lt;/p&gt;&lt;p&gt;&lt;/p&gt;</otherinfo>
+                <reference>&lt;p&gt;https://tools.ietf.org/html/rfc1918&lt;/p&gt;</reference>
+                <cweid>200</cweid>
+                <wascid>13</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+        </alerts>
+    </site>
+    <site name="https://hackthissite.org" host="hackthissite.org" port="443" ssl="true">
+        <alerts>
+            <alertitem>
+                <pluginid>10011</pluginid>
+                <alert>Cookie Without Secure Flag</alert>
+                <name>Cookie Without Secure Flag</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;A cookie has been set without the secure flag, which means that the cookie can be
+                    accessed via unencrypted connections.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://hackthissite.org</uri>
+                        <method>GET</method>
+                        <param>PHPSESSID</param>
+                        <evidence>Set-Cookie: PHPSESSID</evidence>
+                    </instance>
+                </instances>
+                <count>1</count>
+                <solution>&lt;p&gt;Whenever a cookie contains sensitive information or is a session token, then it
+                    should always be passed using an encrypted channel. Ensure that the secure flag is set for cookies
+                    containing such sensitive information.&lt;/p&gt;
+                </solution>
+                <reference>&lt;p&gt;http://www.owasp.org/index.php/Testing_for_cookies_attributes_(OWASP-SM-002)&lt;/p&gt;</reference>
+                <cweid>614</cweid>
+                <wascid>13</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10016</pluginid>
+                <alert>Web Browser XSS Protection Not Enabled</alert>
+                <name>Web Browser XSS Protection Not Enabled</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;Web Browser XSS Protection is not enabled, or is disabled by the configuration of the
+                    &apos;X-XSS-Protection&apos; HTTP response header on the web server&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://hackthissite.org</uri>
+                        <method>GET</method>
+                        <param>X-XSS-Protection</param>
+                    </instance>
+                </instances>
+                <count>1</count>
+                <solution>&lt;p&gt;Ensure that the web browser&apos;s XSS filter is enabled, by setting the
+                    X-XSS-Protection HTTP response header to &apos;1&apos;.&lt;/p&gt;
+                </solution>
+                <otherinfo>&lt;p&gt;The X-XSS-Protection HTTP response header allows the web server to enable or disable
+                    the web browser&apos;s XSS protection mechanism. The following values would attempt to enable it:
+                    &lt;/p&gt;&lt;p&gt;X-XSS-Protection: 1; mode=block&lt;/p&gt;&lt;p&gt;X-XSS-Protection: 1;
+                    report=http://www.example.com/xss&lt;/p&gt;&lt;p&gt;The following values would disable it:&lt;/p&gt;&lt;p&gt;X-XSS-Protection:
+                    0&lt;/p&gt;&lt;p&gt;The X-XSS-Protection HTTP response header is currently supported on Internet
+                    Explorer, Chrome and Safari (WebKit).&lt;/p&gt;&lt;p&gt;Note that this alert is only raised if the
+                    response body could potentially contain an XSS payload (with a text-based content type, with a
+                    non-zero length).&lt;/p&gt;
+                </otherinfo>
+                <reference>&lt;p&gt;https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet&lt;/p&gt;&lt;p&gt;https://blog.veracode.com/2014/03/guidelines-for-setting-security-headers/&lt;/p&gt;</reference>
+                <cweid>933</cweid>
+                <wascid>14</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10015</pluginid>
+                <alert>Incomplete or No Cache-control and Pragma HTTP Header Set</alert>
+                <name>Incomplete or No Cache-control and Pragma HTTP Header Set</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;The cache-control and pragma HTTP header have not been set properly or are missing
+                    allowing the browser and proxies to cache content.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://hackthissite.org/robots.txt</uri>
+                        <method>GET</method>
+                        <param>Cache-Control</param>
+                    </instance>
+                </instances>
+                <count>1</count>
+                <solution>&lt;p&gt;Whenever possible ensure the cache-control HTTP header is set with no-cache,
+                    no-store, must-revalidate; and that the pragma HTTP header is set with no-cache.&lt;/p&gt;
+                </solution>
+                <reference>&lt;p&gt;https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Web_Content_Caching&lt;/p&gt;</reference>
+                <cweid>525</cweid>
+                <wascid>13</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10010</pluginid>
+                <alert>Cookie No HttpOnly Flag</alert>
+                <name>Cookie No HttpOnly Flag</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;A cookie has been set without the HttpOnly flag, which means that the cookie can be
+                    accessed by JavaScript. If a malicious script can be run on this page then the cookie will be
+                    accessible and can be transmitted to another site. If this is a session cookie then session
+                    hijacking may be possible.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://hackthissite.org</uri>
+                        <method>GET</method>
+                        <param>PHPSESSID</param>
+                        <evidence>Set-Cookie: PHPSESSID</evidence>
+                    </instance>
+                </instances>
+                <count>1</count>
+                <solution>&lt;p&gt;Ensure that the HttpOnly flag is set for all cookies.&lt;/p&gt;</solution>
+                <reference>&lt;p&gt;http://www.owasp.org/index.php/HttpOnly&lt;/p&gt;</reference>
+                <cweid>16</cweid>
+                <wascid>13</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10012</pluginid>
+                <alert>Password Autocomplete in Browser</alert>
+                <name>Password Autocomplete in Browser</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;The AUTOCOMPLETE attribute is not disabled on an HTML FORM/INPUT element containing
+                    password type input. Passwords may be stored in browsers and retrieved.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://hackthissite.org</uri>
+                        <method>GET</method>
+                        <param>password</param>
+                        <evidence>&lt;input type=&quot;password&quot; name=&quot;password&quot; class=&quot;login&quot;
+                            value=&quot;&quot; onclick=&quot;if(passclicked==0){this.value=&apos;&apos;;passclicked=1;};&quot;
+                            title=&quot;Password&quot; /&gt;
+                        </evidence>
+                    </instance>
+                </instances>
+                <count>1</count>
+                <solution>&lt;p&gt;Turn off the AUTOCOMPLETE attribute in forms or individual input elements containing
+                    password inputs by using AUTOCOMPLETE=&apos;OFF&apos;.&lt;/p&gt;
+                </solution>
+                <reference>&lt;p&gt;http://www.w3schools.com/tags/att_input_autocomplete.asp&lt;/p&gt;&lt;p&gt;https://msdn.microsoft.com/en-us/library/ms533486%28v=vs.85%29.aspx&lt;/p&gt;</reference>
+                <cweid>525</cweid>
+                <wascid>15</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10040</pluginid>
+                <alert>Secure Pages Include Mixed Content (Including Scripts)</alert>
+                <name>Secure Pages Include Mixed Content (Including Scripts)</name>
+                <riskcode>2</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Medium (Medium)</riskdesc>
+                <desc>&lt;p&gt;The page includes mixed content, that is content accessed via HTTP instead of HTTPS.&lt;/p&gt;</desc>
+                <instances>
+                    <instance>
+                        <uri>https://hackthissite.org</uri>
+                        <method>GET</method>
+                        <evidence>http://www3.data.htscdn.org/js/jquery-1.8.1.min.js</evidence>
+                    </instance>
+                </instances>
+                <count>1</count>
+                <solution>&lt;p&gt;A page that is available over SSL/TLS must be comprised completely of content which
+                    is transmitted over SSL/TLS.&lt;/p&gt;&lt;p&gt;The page must not contain any content that is
+                    transmitted over unencrypted HTTP.&lt;/p&gt;&lt;p&gt; This includes content from third party sites.&lt;/p&gt;
+                </solution>
+                <otherinfo>&lt;p&gt;tag=script src=http://www3.data.htscdn.org/js/jquery-1.8.1.min.js&lt;/p&gt;&lt;p&gt;tag=script
+                    src=http://www3.data.htscdn.org/js/notice.min.js&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/themes/Dark/images/header.jpg&lt;/p&gt;&lt;p&gt;tag=script
+                    src=http://kona.kontera.com/javascript/lib/KonaLibInline.js&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/unlock.png&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/donate.png&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/hts_80x15.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/linkhb.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/hbhlogo.jpg&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/netsparker.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/acunetixblog.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/buddyns88x31.png&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/feed-icon.png&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/tick.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/themes/Dark/images/hts_bottomheadern.jpg&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/cc_80x15.png&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/xhtml10.png&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/css.png&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/phppow.gif&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/freebsd.png&lt;/p&gt;&lt;p&gt;tag=img
+                    src=http://www3.data.htscdn.org/images/counter.php&lt;/p&gt;&lt;p&gt;&lt;/p&gt;
+                </otherinfo>
+                <reference>&lt;p&gt;https://www.owasp.org/index.php/Transport_Layer_Protection_Cheat_Sheet&lt;/p&gt;
+                </reference>
+                <cweid>311</cweid>
+                <wascid>4</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10017</pluginid>
+                <alert>Cross-Domain JavaScript Source File Inclusion</alert>
+                <name>Cross-Domain JavaScript Source File Inclusion</name>
+                <riskcode>1</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Low (Medium)</riskdesc>
+                <desc>&lt;p&gt;The page includes one or more script files from a third-party domain.&lt;/p&gt;</desc>
+                <instances>
+                    <instance>
+                        <uri>https://hackthissite.org</uri>
+                        <method>GET</method>
+                        <param>http://www3.data.htscdn.org/js/notice.min.js</param>
+                        <evidence>&lt;script type=&quot;text/javascript&quot; src=&quot;http://www3.data.htscdn.org/js/notice.min.js&quot;&gt;&lt;/script&gt;</evidence>
+                    </instance>
+                    <instance>
+                        <uri>https://hackthissite.org</uri>
+                        <method>GET</method>
+                        <param>http://kona.kontera.com/javascript/lib/KonaLibInline.js</param>
+                        <evidence>&lt;script type=&apos;text/javascript&apos; src=&apos;http://kona.kontera.com/javascript/lib/KonaLibInline.js&apos;&gt;
+                            &lt;/script&gt;
+                        </evidence>
+                    </instance>
+                    <instance>
+                        <uri>https://hackthissite.org</uri>
+                        <method>GET</method>
+                        <param>http://www3.data.htscdn.org/js/jquery-1.8.1.min.js</param>
+                        <evidence>&lt;script type=&quot;text/javascript&quot; src=&quot;http://www3.data.htscdn.org/js/jquery-1.8.1.min.js&quot;&gt;&lt;/script&gt;</evidence>
+                    </instance>
+                </instances>
+                <count>3</count>
+                <solution>&lt;p&gt;Ensure JavaScript source files are loaded from only trusted sources, and the sources
+                    can&apos;t be controlled by end users of the application.&lt;/p&gt;
+                </solution>
+                <reference>&lt;p&gt;&lt;/p&gt;</reference>
+                <cweid>829</cweid>
+                <wascid>15</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+            <alertitem>
+                <pluginid>10020</pluginid>
+                <alert>X-Frame-Options Header Not Set</alert>
+                <name>X-Frame-Options Header Not Set</name>
+                <riskcode>2</riskcode>
+                <confidence>2</confidence>
+                <riskdesc>Medium (Medium)</riskdesc>
+                <desc>&lt;p&gt;X-Frame-Options header is not included in the HTTP response to protect against &apos;ClickJacking&apos;
+                    attacks.&lt;/p&gt;
+                </desc>
+                <instances>
+                    <instance>
+                        <uri>https://hackthissite.org</uri>
+                        <method>GET</method>
+                        <param>X-Frame-Options</param>
+                    </instance>
+                </instances>
+                <count>1</count>
+                <solution>&lt;p&gt;Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it&apos;s
+                    set on all web pages returned by your site (if you expect the page to be framed only by pages on
+                    your server (e.g. it&apos;s part of a FRAMESET) then you&apos;ll want to use SAMEORIGIN, otherwise
+                    if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites
+                    to frame the web page in supported web browsers).&lt;/p&gt;
+                </solution>
+                <reference>&lt;p&gt;http://blogs.msdn.com/b/ieinternals/archive/2010/03/30/combating-clickjacking-with-x-frame-options.aspx&lt;/p&gt;</reference>
+                <cweid>16</cweid>
+                <wascid>15</wascid>
+                <sourceid>3</sourceid>
+            </alertitem>
+        </alerts>
+    </site>
+</OWASPZAPReport>

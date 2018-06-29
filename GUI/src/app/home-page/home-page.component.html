@@ -1,0 +1,16 @@
+<div>
+  <div class="center">
+    <h1 class="overflow">Welcome to Xebia Vulnmanager</h1><br>
+    <h4>Reports are available at the top left, or top right on mobile</h4>
+    <br>
+    <h4 *ngIf="activeIndex == 3">You are all set to explore and upload your reports!</h4>
+  </div>
+  <div *ngIf="activeIndex < 3">
+    <h5>First time use detected!</h5>
+    <h5>The following steps will automatically create a test company, and add test reports. <br>At the login page, you can create your own user account and receive an authentication token</h5>
+    <div class="ui-md-10 ui-sm-12 center">
+      <p-steps [(activeIndex)]="activeIndex" [model]="items" [readonly]="false"></p-steps>
+    </div>
+  </div>
+  <p-messages [(value)]="msgs"></p-messages>
+</div>

@@ -1,0 +1,67 @@
+
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" routerLink="/home"> Xebia Vulnmanager</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          View results
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink= "/nmap-select-report" routerLinkActive="active">Nmap results</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink= "/openvas-select-report" routerLinkActive="active">OpenVAS results</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink= "/zap-select-report" routerLinkActive="active">ZAP results</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink= "/clair-select-report" routerLinkActive="active">Clair results</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink= "/generic-results" routerLinkActive="active">Generic results</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Manage results
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <button class="dropdown-item" routerLink="/upload">Upload report(s)</button>
+          <button class="dropdown-item" (click)="runDelete()">DELETE EVERYTHING</button>
+        </div>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" href="/company">Company</a>
+      </li>
+    </ul>
+    <div *ngIf="isLoggedIn">
+      <p-dropdown [style]="{'min-width':'8em'}" [options]="teams" [(ngModel)]="selectedTeam" (ngModelChange)="onTeamSelectChange($event)" placeholder="{{selectedTeam}}" optionLabel="name" [showClear]="false"></p-dropdown>
+    </div>
+    <ul class="navbar-nav">
+      <li class="nav-item" *ngIf="!isLoggedIn">
+        <a class="nav-link" href="/login">Signup/Login</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" href="#">Welcome, {{username}}!</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" (click)=" logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<!--
+<p-menubar [model]="items" [autoDisplay]="false" styleClass="ui-sidebar-lg">
+  <button pButton label="Logout" (click)="logout()" *ngIf="isLoggedIn"></button>
+  <button pButton label="Login" (click)="login()" *ngIf="!isLoggedIn"></button>
+</p-menubar>
+<p-sidebar [(visible)]="display" class="ui-lg" styleClass="ui-sidebar-sm"><p-panelMenu [model]="items"></p-panelMenu></p-sidebar>
+<button type="text" (click)="display = true" pButton icon="pi pi-plus" label="Show"></button>
+
+<p-messages [(value)]="msgs"></p-messages>
+-->

@@ -1,0 +1,28 @@
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="!zapObjectIsEmpty">
+  <h1>Select Zap report</h1>
+  <h3>Select the zap report you want to see the information from.</h3>
+  <p-table [value]="zapObjects">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Date generated</th>
+        <th>Site(s)</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-zapObject>
+      <tr>
+        <td>
+          <a class="ui-orderlist-item" [routerLink]="['/zap-result', zapObject.id]" routerLinkActive="active">
+            {{zapObject.dateGenerated | date :'HH:mm:ss @ dd/MM/yyyy'}}
+          </a>
+        </td>
+
+        <td>
+          <a *ngFor="let scannedSite of zapObject.scannedSitesInformation">
+            {{scannedSite.name}}
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

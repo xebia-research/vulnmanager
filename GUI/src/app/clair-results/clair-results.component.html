@@ -1,0 +1,84 @@
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="clairObject != null">
+  <h1>Results of scanning image: {{clairObject.image}}</h1>
+  <h3></h3>
+  <p-dataView #dv [value]="clairObject.vulnerabilities" [paginator]="true" [rows]="5" paginatorPosition="both"
+              [rowsPerPageOptions]="[5,10,20]" [sortField]="sortField" [sortOrder]="sortOrder"
+              filterBy="genericResult.name">
+    <p-header>
+
+      <div class="ui-g">
+        <b class="ui-g-12">Clair results parsed as of {{clairObject.genericReport.reports[0].parsedDate | date :'HH:mm:ss @ dd/MM/yyyy'}}
+        </b>
+        <p-dropdown class="ui-g-12 ui-lg-2 ui-md-6" [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                    (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'11em'}">
+        </p-dropdown>
+
+        <input class="ui-g-12 ui-lg-2 ui-md-4 ui-md-offset-2 ui-lg-offset-8" type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)"/>
+      </div>
+
+
+
+    </p-header>
+    <ng-template let-car pTemplate="gridItem">
+      <div style="padding:.5em" class="ui-g-12 ui-md-3">
+      </div>
+    </ng-template>
+    <ng-template let-vulnerability pTemplate="listItem">
+      <div class="ui-g" style="padding: 1em;border-bottom: 3px solid #d9d9d9">
+        <div class="ui-g-12 ui-md-8 vulnerability-details">
+          <div class="ui-g">
+            <div class="ui-g-3 ui-sm-6"><b>Name: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{vulnerability.genericResult.name}}</div>
+            <div class="ui-g-3 ui-sm-6"><b>Cve: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{vulnerability.genericResult.cve}}</div>
+            <div class="ui-g-3 ui-sm-6"><b>Severity: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{vulnerability.genericResult.severity}}</div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-1 search-icon">
+          <button pButton type="button" icon="fa-search" (click)="selectClair($event, vulnerability)"></button>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
+
+<p-dialog width="800" header="Clair result details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
+          [modal]="true" (onAfterHide)="onDialogHide()">
+  <div *ngIf="selectedClair">
+    <p-tabView>
+      <p-tabPanel header="Summary" [selected]="true" leftIcon="fa-list-ul">
+        <div class="ui-g">
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Name:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.name}}</div>
+
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Namespace:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.namespace}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Description:</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9 overflow" ngClass="divrow">{{selectedClair.genericResult.description}}</div>
+
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Severity:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.severity}}</div>
+
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">Thread:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.cve}}</div>
+
+          <div class="ui-g-6 ui-md-6 ui-lg-3" ngClass="divrow">More information:</div>
+          <div class="ui-g-6 ui-md-6 ui-lg-9 overflow" ngClass="divrow"><a href="{{selectedClair.link}}">{{selectedClair.link}}</a></div>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel header="Developer information" leftIcon="fa-eye">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">Comment(s):</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.comments}}</div>
+
+          <div class="ui-g-12 ui-md-6 ui-lg-3" ngClass="divrow">False positive:</div>
+          <div class="ui-g-12 ui-md-6 ui-lg-9" ngClass="divrow">{{selectedClair.genericResult.falsePositive}}</div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</p-dialog>

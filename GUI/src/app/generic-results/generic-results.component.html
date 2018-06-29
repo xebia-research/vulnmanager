@@ -1,0 +1,112 @@
+<p-messages [(value)]="errorMessages"></p-messages>
+<h1>All generic results</h1>
+<div >
+  <p-dataView class="toggle-container" #dv [value]="genericReports" [paginator]="true" [rows]="10" paginatorPosition="both"  [rowsPerPageOptions]="[5,10,20]"
+              [sortField]="sortField" [sortOrder]="sortOrder"
+              filterBy="reportType">
+
+    <p-header>
+      <div class="ui-g">
+        <p-dropdown class="ui-g-12 ui-lg-2 " [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+                    (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'12em'}"
+                    [ngStyle]="{'float': 'right'}"></p-dropdown>
+        <input class="ui-g-12 ui-lg-2 ui-lg-offset-8" type="search" pInputText placeholder="Filter by type" (keyup)="dv.filter($event.target.value)"/>
+      </div>
+
+
+    </p-header>
+    <ng-template let-report pTemplate="listItem">
+      <div class="ui-g" style="padding: .5em;border-bottom: 1px solid #d9d9d9">
+        <div class="ui-g-12 ui-md-8 result-details">
+          <div class="ui-g">
+            <div class="ui-g-3 ui-sm-6"><b>Report Type: </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{report.reportType}}</div>
+            <div class="ui-g-3 ui-sm-6"><b>Results </b></div>
+            <div class="ui-g-9 ui-sm-6 ">{{report.genericResults.length}}</div>
+
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-1 ui-sm-offset-10 search-icon">
+          <button pButton type="button" icon="fa-search" (click)="selectNmapHost($event, report)"></button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template let-car pTemplate="gridItem">
+      <div style="padding:.5em" class="ui-g-12 ui-md-3">
+      </div>
+    </ng-template>
+  </p-dataView>
+
+  <p-dialog appendTo="body" header="Header" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedReport">
+
+      <p-accordion class="ui-g-12 ui-lg-12" *ngFor="let genericResult of selectedReport.genericResults">
+        <p-accordionTab header="{{genericResult.name}}" >
+          <div class="ui-g">
+            <div class="ui-lg-8">
+
+              <div class="ui-g-12 ui-lg-4 ui-md-4">
+                <p-card title="Port: {{genericResult.port}}" subtitle="Severity: {{genericResult.severity}}" styleClass="ui-card-shadow">
+                  <div *ngIf="genericResult.info!=null">Info: {{genericResult.info}}</div>
+                  <div *ngIf="genericResult.cve!='NOCVE' ">Associated CVE:<p></p> {{genericResult.cve}}</div>
+                  <p-footer>
+                    <div>Mark false positive: <input type="checkbox" (click)="changeFalsePositive(selectedReport.id, genericResult.id, genericResult.falsePositive)"
+                                                     [checked]="genericResult.falsePositive" binary="true"></div>
+                  </p-footer>
+                </p-card>
+              </div>
+              <div *ngIf="genericResult.description != null" class="ui-g-12 ui-md-8 ui-lg-8">
+                <p-scrollPanel  [style]="{width: '100%',height: '200px'}" styleClass="custombar1 ui-card-shadow">
+                  <h4 style="padding: 0.70em;"><b>Description</b></h4>
+                  <div style="padding:1em;white-space: pre-line;" class="overflow">
+                    {{genericResult.description}}
+                  </div>
+                </p-scrollPanel>
+              </div>
+              <div *ngIf="genericResult.knownSolution!=null" class="ui-g-12 ui-lg-8 ui-md-12">
+                <p-scrollPanel  [style]="{width: '100%',height: '200px'}" styleClass="custombar1 ui-card-shadow">
+                  <h4 style="padding: 0.70em;"><b>Solution</b></h4>
+                  <div style="padding:1em;line-height:1.5; white-space: pre-line;">
+                    {{genericResult.knownSolution}}
+                  </div>
+                </p-scrollPanel>
+              </div>
+
+            </div>
+            <div class="ui-g-12 ui-lg-4 ui-md-12">
+              <p-card title="Comments:" styleClass="ui-card-shadow">
+                <div *ngIf="genericResult.comments.length > 0;else noComments" class="ui-g">
+                  <div class="ui-g-12 ui-lg-12" style="padding: 0.01em;">
+                    <p-scrollPanel [style]="{width: '100%', height: '220px'}" styleClass="custombar1">
+                      <div *ngFor="let comment of genericResult.comments" class="ui-g-12">
+                        <p-card title="{{comment.user.username}}" styleClass="ui-card-shadow">
+                          <div style="overflow: hidden;text-overflow: ellipsis;">"{{comment.content}}"</div>
+                        </p-card>
+                      </div>
+                    </p-scrollPanel>
+                  </div>
+
+
+                </div>
+                <form #f="ngForm" novalidate>
+                  <input name="text" [(ngModel)]="text" ngModel required #first="ngModel">
+                  <button pButton type="button" icon="fa-plus" (click)="formSubmit(f, selectedReport.id, genericResult.id)" ></button>
+                </form>
+
+
+                <ng-template #noComments >No comments yet..</ng-template>
+              </p-card>
+            </div>
+          </div>
+
+
+
+
+
+
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </p-dialog>
+
+</div>

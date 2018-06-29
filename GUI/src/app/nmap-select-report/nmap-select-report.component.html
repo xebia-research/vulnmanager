@@ -1,0 +1,28 @@
+<p-messages [(value)]="errorMessages"></p-messages>
+<div *ngIf="!nmapObjectIsEmpty">
+  <h1>Select Nmap report</h1>
+  <h3>Select the Nmap report you want to see the information from.</h3>
+  <p-table [value]="nmapObjects">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Date generated</th>
+        <th>Called argument</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-nmapObject>
+      <tr>
+        <td>
+          <a class="ui-orderlist-item" [routerLink]="['/nmap-result', nmapObject.id]" routerLinkActive="active">
+            {{nmapObject.scanData.nMapInfo.scanDateTime | date :'HH:mm:ss @ dd/MM/yyyy'}}
+          </a>
+        </td>
+
+        <td>
+          <a>
+            {{nmapObject.scanData.nMapInfo.calledArgument}}
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
