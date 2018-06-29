@@ -1,7 +1,7 @@
 #stage1
 FROM ubuntu:16.04 as builder
 RUN apt-get update
-RUN apt-get install maven git default-jdk -y
+RUN apt-get install maven pwgen git default-jdk -y
 VOLUME /volume/git
 RUN mkdir -p /local/git
 WORKDIR /local/git/
