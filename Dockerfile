@@ -1,16 +1,18 @@
 #stage1
 FROM ubuntu:16.04 as builder
 RUN apt-get update
-RUN apt-get install apt-utils -y
-RUN apt-get install maven git apt-utils -y
+RUN apt-get install maven git default-jdk -y
 VOLUME /volume/git
 RUN mkdir -p /local/git
 WORKDIR /local/git/
-RUN git clone -b latest-docker https://github.com/xebia-research/vulnmanager
+RUN git clone -b universal-branch-docker-support https://github.com/xebia-research/vulnmanager
 WORKDIR /local/git/vulnmanager
 RUN git pull
 RUN git branch
-RUN apt-get install default-jdk -y
+
+RUN bash ./scripts/genSec.sh
+RUN bash ./dockerScripts/dbDefinition.sh
+
 RUN mvn install -DskipTests=true
 RUN mvn package -DskipTests=true
 
