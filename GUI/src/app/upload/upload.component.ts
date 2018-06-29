@@ -41,7 +41,7 @@ export class UploadComponent implements OnInit {
 
   onBeforeSend = function (event) {
     this.teamName = localStorage.getItem("selectedTeam");
-    event.xhr.setRequestHeader('authorization', localStorage.getItem("jwt"));
+    event.xhr.setRequestHeader('authorization', "Api-key " + localStorage.getItem("apikey"));
   };
 
   onUpload(event) {

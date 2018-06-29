@@ -39,4 +39,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return applicationUser;
     }
+
+    public Person loadPersonByApikey(String api) {
+        Person user = personRepository.findByApiKey(api);
+        if (user == null) {
+            throw new UsernameNotFoundException(api);
+        }
+        return user;
+    }
 }

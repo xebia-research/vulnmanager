@@ -22,6 +22,7 @@ export class companyComponent implements OnInit {
   teams:any;
   includedTeams: any;
   otherTeams:any[] = [];
+  apikey:any;
 
   ngOnInit() {
     this.router.onSameUrlNavigation = "reload";
@@ -41,8 +42,7 @@ export class companyComponent implements OnInit {
 
     this.apiService.getAllInfoFromServer().then((result) => {
       this.companyName = localStorage.getItem("company");
-      console.log('Company' + this.companyName);
-
+      this.apikey = localStorage.getItem("apikey");
       if(this.companyName != null && this.companyName != 'undefined') {
         this.apiService.whoMyCompany().subscribe(
           res => { this.company = res; console.log(res);}
