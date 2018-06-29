@@ -47,9 +47,7 @@ export class VulnApiService {
       }, error => {
         reject();
       });
-
-    });
-
+    })
     return promise;
   }
 
