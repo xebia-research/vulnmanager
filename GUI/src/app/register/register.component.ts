@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit {
     console.log(this.user);
     this.user.companyName = "";
     this.apiService.signup(this.user.username, this.user.password, this.user.companyName).then((res) => {
+      console.log(res);
       this.apiService.login(this.user.username, this.user.password).then(res => {
         this.router.navigate(['/company']);
       }).catch(error => {

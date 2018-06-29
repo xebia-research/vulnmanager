@@ -1,5 +1,7 @@
 package com.xebia.vulnmanager.auth.security;
 
+import com.xebia.vulnmanager.models.company.Person;
+import com.xebia.vulnmanager.services.UserDetailsServiceImpl;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,14 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.xebia.vulnmanager.auth.security.SecurityConstants.HEADER_STRING;
-import static com.xebia.vulnmanager.auth.security.SecurityConstants.SECRET;
-import static com.xebia.vulnmanager.auth.security.SecurityConstants.TOKEN_PREFIX;
+import static com.xebia.vulnmanager.auth.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JWTAuthorizationFilter(final AuthenticationManager authManager) {
+    private UserDetailsServiceImpl userDetailsService;
+
+    public JWTAuthorizationFilter(final AuthenticationManager authManager, final UserDetailsServiceImpl userDetailsService) {
         super(authManager);
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -29,18 +32,35 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                                     FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(HEADER_STRING);
 
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+        if (header == null) {
             chain.doFilter(req, res);
             return;
         }
 
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+        if (header.startsWith(TOKEN_PREFIX)) {
+            UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else if (header.toLowerCase().startsWith(API_PREFIX.toLowerCase())) {
+            // Api key handler
+            SecurityContextHolder.getContext().setAuthentication(getAPIAuthentication(req));
+        }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // Check if team and company are present and if from user
 
         chain.doFilter(req, res);
+    }
+
+    private UsernamePasswordAuthenticationToken getAPIAuthentication(HttpServletRequest request) {
+        String token = request.getHeader(HEADER_STRING);
+        if (token != null) {
+            // Remove prefix and spaces before and after
+            String key = token.replace(API_PREFIX, "").trim();
+
+            // Search for user with api key
+            Person user = userDetailsService.loadPersonByApikey(key);
+
+            return new UsernamePasswordAuthenticationToken(user.getUsername(), null, new ArrayList<>());
+        }
+        return null;
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
